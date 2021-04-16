@@ -3,6 +3,7 @@ title: firebase 匿名登入
 date: 2021-03-31 13:27:50
 tags:
 ---
+***
 
 ## 什麼時候需要匿名登入？
 
@@ -46,6 +47,8 @@ firebase.auth().onAuthStateChanged((user)=>{
 雖然 firebase 的用戶數限制很高
 
 但養成後台乾淨整齊的習慣還是很重要的
+
+***
 
 ## 轉換成實名帳戶
 
