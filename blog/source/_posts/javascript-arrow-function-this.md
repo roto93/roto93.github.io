@@ -87,3 +87,6 @@ const IconDisplayer = {
 最後，今天的重點：
 
 > this 的值只跟「你如何呼叫、誰呼叫」有關，與程式碼位於哪裡完全無關
+
+
+參考：[iT邦幫忙](https://ithelp.ithome.com.tw/articles/10207992)
