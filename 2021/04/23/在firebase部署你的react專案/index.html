@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>在firebase部署你的react專案 | Pi&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="最近在學 react，希望可以每次完成一個 mini project 的時候就能放在網路上這樣出門在外隨時可以向人展示(雖然可能也沒什麼向人展示的機會QQ) 稍微查了一下各種部署react網站的方法，發現firebase可以說是最快的步驟如下：   到firebase創帳號，建立專案  在 firebase console 中，進到 hosting 頁面，他會請你安裝   1npm instal">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在firebase部署你的react專案">
+<meta property="og:url" content="http://roto93.github.io/2021/04/23/%E5%9C%A8firebase%E9%83%A8%E7%BD%B2%E4%BD%A0%E7%9A%84react%E5%B0%88%E6%A1%88/index.html">
+<meta property="og:site_name" content="Pi&#39;s Blog">
+<meta property="og:description" content="最近在學 react，希望可以每次完成一個 mini project 的時候就能放在網路上這樣出門在外隨時可以向人展示(雖然可能也沒什麼向人展示的機會QQ) 稍微查了一下各種部署react網站的方法，發現firebase可以說是最快的步驟如下：   到firebase創帳號，建立專案  在 firebase console 中，進到 hosting 頁面，他會請你安裝   1npm instal">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2021-04-23T01:01:02.000Z">
+<meta property="article:modified_time" content="2021-04-30T03:40:54.808Z">
+<meta property="article:author" content="Guan-Ting Su">
+<meta property="article:tag" content="程式,自學">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Pi's Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Pi&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">一些程式自學小記錄</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜尋"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜尋"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://roto93.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-在firebase部署你的react專案" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/04/23/%E5%9C%A8firebase%E9%83%A8%E7%BD%B2%E4%BD%A0%E7%9A%84react%E5%B0%88%E6%A1%88/" class="article-date">
+  <time class="dt-published" datetime="2021-04-23T01:01:02.000Z" itemprop="datePublished">2021-04-23</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      在firebase部署你的react專案
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <hr>
+<p>最近在學 react，希望可以每次完成一個 mini project 的時候就能放在網路上<br>這樣出門在外隨時可以向人展示<br><font color="gray">(雖然可能也沒什麼向人展示的機會QQ)</p>
+<p>稍微查了一下各種部署react網站的方法，發現firebase可以說是最快的<br>步驟如下：</p>
+<hr>
+<ol>
+<li><p>到firebase創帳號，建立專案</p>
+</li>
+<li><p>在 firebase console 中，進到 hosting 頁面，他會請你安裝</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g firebase-tools</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>接著到 react 專案資料夾，先登入</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">firebase login</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>然後初始化</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">firebase init</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li><p>初始化過程中會問你一系列問題： </p>
+<ul>
+<li>問你要啟用什麼功能：選 hosting</li>
+<li>問你要連結到哪個 firebase project</li>
+<li>問你要用哪個資料夾作為網站的 public 資料夾：輸入 build(或你定義的資料夾名稱)</li>
+<li>問你是不是 single-page app (SPA) 這個都選是應該沒問題</li>
+<li>如果你之前有執行過<code>npm run build</code>他可能會問你要不要覆寫index.html，選要</li>
+</ul>
+</li>
+<li><p>完成後你會在專案裡看到 firebase.json, .firebaserc 兩個檔案</p>
+</li>
+<li><p>如果還沒 build 過，執行<code>npm run build</code></p>
+</li>
+<li><p>執行 firebase deploy</p>
+</li>
+<li><p>到 firebase hosting console 可以看到你的部屬紀錄，可以回到之前的版本 </p>
+</li>
+<li><p>你也可以在本地開伺服器，只要執行<code>firebase serve</code>就可以了</p>
+</li>
+</ol>
+<hr>
+<p>第一次做的時候網站馬上就發布了，但第二次隔了一些時間才發布</p>
+<p>害我還到處查為什麼是哪個步驟不對QAQ 結果稍微等一下就看到網站了哈哈</p>
+<p>所以如果你沒看到馬上發布不要慌XD</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://roto93.github.io/2021/04/23/%E5%9C%A8firebase%E9%83%A8%E7%BD%B2%E4%BD%A0%E7%9A%84react%E5%B0%88%E6%A1%88/" data-id="cko3ruz6j000dk8vhbzrb5w6b" data-title="在firebase部署你的react專案" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/05/01/%E8%87%AA%E8%A3%BD%E6%97%A5%E6%9C%9F%E9%81%B8%E6%93%87%E5%99%A8-1/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          自製日期選擇器(1 輸入介面規劃)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/04/20/React-dev-tool-in-Opera/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">React dev tool in Opera</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">彙整</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">五月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">三月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/05/01/%E8%87%AA%E8%A3%BD%E6%97%A5%E6%9C%9F%E9%81%B8%E6%93%87%E5%99%A8-1/">自製日期選擇器(1 輸入介面規劃)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/23/%E5%9C%A8firebase%E9%83%A8%E7%BD%B2%E4%BD%A0%E7%9A%84react%E5%B0%88%E6%A1%88/">在firebase部署你的react專案</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/20/React-dev-tool-in-Opera/">React dev tool in Opera</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/16/javascript-arrow-function-this/">Javascript 在不同函式定義方式中使用 this</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/05/Firebase-realtime-database-%E7%B0%A1%E4%BB%8B/">Firebase database</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 Guan-Ting Su<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

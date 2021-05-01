@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Pi&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Pi&#39;s Blog">
+<meta property="og:url" content="http://roto93.github.io/index.html">
+<meta property="og:site_name" content="Pi&#39;s Blog">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:author" content="Guan-Ting Su">
+<meta property="article:tag" content="程式,自學">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Pi's Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Pi&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">一些程式自學小記錄</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜尋"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜尋"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://roto93.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-自製日期選擇器-1" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/05/01/%E8%87%AA%E8%A3%BD%E6%97%A5%E6%9C%9F%E9%81%B8%E6%93%87%E5%99%A8-1/" class="article-date">
+  <time class="dt-published" datetime="2021-05-01T13:17:40.000Z" itemprop="datePublished">2021-05-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/05/01/%E8%87%AA%E8%A3%BD%E6%97%A5%E6%9C%9F%E9%81%B8%E6%93%87%E5%99%A8-1/">自製日期選擇器(1 輸入介面規劃)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <hr>
+<p>我決定要來做一個 for RN 的日期選擇器</p>
+<p>原因是因為雖然之前有查到兩個套件，但都有點不合需求:</p>
+<p>第一個是 <a target="_blank" rel="noopener" href="https://github.com/mmazzarolo/react-native-modal-datetime-picker">react-native-modal-datetime-picker</a><br>是調用 android/ios 原生的日期選擇器<br>雖然用起來很順又好看 (畢竟是原生元件)<br>但唯一的缺點是不能選日期區間 QQ<br>而我們想要用的就是選時段的功能 r<br>像是設定旅行日期之類的</p>
+<p>第二個是 <a target="_blank" rel="noopener" href="https://github.com/naxulanth/react-native-daterange-picker/">react-native-daterange-picker</a><br>這看起來是 Naxulanth 這位網友自製的元件<br>畫面簡潔，也可以選擇日期區間<br>但是，使用上有很多限制<br>doc 也沒有寫的很完整，實際使用方式跟示範的 code 有點不同<br>還有不少 bug</p>
+<p>正好我也想當練習<br>就來做一個屬於自己的日期判斷器吧<br>如果開發的不錯，就順便發布出去 讚</p>
+<p>寫這篇文的現在其實還沒做好<br>所以可能會分成幾個章節吧</p>
+<h2 id="輸入介面規劃-Interface-Design"><a href="#輸入介面規劃-Interface-Design" class="headerlink" title="輸入介面規劃 Interface Design"></a><font color="#BC2C1A">輸入介面規劃 Interface Design</font></h2><hr>
+<p>我希望這個元件的畫面、以及使用方式都夠簡單<br>並沿用 <a target="_blank" rel="noopener" href="https://github.com/react-native-modal/react-native-modal">react-native-modal</a> 的使用介面做開發<br>暫定最簡短的介面如下:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;DatePicker</span><br><span class="line"> <span class="comment">// 是否顯示</span></span><br><span class="line"> <span class="comment">// 開啟時顯示的日期</span></span><br><span class="line"> <span class="comment">// 模式:單日還是期間</span></span><br><span class="line"> <span class="comment">// 按完成後回傳的日期</span></span><br><span class="line">/&gt;</span><br></pre></td></tr></table></figure>
+<p>這四個是 required attributes<br>後續可能可以再加一些 styling 的屬性進來<br>但目前還是先 focus 在這幾個上面就好</p>
+<h3 id="1-是否顯示"><a href="#1-是否顯示" class="headerlink" title="1. 是否顯示"></a>1. 是否顯示</h3><p><strong>名稱:</strong> <font color="crimson"><code>isVisible</code></font><br><strong>類型:</strong> Boolean<br><strong>說明:</strong> 這應該沒什麼，就是開啟或關閉日期選擇器</p>
+<h3 id="2-開啟時顯示的日期"><a href="#2-開啟時顯示的日期" class="headerlink" title="2. 開啟時顯示的日期"></a>2. 開啟時顯示的日期</h3><p><strong>名稱:</strong> <font color="crimson"><code>displayDate</code></font><br><strong>類型:</strong> Date物件<br><strong>說明:</strong> 選填但是建議輸入，沒設定的話就預設為現在。當選擇器開啟時會顯示這個時間的月份，你可以利用這個屬性讓選擇器顯示使用者上次所選的日期的月份</p>
+<h3 id="3-單日還是期間"><a href="#3-單日還是期間" class="headerlink" title="3. 單日還是期間"></a>3. 單日還是期間</h3><p><strong>名稱:</strong> <font color="crimson"><code>mode</code></font><br><strong>類型:</strong> string<br><strong>輸入值:</strong> <font color="crimson"><code>&#39;single&#39;</code></font> / <font color="crimson"><code>&#39;range&#39;</code></font><br><strong>說明:</strong> 模式選擇: 要回傳單一日期就選 ‘single’；要回傳一段時間就選 ‘range’</p>
+<h3 id="4-按完成後回傳的日期"><a href="#4-按完成後回傳的日期" class="headerlink" title="4. 按完成後回傳的日期"></a>4. 按完成後回傳的日期</h3><p><strong>名稱:</strong> <font color="crimson"><code>onConfirm</code></font><br><strong>類型:</strong> function<br><strong>輸入值:</strong> <font color="crimson"><code>(data)=&gt;&#123; &#125;</code></font><br><strong>說明:</strong> 回傳一個物件。如果是單日模式物件的結構會是: </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">data=&#123;</span><br><span class="line"> date:<span class="built_in">Date</span>(),</span><br><span class="line"> startDate:<span class="literal">null</span>,</span><br><span class="line"> endDate:<span class="literal">null</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>反之如果是期間模式則是:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">data=&#123;</span><br><span class="line"> date:<span class="literal">null</span>,</span><br><span class="line"> startDate:<span class="built_in">Date</span>(),</span><br><span class="line"> endDate:<span class="built_in">Date</span>()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>好啦 第一篇就先到這<br>這可能會是個大系列(會分很多篇的意思XD)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://roto93.github.io/2021/05/01/%E8%87%AA%E8%A3%BD%E6%97%A5%E6%9C%9F%E9%81%B8%E6%93%87%E5%99%A8-1/" data-id="cko600f4o0000p4vhh1t42pj7" data-title="自製日期選擇器(1 輸入介面規劃)" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-在firebase部署你的react專案" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/04/23/%E5%9C%A8firebase%E9%83%A8%E7%BD%B2%E4%BD%A0%E7%9A%84react%E5%B0%88%E6%A1%88/" class="article-date">
+  <time class="dt-published" datetime="2021-04-23T01:01:02.000Z" itemprop="datePublished">2021-04-23</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/04/23/%E5%9C%A8firebase%E9%83%A8%E7%BD%B2%E4%BD%A0%E7%9A%84react%E5%B0%88%E6%A1%88/">在firebase部署你的react專案</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <hr>
+<p>最近在學 react，希望可以每次完成一個 mini project 的時候就能放在網路上<br>這樣出門在外隨時可以向人展示<br><font color="gray">(雖然可能也沒什麼向人展示的機會QQ)</p>
+<p>稍微查了一下各種部署react網站的方法，發現firebase可以說是最快的<br>步驟如下：</p>
+<hr>
+<ol>
+<li><p>到firebase創帳號，建立專案</p>
+</li>
+<li><p>在 firebase console 中，進到 hosting 頁面，他會請你安裝</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g firebase-tools</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>接著到 react 專案資料夾，先登入</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">firebase login</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>然後初始化</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">firebase init</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li><p>初始化過程中會問你一系列問題： </p>
+<ul>
+<li>問你要啟用什麼功能：選 hosting</li>
+<li>問你要連結到哪個 firebase project</li>
+<li>問你要用哪個資料夾作為網站的 public 資料夾：輸入 build(或你定義的資料夾名稱)</li>
+<li>問你是不是 single-page app (SPA) 這個都選是應該沒問題</li>
+<li>如果你之前有執行過<code>npm run build</code>他可能會問你要不要覆寫index.html，選要</li>
+</ul>
+</li>
+<li><p>完成後你會在專案裡看到 firebase.json, .firebaserc 兩個檔案</p>
+</li>
+<li><p>如果還沒 build 過，執行<code>npm run build</code></p>
+</li>
+<li><p>執行 firebase deploy</p>
+</li>
+<li><p>到 firebase hosting console 可以看到你的部屬紀錄，可以回到之前的版本 </p>
+</li>
+<li><p>你也可以在本地開伺服器，只要執行<code>firebase serve</code>就可以了</p>
+</li>
+</ol>
+<hr>
+<p>第一次做的時候網站馬上就發布了，但第二次隔了一些時間才發布</p>
+<p>害我還到處查為什麼是哪個步驟不對QAQ 結果稍微等一下就看到網站了哈哈</p>
+<p>所以如果你沒看到馬上發布不要慌XD</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://roto93.github.io/2021/04/23/%E5%9C%A8firebase%E9%83%A8%E7%BD%B2%E4%BD%A0%E7%9A%84react%E5%B0%88%E6%A1%88/" data-id="cko3ruz6j000dk8vhbzrb5w6b" data-title="在firebase部署你的react專案" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-React-dev-tool-in-Opera" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/04/20/React-dev-tool-in-Opera/" class="article-date">
+  <time class="dt-published" datetime="2021-04-20T02:24:59.000Z" itemprop="datePublished">2021-04-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/04/20/React-dev-tool-in-Opera/">React dev tool in Opera</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <hr>
+<p>想在 Opera 瀏覽器上使用 react 延伸套件，卻發現找不到？</p>
+<p>沒關係</p>
+<p>我們都知道 google 的擴充套件很豐富，所以 opera 提供了一個套件叫做 <strong>install Chrome extension</strong><br>(該不會就是因為有這個 opera 的套件才會那麼不足XD)</p>
+<hr>
+<p>首先到 <a target="_blank" rel="noopener" href="https://addons.opera.com/zh-tw/extensions/?hl=zh-TW">opera 的套件庫</a> 搜尋 <font style="font-style: italic;">install Chrome extension</font></p>
+<p>或是直接到<a target="_blank" rel="noopener" href="https://addons.opera.com/zh-tw/extensions/details/install-chrome-extensions/">這個網頁</a></p>
+<p>接著就可以來到 <a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/category/extensions">Chrome 線上應用程式商店</a>下載你要的套件啦</p>
+<p>由於裝的不是 opera 官方提供的套件，下載後可能會需要自己手動啟用他喔</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://roto93.github.io/2021/04/20/React-dev-tool-in-Opera/" data-id="cko3ruz6b0005k8vh1d6ag89z" data-title="React dev tool in Opera" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-javascript-arrow-function-this" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/04/16/javascript-arrow-function-this/" class="article-date">
+  <time class="dt-published" datetime="2021-04-16T01:27:21.000Z" itemprop="datePublished">2021-04-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/04/16/javascript-arrow-function-this/">Javascript 在不同函式定義方式中使用 this</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <hr>
+<h2 id="前言"><a href="#前言" class="headerlink" title=" 前言"></a><font color="#BC2C1A"> 前言</h2><p>在使用物件導向程式設計時，一定會碰到<code>this</code>(在python裡是<code>self</code>)</p>
+<p>要百分之百了解<code>this</code>的作用原理其實談不上容易，但簡單來說：</p>
+<blockquote>
+<p>在一個 class 中呼叫<code>this</code>時，<code>this</code>指的是那個 class 本身</p>
+</blockquote>
+<p>或是更 general 一點：</p>
+<blockquote>
+<p>誰呼叫到<code>this</code>，<code>this</code>就是誰</p>
+</blockquote>
+<p>但最近遇到一個情形，呼叫this的時候找不到理應存在的變數</p>
+<hr>
+<h2 id="情形"><a href="#情形" class="headerlink" title=" 情形"></a><font color="#BC2C1A"> 情形</h2><p>這是一個 IconDisplayer 物件<br>調用 display() method，回傳 &lt;<code>Image&gt;</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> IconDisplayer = &#123;</span><br><span class="line">    Current: &#123;</span><br><span class="line">      USD: <span class="xml"><span class="tag">&lt;<span class="name">Image</span> <span class="attr">source</span>=<span class="string">&#123;require(</span>&#x27;<span class="attr">.</span>/<span class="attr">src</span>/<span class="attr">image</span>/<span class="attr">nations</span>/<span class="attr">united-states.png</span>&#x27;)&#125; /&gt;</span></span></span><br><span class="line">    &#125;,</span><br><span class="line">    display: <span class="function">() =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (currency === <span class="string">&#x27;USD&#x27;</span>) &#123; <span class="keyword">return</span> (<span class="built_in">this</span>.Current.USD) &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>運行時他會告訴你：</p>
+<p><font color="red">TypeError: Cannot read property ‘Current’ of undefined</p>
+<p>意思就是說，程式找不到 Current 這個變數<br>但是很奇怪，明明就定義在物件裡Ｒ，也用了this<br>應該找得到才對呀</p>
+<hr>
+<h2 id="原因"><a href="#原因" class="headerlink" title=" 原因"></a><font color="#BC2C1A"> 原因</h2><p>後來查了一下發現一切都是 arrow function 的緣故</p>
+<ul>
+<li><h4 id="MDN-amp-W3Schools"><a href="#MDN-amp-W3Schools" class="headerlink" title="MDN &amp; W3Schools:"></a>MDN &amp; W3Schools:</h4><ul>
+<li>In arrow functions, this retains the value of<br>the enclosing lexical context’s this.</li>
+<li>Arrow functions do not have their own this.</li>
+<li>In global code, it will be set to the global object.</li>
+</ul>
+</li>
+</ul>
+<p>如果是呼叫以前的傳統函數，每次都會建立一個環境 (Function Execution Context)來運行，並把當時的呼叫者令為this，誰呼叫 誰就是this</p>
+<p>但定義 arrow function 時不會有這個流程<br>因此在其中使用this時，指的便會是外層所使用的 global this，在 HTML 裡就是 window</p>
+<p>例如上述的例子：我們只要把this改成IconDisplayer就可以了</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">display: <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (currency === <span class="string">&#x27;USD&#x27;</span>) &#123; <span class="keyword">return</span> (<span class="built_in">this</span>.Current.USD) &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>不然就要用傳統函式：</p>
+<pre><code class="javascript">    display: function()&#123;
+      if (currency === &#39;USD&#39;) &#123; return (this.Current.USD) &#125;
+    &#125;
+</code></pre>
+<hr>
+<h2 id="結語"><a href="#結語" class="headerlink" title=" 結語"></a><font color="#BC2C1A"> 結語</h2><p>曾經看到有人說應該要把 arrow function 視為獨立的新語法，而不是傳統function 的變化，因為有時運作方式是截然不同，今天更能體會到這點了！<br>最後，今天的重點：</p>
+<blockquote>
+<p>this 的值只跟「你如何呼叫、誰呼叫」有關，與程式碼位於哪裡完全無關</p>
+</blockquote>
+<p>參考：<a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10207992">iT邦幫忙</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://roto93.github.io/2021/04/16/javascript-arrow-function-this/" data-id="cko3ruz6j000ck8vhgw5lhxkl" data-title="Javascript 在不同函式定義方式中使用 this" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Firebase-realtime-database-簡介" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/04/05/Firebase-realtime-database-%E7%B0%A1%E4%BB%8B/" class="article-date">
+  <time class="dt-published" datetime="2021-04-05T06:18:55.000Z" itemprop="datePublished">2021-04-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/04/05/Firebase-realtime-database-%E7%B0%A1%E4%BB%8B/">Firebase database</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <hr>
+<p>有了登入功能後，我們可能會希望儲存用戶的資料</p>
+<p>無論是個人資料(頭像、帳號名、電話、信箱等等)<br>或是其他隨時間變多的資料，像是個人貼文</p>
+<p>每發一篇貼文，我們就要把它記錄在資料庫裡<br>他可能需要建立在 users 的節點之下<br>也可以建立在 post 節點之下<br>或同時在多個節點做更新</p>
+<p>這篇文章會告訴你 Firebase Realtime Database 的一些簡單操作：</p>
+<h4 id="1-寫入-set-、push"><a href="#1-寫入-set-、push" class="headerlink" title="1. 寫入 set()、push()"></a>1. 寫入 <code>set()</code>、<code>push()</code></h4><h4 id="2-讀取-on-、get"><a href="#2-讀取-on-、get" class="headerlink" title="2. 讀取 on()、get()"></a>2. 讀取 <code>on()</code>、<code>get()</code></h4><h4 id="3-更新-update"><a href="#3-更新-update" class="headerlink" title="3. 更新 update()"></a>3. 更新 <code>update()</code></h4><h4 id="4-刪除-delete"><a href="#4-刪除-delete" class="headerlink" title="4. 刪除 delete()"></a>4. 刪除 <code>delete()</code></h4><p>在開始前，別忘了到 firebase console 啟用 realtime database</p>
+<hr>
+<h2 id="取得-reference"><a href="#取得-reference" class="headerlink" title=" 取得 reference"></a><font color="#BC2C1A"> 取得 reference</h2><p>每次更動資料時<br>需要告訴程式你想要處理資料庫中什麼位置的資料</p>
+<p>這個位置就叫做 <code>firebase.database.Reference</code><br>可藉由<code>ref()</code>定義</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Ref = firebase.database().ref()</span><br></pre></td></tr></table></figure>
+
+<p><code>ref()</code>可傳入 path，如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> user = firebase.auth().currentUser</span><br><span class="line"><span class="keyword">const</span> userRef = firebase.database().ref(<span class="string">&#x27;/users/&#x27;</span>+ user.uid)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>對於任一個 Reference<br>你可以用 <code>child()</code> 來得到下層的 Reference<br>假如我們要到 /user/user.uid/hobby/</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> userHobbyRef = userRef.child(<span class="string">&#x27;hobby&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>取得 Reference 後在後面掛上函數就能變更資料了</p>
+<hr>
+<h2 id="寫入資料"><a href="#寫入資料" class="headerlink" title=" 寫入資料"></a><font color="#BC2C1A"> 寫入資料</h2><h2 id="set"><a href="#set" class="headerlink" title=" set()"></a><center> <code>set()</code></center></h2><p>最簡單的方式<br>我們可以用<code>set()</code>來寫入資料</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">userRef.set(&#123;</span><br><span class="line">	name:<span class="string">&#x27;Tony&#x27;</span>,</span><br><span class="line">	age:<span class="number">24</span></span><br><span class="line">	hobby:[<span class="string">&#x27;tennis&#x27;</span>,<span class="string">&#x27;coding&#x27;</span>,<span class="string">&#x27;eating&#x27;</span>]</span><br><span class="line">	timeStamp: <span class="built_in">Date</span>.now()</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p><code>set()</code>函數會直接複寫該節點的資料，包括所有子節點</p>
+<h2 id="push"><a href="#push" class="headerlink" title=" push()"></a><center> <code>push()</code></center></h2><p>除此之外<br>我們也能用 <code>push()</code><br>帶入參數，就會在該節點的 last space 建立資料<br>不帶入也可以，就不會寫入<br>而後回傳該處的 Ref</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> postListRef = firebase.database().ref(<span class="string">&#x27;/posts/&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//保留 Ref 以便之後使用</span></span><br><span class="line"><span class="keyword">const</span> newPostRef = postListRef.push()</span><br><span class="line">newPostRef.set(<span class="string">&#x27;New Post&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 直接寫入</span></span><br><span class="line">postListRef.push(<span class="string">&#x27;New Post&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>無論如何，<code>push()</code>都會產生一個key<br>這個 key 是依 timestamp 隨機產生的<br>也因此<code>push()</code>適合有多個用戶的 app 使用<br>避免同時接收多個寫入指令，造成問題</p>
+<p>要取得key值，可使用<code>.key</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> newPostKey = postListRef.push().key</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="讀取資料"><a href="#讀取資料" class="headerlink" title=" 讀取資料"></a><font color="#BC2C1A"> 讀取資料</h2><h2 id="on"><a href="#on" class="headerlink" title=" on()"></a><center> <code>on()</code></center></h2><p>要讀取資料，官方最推薦的方式是<code>on()</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// userRef.on(eventtype,callback(snap))</span></span><br><span class="line"></span><br><span class="line">userRef.on(<span class="string">&#x27;value&#x27;</span>, <span class="function">(<span class="params">snap</span>)=&gt;</span>&#123;</span><br><span class="line">	setUserEmail(<span class="built_in">JSON</span>.stringify(snap.child(<span class="string">&#x27;user_email&#x27;</span>).val()))</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>給予一個 Ref，<code>on()</code>會建立一個 listener</p>
+<p>第一個參數<code>&#39;value&#39;</code>指的是只要這個 Ref 以下任何 value 發生變化時就會觸發 callback function (第二個參數)<br>其他還有 </p>
+<ul>
+<li><code>&#39;child_added&#39;</code> </li>
+<li><code>&#39;child_changed&#39;</code> </li>
+<li><code>&#39;child_removed&#39;</code> </li>
+<li><code>&#39;child_moved&#39;</code> </li>
+</ul>
+<p>第二個參數是 callback，傳入 snap<br>這個 snap 的模樣會是該節點變更後的資料<br>記得要做<code>JSON.stringfy()</code><br>並用<code>val()</code>取得數值</p>
+<p>就我嘗試的結果<br><strong><code>on()</code>需要放在 useEffect() 裡面</strong></p>
+<h2 id="get"><a href="#get" class="headerlink" title=" get()"></a><center> <code>get()</code></center></h2><p>如果你不需要監聽，只需取得資料一次<br>可以使用<code>get()</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">userRef.get()</span><br><span class="line">  .then()</span><br><span class="line">  .catch()</span><br><span class="line"><span class="comment">// return a Promise (dataSnapshot or rejection)</span></span><br></pre></td></tr></table></figure>
+
+<p>根據官方說法，過多的<code>get()</code>會導致效能問題<br>因此確保你只在需要的地方使用<code>get()</code><br><code>on()</code>才是預設選項</p>
+<hr>
+<h2 id="更新資料"><a href="#更新資料" class="headerlink" title=" 更新資料"></a><font color="#BC2C1A"> 更新資料</h2><h2 id="update"><a href="#update" class="headerlink" title=" update()"></a><center> <code>update()</code></center></h2><p><code>update()</code>函數讓你能以一次呼叫，更改資料庫的多個地方<br>第一個參數是object<br>其中的 child property 可以填入 simple property</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> adaNameRef = firebase.database().ref(<span class="string">&#x27;users/ada/name&#x27;</span>);</span><br><span class="line"><span class="comment">// Modify the &#x27;first&#x27; and &#x27;last&#x27; properties, but leave other data at</span></span><br><span class="line"><span class="comment">// adaNameRef unchanged.</span></span><br><span class="line">adaNameRef.update(&#123; <span class="attr">first</span>: <span class="string">&#x27;Ada&#x27;</span>, <span class="attr">last</span>: <span class="string">&#x27;Lovelace&#x27;</span> &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>或是 path</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> ref = firebase.database().ref()</span><br><span class="line"><span class="comment">// Generate a new push ID for the new post</span></span><br><span class="line"><span class="keyword">var</span> newPostRef = ref.child(<span class="string">&quot;posts&quot;</span>).push();</span><br><span class="line"><span class="keyword">var</span> newPostKey = newPostRef.key();</span><br><span class="line"><span class="comment">// Create the data we want to update</span></span><br><span class="line"><span class="keyword">var</span> updatedUserData = &#123;&#125;;</span><br><span class="line">updatedUserData[<span class="string">&quot;user/posts/&quot;</span> + newPostKey] = <span class="literal">true</span>;</span><br><span class="line">updatedUserData[<span class="string">&quot;posts/&quot;</span> + newPostKey] = &#123;</span><br><span class="line">  title: <span class="string">&quot;New Post&quot;</span>,</span><br><span class="line">  content: <span class="string">&quot;Here is my new post!&quot;</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// Do a deep-path update</span></span><br><span class="line">ref.update(updatedUserData, <span class="function"><span class="keyword">function</span>(<span class="params">error</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (error) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;Error updating data:&quot;</span>, error);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>第二個參數是 callback 並帶入 error</p>
+<p>參考 <a target="_blank" rel="noopener" href="https://firebase.googleblog.com/2015/09/introducing-multi-location-updates-and_86.html">Multi-location updates</a></p>
+<hr>
+<h2 id="刪除資料"><a href="#刪除資料" class="headerlink" title=" 刪除資料"></a><font color="#BC2C1A"> 刪除資料</h2><h2 id="delete"><a href="#delete" class="headerlink" title=" delete()"></a><center> <code>delete()</code></center></h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Ref.Remove()</span><br><span class="line"><span class="comment">// return a Promise</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://roto93.github.io/2021/04/05/Firebase-realtime-database-%E7%B0%A1%E4%BB%8B/" data-id="cko3ruz6a0004k8vhaia3cvfm" data-title="Firebase database" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">下一頁 &raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">彙整</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">五月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">三月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/05/01/%E8%87%AA%E8%A3%BD%E6%97%A5%E6%9C%9F%E9%81%B8%E6%93%87%E5%99%A8-1/">自製日期選擇器(1 輸入介面規劃)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/23/%E5%9C%A8firebase%E9%83%A8%E7%BD%B2%E4%BD%A0%E7%9A%84react%E5%B0%88%E6%A1%88/">在firebase部署你的react專案</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/20/React-dev-tool-in-Opera/">React dev tool in Opera</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/16/javascript-arrow-function-this/">Javascript 在不同函式定義方式中使用 this</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/05/Firebase-realtime-database-%E7%B0%A1%E4%BB%8B/">Firebase database</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 Guan-Ting Su<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Javascript 在不同函式定義方式中使用 this | Pi&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="前言在使用物件導向程式設計時，一定會碰到this(在python裡是self) 要百分之百了解this的作用原理其實談不上容易，但簡單來說：  在一個 class 中呼叫this時，this指的是那個 class 本身  或是更 general 一點：  誰呼叫到this，this就是誰  但最近遇到一個情形，呼叫this的時候找不到理應存在的變數   情形這是一個 IconDisplayer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Javascript 在不同函式定義方式中使用 this">
+<meta property="og:url" content="http://roto93.github.io/2021/04/16/javascript-arrow-function-this/index.html">
+<meta property="og:site_name" content="Pi&#39;s Blog">
+<meta property="og:description" content="前言在使用物件導向程式設計時，一定會碰到this(在python裡是self) 要百分之百了解this的作用原理其實談不上容易，但簡單來說：  在一個 class 中呼叫this時，this指的是那個 class 本身  或是更 general 一點：  誰呼叫到this，this就是誰  但最近遇到一個情形，呼叫this的時候找不到理應存在的變數   情形這是一個 IconDisplayer">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2021-04-16T01:27:21.000Z">
+<meta property="article:modified_time" content="2021-04-30T03:40:54.808Z">
+<meta property="article:author" content="Guan-Ting Su">
+<meta property="article:tag" content="程式,自學">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Pi's Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Pi&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">一些程式自學小記錄</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜尋"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜尋"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://roto93.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-javascript-arrow-function-this" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/04/16/javascript-arrow-function-this/" class="article-date">
+  <time class="dt-published" datetime="2021-04-16T01:27:21.000Z" itemprop="datePublished">2021-04-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Javascript 在不同函式定義方式中使用 this
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <hr>
+<h2 id="前言"><a href="#前言" class="headerlink" title=" 前言"></a><font color="#BC2C1A"> 前言</h2><p>在使用物件導向程式設計時，一定會碰到<code>this</code>(在python裡是<code>self</code>)</p>
+<p>要百分之百了解<code>this</code>的作用原理其實談不上容易，但簡單來說：</p>
+<blockquote>
+<p>在一個 class 中呼叫<code>this</code>時，<code>this</code>指的是那個 class 本身</p>
+</blockquote>
+<p>或是更 general 一點：</p>
+<blockquote>
+<p>誰呼叫到<code>this</code>，<code>this</code>就是誰</p>
+</blockquote>
+<p>但最近遇到一個情形，呼叫this的時候找不到理應存在的變數</p>
+<hr>
+<h2 id="情形"><a href="#情形" class="headerlink" title=" 情形"></a><font color="#BC2C1A"> 情形</h2><p>這是一個 IconDisplayer 物件<br>調用 display() method，回傳 &lt;<code>Image&gt;</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> IconDisplayer = &#123;</span><br><span class="line">    Current: &#123;</span><br><span class="line">      USD: <span class="xml"><span class="tag">&lt;<span class="name">Image</span> <span class="attr">source</span>=<span class="string">&#123;require(</span>&#x27;<span class="attr">.</span>/<span class="attr">src</span>/<span class="attr">image</span>/<span class="attr">nations</span>/<span class="attr">united-states.png</span>&#x27;)&#125; /&gt;</span></span></span><br><span class="line">    &#125;,</span><br><span class="line">    display: <span class="function">() =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (currency === <span class="string">&#x27;USD&#x27;</span>) &#123; <span class="keyword">return</span> (<span class="built_in">this</span>.Current.USD) &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>運行時他會告訴你：</p>
+<p><font color="red">TypeError: Cannot read property ‘Current’ of undefined</p>
+<p>意思就是說，程式找不到 Current 這個變數<br>但是很奇怪，明明就定義在物件裡Ｒ，也用了this<br>應該找得到才對呀</p>
+<hr>
+<h2 id="原因"><a href="#原因" class="headerlink" title=" 原因"></a><font color="#BC2C1A"> 原因</h2><p>後來查了一下發現一切都是 arrow function 的緣故</p>
+<ul>
+<li><h4 id="MDN-amp-W3Schools"><a href="#MDN-amp-W3Schools" class="headerlink" title="MDN &amp; W3Schools:"></a>MDN &amp; W3Schools:</h4><ul>
+<li>In arrow functions, this retains the value of<br>the enclosing lexical context’s this.</li>
+<li>Arrow functions do not have their own this.</li>
+<li>In global code, it will be set to the global object.</li>
+</ul>
+</li>
+</ul>
+<p>如果是呼叫以前的傳統函數，每次都會建立一個環境 (Function Execution Context)來運行，並把當時的呼叫者令為this，誰呼叫 誰就是this</p>
+<p>但定義 arrow function 時不會有這個流程<br>因此在其中使用this時，指的便會是外層所使用的 global this，在 HTML 裡就是 window</p>
+<p>例如上述的例子：我們只要把this改成IconDisplayer就可以了</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">display: <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (currency === <span class="string">&#x27;USD&#x27;</span>) &#123; <span class="keyword">return</span> (<span class="built_in">this</span>.Current.USD) &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>不然就要用傳統函式：</p>
+<pre><code class="javascript">    display: function()&#123;
+      if (currency === &#39;USD&#39;) &#123; return (this.Current.USD) &#125;
+    &#125;
+</code></pre>
+<hr>
+<h2 id="結語"><a href="#結語" class="headerlink" title=" 結語"></a><font color="#BC2C1A"> 結語</h2><p>曾經看到有人說應該要把 arrow function 視為獨立的新語法，而不是傳統function 的變化，因為有時運作方式是截然不同，今天更能體會到這點了！<br>最後，今天的重點：</p>
+<blockquote>
+<p>this 的值只跟「你如何呼叫、誰呼叫」有關，與程式碼位於哪裡完全無關</p>
+</blockquote>
+<p>參考：<a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10207992">iT邦幫忙</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://roto93.github.io/2021/04/16/javascript-arrow-function-this/" data-id="cko3ruz6j000ck8vhgw5lhxkl" data-title="Javascript 在不同函式定義方式中使用 this" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/04/20/React-dev-tool-in-Opera/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          React dev tool in Opera
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/04/05/Firebase-realtime-database-%E7%B0%A1%E4%BB%8B/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Firebase database</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">彙整</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">五月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">三月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/05/01/%E8%87%AA%E8%A3%BD%E6%97%A5%E6%9C%9F%E9%81%B8%E6%93%87%E5%99%A8-1/">自製日期選擇器(1 輸入介面規劃)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/23/%E5%9C%A8firebase%E9%83%A8%E7%BD%B2%E4%BD%A0%E7%9A%84react%E5%B0%88%E6%A1%88/">在firebase部署你的react專案</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/20/React-dev-tool-in-Opera/">React dev tool in Opera</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/16/javascript-arrow-function-this/">Javascript 在不同函式定義方式中使用 this</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/05/Firebase-realtime-database-%E7%B0%A1%E4%BB%8B/">Firebase database</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 Guan-Ting Su<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
