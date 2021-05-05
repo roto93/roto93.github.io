@@ -6,17 +6,20 @@
   
   <title>兩個從網站寄email給自己的方法 | Pi&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="在建置網站的 contact 頁面時 為了讓訪客能聯繫自己 寄 email 應該是最簡單直接的方式了 這裡介紹兩種從網站寄 email 的方法  1. FormSubmitFormSubmit 讓你可以用 RESTful API，由他們的 server 把訪客的訊息寄給你 優點是完全 free 沒有流量限制 首先在你的網站的 form tag 加入action和method別傻傻直接貼上，記得把">
+  <meta name="description" content="在建置網站的 contact 頁面時為了讓訪客能聯繫自己寄 email 應該是最簡單直接的方式了這裡介紹兩種從網站寄 email 的方法  1. FormSubmitFormSubmit 讓你可以用 RESTful API，由他們的 server 把訪客的訊息寄給你 優點是完全 free 沒有流量限制 首先在你的網站的 form tag 加入action和method別傻傻直接貼上，記得把you">
 <meta property="og:type" content="article">
 <meta property="og:title" content="兩個從網站寄email給自己的方法">
 <meta property="og:url" content="http://roto93.github.io/2021/05/05/%E5%85%A9%E5%80%8B%E5%BE%9E%E7%B6%B2%E7%AB%99%E5%AF%84email%E7%B5%A6%E8%87%AA%E5%B7%B1%E7%9A%84%E6%96%B9%E6%B3%95/index.html">
 <meta property="og:site_name" content="Pi&#39;s Blog">
-<meta property="og:description" content="在建置網站的 contact 頁面時 為了讓訪客能聯繫自己 寄 email 應該是最簡單直接的方式了 這裡介紹兩種從網站寄 email 的方法  1. FormSubmitFormSubmit 讓你可以用 RESTful API，由他們的 server 把訪客的訊息寄給你 優點是完全 free 沒有流量限制 首先在你的網站的 form tag 加入action和method別傻傻直接貼上，記得把">
+<meta property="og:description" content="在建置網站的 contact 頁面時為了讓訪客能聯繫自己寄 email 應該是最簡單直接的方式了這裡介紹兩種從網站寄 email 的方法  1. FormSubmitFormSubmit 讓你可以用 RESTful API，由他們的 server 把訪客的訊息寄給你 優點是完全 free 沒有流量限制 首先在你的網站的 form tag 加入action和method別傻傻直接貼上，記得把you">
 <meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="http://roto93.github.io/2021/05/05/%E5%85%A9%E5%80%8B%E5%BE%9E%E7%B6%B2%E7%AB%99%E5%AF%84email%E7%B5%A6%E8%87%AA%E5%B7%B1%E7%9A%84%E6%96%B9%E6%B3%95/FormSubmit1.png">
 <meta property="og:image" content="http://roto93.github.io/2021/05/05/%E5%85%A9%E5%80%8B%E5%BE%9E%E7%B6%B2%E7%AB%99%E5%AF%84email%E7%B5%A6%E8%87%AA%E5%B7%B1%E7%9A%84%E6%96%B9%E6%B3%95/FormSubmit2.png">
+<meta property="og:image" content="http://roto93.github.io/2021/05/05/%E5%85%A9%E5%80%8B%E5%BE%9E%E7%B6%B2%E7%AB%99%E5%AF%84email%E7%B5%A6%E8%87%AA%E5%B7%B1%E7%9A%84%E6%96%B9%E6%B3%95/emailjs1.png">
+<meta property="og:image" content="http://roto93.github.io/2021/05/05/%E5%85%A9%E5%80%8B%E5%BE%9E%E7%B6%B2%E7%AB%99%E5%AF%84email%E7%B5%A6%E8%87%AA%E5%B7%B1%E7%9A%84%E6%96%B9%E6%B3%95/emailjs2.png">
+<meta property="og:image" content="http://roto93.github.io/2021/05/05/%E5%85%A9%E5%80%8B%E5%BE%9E%E7%B6%B2%E7%AB%99%E5%AF%84email%E7%B5%A6%E8%87%AA%E5%B7%B1%E7%9A%84%E6%96%B9%E6%B3%95/emailjs3.png">
 <meta property="article:published_time" content="2021-05-05T03:47:35.000Z">
-<meta property="article:modified_time" content="2021-05-05T04:54:41.173Z">
+<meta property="article:modified_time" content="2021-05-05T10:09:21.275Z">
 <meta property="article:author" content="Guan-Ting Su">
 <meta property="article:tag" content="程式,自學">
 <meta name="twitter:card" content="summary">
@@ -104,10 +107,7 @@
     <div class="e-content article-entry" itemprop="articleBody">
       
         <hr>
-<p>在建置網站的 contact 頁面時</p>
-<p>為了讓訪客能聯繫自己</p>
-<p>寄 email 應該是最簡單直接的方式了</p>
-<p>這裡介紹兩種從網站寄 email 的方法</p>
+<p>在建置網站的 contact 頁面時<br>為了讓訪客能聯繫自己<br>寄 email 應該是最簡單直接的方式了<br>這裡介紹兩種從網站寄 email 的方法</p>
 <hr>
 <h2 id="1-FormSubmit"><a href="#1-FormSubmit" class="headerlink" title="1. FormSubmit"></a><font color="#BC2C1A">1. FormSubmit</font></h2><p><a target="_blank" rel="noopener" href="https://formsubmit.co/">FormSubmit</a> 讓你可以用 RESTful API，由他們的 server 把訪客的訊息寄給你</p>
 <p>優點是完全 free 沒有流量限制</p>
@@ -131,7 +131,33 @@
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;hidden&quot;</span> <span class="attr">name</span>=<span class="string">&quot;_next&quot;</span> <span class="attr">value</span>=<span class="string">&quot;https://yourdomain.co/thanks.html&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p>並改成該網頁的路徑</p>
 <p>還有很多其他的功能，就留給讀者自己去發掘囉</p>
-<h2 id="2-emailJS"><a href="#2-emailJS" class="headerlink" title="2. emailJS "></a><font color="#BC2C1A">2. emailJS </font></h2><p>比起第一個方法，emailJS 好像比較多人用<br>而且網路上的教學大多是搭配 React 使用</p>
+<hr>
+<h2 id="2-emailJS"><a href="#2-emailJS" class="headerlink" title="2. emailJS "></a><font color="#BC2C1A">2. emailJS </font></h2><p>比起第一個方法，<a href>emailJS</a> 好像比較多人用<br>而且網路上的教學大多是搭配 React 使用</p>
+<p>首先，到官網註冊帳號，記得用你希望收到信的信箱註冊<br>(不過用別的也行，這個可以事後更改)</p>
+<p>登入後會進到 dashboard<br>我們先來到 Email Service 點擊 <b>Add New Service</b><br><img src="/2021/05/05/%E5%85%A9%E5%80%8B%E5%BE%9E%E7%B6%B2%E7%AB%99%E5%AF%84email%E7%B5%A6%E8%87%AA%E5%B7%B1%E7%9A%84%E6%96%B9%E6%B3%95/emailjs1.png" style="box-shadow: 2px 1px 6px gray" width="60%"><br>先跟大家釐清一件事(因為我當初搞混)<br>emailJS 並不會幫大家寄信，而是幫你建立起網站與 email server 之間的橋樑<br>這個橋梁就是 email service，<br>至於這個 server 需要由第三方提供，如果你流量不大，可以用 gmail、yahho mail 之類的<br>如果潛在使用量很高，你可能就需要使用下方的 Transactional Services<br>不過這些我目前都沒聽過XD Personal Services 應該就很夠用了<br>但是要記住，無論你選了什麼都不代表它是你的收件信箱，而是<b>寄信信箱</b><br>就像我前面提的，你註冊的信箱才是</p>
+<img src="/2021/05/05/%E5%85%A9%E5%80%8B%E5%BE%9E%E7%B6%B2%E7%AB%99%E5%AF%84email%E7%B5%A6%E8%87%AA%E5%B7%B1%E7%9A%84%E6%96%B9%E6%B3%95/emailjs2.png" style="box-shadow: 2px 1px 6px gray" width="60%">
+
+<p>做好選擇，依照指示進行，你就會得到一組 <font color="orange">service ID (記得它, 待會會用到)</font></p>
+<p>接下來到 Email Templates 設定你收件時所見的內容格式<br>這邊其實可以直接 Create New Template，什麼都不改直接</p>
+<img src="/2021/05/05/%E5%85%A9%E5%80%8B%E5%BE%9E%E7%B6%B2%E7%AB%99%E5%AF%84email%E7%B5%A6%E8%87%AA%E5%B7%B1%E7%9A%84%E6%96%B9%E6%B3%95/emailjs3.png" style="box-shadow: 2px 1px 6px gray" width="60%">
+
+<p>一樣我們會得到一組 <font color="orange">template ID (記得它, 待會會用到)</font></p>
+<p>下一步，我們要把 emailJS 和網站做串接啦</p>
+<p>如果你用的是 React，請先 npm 安裝</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install emailjs-com</span><br></pre></td></tr></table></figure>
+<p>接著在專案中:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;init&#125; <span class="keyword">from</span> <span class="string">&#x27;emailjs-com&#x27;</span></span><br><span class="line">init(<span class="string">&quot;YOUR_USER_ID&quot;</span>) <span class="comment">// 在 EmailJS dashboard 的 integration 頁面可以找到自己的 user id</span></span><br></pre></td></tr></table></figure>
+<p>如果你用的是 html，就在 <code>&lt;head&gt;</code> 裡面加:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;text/javascript&quot;</span> <span class="attr">src</span>=<span class="string">&quot;https://cdn.jsdelivr.net/npm/emailjs-com@2/dist/email.min.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;text/javascript&quot;</span>&gt;</span></span><br><span class="line"><span class="javascript">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">emailjs.init(<span class="string">&quot;YOUR_USER_ID&quot;</span>);</span></span><br><span class="line">&#125;)();</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>最後，在你 submit 時運行 <code>emailjs.sendForm()</code></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">id</span>=<span class="string">&quot;emailjs-form&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;email&quot;</span> <span class="attr">name</span>=<span class="string">&quot;email&quot;</span> /&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">name</span>=<span class="string">&quot;message&quot;</span> /&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">&quot;submit&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">	<span class="keyword">const</span> emailJsForm = <span class="built_in">document</span>.querySelector(<span class="string">&#x27;#emailjs-form&#x27;</span>)</span></span><br><span class="line"><span class="javascript">	emailJsForm.addEventListener(<span class="string">&#x27;submit&#x27;</span>,<span class="function">(<span class="params">event</span>)=&gt;</span>&#123;</span></span><br><span class="line">		event.preventDefault()</span><br><span class="line"><span class="javascript">		emailjs.sendForm(<span class="string">&#x27;YOUR_SERVICE_ID&#x27;</span>, <span class="string">&#x27;YOUR_TEMPLATE_ID&#x27;</span>, THE_FORM_NODE)</span></span><br><span class="line">		&#125;)</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>注意<code>emailjs.sendForm()</code>有三個必填參數，其中最容易忽略的是第三個:</p>
+<ul>
+<li>THE_FORM_NODE: 放入 node，以這個例子來說就是<code>emailJsForm</code></li>
+</ul>
+<p><code>sendForm()</code> 會回傳 promise，所以可以接 <code>.then()</code> <code>.catch()</code></p>
+<hr>
+<p>好ㄌ<br>寄 email 的方法就介紹到這邊<br>最近幾乎都在研究建置個人網站的眉眉角角<br>再過一陣子或許就能開始動工了!!!<br>不過網站的設計也是一份大工程<br>要練習 figma 要讀 design guideline<br>真的有好多東西要學ㄚ~~~</p>
 
       
     </div>
