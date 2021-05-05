@@ -33,7 +33,7 @@
 <link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
 
   
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 5.3.0"></head>
 
 <body>
   <div id="container">
@@ -76,6 +76,59 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-兩個從網站寄email給自己的方法" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/05/05/%E5%85%A9%E5%80%8B%E5%BE%9E%E7%B6%B2%E7%AB%99%E5%AF%84email%E7%B5%A6%E8%87%AA%E5%B7%B1%E7%9A%84%E6%96%B9%E6%B3%95/" class="article-date">
+  <time class="dt-published" datetime="2021-05-05T03:47:35.000Z" itemprop="datePublished">2021-05-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/05/05/%E5%85%A9%E5%80%8B%E5%BE%9E%E7%B6%B2%E7%AB%99%E5%AF%84email%E7%B5%A6%E8%87%AA%E5%B7%B1%E7%9A%84%E6%96%B9%E6%B3%95/">兩個從網站寄email給自己的方法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <hr>
+<p>在建置網站的 contact 頁面時</p>
+<p>為了讓訪客能聯繫自己</p>
+<p>寄 email 應該是最簡單直接的方式了</p>
+<p>這裡介紹兩種從網站寄 email 的方法</p>
+<hr>
+<h2 id="1-FormSubmit"><a href="#1-FormSubmit" class="headerlink" title="1. FormSubmit"></a><font color="#BC2C1A">1. FormSubmit</font></h2><p><a target="_blank" rel="noopener" href="https://formsubmit.co/">FormSubmit</a> 讓你可以用 RESTful API，由他們的 server 把訪客的訊息寄給你</p>
+<p>優點是完全 free 沒有流量限制</p>
+<p>首先在你的網站的 form tag 加入<code>action</code>和<code>method</code><br>別傻傻直接貼上，記得把<code>your@email.com</code>改成你的信箱喔</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;form action&#x3D;&quot;https:&#x2F;&#x2F;formsubmit.co&#x2F;your@email.com&quot; method&#x3D;&quot;POST&quot; &#x2F;&gt;</span><br></pre></td></tr></table></figure>
+<p>接著確保你的 input tag 都有加<code>name</code>的屬性<br>這個屬性會影響到你收到信件時的內容呈現方式<br>你可以設為: email message 之類的</p>
+<p>接下來只要 submit 這個 form 就可以了<br>如果你的收件 email 是第一次在這個API使用的話<br>在第一次送出時你會收到一封認證信，認證完成之後接下來的每次 submit 就會順利寄信給你囉</p>
+<ul>
+<li>補充</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://roto93.github.io/2021/05/05/%E5%85%A9%E5%80%8B%E5%BE%9E%E7%B6%B2%E7%AB%99%E5%AF%84email%E7%B5%A6%E8%87%AA%E5%B7%B1%E7%9A%84%E6%96%B9%E6%B3%95/" data-id="ckoax75tp0000skvh66af5fkz" data-title="兩個從網站寄email給自己的方法" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-自製日期選擇器-1" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2021/05/01/%E8%87%AA%E8%A3%BD%E6%97%A5%E6%9C%9F%E9%81%B8%E6%93%87%E5%99%A8-1/" class="article-date">
@@ -116,13 +169,12 @@
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">data=&#123;</span><br><span class="line"> date:<span class="built_in">Date</span>(),</span><br><span class="line"> startDate:<span class="literal">null</span>,</span><br><span class="line"> endDate:<span class="literal">null</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>反之如果是期間模式則是:</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">data=&#123;</span><br><span class="line"> date:<span class="literal">null</span>,</span><br><span class="line"> startDate:<span class="built_in">Date</span>(),</span><br><span class="line"> endDate:<span class="built_in">Date</span>()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>好啦 第一篇就先到這<br>這可能會是個大系列(會分很多篇的意思XD)</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://roto93.github.io/2021/05/01/%E8%87%AA%E8%A3%BD%E6%97%A5%E6%9C%9F%E9%81%B8%E6%93%87%E5%99%A8-1/" data-id="cko600f4o0000p4vhh1t42pj7" data-title="自製日期選擇器(1 輸入介面規劃)" class="article-share-link">Share</a>
+      <a data-url="http://roto93.github.io/2021/05/01/%E8%87%AA%E8%A3%BD%E6%97%A5%E6%9C%9F%E9%81%B8%E6%93%87%E5%99%A8-1/" data-id="cko5rscbn000ek8vh7us9hekh" data-title="自製日期選擇器(1 輸入介面規劃)" class="article-share-link">Share</a>
       
       
       
@@ -348,104 +400,6 @@
 
 
   
-    <article id="post-Firebase-realtime-database-簡介" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/04/05/Firebase-realtime-database-%E7%B0%A1%E4%BB%8B/" class="article-date">
-  <time class="dt-published" datetime="2021-04-05T06:18:55.000Z" itemprop="datePublished">2021-04-05</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/04/05/Firebase-realtime-database-%E7%B0%A1%E4%BB%8B/">Firebase database</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <hr>
-<p>有了登入功能後，我們可能會希望儲存用戶的資料</p>
-<p>無論是個人資料(頭像、帳號名、電話、信箱等等)<br>或是其他隨時間變多的資料，像是個人貼文</p>
-<p>每發一篇貼文，我們就要把它記錄在資料庫裡<br>他可能需要建立在 users 的節點之下<br>也可以建立在 post 節點之下<br>或同時在多個節點做更新</p>
-<p>這篇文章會告訴你 Firebase Realtime Database 的一些簡單操作：</p>
-<h4 id="1-寫入-set-、push"><a href="#1-寫入-set-、push" class="headerlink" title="1. 寫入 set()、push()"></a>1. 寫入 <code>set()</code>、<code>push()</code></h4><h4 id="2-讀取-on-、get"><a href="#2-讀取-on-、get" class="headerlink" title="2. 讀取 on()、get()"></a>2. 讀取 <code>on()</code>、<code>get()</code></h4><h4 id="3-更新-update"><a href="#3-更新-update" class="headerlink" title="3. 更新 update()"></a>3. 更新 <code>update()</code></h4><h4 id="4-刪除-delete"><a href="#4-刪除-delete" class="headerlink" title="4. 刪除 delete()"></a>4. 刪除 <code>delete()</code></h4><p>在開始前，別忘了到 firebase console 啟用 realtime database</p>
-<hr>
-<h2 id="取得-reference"><a href="#取得-reference" class="headerlink" title=" 取得 reference"></a><font color="#BC2C1A"> 取得 reference</h2><p>每次更動資料時<br>需要告訴程式你想要處理資料庫中什麼位置的資料</p>
-<p>這個位置就叫做 <code>firebase.database.Reference</code><br>可藉由<code>ref()</code>定義</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Ref = firebase.database().ref()</span><br></pre></td></tr></table></figure>
-
-<p><code>ref()</code>可傳入 path，如：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> user = firebase.auth().currentUser</span><br><span class="line"><span class="keyword">const</span> userRef = firebase.database().ref(<span class="string">&#x27;/users/&#x27;</span>+ user.uid)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>對於任一個 Reference<br>你可以用 <code>child()</code> 來得到下層的 Reference<br>假如我們要到 /user/user.uid/hobby/</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> userHobbyRef = userRef.child(<span class="string">&#x27;hobby&#x27;</span>)</span><br></pre></td></tr></table></figure>
-
-<p>取得 Reference 後在後面掛上函數就能變更資料了</p>
-<hr>
-<h2 id="寫入資料"><a href="#寫入資料" class="headerlink" title=" 寫入資料"></a><font color="#BC2C1A"> 寫入資料</h2><h2 id="set"><a href="#set" class="headerlink" title=" set()"></a><center> <code>set()</code></center></h2><p>最簡單的方式<br>我們可以用<code>set()</code>來寫入資料</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">userRef.set(&#123;</span><br><span class="line">	name:<span class="string">&#x27;Tony&#x27;</span>,</span><br><span class="line">	age:<span class="number">24</span></span><br><span class="line">	hobby:[<span class="string">&#x27;tennis&#x27;</span>,<span class="string">&#x27;coding&#x27;</span>,<span class="string">&#x27;eating&#x27;</span>]</span><br><span class="line">	timeStamp: <span class="built_in">Date</span>.now()</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<p><code>set()</code>函數會直接複寫該節點的資料，包括所有子節點</p>
-<h2 id="push"><a href="#push" class="headerlink" title=" push()"></a><center> <code>push()</code></center></h2><p>除此之外<br>我們也能用 <code>push()</code><br>帶入參數，就會在該節點的 last space 建立資料<br>不帶入也可以，就不會寫入<br>而後回傳該處的 Ref</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> postListRef = firebase.database().ref(<span class="string">&#x27;/posts/&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//保留 Ref 以便之後使用</span></span><br><span class="line"><span class="keyword">const</span> newPostRef = postListRef.push()</span><br><span class="line">newPostRef.set(<span class="string">&#x27;New Post&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 直接寫入</span></span><br><span class="line">postListRef.push(<span class="string">&#x27;New Post&#x27;</span>)</span><br></pre></td></tr></table></figure>
-
-<p>無論如何，<code>push()</code>都會產生一個key<br>這個 key 是依 timestamp 隨機產生的<br>也因此<code>push()</code>適合有多個用戶的 app 使用<br>避免同時接收多個寫入指令，造成問題</p>
-<p>要取得key值，可使用<code>.key</code></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> newPostKey = postListRef.push().key</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="讀取資料"><a href="#讀取資料" class="headerlink" title=" 讀取資料"></a><font color="#BC2C1A"> 讀取資料</h2><h2 id="on"><a href="#on" class="headerlink" title=" on()"></a><center> <code>on()</code></center></h2><p>要讀取資料，官方最推薦的方式是<code>on()</code></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// userRef.on(eventtype,callback(snap))</span></span><br><span class="line"></span><br><span class="line">userRef.on(<span class="string">&#x27;value&#x27;</span>, <span class="function">(<span class="params">snap</span>)=&gt;</span>&#123;</span><br><span class="line">	setUserEmail(<span class="built_in">JSON</span>.stringify(snap.child(<span class="string">&#x27;user_email&#x27;</span>).val()))</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-
-<p>給予一個 Ref，<code>on()</code>會建立一個 listener</p>
-<p>第一個參數<code>&#39;value&#39;</code>指的是只要這個 Ref 以下任何 value 發生變化時就會觸發 callback function (第二個參數)<br>其他還有 </p>
-<ul>
-<li><code>&#39;child_added&#39;</code> </li>
-<li><code>&#39;child_changed&#39;</code> </li>
-<li><code>&#39;child_removed&#39;</code> </li>
-<li><code>&#39;child_moved&#39;</code> </li>
-</ul>
-<p>第二個參數是 callback，傳入 snap<br>這個 snap 的模樣會是該節點變更後的資料<br>記得要做<code>JSON.stringfy()</code><br>並用<code>val()</code>取得數值</p>
-<p>就我嘗試的結果<br><strong><code>on()</code>需要放在 useEffect() 裡面</strong></p>
-<h2 id="get"><a href="#get" class="headerlink" title=" get()"></a><center> <code>get()</code></center></h2><p>如果你不需要監聽，只需取得資料一次<br>可以使用<code>get()</code></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">userRef.get()</span><br><span class="line">  .then()</span><br><span class="line">  .catch()</span><br><span class="line"><span class="comment">// return a Promise (dataSnapshot or rejection)</span></span><br></pre></td></tr></table></figure>
-
-<p>根據官方說法，過多的<code>get()</code>會導致效能問題<br>因此確保你只在需要的地方使用<code>get()</code><br><code>on()</code>才是預設選項</p>
-<hr>
-<h2 id="更新資料"><a href="#更新資料" class="headerlink" title=" 更新資料"></a><font color="#BC2C1A"> 更新資料</h2><h2 id="update"><a href="#update" class="headerlink" title=" update()"></a><center> <code>update()</code></center></h2><p><code>update()</code>函數讓你能以一次呼叫，更改資料庫的多個地方<br>第一個參數是object<br>其中的 child property 可以填入 simple property</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> adaNameRef = firebase.database().ref(<span class="string">&#x27;users/ada/name&#x27;</span>);</span><br><span class="line"><span class="comment">// Modify the &#x27;first&#x27; and &#x27;last&#x27; properties, but leave other data at</span></span><br><span class="line"><span class="comment">// adaNameRef unchanged.</span></span><br><span class="line">adaNameRef.update(&#123; <span class="attr">first</span>: <span class="string">&#x27;Ada&#x27;</span>, <span class="attr">last</span>: <span class="string">&#x27;Lovelace&#x27;</span> &#125;);</span><br></pre></td></tr></table></figure>
-
-<p>或是 path</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> ref = firebase.database().ref()</span><br><span class="line"><span class="comment">// Generate a new push ID for the new post</span></span><br><span class="line"><span class="keyword">var</span> newPostRef = ref.child(<span class="string">&quot;posts&quot;</span>).push();</span><br><span class="line"><span class="keyword">var</span> newPostKey = newPostRef.key();</span><br><span class="line"><span class="comment">// Create the data we want to update</span></span><br><span class="line"><span class="keyword">var</span> updatedUserData = &#123;&#125;;</span><br><span class="line">updatedUserData[<span class="string">&quot;user/posts/&quot;</span> + newPostKey] = <span class="literal">true</span>;</span><br><span class="line">updatedUserData[<span class="string">&quot;posts/&quot;</span> + newPostKey] = &#123;</span><br><span class="line">  title: <span class="string">&quot;New Post&quot;</span>,</span><br><span class="line">  content: <span class="string">&quot;Here is my new post!&quot;</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// Do a deep-path update</span></span><br><span class="line">ref.update(updatedUserData, <span class="function"><span class="keyword">function</span>(<span class="params">error</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (error) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;Error updating data:&quot;</span>, error);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<p>第二個參數是 callback 並帶入 error</p>
-<p>參考 <a target="_blank" rel="noopener" href="https://firebase.googleblog.com/2015/09/introducing-multi-location-updates-and_86.html">Multi-location updates</a></p>
-<hr>
-<h2 id="刪除資料"><a href="#刪除資料" class="headerlink" title=" 刪除資料"></a><font color="#BC2C1A"> 刪除資料</h2><h2 id="delete"><a href="#delete" class="headerlink" title=" delete()"></a><center> <code>delete()</code></center></h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Ref.Remove()</span><br><span class="line"><span class="comment">// return a Promise</span></span><br></pre></td></tr></table></figure>
-
-
-
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://roto93.github.io/2021/04/05/Firebase-realtime-database-%E7%B0%A1%E4%BB%8B/" data-id="cko3ruz6a0004k8vhaia3cvfm" data-title="Firebase database" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
@@ -482,6 +436,10 @@
       <ul>
         
           <li>
+            <a href="/2021/05/05/%E5%85%A9%E5%80%8B%E5%BE%9E%E7%B6%B2%E7%AB%99%E5%AF%84email%E7%B5%A6%E8%87%AA%E5%B7%B1%E7%9A%84%E6%96%B9%E6%B3%95/">兩個從網站寄email給自己的方法</a>
+          </li>
+        
+          <li>
             <a href="/2021/05/01/%E8%87%AA%E8%A3%BD%E6%97%A5%E6%9C%9F%E9%81%B8%E6%93%87%E5%99%A8-1/">自製日期選擇器(1 輸入介面規劃)</a>
           </li>
         
@@ -495,10 +453,6 @@
         
           <li>
             <a href="/2021/04/16/javascript-arrow-function-this/">Javascript 在不同函式定義方式中使用 this</a>
-          </li>
-        
-          <li>
-            <a href="/2021/04/05/Firebase-realtime-database-%E7%B0%A1%E4%BB%8B/">Firebase database</a>
           </li>
         
       </ul>
