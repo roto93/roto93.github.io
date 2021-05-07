@@ -76,6 +76,76 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-自製日期選擇器-2" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/05/07/%E8%87%AA%E8%A3%BD%E6%97%A5%E6%9C%9F%E9%81%B8%E6%93%87%E5%99%A8-2/" class="article-date">
+  <time class="dt-published" datetime="2021-05-07T03:15:05.000Z" itemprop="datePublished">2021-05-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/05/07/%E8%87%AA%E8%A3%BD%E6%97%A5%E6%9C%9F%E9%81%B8%E6%93%87%E5%99%A8-2/">自製日期選擇器-2 (custom hook)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <hr>
+<p>延續 <a href="https://roto93.github.io/2021/05/01/%E8%87%AA%E8%A3%BD%E6%97%A5%E6%9C%9F%E9%81%B8%E6%93%87%E5%99%A8-1/">上一集</a><br>確定元件的輸入輸出介面後<br>(回顧四個基本屬性: <code>isVisible</code>, <code>displayDate</code>, <code>mode</code>, <code>onConfirm</code>)<br>現在要開始實作功能啦</p>
+<p>我們可以把實作步驟切分成幾個部分：</p>
+<ol>
+<li><b>排版:</b> 如何動態顯示每個月的日期數以及星期</li>
+<li><b>單日日期操作:</b> 每次點選都會更新 <code>data.date</code></li>
+<li><b>多日日期操作:</b> 有時點選是設定開始日<code>date.startDate</code>，有時是結束日<code>endDate</code>，需設計操控流程</li>
+<li><b>效能問題:</b> 目前為止每次當元件內有一堆按鈕的時候都會有不可忽略的卡頓(因為每次點擊都會讓每個按鈕重新渲染)，希望我能研究出如何減少這個卡頓時間</li>
+</ol>
+<p>今天這章節就來看看如何做日期的動態顯示吧!</p>
+<hr>
+<h2 id="動態顯示日期"><a href="#動態顯示日期" class="headerlink" title="動態顯示日期"></a><font color="#BC2C1A">動態顯示日期</font></h2><p>首先我們來想一想<br>一般的日曆app都怎麼排版?<br>每個月第一天的星期都不一樣<br>並且前後分別會補上個月最後幾天和下個月前幾天<br>直到補滿整行，像這樣(網路找的圖):<br><img src="/2021/05/07/%E8%87%AA%E8%A3%BD%E6%97%A5%E6%9C%9F%E9%81%B8%E6%93%87%E5%99%A8-2/日曆範例.jpg" style="box-shadow: 2px 1px 6px gray" width="25%"></p>
+<p>要達到這個目標，必須先有三個資訊:</p>
+<ol>
+<li>本月有幾天? <code>days</code></li>
+<li>本月第一天是星期幾? <code>firstDay</code></li>
+<li>上個月有幾天? <code>prevMonthDays</code></li>
+</ol>
+<p>所以我打算做一個<code>useDaysOfMonth</code>custom hook 來提供這些訊息</p>
+<ul>
+<li><b> Custom Hook </b> 是一組包裝起來的邏輯，有自己的 life cycle，你可以在其中使用<code>useState</code>、<code>useEffect</code>之類的 React hook。如果你還記得，hook 不是有很多使用上的限制嗎? 例如只能存在於元件內的第一層而不能被包在元件內的函數內，這項限制讓你沒辦法把重複用的邏輯包起來。而 custom hook 就是為此而生。</li>
+</ul>
+<hr>
+<h3 id="Custom-Hook-useDaysOfMonth"><a href="#Custom-Hook-useDaysOfMonth" class="headerlink" title=" Custom Hook: useDaysOfMonth "></a><font color="#BC2C1A"> Custom Hook: <code>useDaysOfMonth</code> </font></h3><p>custom hook 有個條件，就是一定要是<code>use</code>開頭，如此一來 React 運行時才能判斷元件內的 hook 是不是都在最上層，所以別忘了這步。<br>除此要求之外，一個 custom hook 看起來就像是不做渲染的 React 元件，或是可以放 hook 的一般函數。</p>
+<p>那就開始吧，首先我們建立一個檔案叫 <code>useDaysOfMonth.jsx</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// in useDaysOfMonth.jsx</span></span><br><span class="line"><span class="keyword">import</span> &#123; useState &#125; <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> useDaysOfMonth =<span class="function">(<span class="params">inputTime</span>)=&gt;</span>&#123; <span class="comment">//輸入一個時間，這會是來自元件的 displayDate 屬性</span></span><br><span class="line">  <span class="keyword">const</span> [days, setDays] = useState(<span class="number">0</span>);</span><br><span class="line">  <span class="keyword">const</span> [firstDay, setFirstDay] = useState(<span class="number">0</span>)</span><br><span class="line">  <span class="keyword">const</span> [prevMonthDays, setPrevMonthDays] = useState(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 這裡要做點事</span></span><br><span class="line">  </span><br><span class="line">  <span class="keyword">return</span> &#123;days, firstDay, prevMonthDays&#125; <span class="comment">//輸出三個我們要的資訊，皆為 number type</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> useDaysOfMonth</span><br></pre></td></tr></table></figure>
+<p>接下來我們需要拆解輸入進來的日期物件，得到年份，月份</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> year = inputTime.getFullYear()</span><br><span class="line"><span class="keyword">const</span> month = inputTime.getMonth()</span><br></pre></td></tr></table></figure>
+<p>然後我們就要依照年月來獲得 days, firstDay, prevMonthDays 三個資訊<br>*注意不要用日期物件的<code>setDate</code>來做這些事，因為<code>Date()</code>的 method 都會 mutate(會改變物件自身的值，而不會另外建立一個物件)</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">setDays( <span class="keyword">new</span> <span class="built_in">Date</span>(year,month+<span class="number">1</span>,<span class="number">0</span>).getDate() )</span><br><span class="line"><span class="comment">// 在 Date constructor 中，如果日期填0，則會視為上個月的最後一天</span></span><br><span class="line"><span class="comment">// new Date(2021,2,1) =&gt; 三月一號</span></span><br><span class="line"><span class="comment">// new Date(2021,2,0) =&gt; 二月二十八號</span></span><br><span class="line"><span class="comment">// new Date(2021,2,-1) =&gt; 二月二十七號</span></span><br><span class="line"><span class="comment">// 所以若要獲得本月最後一天的日期，只要把月份+1，然後日期設為0即可</span></span><br><span class="line"></span><br><span class="line">setFirstDay(<span class="keyword">new</span> <span class="built_in">Date</span>(year,month,<span class="number">1</span>).getDay())</span><br><span class="line"><span class="comment">// 很直觀，取本月第一天的星期</span></span><br><span class="line"></span><br><span class="line">setPrevMonthDays(<span class="keyword">new</span> <span class="built_in">Date</span>(year, month, <span class="number">0</span>).getDate())</span><br><span class="line"><span class="comment">// 同 setDays() 不過月份不用+1</span></span><br></pre></td></tr></table></figure>
+<p>過程很簡單，都是基本的<code>Date</code>物件取值<br>再來我們希望在任何使用這個 hook 的元件中，每當 input 值改變時，輸出值也要跟著更新<br>這不就是<code>useEffect</code>的功能嗎!<br>所以我們將以上運算放進<code>useEffect</code>中，並將<code>inputTime</code>設為 dependency</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">useEffect(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">  <span class="keyword">let</span> year = inputTime.getFullYear()</span><br><span class="line">  <span class="keyword">let</span> month = inputTime.getMonth()</span><br><span class="line">  setDays(<span class="keyword">new</span> <span class="built_in">Date</span>(year, month + <span class="number">1</span>, <span class="number">0</span>).getDate())</span><br><span class="line">  setFirstDay(<span class="keyword">new</span> <span class="built_in">Date</span>(year, month, <span class="number">1</span>).getDay())</span><br><span class="line">  setPrevMonthDays(<span class="keyword">new</span> <span class="built_in">Date</span>(year, month, <span class="number">0</span>).getDate())</span><br><span class="line">&#125;,[inputTime])</span><br></pre></td></tr></table></figure>
+<h4 id="完成-完整的code如下"><a href="#完成-完整的code如下" class="headerlink" title="完成! 完整的code如下:"></a>完成! 完整的code如下:</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; useState, useEffect &#125; <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> useDaysOfMonth = <span class="function">(<span class="params">inputTime</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> [days, setDays] = useState(<span class="number">0</span>);</span><br><span class="line">  <span class="keyword">const</span> [firstDay, setFirstDay] = useState(<span class="number">0</span>)</span><br><span class="line">  <span class="keyword">const</span> [prevMonthDays, setPrevMonthDays] = useState(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">  useEffect(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> year = inputTime.getFullYear()</span><br><span class="line">    <span class="keyword">let</span> month = inputTime.getMonth()</span><br><span class="line">    setDays(<span class="keyword">new</span> <span class="built_in">Date</span>(year, month + <span class="number">1</span>, <span class="number">0</span>).getDate())</span><br><span class="line">    setFirstDay(<span class="keyword">new</span> <span class="built_in">Date</span>(year, month, <span class="number">1</span>).getDay())</span><br><span class="line">    setPrevMonthDays(<span class="keyword">new</span> <span class="built_in">Date</span>(year, month, <span class="number">0</span>).getDate())</span><br><span class="line">  &#125;, [inputTime])</span><br><span class="line">  <span class="keyword">return</span> &#123; days, firstDay, prevMonthDays &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> useDaysOfMonth</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://roto93.github.io/2021/05/07/%E8%87%AA%E8%A3%BD%E6%97%A5%E6%9C%9F%E9%81%B8%E6%93%87%E5%99%A8-2/" data-id="ckoe0rquv00005svhh33a28xd" data-title="自製日期選擇器-2 (custom hook)" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-兩個從網站寄email給自己的方法" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2021/05/05/%E5%85%A9%E5%80%8B%E5%BE%9E%E7%B6%B2%E7%AB%99%E5%AF%84email%E7%B5%A6%E8%87%AA%E5%B7%B1%E7%9A%84%E6%96%B9%E6%B3%95/" class="article-date">
@@ -355,93 +425,11 @@
 
 
   
-    <article id="post-javascript-arrow-function-this" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/04/16/javascript-arrow-function-this/" class="article-date">
-  <time class="dt-published" datetime="2021-04-16T01:27:21.000Z" itemprop="datePublished">2021-04-16</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/04/16/javascript-arrow-function-this/">Javascript 在不同函式定義方式中使用 this</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <hr>
-<h2 id="前言"><a href="#前言" class="headerlink" title=" 前言"></a><font color="#BC2C1A"> 前言</h2><p>在使用物件導向程式設計時，一定會碰到<code>this</code>(在python裡是<code>self</code>)</p>
-<p>要百分之百了解<code>this</code>的作用原理其實談不上容易，但簡單來說：</p>
-<blockquote>
-<p>在一個 class 中呼叫<code>this</code>時，<code>this</code>指的是那個 class 本身</p>
-</blockquote>
-<p>或是更 general 一點：</p>
-<blockquote>
-<p>誰呼叫到<code>this</code>，<code>this</code>就是誰</p>
-</blockquote>
-<p>但最近遇到一個情形，呼叫this的時候找不到理應存在的變數</p>
-<hr>
-<h2 id="情形"><a href="#情形" class="headerlink" title=" 情形"></a><font color="#BC2C1A"> 情形</h2><p>這是一個 IconDisplayer 物件<br>調用 display() method，回傳 &lt;<code>Image&gt;</code></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> IconDisplayer = &#123;</span><br><span class="line">    Current: &#123;</span><br><span class="line">      USD: <span class="xml"><span class="tag">&lt;<span class="name">Image</span> <span class="attr">source</span>=<span class="string">&#123;require(</span>&#x27;<span class="attr">.</span>/<span class="attr">src</span>/<span class="attr">image</span>/<span class="attr">nations</span>/<span class="attr">united-states.png</span>&#x27;)&#125; /&gt;</span></span></span><br><span class="line">    &#125;,</span><br><span class="line">    display: <span class="function">() =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (currency === <span class="string">&#x27;USD&#x27;</span>) &#123; <span class="keyword">return</span> (<span class="built_in">this</span>.Current.USD) &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-
-<p>運行時他會告訴你：</p>
-<p><font color="red">TypeError: Cannot read property ‘Current’ of undefined</p>
-<p>意思就是說，程式找不到 Current 這個變數<br>但是很奇怪，明明就定義在物件裡Ｒ，也用了this<br>應該找得到才對呀</p>
-<hr>
-<h2 id="原因"><a href="#原因" class="headerlink" title=" 原因"></a><font color="#BC2C1A"> 原因</h2><p>後來查了一下發現一切都是 arrow function 的緣故</p>
-<ul>
-<li><h4 id="MDN-amp-W3Schools"><a href="#MDN-amp-W3Schools" class="headerlink" title="MDN &amp; W3Schools:"></a>MDN &amp; W3Schools:</h4><ul>
-<li>In arrow functions, this retains the value of<br>the enclosing lexical context’s this.</li>
-<li>Arrow functions do not have their own this.</li>
-<li>In global code, it will be set to the global object.</li>
-</ul>
-</li>
-</ul>
-<p>如果是呼叫以前的傳統函數，每次都會建立一個環境 (Function Execution Context)來運行，並把當時的呼叫者令為this，誰呼叫 誰就是this</p>
-<p>但定義 arrow function 時不會有這個流程<br>因此在其中使用this時，指的便會是外層所使用的 global this，在 HTML 裡就是 window</p>
-<p>例如上述的例子：我們只要把this改成IconDisplayer就可以了</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">display: <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (currency === <span class="string">&#x27;USD&#x27;</span>) &#123; <span class="keyword">return</span> (<span class="built_in">this</span>.Current.USD) &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>不然就要用傳統函式：</p>
-<pre><code class="javascript">    display: function()&#123;
-      if (currency === &#39;USD&#39;) &#123; return (this.Current.USD) &#125;
-    &#125;
-</code></pre>
-<hr>
-<h2 id="結語"><a href="#結語" class="headerlink" title=" 結語"></a><font color="#BC2C1A"> 結語</h2><p>曾經看到有人說應該要把 arrow function 視為獨立的新語法，而不是傳統function 的變化，因為有時運作方式是截然不同，今天更能體會到這點了！<br>最後，今天的重點：</p>
-<blockquote>
-<p>this 的值只跟「你如何呼叫、誰呼叫」有關，與程式碼位於哪裡完全無關</p>
-</blockquote>
-<p>參考：<a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10207992">iT邦幫忙</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://roto93.github.io/2021/04/16/javascript-arrow-function-this/" data-id="cko3ruz6j000ck8vhgw5lhxkl" data-title="Javascript 在不同函式定義方式中使用 this" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
     
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">下一頁 &raquo;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">下一頁 &raquo;</a>
   </nav>
 
 </section>
@@ -473,6 +461,10 @@
       <ul>
         
           <li>
+            <a href="/2021/05/07/%E8%87%AA%E8%A3%BD%E6%97%A5%E6%9C%9F%E9%81%B8%E6%93%87%E5%99%A8-2/">自製日期選擇器-2 (custom hook)</a>
+          </li>
+        
+          <li>
             <a href="/2021/05/05/%E5%85%A9%E5%80%8B%E5%BE%9E%E7%B6%B2%E7%AB%99%E5%AF%84email%E7%B5%A6%E8%87%AA%E5%B7%B1%E7%9A%84%E6%96%B9%E6%B3%95/">兩個從網站寄email給自己的方法</a>
           </li>
         
@@ -486,10 +478,6 @@
         
           <li>
             <a href="/2021/04/20/React-dev-tool-in-Opera/">React dev tool in Opera</a>
-          </li>
-        
-          <li>
-            <a href="/2021/04/16/javascript-arrow-function-this/">Javascript 在不同函式定義方式中使用 this</a>
           </li>
         
       </ul>
