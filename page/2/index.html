@@ -76,6 +76,53 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-React-dev-tool-in-Opera" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/04/20/React-dev-tool-in-Opera/" class="article-date">
+  <time class="dt-published" datetime="2021-04-20T02:24:59.000Z" itemprop="datePublished">2021-04-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/04/20/React-dev-tool-in-Opera/">React dev tool in Opera</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <hr>
+<p>想在 Opera 瀏覽器上使用 react 延伸套件，卻發現找不到？</p>
+<p>沒關係</p>
+<p>我們都知道 google 的擴充套件很豐富，所以 opera 提供了一個套件叫做 <strong>install Chrome extension</strong><br>(該不會就是因為有這個 opera 的套件才會那麼不足XD)</p>
+<hr>
+<p>首先到 <a target="_blank" rel="noopener" href="https://addons.opera.com/zh-tw/extensions/?hl=zh-TW">opera 的套件庫</a> 搜尋 <font style="font-style: italic;">install Chrome extension</font></p>
+<p>或是直接到<a target="_blank" rel="noopener" href="https://addons.opera.com/zh-tw/extensions/details/install-chrome-extensions/">這個網頁</a></p>
+<p>接著就可以來到 <a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/category/extensions">Chrome 線上應用程式商店</a>下載你要的套件啦</p>
+<p>由於裝的不是 opera 官方提供的套件，下載後可能會需要自己手動啟用他喔</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://roto93.github.io/2021/04/20/React-dev-tool-in-Opera/" data-id="cko3ruz6b0005k8vh1d6ag89z" data-title="React dev tool in Opera" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-javascript-arrow-function-this" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2021/04/16/javascript-arrow-function-this/" class="article-date">
@@ -433,84 +480,6 @@
 
 
   
-    <article id="post-firebase-匿名登入" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/03/31/firebase-%E5%8C%BF%E5%90%8D%E7%99%BB%E5%85%A5/" class="article-date">
-  <time class="dt-published" datetime="2021-03-31T05:27:50.000Z" itemprop="datePublished">2021-03-31</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/03/31/firebase-%E5%8C%BF%E5%90%8D%E7%99%BB%E5%85%A5/">firebase 匿名登入</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <hr>
-<h2 id="什麼時候需要匿名登入？"><a href="#什麼時候需要匿名登入？" class="headerlink" title="什麼時候需要匿名登入？"></a>什麼時候需要匿名登入？</h2><p>操作 app 時<br>其實不一定需要用戶「真的」登入<br>我們可以在使用者第一次使用 app 時讓他(或自動)匿名登入<br>如此一來就能在用戶不提供個資的情況下紀錄他的活動<br>例如 加入購物車</p>
-<p>在 firebase 匿名登入很簡單<br>首先到 firebase console 開啟匿名登入的功能</p>
-<img src="firebase-匿名登入/firebase啟用匿名登入功能.png">
-
-<p>接著再 app 中使用：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">firebase.auth().signInAnonymously()</span><br></pre></td></tr></table></figure>
-
-<p>與其他登入方式相同，我們可以建立 user state listener</p>
-<p>在用戶登入的時候獲取的用戶資訊</p>
-<p>如 uid 之類的</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">firebase.auth().onAuthStateChanged(<span class="function">(<span class="params">user</span>)=&gt;</span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (user)&#123;</span><br><span class="line">		<span class="built_in">console</span>.log(<span class="string">&#x27;uid: &#x27;</span>,user.uid)</span><br><span class="line">	&#125;</span><br><span class="line">	&#125;)</span><br></pre></td></tr></table></figure>
-
-<p>匿名登入有個問題，如果有個用戶一直登入登出，這會導致匿名帳號不斷被建立，像這樣：</p>
-<img src="firebase-匿名登入/重複建立匿名帳號.png">    
-
-<p>所以比較好的做法是：當用戶要登出匿名帳號時，一併把他的帳戶從後台刪除</p>
-<p>雖然 firebase 的用戶數限制很高</p>
-<p>但養成後台乾淨整齊的習慣還是很重要的</p>
-<hr>
-<h2 id="轉換成實名帳戶"><a href="#轉換成實名帳戶" class="headerlink" title="轉換成實名帳戶"></a>轉換成實名帳戶</h2><p>用戶在匿名登入一段時間後，也許他們覺得不錯想要註冊</p>
-<p>這時我們就要提供轉換帳戶的功能 </p>
-<p>首先製作 credential</p>
-<ul>
-<li><h4 id="Email"><a href="#Email" class="headerlink" title="Email"></a>Email</h4></li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> credential = firebase.auth.EmailAuthProvider.credential(email, password);</span><br></pre></td></tr></table></figure>
-<ul>
-<li><h4 id="Google"><a href="#Google" class="headerlink" title="Google"></a>Google</h4></li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> credential = firebase.auth.GoogleAuthProvider.credential(</span><br><span class="line">  googleUser.idToken,</span><br><span class="line">  googleUser.accessToken</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
-
-<p>接著用 <code>firebase.auth().currentUser.linkWithCredential(credential)</code></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> auth = firebase.auth()</span><br><span class="line">auth.currentUser.linkWithCredential(credential)</span><br><span class="line">  .then(<span class="function">(<span class="params">usercred</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> user = usercred.user;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;Anonymous account successfully upgraded&quot;</span>, user);</span><br><span class="line">  &#125;).catch(<span class="function">(<span class="params">error</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;Error upgrading anonymous account&quot;</span>, error);</span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="references"><a href="#references" class="headerlink" title="references"></a>references</h2><ul>
-<li><h3 id="Firebase-Authenticate-Anonymously"><a href="#Firebase-Authenticate-Anonymously" class="headerlink" title="Firebase - Authenticate Anonymously"></a><a target="_blank" rel="noopener" href="https://firebase.google.com/docs/auth/web/anonymous-auth">Firebase - Authenticate Anonymously</a></h3></li>
-<li><h3 id="Firebase-Conver-an-Anonymous-Account-to-a-Permanent-Account"><a href="#Firebase-Conver-an-Anonymous-Account-to-a-Permanent-Account" class="headerlink" title="Firebase - Conver an Anonymous Account to a Permanent Account"></a><a target="_blank" rel="noopener" href="https://firebase.google.com/docs/auth/web/anonymous-auth#convert-an-anonymous-account-to-a-permanent-account">Firebase - Conver an Anonymous Account to a Permanent Account</a></h3></li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://roto93.github.io/2021/03/31/firebase-%E5%8C%BF%E5%90%8D%E7%99%BB%E5%85%A5/" data-id="cko3ruz6f0009k8vh6wgbc2d2" data-title="firebase 匿名登入" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
@@ -547,6 +516,10 @@
       <ul>
         
           <li>
+            <a href="/2021/05/20/%E5%85%A8%E9%81%B8%E5%8A%9F%E8%83%BD%E5%AF%A6%E4%BD%9C/">全選功能實作</a>
+          </li>
+        
+          <li>
             <a href="/2021/05/07/%E8%87%AA%E8%A3%BD%E6%97%A5%E6%9C%9F%E9%81%B8%E6%93%87%E5%99%A8-2/">自製日期選擇器-2 (custom hook)</a>
           </li>
         
@@ -560,10 +533,6 @@
         
           <li>
             <a href="/2021/04/23/%E5%9C%A8firebase%E9%83%A8%E7%BD%B2%E4%BD%A0%E7%9A%84react%E5%B0%88%E6%A1%88/">在firebase部署你的react專案</a>
-          </li>
-        
-          <li>
-            <a href="/2021/04/20/React-dev-tool-in-Opera/">React dev tool in Opera</a>
           </li>
         
       </ul>

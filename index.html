@@ -76,6 +76,83 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-全選功能實作" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/05/20/%E5%85%A8%E9%81%B8%E5%8A%9F%E8%83%BD%E5%AF%A6%E4%BD%9C/" class="article-date">
+  <time class="dt-published" datetime="2021-05-20T04:47:31.000Z" itemprop="datePublished">2021-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/05/20/%E5%85%A8%E9%81%B8%E5%8A%9F%E8%83%BD%E5%AF%A6%E4%BD%9C/">全選功能實作</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>這篇會示範如何實作購物車app常有的全選功能</p>
+<p>之前曾經用錯誤的方式做導致卡住<br>而且腦筋轉不過來<br>一時想不到其他變通方式<br>只好到社團問<br>一問才發現其實很容易<br>不過應該很多事情都是這樣啦<br>不懂的時候就好像很難<br>會了之後就覺得自己好蠢XD</p>
+<hr>
+<p>首先做出選單<br>假設 MOCK 是我們資料庫的資料，或是從api獲取的資料<br>data state 是我們的資料變數<br>之所以先把資料放在 react state 中<br>是因為傳入 FlatList 的資料必須是能夠變動的<br>這樣我們只要改變資料<br>就能動態渲染在FlatList中</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> MOCK = [</span><br><span class="line">  &#123; <span class="attr">name</span>: <span class="string">&#x27;Andy&#x27;</span> &#125;,</span><br><span class="line">  &#123; <span class="attr">name</span>: <span class="string">&#x27;Beck&#x27;</span> &#125;,</span><br><span class="line">  &#123; <span class="attr">name</span>: <span class="string">&#x27;Carl&#x27;</span> &#125;,</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> RenderData = <span class="function">(<span class="params">&#123; item &#125;</span>) =&gt;</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;TouchableOpacity</span><br><span class="line">      onPress=&#123;<span class="function">() =&gt;</span> &#123;  &#125;&#125;</span><br><span class="line">      style=&#123;[styles.item_btn]&#125;&gt;</span><br><span class="line">      &lt;Text&gt;&#123;item.name&#125;&lt;/Text&gt;</span><br><span class="line">    &lt;/TouchableOpacity&gt;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">App</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;View style=&#123;styles.container&#125;&gt;</span><br><span class="line"></span><br><span class="line">      &lt;View&gt;</span><br><span class="line">        &lt;TouchableOpacity</span><br><span class="line">          onPress=&#123;<span class="function">()=&gt;</span>&#123;&#125;&#125;</span><br><span class="line">          style=&#123;[styles.selectAll_btn]&#125;&gt;</span><br><span class="line">          &lt;Text&gt;全選&lt;/Text&gt;</span><br><span class="line">        &lt;/TouchableOpacity&gt;</span><br><span class="line">      &lt;/View&gt;</span><br><span class="line"></span><br><span class="line">      &lt;View style=&#123;styles.flatlist_container&#125;&gt;</span><br><span class="line">        &lt;FlatList</span><br><span class="line">          data=&#123;MOCK&#125;</span><br><span class="line">          renderItem=&#123;<span class="function">(<span class="params">cases</span>) =&gt;</span> <span class="xml"><span class="tag">&lt;<span class="name">RenderData</span> <span class="attr">item</span>=<span class="string">&#123;cases.item&#125;</span> /&gt;</span></span>&#125;</span><br><span class="line">          keyExtractor=&#123;<span class="function">(<span class="params">cases, index</span>) =&gt;</span> index.toString()&#125;</span><br><span class="line">          style=&#123;&#123; <span class="attr">width</span>: <span class="string">&#x27;100%&#x27;</span>, &#125;&#125;</span><br><span class="line">        /&gt;</span><br><span class="line">      &lt;/View&gt;</span><br><span class="line"></span><br><span class="line">    &lt;/View &gt;</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>左圖是 app 剛啟動的畫面<br>中間圖是選取單個項目時的畫面<br>右圖是點擊全選按鈕時的畫面</p>
+<div style="display:flex">
+<img src="/2021/05/20/%E5%85%A8%E9%81%B8%E5%8A%9F%E8%83%BD%E5%AF%A6%E4%BD%9C/demo.jpg" style="box-shadow: 2px 1px 6px gray">
+<img src="/2021/05/20/%E5%85%A8%E9%81%B8%E5%8A%9F%E8%83%BD%E5%AF%A6%E4%BD%9C/demo2.jpg" style="box-shadow: 2px 1px 6px gray">
+<img src="/2021/05/20/%E5%85%A8%E9%81%B8%E5%8A%9F%E8%83%BD%E5%AF%A6%E4%BD%9C/demo3.jpg" style="box-shadow: 2px 1px 6px gray">
+</div>
+
+<p>以下是實作全選功能的流程圖</p>
+<img src="/2021/05/20/%E5%85%A8%E9%81%B8%E5%8A%9F%E8%83%BD%E5%AF%A6%E4%BD%9C/flowChart1.png" style="box-shadow: 2px 1px 6px gray">
+
+<p>虛線部分是 app 剛啟動時的狀態，這時<code>data</code>也還是初始值<br>接下來我會宣告一個<code>selectedItem</code>陣列來放我所選的項目物件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> [selectedItems, setSelectedItems] = useState([]);</span><br></pre></td></tr></table></figure>
+<hr>
+<p>每當項目被點擊時，用<code>some()</code>檢查<br>如果<code>selectedItem</code>中有這個物件，就用<code>filter()</code>把那個項目從中清除；<br>反之如果沒有的話，就複製一份丟進去<br>這個函數會被丟進每個項目中</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> onItemSelect = <span class="function">(<span class="params">item</span>) =&gt;</span> &#123;</span><br><span class="line">    setSelectedItems(</span><br><span class="line">        prev =&gt; prev.some(<span class="function">(<span class="params">prevItem</span>) =&gt;</span> prevItem === item) </span><br><span class="line">        ? prev.filter(<span class="function">(<span class="params">prevItem</span>) =&gt;</span> prevItem !== item) </span><br><span class="line">        : [...prev, item])</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p>接著記得把<code>selectedItem</code>傳入各個項目中<br>以便讓每個項目判斷自己是否在其中，改變<code>isSelected</code> state，藉此渲染自己的樣式</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// in &lt;RenderData/&gt;</span></span><br><span class="line"><span class="keyword">const</span> [isSelected, setIsSelected] = useState(<span class="literal">false</span>)</span><br><span class="line">useEffect(<span class="function">() =&gt;</span> &#123;</span><br><span class="line"><span class="keyword">if</span> (selectedItems.some(<span class="function"><span class="params">selectedItem</span> =&gt;</span> selectedItem === item)) &#123;</span><br><span class="line">    setIsSelected(<span class="literal">true</span>)</span><br><span class="line">&#125; <span class="keyword">else</span> &#123; setIsSelected(<span class="literal">false</span>) &#125;</span><br><span class="line">&#125;, [selectedItems])</span><br></pre></td></tr></table></figure>
+<hr>
+<p>選取後可能還會編輯項目，這時只要更新<code>data</code>並清空<code>selectedItem</code>就ok了<br>我這邊就先不做編輯的部分</p>
+<p>接著回到<code>app()</code><br>別忘了還沒做全選按鈕的功能<br>策略很簡單，宣告一個<code>isAllSelected</code> state<br>如果還沒全選，就把<code>data</code>中的所有項目丟進<code>selectedItems</code>；<br>如果已經全選了就把<code>selectedItems</code>清空<br>我們就叫他<code>selectAll</code>吧</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> [isAllSelected, setIsAllSelected] = useState(<span class="literal">false</span>); <span class="comment">//現在有沒有全選?</span></span><br><span class="line"><span class="keyword">const</span> selectAll = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (isAllSelected) setSelectedItems([]) </span><br><span class="line">  <span class="keyword">else</span> setSelectedItems([...MOCK])</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p>在useEffect中判斷有沒有全選</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">useEffect(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (selectedItems.length === MOCK.length) &#123;</span><br><span class="line">    setIsAllSelected(<span class="literal">true</span>)</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123; setIsAllSelected(<span class="literal">false</span>) &#125;</span><br><span class="line">&#125;, [selectedItems]) <span class="comment">// 每當selectedItems改變，就檢查一次</span></span><br></pre></td></tr></table></figure>
+<p>把前面提到的<code>onItemSelect</code>和剛剛的<code>selectAll</code>畫成流程圖:</p>
+<img src="/2021/05/20/%E5%85%A8%E9%81%B8%E5%8A%9F%E8%83%BD%E5%AF%A6%E4%BD%9C/flowChart2.png" style="box-shadow: 2px 1px 6px gray">
+
+<p>最後的成果:</p>
+<img src="/2021/05/20/%E5%85%A8%E9%81%B8%E5%8A%9F%E8%83%BD%E5%AF%A6%E4%BD%9C/finish.gif" style="box-shadow: 2px 1px 6px gray">
+
+
+
+<p>完整程式碼放在這邊:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> React, &#123; useEffect, useState &#125; <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; FlatList, StyleSheet, Text, TouchableOpacity, View &#125; <span class="keyword">from</span> <span class="string">&#x27;react-native&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> MOCK = [</span><br><span class="line">  &#123; <span class="attr">name</span>: <span class="string">&#x27;Andy&#x27;</span> &#125;,</span><br><span class="line">  &#123; <span class="attr">name</span>: <span class="string">&#x27;Beck&#x27;</span> &#125;,</span><br><span class="line">  &#123; <span class="attr">name</span>: <span class="string">&#x27;Carl&#x27;</span> &#125;,</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> RenderData = <span class="function">(<span class="params">&#123; item, selectedItems, onItemSelect &#125;</span>) =&gt;</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> [isSelected, setIsSelected] = useState(<span class="literal">false</span>);</span><br><span class="line">  useEffect(<span class="function">() =&gt;</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (selectedItems.some(<span class="function"><span class="params">selectedItem</span> =&gt;</span> selectedItem === item)) &#123;</span><br><span class="line">      setIsSelected(<span class="literal">true</span>)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123; setIsSelected(<span class="literal">false</span>) &#125;</span><br><span class="line">  &#125;, [selectedItems])</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;TouchableOpacity</span><br><span class="line">      onPress=&#123;<span class="function">() =&gt;</span> &#123; onItemSelect() &#125;&#125;</span><br><span class="line">      style=&#123;[styles.item_btn, &#123; <span class="attr">backgroundColor</span>: isSelected ? <span class="string">&#x27;gray&#x27;</span> : <span class="string">&#x27;transparent&#x27;</span> &#125;]&#125;&gt;</span><br><span class="line">      &lt;Text&gt;&#123;item.name&#125;&lt;/Text&gt;</span><br><span class="line">    &lt;/TouchableOpacity&gt;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">App</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> [selectedItems, setSelectedItems] = useState([]);</span><br><span class="line">  <span class="keyword">const</span> [isAllSelected, setIsAllSelected] = useState(<span class="literal">false</span>);</span><br><span class="line">  <span class="keyword">const</span> onItemSelect = <span class="function">(<span class="params">item</span>) =&gt;</span> &#123;</span><br><span class="line">    setSelectedItems(<span class="function"><span class="params">prev</span> =&gt;</span> prev.some(<span class="function">(<span class="params">prevItem</span>) =&gt;</span> prevItem === item) ? prev.filter(<span class="function">(<span class="params">prevItem</span>) =&gt;</span> prevItem !== item) : [...prev, item])</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> selectAll = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (isAllSelected) &#123;</span><br><span class="line">      setSelectedItems([])</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      setSelectedItems([...MOCK])</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  useEffect(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (selectedItems.length === MOCK.length) &#123;</span><br><span class="line">      setIsAllSelected(<span class="literal">true</span>)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123; setIsAllSelected(<span class="literal">false</span>) &#125;</span><br><span class="line">  &#125;, [selectedItems])</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;View style=&#123;styles.container&#125;&gt;</span><br><span class="line"></span><br><span class="line">      &lt;View&gt;</span><br><span class="line">        &lt;TouchableOpacity</span><br><span class="line">          onPress=&#123;selectAll&#125;</span><br><span class="line">          style=&#123;[styles.selectAll_btn, &#123; <span class="attr">backgroundColor</span>: isAllSelected ? <span class="string">&#x27;gray&#x27;</span> : <span class="string">&#x27;transparent&#x27;</span> &#125;]&#125;&gt;</span><br><span class="line">          &lt;Text&gt;全選&lt;/Text&gt;</span><br><span class="line">        &lt;/TouchableOpacity&gt;</span><br><span class="line">      &lt;/View&gt;</span><br><span class="line"></span><br><span class="line">      &lt;View style=&#123;styles.flatlist_container&#125;&gt;</span><br><span class="line">        &lt;FlatList</span><br><span class="line">          data=&#123;MOCK&#125;</span><br><span class="line">          renderItem=&#123;<span class="function">(<span class="params">cases</span>) =&gt;</span> <span class="xml"><span class="tag">&lt;<span class="name">RenderData</span> <span class="attr">item</span>=<span class="string">&#123;cases.item&#125;</span> <span class="attr">selectedItems</span>=<span class="string">&#123;selectedItems&#125;</span> <span class="attr">onItemSelect</span>=<span class="string">&#123;()</span> =&gt;</span> &#123; onItemSelect(cases.item) &#125;&#125; /&gt;</span>&#125;</span><br><span class="line">          keyExtractor=&#123;<span class="function">(<span class="params">cases, index</span>) =&gt;</span> index.toString()&#125;</span><br><span class="line">          style=&#123;&#123; <span class="attr">width</span>: <span class="string">&#x27;100%&#x27;</span>, &#125;&#125;</span><br><span class="line">        /&gt;</span><br><span class="line">      &lt;/View&gt;</span><br><span class="line"></span><br><span class="line">    &lt;/View &gt;</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> styles = StyleSheet.create(&#123;</span><br><span class="line">  container: &#123;</span><br><span class="line">    flex: <span class="number">1</span>,</span><br><span class="line">    backgroundColor: <span class="string">&#x27;#fff&#x27;</span>,</span><br><span class="line">    alignItems: <span class="string">&#x27;center&#x27;</span>,</span><br><span class="line">    justifyContent: <span class="string">&#x27;center&#x27;</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  selectAll_btn: &#123;</span><br><span class="line">    borderWidth: <span class="number">1</span>,</span><br><span class="line">    width: <span class="number">80</span>,</span><br><span class="line">    height: <span class="number">40</span>,</span><br><span class="line">    justifyContent: <span class="string">&#x27;center&#x27;</span>,</span><br><span class="line">    alignItems: <span class="string">&#x27;center&#x27;</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  flatlist_container: &#123;</span><br><span class="line">    borderWidth: <span class="number">1</span>,</span><br><span class="line">    width: <span class="number">200</span>,</span><br><span class="line">    height: <span class="number">150</span>,</span><br><span class="line">    alignItems: <span class="string">&#x27;center&#x27;</span>,</span><br><span class="line">    marginTop: <span class="number">20</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  item_btn: &#123;</span><br><span class="line">    height: <span class="number">40</span>,</span><br><span class="line">    justifyContent: <span class="string">&#x27;center&#x27;</span>,</span><br><span class="line">    alignItems: <span class="string">&#x27;center&#x27;</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://roto93.github.io/2021/05/20/%E5%85%A8%E9%81%B8%E5%8A%9F%E8%83%BD%E5%AF%A6%E4%BD%9C/" data-id="ckowgxrql0000dcvhekvqg6kt" data-title="全選功能實作" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-自製日期選擇器-2" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2021/05/07/%E8%87%AA%E8%A3%BD%E6%97%A5%E6%9C%9F%E9%81%B8%E6%93%87%E5%99%A8-2/" class="article-date">
@@ -138,7 +215,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://roto93.github.io/2021/05/07/%E8%87%AA%E8%A3%BD%E6%97%A5%E6%9C%9F%E9%81%B8%E6%93%87%E5%99%A8-2/" data-id="ckoe0rquv00005svhh33a28xd" data-title="自製日期選擇器-2 (custom hook)" class="article-share-link">Share</a>
+      <a data-url="http://roto93.github.io/2021/05/07/%E8%87%AA%E8%A3%BD%E6%97%A5%E6%9C%9F%E9%81%B8%E6%93%87%E5%99%A8-2/" data-id="ckodqwiga0000pcvh6y0u3yf8" data-title="自製日期選擇器-2 (custom hook)" class="article-share-link">Share</a>
       
       
       
@@ -382,53 +459,6 @@
 
 
   
-    <article id="post-React-dev-tool-in-Opera" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/04/20/React-dev-tool-in-Opera/" class="article-date">
-  <time class="dt-published" datetime="2021-04-20T02:24:59.000Z" itemprop="datePublished">2021-04-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/04/20/React-dev-tool-in-Opera/">React dev tool in Opera</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <hr>
-<p>想在 Opera 瀏覽器上使用 react 延伸套件，卻發現找不到？</p>
-<p>沒關係</p>
-<p>我們都知道 google 的擴充套件很豐富，所以 opera 提供了一個套件叫做 <strong>install Chrome extension</strong><br>(該不會就是因為有這個 opera 的套件才會那麼不足XD)</p>
-<hr>
-<p>首先到 <a target="_blank" rel="noopener" href="https://addons.opera.com/zh-tw/extensions/?hl=zh-TW">opera 的套件庫</a> 搜尋 <font style="font-style: italic;">install Chrome extension</font></p>
-<p>或是直接到<a target="_blank" rel="noopener" href="https://addons.opera.com/zh-tw/extensions/details/install-chrome-extensions/">這個網頁</a></p>
-<p>接著就可以來到 <a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/category/extensions">Chrome 線上應用程式商店</a>下載你要的套件啦</p>
-<p>由於裝的不是 opera 官方提供的套件，下載後可能會需要自己手動啟用他喔</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://roto93.github.io/2021/04/20/React-dev-tool-in-Opera/" data-id="cko3ruz6b0005k8vh1d6ag89z" data-title="React dev tool in Opera" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
@@ -465,6 +495,10 @@
       <ul>
         
           <li>
+            <a href="/2021/05/20/%E5%85%A8%E9%81%B8%E5%8A%9F%E8%83%BD%E5%AF%A6%E4%BD%9C/">全選功能實作</a>
+          </li>
+        
+          <li>
             <a href="/2021/05/07/%E8%87%AA%E8%A3%BD%E6%97%A5%E6%9C%9F%E9%81%B8%E6%93%87%E5%99%A8-2/">自製日期選擇器-2 (custom hook)</a>
           </li>
         
@@ -478,10 +512,6 @@
         
           <li>
             <a href="/2021/04/23/%E5%9C%A8firebase%E9%83%A8%E7%BD%B2%E4%BD%A0%E7%9A%84react%E5%B0%88%E6%A1%88/">在firebase部署你的react專案</a>
-          </li>
-        
-          <li>
-            <a href="/2021/04/20/React-dev-tool-in-Opera/">React dev tool in Opera</a>
           </li>
         
       </ul>
