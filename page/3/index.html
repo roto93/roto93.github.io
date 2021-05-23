@@ -76,6 +76,95 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Firebase-Google登入" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/04/01/Firebase-Google%E7%99%BB%E5%85%A5/" class="article-date">
+  <time class="dt-published" datetime="2021-04-01T01:32:47.000Z" itemprop="datePublished">2021-04-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/04/01/Firebase-Google%E7%99%BB%E5%85%A5/">Firebase Google登入</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <hr>
+<p>繼之前介紹 Firebase 的 Email 登入和匿名登入後</p>
+<p>這篇要示範的是 Google 登入</p>
+<p>主要可以分成下列幾個環節：</p>
+<ul>
+<li><h4 id="開啟-google-API"><a href="#開啟-google-API" class="headerlink" title="開啟 google API"></a>開啟 google API</h4></li>
+<li><h4 id="使用-Expo-的-Google-Auth-SDK"><a href="#使用-Expo-的-Google-Auth-SDK" class="headerlink" title="使用 Expo 的 Google Auth SDK"></a>使用 Expo 的 Google Auth SDK</h4></li>
+<li><h4 id="使用-Firebase-的登入流程"><a href="#使用-Firebase-的登入流程" class="headerlink" title="使用 Firebase 的登入流程"></a>使用 Firebase 的登入流程</h4></li>
+</ul>
+<p>個人覺得有點小複雜，原因正如我之前說的<br>Firebase 和 google 之間多了 Expo 的交接<br>需要一些 firebase 官網沒有提供的環節 </p>
+<p>像是 user 物件的內容就不一樣<br>我需要兩邊 doc 來回查才知道到底是怎樣</p>
+<p>這真的要記錄下來<br>不然我大概一下就忘了</p>
+<hr>
+<h2 id="一、開啟-google-API"><a href="#一、開啟-google-API" class="headerlink" title="一、開啟 google API"></a><font color="#BC2C1A">一、開啟 google API</h2><h4 id="參考-link"><a href="#參考-link" class="headerlink" title="參考 link"></a><a target="_blank" rel="noopener" href="https://docs.expo.io/versions/v40.0.0/sdk/google/#using-it-inside-of-the-expo-app">參考 link</a></h4><h4 id="1-首先到-google-的-credentials-page"><a href="#1-首先到-google-的-credentials-page" class="headerlink" title="1. 首先到 google 的 credentials page"></a>1. 首先到 google 的 <a target="_blank" rel="noopener" href="https://console.developers.google.com/apis/credentials">credentials page</a></h4><h4 id="2-建立專案"><a href="#2-建立專案" class="headerlink" title="2. 建立專案"></a>2. 建立專案</h4><img src="Firebase-Google登入/firebase google Auth_1.png" style="box-shadow:3px 3px 8px darkgray">
+&nbsp;
+
+<img src="Firebase-Google登入/firebase google Auth_2.png" style="box-shadow:3px 3px 8px darkgray">
+
+<p>這邊無法選擇內部，因此放心選外部<br>後續還有一些步驟但不成問題</p>
+<h4 id="3-回到憑證頁面-gt-建立憑證-gt-選-OAuth-用戶端-ID"><a href="#3-回到憑證頁面-gt-建立憑證-gt-選-OAuth-用戶端-ID" class="headerlink" title="3. 回到憑證頁面 -&gt; 建立憑證 -&gt; 選 OAuth 用戶端 ID"></a>3. 回到憑證頁面 -&gt; 建立憑證 -&gt; 選 OAuth 用戶端 ID</h4><img src="Firebase-Google登入/firebase google Auth_3.png" style="box-shadow:3px 3px 8px darkgray">
+
+<h4 id="4-依照手機系統選擇-Android-iOS"><a href="#4-依照手機系統選擇-Android-iOS" class="headerlink" title="4. 依照手機系統選擇 Android / iOS"></a>4. 依照手機系統選擇 Android / iOS</h4><img src="Firebase-Google登入/firebase google Auth_4.png" style="box-shadow:3px 3px 8px darkgray">
+
+<h4 id="5-設定套件名稱＆憑證指紋"><a href="#5-設定套件名稱＆憑證指紋" class="headerlink" title="5. 設定套件名稱＆憑證指紋"></a>5. 設定套件名稱＆憑證指紋</h4><ul>
+<li>套件名稱填 <code>host.exp.exponent</code></li>
+<li>在 terminal 中 run <code>openssl rand -base64 32 | openssl sha1 -c</code> 並將 output 填入 憑證指紋</li>
+</ul>
+<hr>
+<h2 id="二、使用-Expo-的-Google-Auth-SDK"><a href="#二、使用-Expo-的-Google-Auth-SDK" class="headerlink" title="二、使用 Expo 的 Google Auth SDK"></a><font color="#BC2C1A">二、使用 Expo 的 Google Auth SDK</h2><h4 id="參考-link-1"><a href="#參考-link-1" class="headerlink" title="參考 link"></a><a target="_blank" rel="noopener" href="https://docs.expo.io/versions/v40.0.0/sdk/google/#using-it-inside-of-the-expo-app">參考 link</a></h4><p><code>expo install expo-google-app-auth</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> Google <span class="keyword">from</span> <span class="string">&#x27;expo-google-app-auth&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">signInWithGoogleAsync</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> result = <span class="keyword">await</span> Google.logInAsync(&#123;</span><br><span class="line">      androidClientId: YOUR_CLIENT_ID_HERE, <span class="comment">//在這裡貼上你的用戶端編號, 記得加引號</span></span><br><span class="line">      <span class="comment">// iosClientId: YOUR_CLIENT_ID_HERE,</span></span><br><span class="line">      scopes: [<span class="string">&#x27;profile&#x27;</span>, <span class="string">&#x27;email&#x27;</span>],</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (result.type === <span class="string">&#x27;success&#x27;</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> result.accessToken;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> &#123; <span class="attr">cancelled</span>: <span class="literal">true</span> &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123; <span class="attr">error</span>: <span class="literal">true</span> &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>用戶端編號可以從 Google API 的憑證頁面中找到</p>
+<hr>
+<h2 id="三、使用-Firebase-的登入流程"><a href="#三、使用-Firebase-的登入流程" class="headerlink" title="三、使用 Firebase 的登入流程"></a><font color="#BC2C1A">三、使用 Firebase 的登入流程</h2><h4 id="參考-link-2"><a href="#參考-link-2" class="headerlink" title="參考 link"></a><a target="_blank" rel="noopener" href="https://firebase.google.com/docs/auth/web/google-signin">參考 link</a></h4><p>firebase 提供的 popup/redirect 兩種方法<br>只能用在 web 上，在手機上會報錯：</p>
+<p><font color="red"><code>Error: This operation is not supported in the environment this application is running on. &quot;location.protocol&quot; must be http, https or chrome-extension and web storage must be enabled.</code></p>
+<p>所以我們在行動端只能用<a target="_blank" rel="noopener" href="https://firebase.google.com/docs/auth/web/google-signin#expandable-2">進階做法</a></p>
+<h2 id="1-到-firebase-console-開啟-facebook-sign-in-的功能"><a href="#1-到-firebase-console-開啟-facebook-sign-in-的功能" class="headerlink" title="1. 到 firebase console 開啟 facebook sign in 的功能"></a>1. 到 firebase console 開啟 facebook sign in 的功能</h2><h2 id="appId-和-appKey-可以在-facebook-API-頁面找到"><a href="#appId-和-appKey-可以在-facebook-API-頁面找到" class="headerlink" title="appId 和 appKey 可以在 facebook API 頁面找到"></a>appId 和 appKey 可以在 facebook API 頁面找到</h2><h2 id="2-定義-onSignIn"><a href="#2-定義-onSignIn" class="headerlink" title="2. 定義 onSignIn()"></a>2. 定義 <code>onSignIn()</code></h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">onSignIn</span>(<span class="params">googleUser</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> unsubscribe = firebase.auth().onAuthStateChanged(<span class="function">(<span class="params">firebaseUser</span>) =&gt;</span> &#123;</span><br><span class="line">            unsubscribe();   </span><br><span class="line">							<span class="comment">// 似乎是listener的常用語法，藉由呼叫函式本身，讓後面的程式只運行一次就好</span></span><br><span class="line">            <span class="keyword">if</span> (!isUserEqual(googleUser, firebaseUser)) &#123;</span><br><span class="line">                <span class="keyword">var</span> credential = firebase.auth.GoogleAuthProvider.credential(</span><br><span class="line">                    googleUser.idToken,</span><br><span class="line">                    googleUser.accessToken</span><br><span class="line">                );</span><br><span class="line"></span><br><span class="line">                firebase.auth().signInWithCredential(credential)</span><br><span class="line">                    .catch(<span class="function">(<span class="params">error</span>) =&gt;</span> &#123; alert(<span class="string">&#x27;onSignInCredential&#x27;</span>+error) &#125;);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">&#x27;User already signed-in Firebase.&#x27;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>為什麼 <code>unsubscribe</code> 裡面還有 <code>unsubscribe</code>? <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/47043188/firebase-onauthstatechanged-unsubscribe-recursion">link</a></p>
+</li>
+<li><p><code>GoogleAuthProvider.credential()</code>有兩個input，<code>idToken</code>和<code>accessToken</code>，官網給的寫法是<code>googleUser.getAuthResponse().id_token</code>，但因為我們用的是 Expo <code>Google.logInAsync</code>回傳的<code>googleUser</code>，他不含任何函式，自然就沒有<code>getAuthResponse()</code>可以用。 <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/60711364/react-native-googleuser-getbasicprofile-is-not-a-function">link</a></p>
+</li>
+</ul>
+<h2 id="3-定義-isUserEqual"><a href="#3-定義-isUserEqual" class="headerlink" title="3. 定義 isUserEqual()"></a>3. 定義 isUserEqual()</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isUserEqual</span>(<span class="params">googleUser, firebaseUser</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (firebaseUser) &#123;</span><br><span class="line">            <span class="keyword">var</span> providerData = firebaseUser.providerData;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; providerData.length; i++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (providerData[i].providerId === firebase.auth.GoogleAuthProvider.PROVIDER_ID &amp;&amp;</span><br><span class="line">                    providerData[i].uid === googleUser.user.id) &#123;   </span><br><span class="line">                    <span class="comment">// We don&#x27;t need to reauth the Firebase connection.</span></span><br><span class="line">                    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>這邊的 <code>googleUser.user.id</code> 也是上述的原因</li>
+</ul>
+<h2 id="4-把onSignIn-放進-signInWithGoogleAsync-裡並傳入-user-物件"><a href="#4-把onSignIn-放進-signInWithGoogleAsync-裡並傳入-user-物件" class="headerlink" title="4. 把onSignIn()放進 signInWithGoogleAsync() 裡並傳入 user 物件"></a>4. 把<code>onSignIn()</code>放進 <code>signInWithGoogleAsync()</code> 裡並傳入 user 物件</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">signInWithGoogleAsync</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">const</span> result = <span class="keyword">await</span> Google.logInAsync(&#123;</span><br><span class="line">                androidClientId: <span class="string">&#x27;994735805040-7q2nlrcnma0mssgvs7fimrmdp6dvuaqk.apps.googleusercontent.com&#x27;</span>, <span class="comment">//在這裡貼上你的用戶端編號</span></span><br><span class="line">                <span class="comment">// iosClientId: YOUR_CLIENT_ID_HERE,</span></span><br><span class="line">                scopes: [<span class="string">&#x27;profile&#x27;</span>, <span class="string">&#x27;email&#x27;</span>],</span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (result.type === <span class="string">&#x27;success&#x27;</span>) &#123;</span><br><span class="line">                onSignIn(result)               <span class="comment">// &lt;---- HERE</span></span><br><span class="line">                <span class="keyword">return</span> result.accessToken;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123; <span class="keyword">return</span> &#123; <span class="attr">cancelled</span>: <span class="literal">true</span> &#125; &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (e) &#123; <span class="keyword">return</span> &#123; <span class="attr">error</span>: <span class="literal">true</span> &#125; &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>完成！ 可以到<a target="_blank" rel="noopener" href="https://github.com/roto93/react-native-firebase-works">這裡</a>參考我的範例</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://roto93.github.io/2021/04/01/Firebase-Google%E7%99%BB%E5%85%A5/" data-id="cko3ruz690003k8vh2s55hbn2" data-title="Firebase Google登入" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-firebase-匿名登入" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2021/03/31/firebase-%E5%8C%BF%E5%90%8D%E7%99%BB%E5%85%A5/" class="article-date">
@@ -384,64 +473,6 @@
 
 
   
-    <article id="post-3" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/01/27/3/" class="article-date">
-  <time class="dt-published" datetime="2021-01-27T02:19:58.000Z" itemprop="datePublished">2021-01-27</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/01/27/3/">無法在hexo中顯示圖片？</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>&nbsp;</p>
-<h2 id="Outline"><a href="#Outline" class="headerlink" title="Outline"></a>Outline</h2><ol>
-<li>圖片的插入方式</li>
-<li>解決本地圖片無法顯示的問題<br>&nbsp;</li>
-</ol>
-<hr>
-<h3 id="圖片的插入方式"><a href="#圖片的插入方式" class="headerlink" title="圖片的插入方式"></a><center>圖片的插入方式</center></h3><p>在 markdown 的語法中，可以下列兩種方式插入圖片：</p>
-<ul>
-<li><p><strong>![圖片的替代文字](圖片網址 or 本地圖片路徑)</strong><br>例如：<code>![我的自拍照](www.ooxxooxx.jpg)</code><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>![我的自拍照](./img/picture1.jpg)</code></p>
-</li>
-<li><p><strong>用 HTML 語法</strong><br>例如：<code>&lt;img src=&quot;www.ooxxooxx.jpg&quot;&gt;</code><br>&nbsp;</p>
-</li>
-</ul>
-<hr>
-<h3 id="解決本地圖片無法顯示的問題"><a href="#解決本地圖片無法顯示的問題" class="headerlink" title="解決本地圖片無法顯示的問題"></a><center>解決本地圖片無法顯示的問題</center></h3><p>但剛剛測試發現明明圖片確實存在於我的路徑，可是網頁中就是顯示不出來。稍微搜尋一下才知道這好像是hexo普遍的問題，需要安裝一個圖片路徑轉換的外掛:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i https:&#x2F;&#x2F;github.com&#x2F;CodeFalling&#x2F;hexo-asset-image --save</span><br></pre></td></tr></table></figure>
-
-<p>基本上這樣就 ok 了，但為了避免出現 bug，我們需要修改某個檔案。<br>開啟 /node_modules/hexo-asset-image/index.js，並用以下的程式碼取代內容：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&#x27;use strict&#x27;</span>;</span><br><span class="line"><span class="keyword">var</span> cheerio = <span class="built_in">require</span>(<span class="string">&#x27;cheerio&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// http://stackoverflow.com/questions/14480345/how-to-get-the-nth-occurrence-in-a-string</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getPosition</span>(<span class="params">str, m, i</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> str.split(m, i).join(m).length;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> version = <span class="built_in">String</span>(hexo.version).split(<span class="string">&#x27;.&#x27;</span>);</span><br><span class="line">hexo.extend.filter.register(<span class="string">&#x27;after_post_render&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">var</span> config = hexo.config;</span><br><span class="line">  <span class="keyword">if</span>(config.post_asset_folder)&#123;</span><br><span class="line">    	<span class="keyword">var</span> link = data.permalink;</span><br><span class="line">	<span class="keyword">if</span>(version.length &gt; <span class="number">0</span> &amp;&amp; <span class="built_in">Number</span>(version[<span class="number">0</span>]) == <span class="number">3</span>)</span><br><span class="line">	   <span class="keyword">var</span> beginPos = getPosition(link, <span class="string">&#x27;/&#x27;</span>, <span class="number">1</span>) + <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	   <span class="keyword">var</span> beginPos = getPosition(link, <span class="string">&#x27;/&#x27;</span>, <span class="number">3</span>) + <span class="number">1</span>;</span><br><span class="line">	<span class="comment">// In hexo 3.1.1, the permalink of &quot;about&quot; page is like &quot;.../about/index.html&quot;.</span></span><br><span class="line">	<span class="keyword">var</span> endPos = link.lastIndexOf(<span class="string">&#x27;/&#x27;</span>) + <span class="number">1</span>;</span><br><span class="line">    link = link.substring(beginPos, endPos);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> toprocess = [<span class="string">&#x27;excerpt&#x27;</span>, <span class="string">&#x27;more&#x27;</span>, <span class="string">&#x27;content&#x27;</span>];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; toprocess.length; i++)&#123;</span><br><span class="line">      <span class="keyword">var</span> key = toprocess[i];</span><br><span class="line"> </span><br><span class="line">      <span class="keyword">var</span> $ = cheerio.load(data[key], &#123;</span><br><span class="line">        ignoreWhitespace: <span class="literal">false</span>,</span><br><span class="line">        xmlMode: <span class="literal">false</span>,</span><br><span class="line">        lowerCaseTags: <span class="literal">false</span>,</span><br><span class="line">        decodeEntities: <span class="literal">false</span></span><br><span class="line">      &#125;);</span><br><span class="line"></span><br><span class="line">      $(<span class="string">&#x27;img&#x27;</span>).each(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">		<span class="keyword">if</span> ($(<span class="built_in">this</span>).attr(<span class="string">&#x27;src&#x27;</span>))&#123;</span><br><span class="line">			<span class="comment">// For windows style path, we replace &#x27;\&#x27; to &#x27;/&#x27;.</span></span><br><span class="line">			<span class="keyword">var</span> src = $(<span class="built_in">this</span>).attr(<span class="string">&#x27;src&#x27;</span>).replace(<span class="string">&#x27;\\&#x27;</span>, <span class="string">&#x27;/&#x27;</span>);</span><br><span class="line">			<span class="keyword">if</span>(!<span class="regexp">/http[s]*.*|\/\/.*/</span>.test(src) &amp;&amp;</span><br><span class="line">			   !<span class="regexp">/^\s*\//</span>.test(src)) &#123;</span><br><span class="line">			  <span class="comment">// For &quot;about&quot; page, the first part of &quot;src&quot; can&#x27;t be removed.</span></span><br><span class="line">			  <span class="comment">// In addition, to support multi-level local directory.</span></span><br><span class="line">			  <span class="keyword">var</span> linkArray = link.split(<span class="string">&#x27;/&#x27;</span>).filter(<span class="function"><span class="keyword">function</span>(<span class="params">elem</span>)</span>&#123;</span><br><span class="line">				<span class="keyword">return</span> elem != <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">			  &#125;);</span><br><span class="line">			  <span class="keyword">var</span> srcArray = src.split(<span class="string">&#x27;/&#x27;</span>).filter(<span class="function"><span class="keyword">function</span>(<span class="params">elem</span>)</span>&#123;</span><br><span class="line">				<span class="keyword">return</span> elem != <span class="string">&#x27;&#x27;</span> &amp;&amp; elem != <span class="string">&#x27;.&#x27;</span>;</span><br><span class="line">			  &#125;);</span><br><span class="line">			  <span class="keyword">if</span>(srcArray.length &gt; <span class="number">1</span>)</span><br><span class="line">				srcArray.shift();</span><br><span class="line">			  src = srcArray.join(<span class="string">&#x27;/&#x27;</span>);</span><br><span class="line">			  $(<span class="built_in">this</span>).attr(<span class="string">&#x27;src&#x27;</span>, config.root + link + src);</span><br><span class="line">			  <span class="built_in">console</span>.info&amp;&amp;<span class="built_in">console</span>.info(<span class="string">&quot;update link as:--&gt;&quot;</span>+config.root + link + src);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">			<span class="built_in">console</span>.info&amp;&amp;<span class="built_in">console</span>.info(<span class="string">&quot;no src attr, skipped...&quot;</span>);</span><br><span class="line">			<span class="built_in">console</span>.info&amp;&amp;<span class="built_in">console</span>.info($(<span class="built_in">this</span>));</span><br><span class="line">		&#125;</span><br><span class="line">      &#125;);</span><br><span class="line">      data[key] = $.html();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="大功告成！"><a href="#大功告成！" class="headerlink" title="大功告成！"></a>大功告成！</h2>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://roto93.github.io/2021/01/27/3/" data-id="cko3ruz680002k8vh036mfo8l" data-title="無法在hexo中顯示圖片？" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
@@ -478,6 +509,10 @@
       <ul>
         
           <li>
+            <a href="/2021/05/23/%E6%8E%A7%E5%88%B6-Expo-app-%E7%9A%84%E8%AE%80%E5%8F%96%E7%95%AB%E9%9D%A2/">控制 Expo app 的讀取畫面</a>
+          </li>
+        
+          <li>
             <a href="/2021/05/20/%E5%85%A8%E9%81%B8%E5%8A%9F%E8%83%BD%E5%AF%A6%E4%BD%9C/">全選功能實作</a>
           </li>
         
@@ -491,10 +526,6 @@
         
           <li>
             <a href="/2021/05/01/%E8%87%AA%E8%A3%BD%E6%97%A5%E6%9C%9F%E9%81%B8%E6%93%87%E5%99%A8-1/">自製日期選擇器(1 輸入介面規劃)</a>
-          </li>
-        
-          <li>
-            <a href="/2021/04/23/%E5%9C%A8firebase%E9%83%A8%E7%BD%B2%E4%BD%A0%E7%9A%84react%E5%B0%88%E6%A1%88/">在firebase部署你的react專案</a>
           </li>
         
       </ul>

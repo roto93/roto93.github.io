@@ -76,6 +76,60 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-控制-Expo-app-的讀取畫面" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/05/23/%E6%8E%A7%E5%88%B6-Expo-app-%E7%9A%84%E8%AE%80%E5%8F%96%E7%95%AB%E9%9D%A2/" class="article-date">
+  <time class="dt-published" datetime="2021-05-23T01:54:13.000Z" itemprop="datePublished">2021-05-23</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/05/23/%E6%8E%A7%E5%88%B6-Expo-app-%E7%9A%84%E8%AE%80%E5%8F%96%E7%95%AB%E9%9D%A2/">控制 Expo app 的讀取畫面</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="介紹"><a href="#介紹" class="headerlink" title="介紹"></a><font color="#BC2C1A">介紹</font></h2><hr>
+<p>Expo 提供了兩個 API<br>讓你能夠修改 app 的讀取畫面<br>分別是 <a target="_blank" rel="noopener" href="https://docs.expo.io/versions/latest/sdk/app-loading/">AppLoading</a> 跟 <a target="_blank" rel="noopener" href="https://docs.expo.io/versions/v41.0.0/sdk/splash-screen/">SplashScreen</a></p>
+<p>AppLoading 是一個元件，當整個app渲染的只有AppLoading而沒有別的元件時<br>它就會讓 splash screen 持續顯示<br>所以我們就可以在 app 剛打開正在進行 API call 時先渲染 AppLoading<br>等資料都得到了再恢復顯示主畫面</p>
+<p>另一個 SplashScreen 就不是元件了<br>但他提供兩個函數 </p>
+<ol>
+<li><code>SplashScreen.preventAutoHideAsyce()</code>:防止 splash screen 在程式讀取完後關閉</li>
+<li><code>SplashScreen.hideAsyce()</code>: 觸發時，關閉 spalsh screen </li>
+</ol>
+<p>簡單來說他讓我們能自由控制 splash screen 消失的時機<br>除了可以達到跟單獨使用 AppLoading 一樣的效果外<br>更厲害的是我們也能藉此讓App初始化完成後<br>由顯示靜態 splash screen 切換成動畫(看你要放 gif 或寫 animation 都可以)</p>
+<h2 id="使用方式"><a href="#使用方式" class="headerlink" title="使用方式"></a><font color="#BC2C1A">使用方式</font></h2><hr>
+<p>首先下載並引入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">expo install expo-app-loading</span><br><span class="line">expo install expo-splash-screen</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> AppLoading <span class="keyword">from</span> <span class="string">&#x27;expo-app-loading&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> SplashScreen <span class="keyword">from</span> <span class="string">&#x27;expo-splash-screen&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<p>再來，若你只想單獨使用 AppLoading 可以這樣做:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> [isLoading, setIsLoading] = useState(<span class="literal">true</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> fetchData = <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">    <span class="keyword">try</span>&#123;</span><br><span class="line">        <span class="keyword">await</span> fetch(<span class="string">&#x27;...&#x27;</span>)</span><br><span class="line">    &#125; <span class="keyword">catch</span>(e)&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(e)</span><br><span class="line">    &#125;<span class="keyword">finally</span>&#123;</span><br><span class="line">        setIsLoading(<span class="literal">false</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">useEffect(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">    fetchData()</span><br><span class="line">&#125;,[])</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (isLoading) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">AppLoading</span>/&gt;</span></span></span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">App</span>/&gt;</span></span></span><br></pre></td></tr></table></figure>
+<p>其實這可以應付大部分的狀況<br>例如在進入app前先讀取字型等等的<br>然而使用 SplashScreen 的話靈活度更高</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">const</span> [isLoading, setIsLoading] = useState(<span class="literal">true</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> fetchData = <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">    <span class="keyword">try</span>&#123;</span><br><span class="line">    <span class="keyword">await</span> SplashScreen.preventAutoHideAsync() <span class="comment">//等等!先別關!</span></span><br><span class="line">        <span class="keyword">await</span> fetch(<span class="string">&#x27;...&#x27;</span>) <span class="comment">// 做一些事</span></span><br><span class="line">    &#125; <span class="keyword">catch</span>(e)&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(e)</span><br><span class="line">    &#125;<span class="keyword">finally</span>&#123;</span><br><span class="line">        SplashScreen.preventAutoHideAsync() <span class="comment">//好可以關了</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">useEffect(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">    fetchData()</span><br><span class="line">&#125;,[])</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (isLoading) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">null</span> <span class="comment">//不渲染東西 但因為 splash screen 還蓋在畫面上，所以不會沒畫面</span></span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">App</span>/&gt;</span></span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://roto93.github.io/2021/05/23/%E6%8E%A7%E5%88%B6-Expo-app-%E7%9A%84%E8%AE%80%E5%8F%96%E7%95%AB%E9%9D%A2/" data-id="ckp0jb7sr0000movhhpk1a935" data-title="控制 Expo app 的讀取畫面" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-全選功能實作" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2021/05/20/%E5%85%A8%E9%81%B8%E5%8A%9F%E8%83%BD%E5%AF%A6%E4%BD%9C/" class="article-date">
@@ -374,91 +428,6 @@
 
 
   
-    <article id="post-在firebase部署你的react專案" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/04/23/%E5%9C%A8firebase%E9%83%A8%E7%BD%B2%E4%BD%A0%E7%9A%84react%E5%B0%88%E6%A1%88/" class="article-date">
-  <time class="dt-published" datetime="2021-04-23T01:01:02.000Z" itemprop="datePublished">2021-04-23</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/04/23/%E5%9C%A8firebase%E9%83%A8%E7%BD%B2%E4%BD%A0%E7%9A%84react%E5%B0%88%E6%A1%88/">在firebase部署你的react專案</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <hr>
-<p>最近在學 react，希望可以每次完成一個 mini project 的時候就能放在網路上<br>這樣出門在外隨時可以向人展示<br><font color="gray">(雖然可能也沒什麼向人展示的機會QQ)</p>
-<p>稍微查了一下各種部署react網站的方法，發現firebase可以說是最快的<br>步驟如下：</p>
-<hr>
-<ol>
-<li><p>到firebase創帳號，建立專案</p>
-</li>
-<li><p>在 firebase console 中，進到 hosting 頁面，他會請你安裝</p>
-</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g firebase-tools</span><br></pre></td></tr></table></figure>
-
-<ol start="3">
-<li>接著到 react 專案資料夾，先登入</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">firebase login</span><br></pre></td></tr></table></figure>
-
-<ol start="4">
-<li>然後初始化</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">firebase init</span><br></pre></td></tr></table></figure>
-
-<ol start="5">
-<li><p>初始化過程中會問你一系列問題： </p>
-<ul>
-<li>問你要啟用什麼功能：選 hosting</li>
-<li>問你要連結到哪個 firebase project</li>
-<li>問你要用哪個資料夾作為網站的 public 資料夾：輸入 build(或你定義的資料夾名稱)</li>
-<li>問你是不是 single-page app (SPA) 這個都選是應該沒問題</li>
-<li>如果你之前有執行過<code>npm run build</code>他可能會問你要不要覆寫index.html，選要</li>
-</ul>
-</li>
-<li><p>完成後你會在專案裡看到 firebase.json, .firebaserc 兩個檔案</p>
-</li>
-<li><p>如果還沒 build 過，執行<code>npm run build</code></p>
-</li>
-<li><p>執行 firebase deploy</p>
-</li>
-<li><p>到 firebase hosting console 可以看到你的部屬紀錄，可以回到之前的版本 </p>
-</li>
-<li><p>你也可以在本地開伺服器，只要執行<code>firebase serve</code>就可以了</p>
-</li>
-</ol>
-<hr>
-<p>第一次做的時候網站馬上就發布了，但第二次隔了一些時間才發布</p>
-<p>害我還到處查為什麼是哪個步驟不對QAQ 結果稍微等一下就看到網站了哈哈</p>
-<p>所以如果你沒看到馬上發布不要慌XD</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://roto93.github.io/2021/04/23/%E5%9C%A8firebase%E9%83%A8%E7%BD%B2%E4%BD%A0%E7%9A%84react%E5%B0%88%E6%A1%88/" data-id="cko3ruz6j000dk8vhbzrb5w6b" data-title="在firebase部署你的react專案" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
@@ -495,6 +464,10 @@
       <ul>
         
           <li>
+            <a href="/2021/05/23/%E6%8E%A7%E5%88%B6-Expo-app-%E7%9A%84%E8%AE%80%E5%8F%96%E7%95%AB%E9%9D%A2/">控制 Expo app 的讀取畫面</a>
+          </li>
+        
+          <li>
             <a href="/2021/05/20/%E5%85%A8%E9%81%B8%E5%8A%9F%E8%83%BD%E5%AF%A6%E4%BD%9C/">全選功能實作</a>
           </li>
         
@@ -508,10 +481,6 @@
         
           <li>
             <a href="/2021/05/01/%E8%87%AA%E8%A3%BD%E6%97%A5%E6%9C%9F%E9%81%B8%E6%93%87%E5%99%A8-1/">自製日期選擇器(1 輸入介面規劃)</a>
-          </li>
-        
-          <li>
-            <a href="/2021/04/23/%E5%9C%A8firebase%E9%83%A8%E7%BD%B2%E4%BD%A0%E7%9A%84react%E5%B0%88%E6%A1%88/">在firebase部署你的react專案</a>
           </li>
         
       </ul>
