@@ -76,6 +76,57 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-TextInput-與鍵盤開關時機的配合" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/06/09/TextInput-%E8%88%87%E9%8D%B5%E7%9B%A4%E9%96%8B%E9%97%9C%E6%99%82%E6%A9%9F%E7%9A%84%E9%85%8D%E5%90%88/" class="article-date">
+  <time class="dt-published" datetime="2021-06-09T04:33:40.000Z" itemprop="datePublished">2021-06-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/06/09/TextInput-%E8%88%87%E9%8D%B5%E7%9B%A4%E9%96%8B%E9%97%9C%E6%99%82%E6%A9%9F%E7%9A%84%E9%85%8D%E5%90%88/">TextInput 與鍵盤開關時機的配合</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>在做 SideProject 時很常遇到一個狀況<br>TextInput 在 Focus 狀態時，是沒辦法立刻觸發其他按鈕的<br>你必須先點擊螢幕一次 (TextInput和鍵盤以外的地方)，將鍵盤收起<br>才能觸發別的按鈕<br>其實不只是按鈕，其他需要 recieve touch 的元件也有這個問題</p>
+<img src="/2021/06/09/TextInput-%E8%88%87%E9%8D%B5%E7%9B%A4%E9%96%8B%E9%97%9C%E6%99%82%E6%A9%9F%E7%9A%84%E9%85%8D%E5%90%88/situation.png" width="50%" style="box-shadow:3px 3px 8px darkgray">
+
+<p>至於為什麼強調是在做 sideProject 的時候呢?<br>因為這在一般情況不太算是問題<br>直到我以使用者的角度來操作app時才發現<br>當我預期點擊按鈕有用時，結果居然只是給我收起鍵盤而已?<br>真的很煩躁啊!我的耐心都到哪去了<br>這時我才了解使用者經驗的精隨<br>任何操作都要有預期的效果<br>只要有任何一次的點擊失效<br>負評的心情就來了</p>
+<p>回到問題本身，會有這個限制我想是因為輸入文字跟顯示鍵盤這兩件事是密切相關的<br>該輸入文字的時候就該顯示鍵盤<br>不打算輸入文字的時候就關閉鍵盤<br>在流程操作上比較直觀<br>但就像我說的，這不符合使用者的直覺<br>那該怎麼控制呢?</p>
+<h2 id="ScrollView-來幫個忙"><a href="#ScrollView-來幫個忙" class="headerlink" title="ScrollView 來幫個忙"></a><font color="#BC2C1A">ScrollView 來幫個忙</font></h2><hr>
+<p>ScrollView 有一個屬性是我們需要的<br>叫做 <code>keyboardShouldPersistTaps</code><br>一句話解釋:鍵盤打開的時候要不要接收觸控訊號?</p>
+<p>可以設定三種值:<br><code>&#39;never&#39;</code>: 當子元件的 TextInput focus 時，點擊文字框和鍵盤以外的地方會關閉鍵盤，當這件事發生時，子元件不會接收到 tap<br><code>&#39;always&#39;</code>: 鍵盤不會自動收起，ScrollView 不會接收到 tap (但可以滑動)，子元件可以接收到 tap<br><code>&#39;handled&#39;</code>: 如果 tap 被子元件或父元件 catch，鍵盤不會自動收起；但如果是被 ScrollView catch，鍵盤還是會收起來。</p>
+<p>所以策略是這樣的<br>我們可以將此屬性設為<code>&#39;handled&#39;</code>，先防止鍵盤自動關閉<br>這時按鈕就能互動了<br>接著再手動控制鍵盤關閉的時機就好<br>控制鍵盤的方式是用 react native 的<code>Keyboard</code>API</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> &#123;ScrollView, Keyboard&#125; <span class="keyword">from</span> <span class="string">&#x27;react native&#x27;</span></span><br><span class="line"></span><br><span class="line">&lt;ScrollView keyboardShouldPersistTaps=<span class="string">&quot;handled&quot;</span>&gt;</span><br><span class="line">  &lt;TextInput/&gt;</span><br><span class="line">  &lt;TouchableOpacity/&gt;</span><br><span class="line">&lt;/ScrollView&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>正當我以為沒問題的時候來了個小插曲ˋˊ</p>
+<h2 id="檢查上層了嗎"><a href="#檢查上層了嗎" class="headerlink" title="檢查上層了嗎?"></a><font color="#BC2C1A">檢查上層了嗎?</font></h2><hr>
+<p>在某一次我完成這些設定後卻發現沒效果!? 按鈕還是不能按<br>經過一番研究後終於知道了<br>設定沒效果代表在此元件之上一定還有另一層沒設定的 ScrollView<br>所以只要找到該標籤，加上<code>keyboardShouldPersistTaps</code>的屬性就可以了<br>記得要一路檢查到 root 哦</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://roto93.github.io/2021/06/09/TextInput-%E8%88%87%E9%8D%B5%E7%9B%A4%E9%96%8B%E9%97%9C%E6%99%82%E6%A9%9F%E7%9A%84%E9%85%8D%E5%90%88/" data-id="ckpoz8w3f0000t4vh729eallh" data-title="TextInput 與鍵盤開關時機的配合" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-控制-Expo-app-的讀取畫面" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2021/05/23/%E6%8E%A7%E5%88%B6-Expo-app-%E7%9A%84%E8%AE%80%E5%8F%96%E7%95%AB%E9%9D%A2/" class="article-date">
@@ -371,63 +422,6 @@
 
 
   
-    <article id="post-自製日期選擇器-1" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/05/01/%E8%87%AA%E8%A3%BD%E6%97%A5%E6%9C%9F%E9%81%B8%E6%93%87%E5%99%A8-1/" class="article-date">
-  <time class="dt-published" datetime="2021-05-01T13:17:40.000Z" itemprop="datePublished">2021-05-01</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/05/01/%E8%87%AA%E8%A3%BD%E6%97%A5%E6%9C%9F%E9%81%B8%E6%93%87%E5%99%A8-1/">自製日期選擇器(1 輸入介面規劃)</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <hr>
-<p>我決定要來做一個 for RN 的日期選擇器</p>
-<p>原因是因為雖然之前有查到兩個套件，但都有點不合需求:</p>
-<p>第一個是 <a target="_blank" rel="noopener" href="https://github.com/mmazzarolo/react-native-modal-datetime-picker">react-native-modal-datetime-picker</a><br>是調用 android/ios 原生的日期選擇器<br>雖然用起來很順又好看 (畢竟是原生元件)<br>但唯一的缺點是不能選日期區間 QQ<br>而我們想要用的就是選時段的功能 r<br>像是設定旅行日期之類的</p>
-<p>第二個是 <a target="_blank" rel="noopener" href="https://github.com/naxulanth/react-native-daterange-picker/">react-native-daterange-picker</a><br>這看起來是 Naxulanth 這位網友自製的元件<br>畫面簡潔，也可以選擇日期區間<br>但是，使用上有很多限制<br>doc 也沒有寫的很完整，實際使用方式跟示範的 code 有點不同<br>還有不少 bug</p>
-<p>正好我也想當練習<br>就來做一個屬於自己的日期判斷器吧<br>如果開發的不錯，就順便發布出去 讚</p>
-<p>寫這篇文的現在其實還沒做好<br>所以可能會分成幾個章節吧</p>
-<h2 id="輸入介面規劃-Interface-Design"><a href="#輸入介面規劃-Interface-Design" class="headerlink" title="輸入介面規劃 Interface Design"></a><font color="#BC2C1A">輸入介面規劃 Interface Design</font></h2><hr>
-<p>我希望這個元件的畫面、以及使用方式都夠簡單<br>並沿用 <a target="_blank" rel="noopener" href="https://github.com/react-native-modal/react-native-modal">react-native-modal</a> 的使用介面做開發<br>暫定最簡短的介面如下:</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;DatePicker</span><br><span class="line"> <span class="comment">// 是否顯示</span></span><br><span class="line"> <span class="comment">// 開啟時顯示的日期</span></span><br><span class="line"> <span class="comment">// 模式:單日還是期間</span></span><br><span class="line"> <span class="comment">// 按完成後回傳的日期</span></span><br><span class="line">/&gt;</span><br></pre></td></tr></table></figure>
-<p>這四個是 required attributes<br>後續可能可以再加一些 styling 的屬性進來<br>但目前還是先 focus 在這幾個上面就好</p>
-<h3 id="1-是否顯示"><a href="#1-是否顯示" class="headerlink" title="1. 是否顯示"></a>1. 是否顯示</h3><p><strong>名稱:</strong> <font color="crimson"><code>isVisible</code></font><br><strong>類型:</strong> Boolean<br><strong>說明:</strong> 這應該沒什麼，就是開啟或關閉日期選擇器</p>
-<h3 id="2-開啟時顯示的日期"><a href="#2-開啟時顯示的日期" class="headerlink" title="2. 開啟時顯示的日期"></a>2. 開啟時顯示的日期</h3><p><strong>名稱:</strong> <font color="crimson"><code>displayDate</code></font><br><strong>類型:</strong> Date物件<br><strong>說明:</strong> 選填但是建議輸入，沒設定的話就預設為現在。當選擇器開啟時會顯示這個時間的月份，你可以利用這個屬性讓選擇器顯示使用者上次所選的日期的月份</p>
-<h3 id="3-單日還是期間"><a href="#3-單日還是期間" class="headerlink" title="3. 單日還是期間"></a>3. 單日還是期間</h3><p><strong>名稱:</strong> <font color="crimson"><code>mode</code></font><br><strong>類型:</strong> string<br><strong>輸入值:</strong> <font color="crimson"><code>&#39;single&#39;</code></font> / <font color="crimson"><code>&#39;range&#39;</code></font><br><strong>說明:</strong> 模式選擇: 要回傳單一日期就選 ‘single’；要回傳一段時間就選 ‘range’</p>
-<h3 id="4-按完成後回傳的日期"><a href="#4-按完成後回傳的日期" class="headerlink" title="4. 按完成後回傳的日期"></a>4. 按完成後回傳的日期</h3><p><strong>名稱:</strong> <font color="crimson"><code>onConfirm</code></font><br><strong>類型:</strong> function<br><strong>輸入值:</strong> <font color="crimson"><code>(data)=&gt;&#123; &#125;</code></font><br><strong>說明:</strong> 回傳一個物件。如果是單日模式物件的結構會是: </p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">data=&#123;</span><br><span class="line"> date:<span class="built_in">Date</span>(),</span><br><span class="line"> startDate:<span class="literal">null</span>,</span><br><span class="line"> endDate:<span class="literal">null</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>反之如果是期間模式則是:</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">data=&#123;</span><br><span class="line"> date:<span class="literal">null</span>,</span><br><span class="line"> startDate:<span class="built_in">Date</span>(),</span><br><span class="line"> endDate:<span class="built_in">Date</span>()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>好啦 第一篇就先到這<br>這可能會是個大系列(會分很多篇的意思XD)</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://roto93.github.io/2021/05/01/%E8%87%AA%E8%A3%BD%E6%97%A5%E6%9C%9F%E9%81%B8%E6%93%87%E5%99%A8-1/" data-id="cko5rscbn000ek8vh7us9hekh" data-title="自製日期選擇器(1 輸入介面規劃)" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
@@ -451,7 +445,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">彙整</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">五月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">三月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">六月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">五月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">三月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a></li></ul>
     </div>
   </div>
 
@@ -462,6 +456,10 @@
     <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2021/06/09/TextInput-%E8%88%87%E9%8D%B5%E7%9B%A4%E9%96%8B%E9%97%9C%E6%99%82%E6%A9%9F%E7%9A%84%E9%85%8D%E5%90%88/">TextInput 與鍵盤開關時機的配合</a>
+          </li>
         
           <li>
             <a href="/2021/05/23/%E6%8E%A7%E5%88%B6-Expo-app-%E7%9A%84%E8%AE%80%E5%8F%96%E7%95%AB%E9%9D%A2/">控制 Expo app 的讀取畫面</a>
@@ -477,10 +475,6 @@
         
           <li>
             <a href="/2021/05/05/%E5%85%A9%E5%80%8B%E5%BE%9E%E7%B6%B2%E7%AB%99%E5%AF%84email%E7%B5%A6%E8%87%AA%E5%B7%B1%E7%9A%84%E6%96%B9%E6%B3%95/">兩個從網站寄email給自己的方法</a>
-          </li>
-        
-          <li>
-            <a href="/2021/05/01/%E8%87%AA%E8%A3%BD%E6%97%A5%E6%9C%9F%E9%81%B8%E6%93%87%E5%99%A8-1/">自製日期選擇器(1 輸入介面規劃)</a>
           </li>
         
       </ul>

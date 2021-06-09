@@ -76,6 +76,63 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-自製日期選擇器-1" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/05/01/%E8%87%AA%E8%A3%BD%E6%97%A5%E6%9C%9F%E9%81%B8%E6%93%87%E5%99%A8-1/" class="article-date">
+  <time class="dt-published" datetime="2021-05-01T13:17:40.000Z" itemprop="datePublished">2021-05-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/05/01/%E8%87%AA%E8%A3%BD%E6%97%A5%E6%9C%9F%E9%81%B8%E6%93%87%E5%99%A8-1/">自製日期選擇器(1 輸入介面規劃)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <hr>
+<p>我決定要來做一個 for RN 的日期選擇器</p>
+<p>原因是因為雖然之前有查到兩個套件，但都有點不合需求:</p>
+<p>第一個是 <a target="_blank" rel="noopener" href="https://github.com/mmazzarolo/react-native-modal-datetime-picker">react-native-modal-datetime-picker</a><br>是調用 android/ios 原生的日期選擇器<br>雖然用起來很順又好看 (畢竟是原生元件)<br>但唯一的缺點是不能選日期區間 QQ<br>而我們想要用的就是選時段的功能 r<br>像是設定旅行日期之類的</p>
+<p>第二個是 <a target="_blank" rel="noopener" href="https://github.com/naxulanth/react-native-daterange-picker/">react-native-daterange-picker</a><br>這看起來是 Naxulanth 這位網友自製的元件<br>畫面簡潔，也可以選擇日期區間<br>但是，使用上有很多限制<br>doc 也沒有寫的很完整，實際使用方式跟示範的 code 有點不同<br>還有不少 bug</p>
+<p>正好我也想當練習<br>就來做一個屬於自己的日期判斷器吧<br>如果開發的不錯，就順便發布出去 讚</p>
+<p>寫這篇文的現在其實還沒做好<br>所以可能會分成幾個章節吧</p>
+<h2 id="輸入介面規劃-Interface-Design"><a href="#輸入介面規劃-Interface-Design" class="headerlink" title="輸入介面規劃 Interface Design"></a><font color="#BC2C1A">輸入介面規劃 Interface Design</font></h2><hr>
+<p>我希望這個元件的畫面、以及使用方式都夠簡單<br>並沿用 <a target="_blank" rel="noopener" href="https://github.com/react-native-modal/react-native-modal">react-native-modal</a> 的使用介面做開發<br>暫定最簡短的介面如下:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;DatePicker</span><br><span class="line"> <span class="comment">// 是否顯示</span></span><br><span class="line"> <span class="comment">// 開啟時顯示的日期</span></span><br><span class="line"> <span class="comment">// 模式:單日還是期間</span></span><br><span class="line"> <span class="comment">// 按完成後回傳的日期</span></span><br><span class="line">/&gt;</span><br></pre></td></tr></table></figure>
+<p>這四個是 required attributes<br>後續可能可以再加一些 styling 的屬性進來<br>但目前還是先 focus 在這幾個上面就好</p>
+<h3 id="1-是否顯示"><a href="#1-是否顯示" class="headerlink" title="1. 是否顯示"></a>1. 是否顯示</h3><p><strong>名稱:</strong> <font color="crimson"><code>isVisible</code></font><br><strong>類型:</strong> Boolean<br><strong>說明:</strong> 這應該沒什麼，就是開啟或關閉日期選擇器</p>
+<h3 id="2-開啟時顯示的日期"><a href="#2-開啟時顯示的日期" class="headerlink" title="2. 開啟時顯示的日期"></a>2. 開啟時顯示的日期</h3><p><strong>名稱:</strong> <font color="crimson"><code>displayDate</code></font><br><strong>類型:</strong> Date物件<br><strong>說明:</strong> 選填但是建議輸入，沒設定的話就預設為現在。當選擇器開啟時會顯示這個時間的月份，你可以利用這個屬性讓選擇器顯示使用者上次所選的日期的月份</p>
+<h3 id="3-單日還是期間"><a href="#3-單日還是期間" class="headerlink" title="3. 單日還是期間"></a>3. 單日還是期間</h3><p><strong>名稱:</strong> <font color="crimson"><code>mode</code></font><br><strong>類型:</strong> string<br><strong>輸入值:</strong> <font color="crimson"><code>&#39;single&#39;</code></font> / <font color="crimson"><code>&#39;range&#39;</code></font><br><strong>說明:</strong> 模式選擇: 要回傳單一日期就選 ‘single’；要回傳一段時間就選 ‘range’</p>
+<h3 id="4-按完成後回傳的日期"><a href="#4-按完成後回傳的日期" class="headerlink" title="4. 按完成後回傳的日期"></a>4. 按完成後回傳的日期</h3><p><strong>名稱:</strong> <font color="crimson"><code>onConfirm</code></font><br><strong>類型:</strong> function<br><strong>輸入值:</strong> <font color="crimson"><code>(data)=&gt;&#123; &#125;</code></font><br><strong>說明:</strong> 回傳一個物件。如果是單日模式物件的結構會是: </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">data=&#123;</span><br><span class="line"> date:<span class="built_in">Date</span>(),</span><br><span class="line"> startDate:<span class="literal">null</span>,</span><br><span class="line"> endDate:<span class="literal">null</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>反之如果是期間模式則是:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">data=&#123;</span><br><span class="line"> date:<span class="literal">null</span>,</span><br><span class="line"> startDate:<span class="built_in">Date</span>(),</span><br><span class="line"> endDate:<span class="built_in">Date</span>()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>好啦 第一篇就先到這<br>這可能會是個大系列(會分很多篇的意思XD)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://roto93.github.io/2021/05/01/%E8%87%AA%E8%A3%BD%E6%97%A5%E6%9C%9F%E9%81%B8%E6%93%87%E5%99%A8-1/" data-id="cko5rscbn000ek8vh7us9hekh" data-title="自製日期選擇器(1 輸入介面規劃)" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-在firebase部署你的react專案" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2021/04/23/%E5%9C%A8firebase%E9%83%A8%E7%BD%B2%E4%BD%A0%E7%9A%84react%E5%B0%88%E6%A1%88/" class="article-date">
@@ -388,94 +445,6 @@
 
 
   
-    <article id="post-Firebase-Facebook登入" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/04/01/Firebase-Facebook%E7%99%BB%E5%85%A5/" class="article-date">
-  <time class="dt-published" datetime="2021-04-01T05:31:04.000Z" itemprop="datePublished">2021-04-01</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/04/01/Firebase-Facebook%E7%99%BB%E5%85%A5/">Firebase Facebook 登入</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <hr>
-<p>這篇文章會告訴你如何在 react native 利用 firebase 進行 Facebook 登入</p>
-<p>主要可以分成三個步驟：</p>
-<ol>
-<li>設定 facebook API </li>
-<li>連結 Expo 和 facebook</li>
-<li>連結 Firebase</li>
-</ol>
-<hr>
-<h2 id="一、設定-facebook-API"><a href="#一、設定-facebook-API" class="headerlink" title=" 一、設定 facebook API"></a><font color="#BC2C1A"> 一、設定 facebook API</h2><h4 id="1-安裝-Expo-的-expo-facebook"><a href="#1-安裝-Expo-的-expo-facebook" class="headerlink" title="1. 安裝 Expo 的 expo-facebook"></a>1. 安裝 Expo 的 expo-facebook</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">expo install expo-facebook</span><br></pre></td></tr></table></figure>
-
-<h4 id="2-到-Facebook-for-Developers-註冊並建立應用程式"><a href="#2-到-Facebook-for-Developers-註冊並建立應用程式" class="headerlink" title="2. 到 Facebook for Developers 註冊並建立應用程式"></a>2. 到 <a target="_blank" rel="noopener" href="https://developers.facebook.com/?no_redirect=1">Facebook for Developers</a> 註冊並建立應用程式</h4><img src="Firebase-Facebook登入/Firebase_Facebook_Auth1.png" style="box-shadow:3px 3px 8px darkgray">
-
-<p>我們要的是facebook登入，所以選「打造互聯體驗」</p>
-<img src="Firebase-Facebook登入/Firebase_Facebook_Auth2.png" style="box-shadow:3px 3px 8px darkgray">
-
-<p>輸入名稱和email</p>
-<img src="Firebase-Facebook登入/Firebase_Facebook_Auth3.png" style="box-shadow:3px 3px 8px darkgray">
-
-<h4 id="3-設立-→-基本資料-→-新增平台"><a href="#3-設立-→-基本資料-→-新增平台" class="headerlink" title="3. 設立 → 基本資料 → 新增平台"></a>3. 設立 → 基本資料 → 新增平台</h4><img src="Firebase-Facebook登入/Firebase_Facebook_Auth5.png" style="box-shadow:3px 3px 8px darkgray">
-
-<h4 id="4-選擇-iOS-和-Android"><a href="#4-選擇-iOS-和-Android" class="headerlink" title="4. 選擇 iOS 和 Android"></a>4. 選擇 iOS 和 Android</h4><img src="Firebase-Facebook登入/Firebase_Facebook_Auth6.png" style="box-shadow:3px 3px 8px darkgray">
-
-<h4 id="5"><a href="#5" class="headerlink" title="5."></a>5.</h4><h4 id="在-ios-套件組合編號輸入-host-exp-Exponent"><a href="#在-ios-套件組合編號輸入-host-exp-Exponent" class="headerlink" title="在 ios 套件組合編號輸入 host.exp.Exponent"></a>在 ios 套件組合編號輸入 <code>host.exp.Exponent</code></h4><h4 id="在-android-金鑰輸入-rRW-LUjmZZ-58EbN5DVhGAnkX4"><a href="#在-android-金鑰輸入-rRW-LUjmZZ-58EbN5DVhGAnkX4" class="headerlink" title="在 android 金鑰輸入 rRW++LUjmZZ+58EbN5DVhGAnkX4="></a>在 android 金鑰輸入 <code>rRW++LUjmZZ+58EbN5DVhGAnkX4=</code></h4><h4 id="→-儲存變更"><a href="#→-儲存變更" class="headerlink" title="→ 儲存變更"></a>→ 儲存變更</h4><img src="Firebase-Facebook登入/Firebase_Facebook_Auth7.png" style="box-shadow:3px 3px 8px darkgray; height: 500px" >
-
-
-<p>糟糕為了放一些圖結果文章變得好長XD </p>
-<p>趕快進到下個步驟</p>
-<hr>
-<h2 id="二、連結-Expo-和-facebook"><a href="#二、連結-Expo-和-facebook" class="headerlink" title=" 二、連結 Expo 和 facebook"></a><font color="#BC2C1A"> 二、連結 Expo 和 facebook</h2><h4 id="1-到-App-中定義-onlogIn"><a href="#1-到-App-中定義-onlogIn" class="headerlink" title="1. 到 App 中定義 onlogIn()"></a>1. 到 App 中定義 <code>onlogIn()</code></h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">onLogIn</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">await</span> Facebook.initializeAsync(&#123;</span><br><span class="line">                appId: YOUR_APP_ID,      <span class="comment">// 換成你的AppId</span></span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line">            <span class="comment">//&#123;type,token,expirationDate,permissions,declinedPermissions,&#125;</span></span><br><span class="line">            <span class="keyword">const</span> result = <span class="keyword">await</span> Facebook.logInWithReadPermissionsAsync(&#123;</span><br><span class="line">                permissions: [<span class="string">&#x27;public_profile&#x27;</span>, <span class="string">&#x27;email&#x27;</span>],   <span class="comment">// 還有其他 permission</span></span><br><span class="line">            &#125;);</span><br><span class="line">            <span class="keyword">if</span> (result.type === <span class="string">&#x27;success&#x27;</span>) &#123;</span><br><span class="line">                <span class="comment">// 利用 FB 提供的圖形API fetch 用戶名</span></span><br><span class="line">                <span class="keyword">const</span> response = <span class="keyword">await</span> fetch(<span class="string">`https://graph.facebook.com/me?access_token=<span class="subst">$&#123;result.token&#125;</span>`</span>);</span><br><span class="line">		alert( <span class="keyword">await</span> response.json().name)</span><br><span class="line">		<span class="comment">//setToken(result.token) </span></span><br><span class="line">		<span class="comment">//在這把token存起來，有時會在onLogIn外面遇到</span></span><br><span class="line"></span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">&#x27;Logged in!&#x27;</span>);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">&#x27;type = cancel&#x27;</span>)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (&#123; message &#125;) &#123;</span><br><span class="line">            alert(<span class="string">`Facebook Login Error: <span class="subst">$&#123;message&#125;</span>`</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<p>Firebase提供的方法有些部分不適用Expo<br>所以這步驟與官網相比有更改一些變數<br>像是把<code>Facebook.logInWithReadPersissionsAsync()</code>回傳的值設成<code>result</code></p>
-<p>完成後可以先 run 看看<br>在執行 <code>onLogIn()</code> 時<br>會跳出 popup 問你要登入哪個 fb 帳戶<br>如果手機本身已經有登入 fb 帳號的話<br>就會直接跳出是否提供權限的視窗，按同意<br>但我們還沒有定義在 firebase 註冊的方法，所以還沒辦法登入</p>
-<hr>
-<h2 id="三、連結-Firebase"><a href="#三、連結-Firebase" class="headerlink" title=" 三、連結 Firebase"></a><font color="#BC2C1A"> 三、連結 Firebase</h2><h4 id="1-到-firebase-console-開啟-facebook-sign-in-的功能"><a href="#1-到-firebase-console-開啟-facebook-sign-in-的功能" class="headerlink" title="1. 到 firebase console 開啟 facebook sign in 的功能"></a>1. 到 firebase console 開啟 facebook sign in 的功能</h4><p> appId 和 appKey 可以在 facebook API 頁面找到</p>
-<h4 id="2-定義-checkLoginState"><a href="#2-定義-checkLoginState" class="headerlink" title="2. 定義 checkLoginState()"></a>2. 定義 <code>checkLoginState()</code></h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">checkLoginState</span>(<span class="params">response</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">let</span> unsubscribe = firebase.auth().onAuthStateChanged(<span class="function">(<span class="params">firebaseUser</span>) =&gt;</span> &#123;</span><br><span class="line">            unsubscribe();</span><br><span class="line">            <span class="keyword">if</span> (!isUserEqual(response, firebaseUser)) &#123;</span><br><span class="line">                <span class="keyword">let</span> credential = firebase.auth.FacebookAuthProvider.credential(</span><br><span class="line">                    response.token);</span><br><span class="line">                firebase.auth().signInWithCredential(credential)</span><br><span class="line">                    .catch(<span class="function">(<span class="params">error</span>) =&gt;</span> &#123; &#125;);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">&#x27;User is already signed-in Firebase with the correct user.&#x27;</span>)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<p>Firebase 提供的方法有些部分不適用 Expo<br>所以這步驟有更改一些變數<br>像是刪除<code>response.authResponse</code>的段落<br>以及將<code>response.authResponse.accessToken</code>修改成<code>response.token</code></p>
-<h4 id="3-定義-isUserEqual"><a href="#3-定義-isUserEqual" class="headerlink" title="3. 定義 isUserEqual()"></a>3. <code>定義 isUserEqual()</code></h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isUserEqual</span>(<span class="params">facebookAuthResponse, firebaseUser</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (firebaseUser) &#123;</span><br><span class="line">            <span class="keyword">var</span> providerData = firebaseUser.providerData;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; providerData.length; i++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (providerData[i].providerId === firebase.auth.FacebookAuthProvider.PROVIDER_ID &amp;&amp;</span><br><span class="line">                    providerData[i].uid === facebookAuthResponse.userID) &#123;</span><br><span class="line">                    <span class="comment">// We don&#x27;t need to re-auth the Firebase connection.</span></span><br><span class="line">                    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<p>最後在<code>onLogIn()</code>裡面呼叫<code>checkLoginState()</code><br>並傳入 result 便完成登入</p>
-<hr>
-<h2 id="小插曲"><a href="#小插曲" class="headerlink" title=" 小插曲"></a><font color="#BC2C1A"> 小插曲</h2><p>最後用 facebook 登入時遇到一個問題<br>如果這個用戶之前有用其他登入方式 (如email) 註冊過的話<br>又正好他也用同個 email 來註冊 facebook<br>這樣當他用 facebook 註冊 app 時就會報錯</p>
-<p>這時有幾個解決方案：</p>
-<h4 id="1-要求用該方式登入"><a href="#1-要求用該方式登入" class="headerlink" title="1. 要求用該方式登入"></a>1. 要求用該方式登入</h4><p>用 <code>fetchSignInMethodsForEmail()</code> 找到當初用這個 email 登入的方法，然後跳出視窗請用戶改用此方法登入。</p>
-<h4 id="2-讓他創建新帳號-獨立運作"><a href="#2-讓他創建新帳號-獨立運作" class="headerlink" title="2. 讓他創建新帳號 獨立運作"></a>2. 讓他創建新帳號 獨立運作</h4><p>到 <strong>Firebase console</strong> -&gt; <strong>Sign-in Method</strong> -&gt; <strong>進階</strong><br>允許用相同 email 建立不同帳戶</p>
-<img src="Firebase-Facebook登入/Same_Email_1.png" style="box-shadow:3px 3px 8px darkgray;" >
-
-<p>讓用不同管道登入的相同帳號獨立運作<br>但這有時不太好，因為登入最初的用意就是針對每個真實用戶<br>如果一個用戶能有多個帳號，有點違背初衷</p>
-<h4 id="3-讓他創建新帳號-再合併"><a href="#3-讓他創建新帳號-再合併" class="headerlink" title="3. 讓他創建新帳號 再合併"></a>3. 讓他創建新帳號 再合併</h4><p>與上個步驟相同，但在用戶登入後請他合併帳號<br>可用 <a target="_blank" rel="noopener" href="https://firebase.google.com/docs/reference/js/firebase.User#linkwithcredential">linkWithCredential()</a> </p>
-<hr>
-<p>Facebook 還有提供 <a target="_blank" rel="noopener" href="https://developers.facebook.com/docs/graph-api/">圖形API</a><br>聽說功能強大<br>之後有機會學一學 再整理上來</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://roto93.github.io/2021/04/01/Firebase-Facebook%E7%99%BB%E5%85%A5/" data-id="cko3ruz670001k8vh6dgkfz63" data-title="Firebase Facebook 登入" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
@@ -499,7 +468,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">彙整</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">五月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">三月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">六月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">五月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">三月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a></li></ul>
     </div>
   </div>
 
@@ -510,6 +479,10 @@
     <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2021/06/09/TextInput-%E8%88%87%E9%8D%B5%E7%9B%A4%E9%96%8B%E9%97%9C%E6%99%82%E6%A9%9F%E7%9A%84%E9%85%8D%E5%90%88/">TextInput 與鍵盤開關時機的配合</a>
+          </li>
         
           <li>
             <a href="/2021/05/23/%E6%8E%A7%E5%88%B6-Expo-app-%E7%9A%84%E8%AE%80%E5%8F%96%E7%95%AB%E9%9D%A2/">控制 Expo app 的讀取畫面</a>
@@ -525,10 +498,6 @@
         
           <li>
             <a href="/2021/05/05/%E5%85%A9%E5%80%8B%E5%BE%9E%E7%B6%B2%E7%AB%99%E5%AF%84email%E7%B5%A6%E8%87%AA%E5%B7%B1%E7%9A%84%E6%96%B9%E6%B3%95/">兩個從網站寄email給自己的方法</a>
-          </li>
-        
-          <li>
-            <a href="/2021/05/01/%E8%87%AA%E8%A3%BD%E6%97%A5%E6%9C%9F%E9%81%B8%E6%93%87%E5%99%A8-1/">自製日期選擇器(1 輸入介面規劃)</a>
           </li>
         
       </ul>
