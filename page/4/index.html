@@ -76,6 +76,96 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-ReactNative-firebse" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/03/29/ReactNative-firebse/" class="article-date">
+  <time class="dt-published" datetime="2021-03-29T05:54:29.000Z" itemprop="datePublished">2021-03-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/03/29/ReactNative-firebse/">React Native + Expo + firebase</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <hr>
+<p>最近研究如何在 react native 中使用 firebase<br>在幾乎不知道 firebase 是什麼的情形下學得還蠻有阻力的<br>網路上大部分都是用 bare react native 來做，像我這種用 Expo 的就會有點東西不一樣<br>現在稍微有點結果，紀錄一下</p>
+<h2 id="設定"><a href="#設定" class="headerlink" title="設定"></a>設定</h2><ol>
+<li><p>首先 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install firebase</span><br></pre></td></tr></table></figure></li>
+<li><p>到 <a target="_blank" rel="noopener" href="https://www.notion.so/React-Native-a082224d7c1a4ed2974b48222c27f399#0506bd16f235404ab6fc5542fadc2079" title="firebase">firebase官網</a> 註冊帳號並新增專案</p>
+</li>
+<li><p>在 firebase console 新增應用程式</p>
+<img src="./ReactNative-firebse/新增應用程式.png" width="600px" /></li>
+<li><p>他會要你選擇應用程式的類型，我們選 web (這是因為我看的教學影片選這個，所以我不清楚如果選 ios 或 android 的話接下來要怎麼填，之後試試看)</p>
+</li>
+<li><p>輸入 app 暱稱後，會得到一組序號，接著回到你的 app 中建立 <code>config.js</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// in config.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> firebaseConfig = &#123;</span><br><span class="line">    apiKey: <span class="string">&quot;AIzaSyAOeSc4qw2vIjTH611d9S-Wxu48ha_DHeQ&quot;</span>,</span><br><span class="line">    authDomain: <span class="string">&quot;tokyo-hold-309006.firebaseapp.com&quot;</span>,</span><br><span class="line">    databaseURL: <span class="string">&quot;https://tokyo-hold-309006-default-rtdb.firebaseio.com&quot;</span>,</span><br><span class="line">    projectId: <span class="string">&quot;tokyo-hold-309006&quot;</span>,</span><br><span class="line">    storageBucket: <span class="string">&quot;tokyo-hold-309006.appspot.com&quot;</span>,</span><br><span class="line">    messagingSenderId: <span class="string">&quot;994735805040&quot;</span>,</span><br><span class="line">    appId: <span class="string">&quot;1:994735805040:web:c5cae5d8b32e5928459ab5&quot;</span>,</span><br><span class="line">    measurementId: <span class="string">&quot;G-M17RL2CVNS&quot;</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></li>
+<li><p>接著我們要在 App.js 中啟用 firebase</p>
+<h2 id="firebase-初始化"><a href="#firebase-初始化" class="headerlink" title="firebase 初始化"></a>firebase 初始化</h2></li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// in App.js</span></span><br><span class="line"><span class="keyword">import</span> firebase <span class="keyword">from</span> <span class="string">&#x27;firebase&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123;firebaseConfig&#125; <span class="keyword">from</span> <span class="string">&#x27;./firebaseConfig&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (firebase.apps.length == <span class="number">0</span>) &#123; firebase.initializeApp(firebaseConfig) &#125;  </span><br><span class="line"><span class="comment">// 檢查現在有沒有其他在firebase初始化的app，不可以同時有兩個初始化</span></span><br></pre></td></tr></table></figure>
+<h3 id="至此事前設定都完成了，接下來我們簡單演示一下用-email-做-Authentication-會用到的語法"><a href="#至此事前設定都完成了，接下來我們簡單演示一下用-email-做-Authentication-會用到的語法" class="headerlink" title="至此事前設定都完成了，接下來我們簡單演示一下用 email 做 Authentication 會用到的語法"></a>至此事前設定都完成了，接下來我們簡單演示一下用 email 做 Authentication 會用到的語法</h3><h2 id="log-in-登入"><a href="#log-in-登入" class="headerlink" title="log in 登入"></a>log in 登入</h2><p>首先我們要到 firebase console 去開啟 email 認證的功能：</p>
+<img src="ReactNative-firebse/開啟email認證1.png"/>
+<img src="ReactNative-firebse/開啟email認證2.png"/>
+
+<p> 接著用 <code>firebase.auth().signInWithEmailAndPassword()</code><br> 代入用戶輸入的信箱跟密碼，就能登入了</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> auth = firebase.auth()</span><br><span class="line"><span class="keyword">const</span> onLogIn=<span class="function">()=&gt;</span>&#123;</span><br><span class="line">	auth.signInWithEmailAndPassword(email, pass)</span><br><span class="line">	.then(<span class="function">(<span class="params">result</span>) =&gt;</span> <span class="built_in">console</span>.log(<span class="string">&#x27;you\&#x27;ve logged in&#x27;</span>))</span><br><span class="line">	.catch(<span class="function"><span class="params">err</span> =&gt;</span> alert(err))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p> 完成後點擊 log in 按鈕會報錯，這是因為 DB 還沒有註冊任何 user<br> 因此我們來新增 sign in 的功能</p>
+<h2 id="Sign-in-註冊"><a href="#Sign-in-註冊" class="headerlink" title="Sign in 註冊"></a>Sign in 註冊</h2><p>用到的是 <code>firebase.auth().creactUserWithEmailAndPassword()</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> onSignIn = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="comment">// <span class="doctag">TODO:</span> Check real email</span></span><br><span class="line">        auth.createUserWithEmailAndPassword(email, pass)</span><br><span class="line">        .then(<span class="function">(<span class="params">resule</span>)=&gt;</span>&#123;alert(<span class="string">&#x27;sign in successfully&#x27;</span>)&#125;)</span><br><span class="line">        .catch(<span class="function"><span class="params">err</span> =&gt;</span> alert(err))</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>在點擊 sign in 按鈕後，如果沒報錯，在 firebase console 這邊就會看到有人註冊的資訊</p>
+<img src="ReactNative-firebse/用戶註冊.png" />
+
+<h2 id="sign-out-登出"><a href="#sign-out-登出" class="headerlink" title="sign out 登出"></a>sign out 登出</h2><p><code>firebase.auth().signOut()</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> onSignOut = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    auth.signOut()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接下來我們可以判斷用戶是否有登入，在登入狀態顯示登出的按鈕，如果尚未登入，就隱藏登出按鈕<br>因此我們建立一個 user state listener</p>
+<h2 id="User-State-Listener-登入確認"><a href="#User-State-Listener-登入確認" class="headerlink" title="User State Listener 登入確認"></a>User State Listener 登入確認</h2><p><code>firebase.auth().onAuthStateChanged()</code></p>
+<p>這個函數定義了每次用戶狀態變更的時候(如登入或登出)要做什麼，如果用戶有登入，就會傳入 user object，反之如果未登入，user 就會是 null。</p>
+<p>記得包在 <code>useEffect()</code> 內，每次渲染都讓他檢查一次</p>
+<p>實際使用起來像這樣：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> checkUser = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> logInSetup = <span class="function">(<span class="params">user</span>) =&gt;</span> &#123;</span><br><span class="line">        setUsername(user.email)</span><br><span class="line">        setIsLoggedIn(<span class="literal">true</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">const</span> logOutSetup = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">        setUsername(<span class="string">&#x27;&#x27;</span>)</span><br><span class="line">        setIsLoggedIn(<span class="literal">false</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    auth.onAuthStateChanged(<span class="function"><span class="params">user</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (user) &#123;</span><br><span class="line">            logInSetup(user)</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            logOutSetup()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line">useEffect(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    checkUser()</span><br><span class="line">&#125;, [])</span><br></pre></td></tr></table></figure>
+
+<h2 id="delete-刪除用戶"><a href="#delete-刪除用戶" class="headerlink" title="delete 刪除用戶"></a>delete 刪除用戶</h2><p>使用 <code>firebase.auth().currentUser.delete()</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> onDelete = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">	<span class="comment">// 如果未登入 auth.currentUser 會是 null，則 null.delete() 會報錯</span></span><br><span class="line">    <span class="keyword">if</span> (auth.currentUser)   </span><br><span class="line">        auth.currentUser.delete()</span><br><span class="line">            .then(<span class="function">(<span class="params">result</span>) =&gt;</span> &#123; setIsLoggedIn(<span class="literal">false</span>), alert(<span class="string">&#x27;User has been deleted!&#x27;</span>) &#125;)</span><br><span class="line">            .catch(<span class="function"><span class="params">err</span> =&gt;</span> &#123; setShowReAuthModal(<span class="literal">true</span>), <span class="built_in">console</span>.log(err) &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>需注意，刪除用戶是很危險的舉動，因此你必須在不久前登入過才能夠順利刪除用戶，如果距離你上次登入已經有一段時間了，你會需要認證用戶 <a target="_blank" rel="noopener" href="https://firebase.google.com/docs/auth/web/manage-users#re-authenticate_a_user" title="firebase re-auth tag">(Re-Authentication)</a></p>
+<h2 id="Re-Authentication-再次登入"><a href="#Re-Authentication-再次登入" class="headerlink" title="Re-Authentication 再次登入"></a>Re-Authentication 再次登入</h2><img src="ReactNative-firebse/re-Auth.png" />
+
+<p>官網沒有說明 credential 要怎麼做出來<br>查了一下網路，原來要用 <code>firebase.auth.EmailAuthProvider.credential(email, password)</code><br>注意是 <code>auth</code> 不是 <code>auth()</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> onReAuth = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> credential = firebase.auth.EmailAuthProvider.credential(</span><br><span class="line">        auth.currentUser.email,</span><br><span class="line">        confirmPass</span><br><span class="line">    );</span><br><span class="line">    auth.currentUser.reauthenticateWithCredential(credential).catch(<span class="function"><span class="params">err</span> =&gt;</span> alert(err))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>恭喜你目前為止已經學會基本的登入了</p>
+<p>可以到 <a target="_blank" rel="noopener" href="https://github.com/roto93/react-native-firebase-works" title="my github page">這上面</a> 看看我做的範例</p>
+<p>之後我會把 facebook、google 認證方式一併整理上來。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://roto93.github.io/2021/03/29/ReactNative-firebse/" data-id="cko3ruz6d0008k8vha6ngawgw" data-title="React Native + Expo + firebase" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-css-hanging-indent" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2021/01/31/css-hanging-indent/" class="article-date">
@@ -364,6 +454,10 @@
       <ul>
         
           <li>
+            <a href="/2021/06/30/%E5%9C%A8Expo%E5%B0%88%E6%A1%88%E4%BD%BF%E7%94%A8reanimated-v2-0/">在 Expo 專案使用 reanimated v2 基礎篇</a>
+          </li>
+        
+          <li>
             <a href="/2021/06/09/TextInput-%E8%88%87%E9%8D%B5%E7%9B%A4%E9%96%8B%E9%97%9C%E6%99%82%E6%A9%9F%E7%9A%84%E9%85%8D%E5%90%88/">TextInput 與鍵盤開關時機的配合</a>
           </li>
         
@@ -377,10 +471,6 @@
         
           <li>
             <a href="/2021/05/07/%E8%87%AA%E8%A3%BD%E6%97%A5%E6%9C%9F%E9%81%B8%E6%93%87%E5%99%A8-2/">自製日期選擇器-2 (custom hook)</a>
-          </li>
-        
-          <li>
-            <a href="/2021/05/05/%E5%85%A9%E5%80%8B%E5%BE%9E%E7%B6%B2%E7%AB%99%E5%AF%84email%E7%B5%A6%E8%87%AA%E5%B7%B1%E7%9A%84%E6%96%B9%E6%B3%95/">兩個從網站寄email給自己的方法</a>
           </li>
         
       </ul>
