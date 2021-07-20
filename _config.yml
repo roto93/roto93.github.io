@@ -4,8 +4,8 @@
 
 # Site
 title: Pi's Blog
-subtitle: 一些程式自學小記錄
-description: ''
+subtitle: ''
+description: 一些程式自學小記錄
 keywords: 程式,自學
 author: Guan-Ting Su
 language: zh-TW
@@ -63,7 +63,7 @@ prismjs:
 # order_by: Posts order. (Order by date descending by default)
 index_generator:
   path: ''
-  per_page: 5
+  per_page: 3
   order_by: -date
 
 # Category & Tag
@@ -86,7 +86,7 @@ updated_option: 'mtime'
 
 # Pagination
 ## Set per_page to 0 to disable pagination
-per_page: 4
+per_page: 6
 pagination_dir: page
 
 # Include / Exclude file(s)
@@ -98,7 +98,8 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: landscape
+# theme: landscape
+theme: next
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
@@ -107,3 +108,6 @@ deploy:
   repo: https://github.com/roto93/roto93.github.io.git
   branch: master
 
+search:
+    path: search.xml
+    field: post
