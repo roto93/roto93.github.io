@@ -67,7 +67,7 @@ mkdir my-first-flask-api
 存放一些專案的 dependency
 只不過跟node不同的是
 node每個專案都有獨立的環境，所以不同專案間的依賴是互不影響的
-但 python 就比較複雜，如果直接 pip 安裝任何套件
+但 python 就比較複雜，如果直接 pip 安裝任何模組
 他們會被裝在 `...python/lib/site-packages...` 之類的地方
 有點像 global install 的感覺
 但其實沒那麼簡單，因為 python 又可以同時存在好幾個版本
@@ -115,9 +115,27 @@ node每個專案都有獨立的環境，所以不同專案間的依賴是互不�
 `pip install flask`
 
 完成後可以輸入 `pip show flask`
-檢查套件是否如期被安裝在 .venv 虛擬環境中
+檢查模組是否如期被安裝在 .venv 虛擬環境中
 如果在這之前沒有先啟用虛擬環境的話
 flask 就會被安裝在 site-package 那裏
+
+安裝完所需的模組後執行:
+`pip freeze > requirements.txt`
+
+`pip freeze` 有點像為目前的開發環境拍張 snapshot
+紀錄所使用的模組有哪些
+就好像凍結這一瞬間一樣(莫名有點浪漫?)
+後面的 `>` 代表要把左側的輸出值寫入右側的檔案
+也就是 `requirements.txt` 中
+
+這是為了讓其他人 clone 這份專案後能夠以
+`pip install -r requirements.txt` (-r: --requirement)
+安裝專案所需的模組
+
+這邊要注意，最好是使用複數的 requirements
+雖然打什麼檔名都可以 `pip install -r`
+但有些時候會嚴格檢查(如Heroku)
+所以還是要照規矩來比較好
 
 ## <font color="#f4a261">撰寫API</font>
 
@@ -128,8 +146,8 @@ from flask import Flask
 
 app = Flask(__name__)
 
-if __name__ == "__main__":   #當這份程式被作為主程式執行時
-    app.run(debug=Ture)   #執行app，debug=True會讓app處於監聽狀態
+if __name__ == "__main__":   # 當這份程式被作為主程式執行時
+    app.run(debug=Ture)   # 執行app，debug=True會讓app處於監聽狀態
 ```
 
 接著我們建立根路徑
@@ -158,5 +176,12 @@ FSADeprecationWarning: SQLALCHEMY_TRACK_MODIFICATIONS adds significant overhead 
 
 打開瀏覽器並進到 http://127.0.0.1:5000/
 就會看到輸出的字串了!
+
+## <font color="#f4a261">待續</font>
+
+
+文章先寫到這吧不想讓這篇變太長
+串接資料庫的部分就留到下一篇囉
+到時也會把 API 的 POST, DELETE 方法給做出來
 
 </font>
