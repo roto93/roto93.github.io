@@ -1,5 +1,5 @@
 ---
-title: 不建議在Heroku上用sqlite當DB?
+title: 不建議在 Heroku 上用 SQLite 當 DB?
 date: 2021-07-28 23:40:07
 tags:
 ---

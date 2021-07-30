@@ -1,5 +1,5 @@
 ---
-title: 在firebase部署你的react專案
+title: 在 firebase 部署你的 react 專案
 date: 2021-04-23 09:01:02
 tags:
 ---
