@@ -99,16 +99,14 @@ if __name__ == "__main__":
 
 ```
 
-要連接 postgres 資料庫，我需要加上:
+要連接本地 postgres 資料庫，我需要加上:
 
 ```python
 app.config["SQLALCHEMY_DATABASE_URI"] = 'postgresql://postgres:et0997@localhost/issuedata'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 ```
 
-這邊我令了一個`ENV`變數判斷現在是開發階段還是成品階段
-成品階段的說明我留到後面再說
-如果是在開發階段 
+我們先來看第一行
 
 `app.config["SQLALCHEMY_DATABASE_URI"] = 'postgresql://postgres:et0997@localhost/issuedata'`
 

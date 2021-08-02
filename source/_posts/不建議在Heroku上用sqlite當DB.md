@@ -8,10 +8,12 @@ tags:
 
 這會是個小短篇
 在前兩篇文章中我介紹了怎麼用 python flask 架設 api 
+
+於是接下來我就在研究要如何
 串接 sqlite 資料庫後放到 Heroku 上運作
 
-後來我想到個問題
-就是api如果經過POST請求修改了資料庫
+研究途中想到個問題
+就是 api 如果經過 POST 請求修改了資料庫
 那在雲端更新的資料要怎麼抓下來到本地中?
 
 我試了 `git pull heroku main`
