@@ -1,6 +1,6 @@
 ---
 title: 用Python-Flask打造API-Postgres遠端篇
-date: 2021-08-02 11:46:57
+date: 2021-08-08 11:46:57
 tags:
 ---
 
@@ -9,7 +9,7 @@ tags:
 
 ## <font color="#f4a261">前言</font>
 
-繼前一篇我們成功在本地端為我們的 flask api 串接資料庫
+繼前兩篇我們成功在本地端為我們的 flask api 串接資料庫
 現在我們要在 Heroku 上做一樣的事情
 恩... 應該說目標一樣
 但要做的設定還蠻不一樣的
@@ -39,7 +39,7 @@ TAN 也根本沒人要看吧! (誤
 
 `heroku addons:create heroku-postgresql:hobby-dev --app <heroku_app_name>`
 
-最後的 --app 可以指定 app 名稱
+用 --app 這個 flag 可以指定 app 名稱
 如果你在 heroku 上有多個 app，指定一下比較不會出錯
 
 再來你需要一組 uri 作為 SQLALCHEMY_DATABASE_URI 的設定值，執行
@@ -66,11 +66,45 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 然後我也把 debug 的設定放到這段的 if statement 中
 所以程式中原本的`app.run(debug=True)`也可以改回`app.run()`了
 
-
-## <font color="#f4a261"></font>
-
-
 ## <font color="#f4a261">在 Heroku 建立 table</font>
 
+先確定你有依照上一篇的教學將專案 deploy 到 heroku 上
+執行 `heroku run python` 後輸入指令
+```python
+from app import db # 從 app.py 中引入 db 模組
+db.create_all() # 在 app.config 中所指定的 database 中建立 table
+```
+如果要刪除 table 就用`db.drop_all()`
 
+完成，之後就能夠用 ORM 指令操作 database 了!
 
+## <font color="#f4a261">在 heroku 上用 psql 檢視資料</font>
+
+如果想看 heroku 上的資料，執行
+`heroku pg:psql`
+就會進到 psql 的 shell 中
+
+`\list`
+這個指令能印出 post gres 中的所有資料庫
+不過如果在 heroku postgres 上執行的話，他只會跳出一堆以亂數取名的資料庫，對我們來說其實沒什麼意義
+但如果在本地端開 psql 的話，你看到的就會是你之前創立過的資料庫了
+要切換所在資料庫，執行 `\c <資料庫名稱>`
+
+`\dt`
+這個指令會印出目前所在的資料庫中有哪些 table
+
+接下來你就能用 SQL 來獲取資料
+假設資料表名稱是 table_issues
+`SELECT * FROM table_issues`
+
+## <font color="#f4a261">結語</font>
+
+這是我第一次架設 api 
+回頭一看發現學了好多東西
+Flask, Flask-SQLAlchemy, Heroku, PostgreSQL
+完全沒料到，原本以為只要學 Flask 就好 XD
+
+不過也好啦，直接學了整個體系，包含api功能，架設到雲端，資料庫的存取
+要不是我已經有了想達成的目標(優化TAN網站)
+不然如果我只是單純想學做 API 的話可能只會學到 Flask 而已
+之後的某月某日還是會需要惡補其他環節的
