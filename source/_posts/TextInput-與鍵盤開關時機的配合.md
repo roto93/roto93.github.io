@@ -10,7 +10,7 @@ TextInput 在 Focus 狀態時，是沒辦法立刻觸發其他按鈕的
 才能觸發別的按鈕
 其實不只是按鈕，其他需要 recieve touch 的元件也有這個問題
 
-<img src="./TextInput-與鍵盤開關時機的配合/situation.png" width="50%" style="box-shadow:3px 3px 8px darkgray">
+<img src="situation.png" width="50%" style="box-shadow:3px 3px 8px darkgray">
 
 至於為什麼強調是在做 sideProject 的時候呢?
 因為這在一般情況不太算是問題

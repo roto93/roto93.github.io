@@ -37,11 +37,11 @@ tags:
 
 通常在訪客做出 submit 時，會自動跳出 reCAPTCHA 認證框
 
-<img src="./兩個從網站寄email給自己的方法/FormSubmit1.png" style="box-shadow: 2px 1px 6px gray" width="60%" />
+<img src="FormSubmit1.png" style="box-shadow: 2px 1px 6px gray" width="60%" />
 
 並且在成功寄出郵件後會跳轉到他們提供的 thankyou page 
 
-<img src="./兩個從網站寄email給自己的方法/FormSubmit2.png" style="box-shadow: 2px 1px 6px gray" width="60%" />
+<img src="FormSubmit2.png" style="box-shadow: 2px 1px 6px gray" width="60%" />
 
 你可以視情況決定是否要顯示這些訊息
 這邊就來示範一下
@@ -75,7 +75,7 @@ tags:
 
 登入後會進到 dashboard 
 我們先來到 Email Service 點擊 <b>Add New Service</b>
-<img src="./兩個從網站寄email給自己的方法/emailjs1.png" style="box-shadow: 2px 1px 6px gray" width="60%" />
+<img src="emailjs1.png" style="box-shadow: 2px 1px 6px gray" width="60%" />
 先跟大家釐清一件事(因為我當初搞混)
 emailJS 並不會幫大家寄信，而是幫你建立起網站與 email server 之間的橋樑
 這個橋梁就是 email service，
@@ -85,14 +85,14 @@ emailJS 並不會幫大家寄信，而是幫你建立起網站與 email server �
 但是要記住，無論你選了什麼都不代表它是你的收件信箱，而是<b>寄信信箱</b>
 就像我前面提的，你註冊的信箱才是
 
-<img src="./兩個從網站寄email給自己的方法/emailjs2.png" style="box-shadow: 2px 1px 6px gray" width="60%" />
+<img src="emailjs2.png" style="box-shadow: 2px 1px 6px gray" width="60%" />
 
 做好選擇，依照指示進行，你就會得到一組 <font color="orange">service ID (記得它, 待會會用到)</font>
 
 接下來到 Email Templates 設定你收件時所見的內容格式
 這邊其實可以直接 Create New Template，什麼都不改直接
 
-<img src="./兩個從網站寄email給自己的方法/emailjs3.png" style="box-shadow: 2px 1px 6px gray" width="60%" />
+<img src="emailjs3.png" style="box-shadow: 2px 1px 6px gray" width="60%" />
 
 一樣我們會得到一組 <font color="orange">template ID (記得它, 待會會用到)</font>
 

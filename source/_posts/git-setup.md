@@ -15,14 +15,14 @@ tags:
  這時候就會建立一個隱藏資料夾 .git/ ，我們就能在這個資料夾內使用 git 的 command line 了
 
  3. 接下來到 [github](https://github.com 'Github官網') 註冊帳號並建立 remote repository
-<img src="./git-setup/github_create_repository.png" width="600px" />
+<img src="github_create_repository.png" width="600px" />
 
 
- 4. 到 repository 的首頁，點擊 code 按鈕後複製 HTTPS 網址
+ 1. 到 repository 的首頁，點擊 code 按鈕後複製 HTTPS 網址
 
-<img src="git-setup/github_get_URL.png" width="600px" />
+<img src="github_get_URL.png" width="600px" />
 
- 5. 回到 local repo，現在我們需要把本地和遠端的 repo 連結起來
+ 1. 回到 local repo，現在我們需要把本地和遠端的 repo 連結起來
 
  ```
  git remote add origin 剛剛的URL

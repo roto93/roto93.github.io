@@ -183,7 +183,7 @@ def add_issue():
 POST 有沒有成功比較難單用瀏覽器測試
 所以我們可以用 postman 如下 (記得要選擇 POST 再按 send)
 
-<img src="./用Python-Flask打造API-DB篇/post-man-1.png" width="700px">
+<img src="post-man-1.png" width="700px">
 
 ## <font color="#f4a261">撰寫 DELETE 方法</font>
 

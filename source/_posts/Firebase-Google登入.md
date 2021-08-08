@@ -30,21 +30,21 @@ Firebase 和 google 之間多了 Expo 的交接
 #### 1. 首先到 google 的 [credentials page](https://console.developers.google.com/apis/credentials)
 
 #### 2. 建立專案
-<img src="Firebase-Google登入/firebase google Auth_1.png" style="box-shadow:3px 3px 8px darkgray">
+<img src="firebase google Auth_1.png" style="box-shadow:3px 3px 8px darkgray">
 &nbsp;
 
-<img src="Firebase-Google登入/firebase google Auth_2.png" style="box-shadow:3px 3px 8px darkgray">
+<img src="firebase google Auth_2.png" style="box-shadow:3px 3px 8px darkgray">
 
 這邊無法選擇內部，因此放心選外部
 後續還有一些步驟但不成問題
 
 #### 3. 回到憑證頁面 -> 建立憑證 -> 選 OAuth 用戶端 ID
 
-<img src="Firebase-Google登入/firebase google Auth_3.png" style="box-shadow:3px 3px 8px darkgray">
+<img src="firebase google Auth_3.png" style="box-shadow:3px 3px 8px darkgray">
 
 #### 4. 依照手機系統選擇 Android / iOS
 
-<img src="Firebase-Google登入/firebase google Auth_4.png" style="box-shadow:3px 3px 8px darkgray">
+<img src="firebase google Auth_4.png" style="box-shadow:3px 3px 8px darkgray">
 
 #### 5. 設定套件名稱＆憑證指紋
 - 套件名稱填 `host.exp.exponent`

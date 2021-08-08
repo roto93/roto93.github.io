@@ -24,14 +24,14 @@ tags:
 安裝時注意一件事
 我們要另外自己手動安裝 pgAdmin 
 所以記得把這個 pgAdmin4 的選項取消，不要選
-<img src="./用Python-Flask打造API-Postgres篇/postgres-1.jpg" width="50%">
+<img src="postgres-1.jpg" width="50%">
 接下來他會請你指定安裝路徑，super 使用者的密碼，預設 port，時區(選default就好)
 
 再來要到[這裡](https://www.pgadmin.org/download/)安裝 pgAdmin
 安裝過程很單純，一直下一步到安裝就好，不會有什麼問題
 完成後打開它
 
-<img src="./用Python-Flask打造API-Postgres篇/postgres-2.jpg" width="50%">
+<img src="postgres-2.jpg" width="50%">
 
 到這邊安裝就差不多了
 
@@ -40,8 +40,8 @@ tags:
 點擊此處建立資料庫，取名
 (以後面的例子而言我是取 issuedata，不是圖裡的 NewDatabase)
 
-<img src="./用Python-Flask打造API-Postgres篇/postgres-3.jpg" width="50%">
-<img src="./用Python-Flask打造API-Postgres篇/postgres-4.jpg" width="50%">
+<img src="postgres-3.jpg" width="50%">
+<img src="postgres-4.jpg" width="50%">
 
 接下來回到程式端
 前幾篇文章的程式碼都是 for 教學用的
@@ -153,8 +153,8 @@ db.session.commit() # 提交 session
 完成後打開 pgAdmin 
 從以下路徑找到名為 issuedata 的 table
 
-<img src="./用Python-Flask打造API-Postgres篇/postgres-7.jpg" width="80%">
-<img src="./用Python-Flask打造API-Postgres篇/postgres-8.jpg" width="80%">
+<img src="postgres-7.jpg" width="80%">
+<img src="postgres-8.jpg" width="80%">
 
 耶! 看到資料了
 

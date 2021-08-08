@@ -23,30 +23,30 @@ expo install expo-facebook
 
 #### 2. 到 [Facebook for Developers](https://developers.facebook.com/?no_redirect=1) 註冊並建立應用程式
 
-<img src="Firebase-Facebook登入/Firebase_Facebook_Auth1.png" style="box-shadow:3px 3px 8px darkgray">
+<img src="Firebase_Facebook_Auth1.png" style="box-shadow:3px 3px 8px darkgray">
 
 我們要的是facebook登入，所以選「打造互聯體驗」
 
-<img src="Firebase-Facebook登入/Firebase_Facebook_Auth2.png" style="box-shadow:3px 3px 8px darkgray">
+<img src="Firebase_Facebook_Auth2.png" style="box-shadow:3px 3px 8px darkgray">
 
 輸入名稱和email
 
-<img src="Firebase-Facebook登入/Firebase_Facebook_Auth3.png" style="box-shadow:3px 3px 8px darkgray">
+<img src="Firebase_Facebook_Auth3.png" style="box-shadow:3px 3px 8px darkgray">
 
 #### 3. 設立 → 基本資料 → 新增平台
 
-<img src="Firebase-Facebook登入/Firebase_Facebook_Auth5.png" style="box-shadow:3px 3px 8px darkgray">
+<img src="Firebase_Facebook_Auth5.png" style="box-shadow:3px 3px 8px darkgray">
 
 #### 4. 選擇 iOS 和 Android
 
-<img src="Firebase-Facebook登入/Firebase_Facebook_Auth6.png" style="box-shadow:3px 3px 8px darkgray">
+<img src="Firebase_Facebook_Auth6.png" style="box-shadow:3px 3px 8px darkgray">
 
 #### 5. 
 #### 在 ios 套件組合編號輸入 `host.exp.Exponent`
 #### 在 android 金鑰輸入 `rRW++LUjmZZ+58EbN5DVhGAnkX4=`
 #### → 儲存變更
 
-<img src="Firebase-Facebook登入/Firebase_Facebook_Auth7.png" style="box-shadow:3px 3px 8px darkgray; height: 500px" >
+<img src="Firebase_Facebook_Auth7.png" style="box-shadow:3px 3px 8px darkgray; height: 500px" >
 
 
 糟糕為了放一些圖結果文章變得好長XD 
@@ -163,7 +163,7 @@ function isUserEqual(facebookAuthResponse, firebaseUser) {
 到 **Firebase console** -> **Sign-in Method** -> **進階**
 允許用相同 email 建立不同帳戶
 
-<img src="Firebase-Facebook登入/Same_Email_1.png" style="box-shadow:3px 3px 8px darkgray;" >
+<img src="Same_Email_1.png" style="box-shadow:3px 3px 8px darkgray;" >
 
 讓用不同管道登入的相同帳號獨立運作
 但這有時不太好，因為登入最初的用意就是針對每個真實用戶

@@ -16,7 +16,7 @@ tags:
 在 firebase 匿名登入很簡單
 首先到 firebase console 開啟匿名登入的功能
 
-<img src="firebase-匿名登入/firebase啟用匿名登入功能.png">
+<img src="firebase啟用匿名登入功能.png">
 
 接著再 app 中使用：
 
@@ -40,7 +40,7 @@ firebase.auth().onAuthStateChanged((user)=>{
 
 匿名登入有個問題，如果有個用戶一直登入登出，這會導致匿名帳號不斷被建立，像這樣：
 
-<img src="firebase-匿名登入/重複建立匿名帳號.png">	
+<img src="重複建立匿名帳號.png" >	
 
 所以比較好的做法是：當用戶要登出匿名帳號時，一併把他的帳戶從後台刪除
 

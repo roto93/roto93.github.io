@@ -20,11 +20,11 @@ npm install firebase
 2. 到 [firebase官網](https://www.notion.so/React-Native-a082224d7c1a4ed2974b48222c27f399#0506bd16f235404ab6fc5542fadc2079 'firebase') 註冊帳號並新增專案
 
 3. 在 firebase console 新增應用程式
-<img src="./ReactNative-firebse/新增應用程式.png" width="600px" />
+<img src="新增應用程式.png" width="600px" />
 
-4. 他會要你選擇應用程式的類型，我們選 web (這是因為我看的教學影片選這個，所以我不清楚如果選 ios 或 android 的話接下來要怎麼填，之後試試看)
+1. 他會要你選擇應用程式的類型，我們選 web (這是因為我看的教學影片選這個，所以我不清楚如果選 ios 或 android 的話接下來要怎麼填，之後試試看)
 
-5. 輸入 app 暱稱後，會得到一組序號，接著回到你的 app 中建立 `config.js`
+2. 輸入 app 暱稱後，會得到一組序號，接著回到你的 app 中建立 `config.js`
 ```javascript
 // in config.js
 export const firebaseConfig = {
@@ -56,8 +56,8 @@ if (firebase.apps.length == 0) { firebase.initializeApp(firebaseConfig) }
 
 首先我們要到 firebase console 去開啟 email 認證的功能：
 
-<img src="ReactNative-firebse/開啟email認證1.png"/>
-<img src="ReactNative-firebse/開啟email認證2.png"/>
+<img src="開啟email認證1.png"/>
+<img src="開啟email認證2.png"/>
 
  接著用 `firebase.auth().signInWithEmailAndPassword()`
  代入用戶輸入的信箱跟密碼，就能登入了
@@ -87,7 +87,7 @@ const onSignIn = () => {
 
 在點擊 sign in 按鈕後，如果沒報錯，在 firebase console 這邊就會看到有人註冊的資訊
 
-<img src="ReactNative-firebse/用戶註冊.png" />
+<img src="用戶註冊.png" />
 
 ## sign out 登出
 
@@ -152,7 +152,7 @@ const onDelete = () => {
 
 
 ## Re-Authentication 再次登入
-<img src="ReactNative-firebse/re-Auth.png" />
+<img src="re-Auth.png" />
 
 官網沒有說明 credential 要怎麼做出來
 查了一下網路，原來要用 `firebase.auth.EmailAuthProvider.credential(email, password)`
