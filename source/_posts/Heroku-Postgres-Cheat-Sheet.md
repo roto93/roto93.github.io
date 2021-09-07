@@ -4,6 +4,8 @@ date: 2021-09-07 11:08:51
 tags:
 ---
 
+<font size="3" color="#aaa">
+
 ## <font color="#f4a261">前言</font>
 
 這裡記錄一些 Heroku Postgres 常用的指令
@@ -58,6 +60,10 @@ Full TZ format 查詢: https://en.wikipedia.org/wiki/List_of_tz_database_time_zo
 `heroku pg:backups:unschedule DATABASE_URL`
 DATABASE_URL: 如果一個 APP 有多個 DATABASE，則需指定 DATABASE 的 URL
 
+- 下載備份
+`heroku pg:backups:download BACKUP_ID -o OUTPUT_NAME`
+BACKUP_ID: 要下載的備份檔id，可先用 heroku pg:backups 查詢 
+OUTPUT_NAME: 輸出的路徑與檔名，預設為 `latest.dump`，但如果沒有設定的話不會覆寫同名檔案，而是變成`latest.demp.1`
 
 ## 本地 postgres 操作
 
