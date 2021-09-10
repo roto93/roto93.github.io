@@ -36,6 +36,12 @@ TRUNCATE TABLE table_name;
 -- 刪除整個資料庫
 DROP DATABASE database_name;
 
+--顯示某 table 的所有欄位
+SELECT column_name 
+ FROM information_schema.columns 
+ WHERE table_name = 'table_issues' 
+ AND table_schema = 'public';
+
 ```
 
 ## 遠端 heroku postgres 操作
