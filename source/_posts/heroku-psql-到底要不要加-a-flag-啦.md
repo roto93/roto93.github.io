@@ -65,9 +65,30 @@ heroku卻知道我要使用哪個app
  »     -a, --app APP  app to run command against
  »   See more help with --help
 ```
+所以現在確定了
+只有在我的專案資料夾才能夠省略 --app
 
+這時我突然想到
+在當初第一次使用 heroku 的時候
+有做了一些前置作業
+其中包含了指定 remote
+很有可能就是這個原因
 
+```
+> git remote -v
+heroku  https://git.heroku.com/taiwan-astronomy-network-api.git (fetch)
+heroku  https://git.heroku.com/taiwan-astronomy-network-api.git (push)
+origin  https://github.com/roto93/TAN-API.git (fetch)
+origin  https://github.com/roto93/TAN-API.git (push)
+```
 
+後來我也試著把 remote 去掉再試一次，這樣就不行了
+看來可以確定主因了
+
+## <font color="#f4a261">結論</font>
+
+若專案資料夾有設定 heroku 的 remote
+那在輸入 heroku 指令時就不需要加上 --app 的 flag
 
 
 [參考](https://stackoverflow.com/questions/51815542/heroku-missing-required-flag-a)
