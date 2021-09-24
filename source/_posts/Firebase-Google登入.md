@@ -96,8 +96,8 @@ firebase 提供的 popup/redirect 兩種方法
 
 所以我們在行動端只能用[進階做法](https://firebase.google.com/docs/auth/web/google-signin#expandable-2)
 
-## 1. 到 firebase console 開啟 facebook sign in 的功能
-## appId 和 appKey 可以在 facebook API 頁面找到
+## 1. 到 firebase console 開啟 Google sign in 的功能
+## appId 和 appKey 可以在 Google API 頁面找到
 
 
 ## 2. 定義 `onSignIn()`
