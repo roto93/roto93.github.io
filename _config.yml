@@ -92,6 +92,7 @@ pagination_dir: page
 # Include / Exclude file(s)
 ## include:/exclude: options only apply to the 'source/' folder
 include:
+  - .nojekyll
 exclude:
 ignore:
 
@@ -107,6 +108,7 @@ deploy:
   type: git
   repo: https://github.com/roto93/roto93.github.io.git
   branch: master
+  ignore_hidden: false
 
 search:
     path: search.xml
