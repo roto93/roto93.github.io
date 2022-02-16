@@ -73,3 +73,11 @@ npm install react-native-purchase
 還有一個理由是因為我們要用 RevenueCat
 RevenueCat 是一個幫助你完成 IAP 的服務
 除了可以統一管理各平台的內購項目外
+也可以協助你分析用戶的購買資料
+總之也是個蠻棒的東西 ((前提是我有弄成功XD
+寫這篇文的現在還在摸索當中
+如果最後沒成功就好笑了
+
+<img style="width:80%" src="https://i.imgur.com/p4pJElB.png"></img>
+
+先到[官網](https://www.revenuecat.com)註冊帳號吧
