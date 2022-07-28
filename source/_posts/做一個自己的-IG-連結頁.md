@@ -105,11 +105,12 @@ mobile-first 的用意就是先做出CSS規則較少的手機版網頁
 
 ## <font color="#f4a261">成品</font>
 
+<img width="70%" src="./做一個自己的-IG-連結頁/done.jpg">
+
 完成的網頁在 [這裡](https://insta-profile-page-4f7d8.web.app)
 雖然說不上多厲害
 但用自己做出來的東西
 果然還是比較開心
-<img width="70%" src="./做一個自己的-IG-連結頁/done.jpg">
 
 
 
