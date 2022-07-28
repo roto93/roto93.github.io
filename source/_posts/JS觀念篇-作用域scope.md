@@ -70,6 +70,10 @@ printText()
 text 變數的作用域只在 innerPrint 函式內
 超出這個 scope 就取不到了
 
+話說那我們要怎麼宣告全域變數呢
+只要在所有函式之外進行 var 宣告就可以了
+只是要注意，不要再說「var就是宣告全域變數」囉
+
 ## <font color="#f4a261">let 和 const 的作用域</font>
 
 `let`和`const`都是用來宣告「區塊變數 block variable」
@@ -92,6 +96,10 @@ printText()
 // "text1: Earth"
 // Throwing error
 ```
+
+text2 就印不出來了
+因為 text2 只能在 if statement 中生存
+這就是超出作用域的例子
 
 ## <font color="#f4a261">var VS let/const</font>
 
