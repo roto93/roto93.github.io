@@ -104,6 +104,8 @@ startButton.onclick = ()=>{
 這些 counter 互不干涉
 這就是閉包的效果
 
+此範例的完整 code 請見 [我的 codepen](https://codepen.io/roto93/pen/YzaYbVg)
+
 ## <font color="#f4a261">結論</font>
 
 #### 閉包 Closure: 
