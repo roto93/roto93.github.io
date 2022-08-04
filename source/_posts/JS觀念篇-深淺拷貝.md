@@ -111,11 +111,7 @@ console.log(A.num.ch, B.num.ch) //"四", "一"
 
 ## <font color="#f4a261">結論</font>
 
-<font color="gold">
-
 > <font color="gold">淺拷貝: 看似複製，其實是指向相同位址</font>
 > <font color="gold">深拷貝: 另用一個記憶體存值，實質意義上的複製</font>
-
-</font>
 
 <img width="70%" src="./JS觀念篇-深淺拷貝/shallow-deep-clone.jpg">
