@@ -113,8 +113,8 @@ console.log(A.num.ch, B.num.ch) //"四", "一"
 
 <font color="gold">
 
-> 淺拷貝: 看似複製，其實是指向相同位址
-> 深拷貝: 另用一個記憶體存值，實質意義上的複製
+> <font color="gold">淺拷貝: 看似複製，其實是指向相同位址</font>
+> <font color="gold">深拷貝: 另用一個記憶體存值，實質意義上的複製</font>
 
 </font>
 
