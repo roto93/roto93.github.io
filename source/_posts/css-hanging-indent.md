@@ -4,6 +4,8 @@ date: 2021-01-31 00:31:04
 tags:
 ---
 
+<font size="2" color="#aaa">
+
 從第二行開始縮排有個專有名詞，叫做 <font color=orange>**hanging indent**</font>，這篇文章會說明如何做到這點。
 
 ## <center>CSS 的 *text-indent 屬性*</center> ##

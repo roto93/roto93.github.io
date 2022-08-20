@@ -3,7 +3,8 @@ title: Git 快速上手
 date: 2021-03-30 23:39:27
 tags:
 ---
- 
+ <font size="2" color="#aaa">
+
  這篇文章會教你如何建立 repository，以及如何上傳到 github	
 
  1. 安裝 [Git](https://git-scm.com/downloads 'Git官網')

@@ -3,7 +3,8 @@ title: Firebase database
 date: 2021-04-05 14:18:55
 tags:
 ---
-***
+
+<font size="2" color="#aaa">
 
 有了登入功能後，我們可能會希望儲存用戶的資料
 
@@ -24,9 +25,9 @@ tags:
 
 在開始前，別忘了到 firebase console 啟用 realtime database
 
-***
 
-## <font color="#BC2C1A"> 取得 reference
+
+## <font color="#BC2C1A"> 取得 reference</font>
 
 每次更動資料時
 需要告訴程式你想要處理資料庫中什麼位置的資料
@@ -56,9 +57,9 @@ const userHobbyRef = userRef.child('hobby')
 
 取得 Reference 後在後面掛上函數就能變更資料了
 
-***
 
-## <font color="#BC2C1A"> 寫入資料
+
+## <font color="#BC2C1A"> 寫入資料</font>
 
 ## <center> `set()`</center>
 
@@ -105,9 +106,9 @@ postListRef.push('New Post')
 const newPostKey = postListRef.push().key
 ```
  
-***
 
-## <font color="#BC2C1A"> 讀取資料
+
+## <font color="#BC2C1A"> 讀取資料</font>
 
 ## <center> `on()`</center>
 
@@ -154,9 +155,9 @@ userRef.get()
 因此確保你只在需要的地方使用`get()`
 `on()`才是預設選項
 
-***
 
-## <font color="#BC2C1A"> 更新資料
+
+## <font color="#BC2C1A"> 更新資料</font>
 
 ## <center> `update()`</center>
 
@@ -197,9 +198,9 @@ ref.update(updatedUserData, function(error) {
 
 參考 [Multi-location updates](https://firebase.googleblog.com/2015/09/introducing-multi-location-updates-and_86.html)
 
-***
 
-## <font color="#BC2C1A"> 刪除資料
+
+## <font color="#BC2C1A"> 刪除資料</font>
 
 ## <center> `delete()`</center>
 

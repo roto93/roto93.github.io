@@ -3,7 +3,8 @@ title: React Native + Expo + firebase
 date: 2021-03-29 13:54:29
 tags:
 ---
-***
+
+<font size="2" color="#aaa">
 
 最近研究如何在 react native 中使用 firebase
 在幾乎不知道 firebase 是什麼的情形下學得還蠻有阻力的

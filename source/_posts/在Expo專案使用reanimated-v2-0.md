@@ -4,13 +4,13 @@ date: 2021-06-30 13:48:38
 tags:
 ---
 
+<font size="2" color="#aaa">
+
 ## <font color="#BC2C1A">什麼是 reaimated ?</font>
 
 reanimated 完整名稱是 react-native-reanimated
 是一個專門用來做 react native 動畫的套件
 在我寫這篇文的現在，最新穩定版本是 v2.2.0
-
----
 
 ## <font color="#BC2C1A">前言</font>
 
@@ -31,8 +31,6 @@ v2 版本也被很多 youtuber 推薦
 甚至提供一些 method 讓我們能操作 JS/UI thread
 於是動畫就能變得非常流暢
 我真的覺得一個 app 好不好用，順暢度真的佔了很大一部份
-
----
 
 ## <font color="#BC2C1A">安裝</font>
 
@@ -75,8 +73,6 @@ expo start -c
 
 至此，只要安裝版本正確、有加 plugin、有清除 cache
 就可以順跑ㄌ...我是說使用 reanimated 了
-
----
 
 ## <font color="#BC2C1A">初探 worklet</font>
 
@@ -130,8 +126,6 @@ const doSomethingWorklet = () => {
 值得一提的是這個`runOnJS`會蠻常碰到的
 例如我在做匯率 APP 的時候有些按鈕同時兼顧動畫跟 setState
 state 的變動就必須用`runOnJS`來執行了
-
----
 
 ## <font color="#BC2C1A">結語</font>
 

@@ -4,14 +4,12 @@ date: 2021-05-05 11:47:35
 tags:
 ---
 
----
+<font size="2" color="#aaa">
 
 在建置網站的 contact 頁面時
 為了讓訪客能聯繫自己
 寄 email 應該是最簡單直接的方式了
 這裡介紹兩種從網站寄 email 的方法
-
----
 
 ## <font color="#BC2C1A">1. FormSubmit</font>
 

@@ -3,7 +3,8 @@ title: Firebase Facebook 登入
 date: 2021-04-01 13:31:04
 tags:
 ---
-***
+
+<font size="2" color="#aaa">
 
 這篇文章會告訴你如何在 react native 利用 firebase 進行 Facebook 登入
 
@@ -12,9 +13,9 @@ tags:
 2. 連結 Expo 和 facebook
 3. 連結 Firebase
 
-***
 
-## <font color="#BC2C1A"> 一、設定 facebook API
+
+## <font color="#BC2C1A"> 一、設定 facebook API</font>
 
 #### 1. 安裝 Expo 的 expo-facebook
 ```
@@ -53,9 +54,9 @@ expo install expo-facebook
 
 趕快進到下個步驟
 
-***
 
-## <font color="#BC2C1A"> 二、連結 Expo 和 facebook
+
+## <font color="#BC2C1A"> 二、連結 Expo 和 facebook</font>
 
 #### 1. 到 App 中定義 `onlogIn()`
 
@@ -97,9 +98,9 @@ Firebase提供的方法有些部分不適用Expo
 就會直接跳出是否提供權限的視窗，按同意
 但我們還沒有定義在 firebase 註冊的方法，所以還沒辦法登入
 
-***
 
-## <font color="#BC2C1A"> 三、連結 Firebase
+
+## <font color="#BC2C1A"> 三、連結 Firebase</font>
 
 #### 1. 到 firebase console 開啟 facebook sign in 的功能
  appId 和 appKey 可以在 facebook API 頁面找到
@@ -145,9 +146,9 @@ function isUserEqual(facebookAuthResponse, firebaseUser) {
 最後在`onLogIn()`裡面呼叫`checkLoginState()`
 並傳入 result 便完成登入
 
-***
 
-## <font color="#BC2C1A"> 小插曲
+
+## <font color="#BC2C1A"> 小插曲</font>
 
 最後用 facebook 登入時遇到一個問題
 如果這個用戶之前有用其他登入方式 (如email) 註冊過的話
@@ -174,7 +175,7 @@ function isUserEqual(facebookAuthResponse, firebaseUser) {
 與上個步驟相同，但在用戶登入後請他合併帳號
 可用 [linkWithCredential()](https://firebase.google.com/docs/reference/js/firebase.User#linkwithcredential) 
 
-***
+
 
 Facebook 還有提供 [圖形API](https://developers.facebook.com/docs/graph-api/)
 聽說功能強大

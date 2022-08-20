@@ -3,7 +3,7 @@ title: 用 Python-Flask 打造 API - Postgres 本地篇
 date: 2021-07-30 09:47:43
 tags:
 ---
-<font size="3" color="#aaa">
+<font size="2" color="#aaa">
 
 ## <font color="#f4a261">前言</font>
 今天這篇我要來記錄如何在 Flask API 中串接並使用 Postgres

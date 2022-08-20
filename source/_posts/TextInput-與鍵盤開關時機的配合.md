@@ -4,6 +4,8 @@ date: 2021-06-09 12:33:40
 tags:
 ---
 
+<font size="2" color="#aaa">
+
 在做 SideProject 時很常遇到一個狀況
 TextInput 在 Focus 狀態時，是沒辦法立刻觸發其他按鈕的
 你必須先點擊螢幕一次 (TextInput和鍵盤以外的地方)，將鍵盤收起

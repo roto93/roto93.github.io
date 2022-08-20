@@ -4,9 +4,10 @@ date: 2021-04-16 09:27:21
 tags:
 ---
 
-***
+<font size="2" color="#aaa">
 
-## <font color="#BC2C1A"> 前言
+
+## <font color="#BC2C1A"> 前言</font>
 
 在使用物件導向程式設計時，一定會碰到`this`(在python裡是`self`)
 
@@ -20,9 +21,9 @@ tags:
 
 但最近遇到一個情形，呼叫this的時候找不到理應存在的變數
 
-***
 
-## <font color="#BC2C1A"> 情形
+
+## <font color="#BC2C1A"> 情形</font>
 
 這是一個 IconDisplayer 物件
 調用 display() method，回傳 <`Image>`
@@ -48,7 +49,7 @@ const IconDisplayer = {
 
 ---
 
-## <font color="#BC2C1A"> 原因
+## <font color="#BC2C1A"> 原因</font>
 
 後來查了一下發現一切都是 arrow function 的緣故
 
@@ -81,7 +82,7 @@ const IconDisplayer = {
 
 ---
 
-## <font color="#BC2C1A"> 結語
+## <font color="#BC2C1A"> 結語</font>
 
 曾經看到有人說應該要把 arrow function 視為獨立的新語法，而不是傳統function 的變化，因為有時運作方式是截然不同，今天更能體會到這點了！
 最後，今天的重點：

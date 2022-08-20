@@ -3,7 +3,9 @@ title: Firebase Google登入
 date: 2021-04-01 09:32:47
 tags:
 ---
-***
+
+<font size="2" color="#aaa">
+
 繼之前介紹 Firebase 的 Email 登入和匿名登入後
 
 這篇要示範的是 Google 登入
@@ -23,9 +25,9 @@ Firebase 和 google 之間多了 Expo 的交接
 這真的要記錄下來
 不然我大概一下就忘了
 
-***
 
-## <font color="#BC2C1A">一、開啟 google API    
+
+## <font color="#BC2C1A">一、開啟 google API    </font>
 #### [參考 link](https://docs.expo.io/versions/v40.0.0/sdk/google/#using-it-inside-of-the-expo-app)
 #### 1. 首先到 google 的 [credentials page](https://console.developers.google.com/apis/credentials)
 
@@ -50,8 +52,8 @@ Firebase 和 google 之間多了 Expo 的交接
 - 套件名稱填 `host.exp.exponent`
 - 在 terminal 中 run `openssl rand -base64 32 | openssl sha1 -c` 並將 output 填入 憑證指紋
 
-***
-## <font color="#BC2C1A">二、使用 Expo 的 Google Auth SDK    
+
+## <font color="#BC2C1A">二、使用 Expo 的 Google Auth SDK    </font>
 
 #### [參考 link](https://docs.expo.io/versions/v40.0.0/sdk/google/#using-it-inside-of-the-expo-app)
 
@@ -83,9 +85,9 @@ async function signInWithGoogleAsync() {
 
 用戶端編號可以從 Google API 的憑證頁面中找到
 
-***
 
-## <font color="#BC2C1A">三、使用 Firebase 的登入流程 
+
+## <font color="#BC2C1A">三、使用 Firebase 的登入流程 </font>
 
 #### [參考 link](https://firebase.google.com/docs/auth/web/google-signin)
 

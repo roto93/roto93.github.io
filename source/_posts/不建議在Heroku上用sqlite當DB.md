@@ -4,6 +4,8 @@ date: 2021-07-28 23:40:07
 tags:
 ---
 
+<font size="2" color="#aaa">
+
 ## <font color="#f4a261">前言+中言+後言</font>
 
 這會是個小短篇
