@@ -4,6 +4,15 @@ date: 2021-05-23 09:54:13
 tags:
 ---
 
+<font size="2" color="#aaa">
+
+
+<font color='gold'>
+
+#### (2022.08.22 更新) 從 Expo SDK 45 之後 expo-app-loading 已經 deprecated，只能使用 expo-splash-screen
+
+</font>
+
 ## <font color="#BC2C1A">介紹</font>
 ---
 
@@ -92,3 +101,9 @@ if (isLoading) {
     return null //不渲染東西 但因為 splash screen 還蓋在畫面上，所以不會沒畫面
 } else return <App/>
 ```
+
+<font color='gold'>
+
+#### (2022.08.22 更新) 從 Expo SDK 45 之後 expo-app-loading 已經 deprecated，只能使用 expo-splash-screen
+
+</font>

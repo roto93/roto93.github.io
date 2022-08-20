@@ -4,6 +4,8 @@ date: 2022-08-01 22:29:33
 tags:
 ---
 
+<font size="2" color="#aaa">
+
 ## <font color="#f4a261">前言</font>
 
 前兩篇的 JS 概念篇，分別整理了 scope 和 closure
