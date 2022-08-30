@@ -107,7 +107,7 @@ p {
 }
 ```
 
-詳細原因可以參考[這裡](https://github.com/vercel/next.js/discussions/16050#discussioncomment-49022)
+詳細原因可以參考  -->  [這個連結](https://github.com/vercel/next.js/discussions/16050#discussioncomment-49022)  <-- 
 
 如果基於某些原因必須去選 element
 就只能寫在 global.css 中囉
