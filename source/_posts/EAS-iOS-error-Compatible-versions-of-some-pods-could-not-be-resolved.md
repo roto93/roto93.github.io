@@ -43,6 +43,8 @@ You are seeing this error because either:
 因此方法很單純，只要加上 `--clear-cache` 的 flag 
 把 cache 清掉就好了
 
+[參考資料](https://stackoverflow.com/questions/73318976/expo-eas-build-ios-fails-in-pod-installation-step-sdk45-46)
+
 ## <font color="#f4a261">結論</font>
 
 如果需要重新打包 APP 的話，建議都加上 `--clear-cache` flag
