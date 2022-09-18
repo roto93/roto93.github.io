@@ -40,7 +40,8 @@ You are seeing this error because either:
 ```
 
 看起來是 cache 出問題，訊息中也提到說要忽略 cache
-因此方法很單純，只要加上 `--clear-cache` 的 flag 
+因此方法很單純，只要再重新`eas build`
+並記得加上 `--clear-cache` 的 flag 
 把 cache 清掉就好了
 
 [參考資料](https://stackoverflow.com/questions/73318976/expo-eas-build-ios-fails-in-pod-installation-step-sdk45-46)
