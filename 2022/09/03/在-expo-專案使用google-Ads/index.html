@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"roto93.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.13.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="前言當完兵後把 JapanGo 從 Expo SDK 42 升級到 46(因為 42 已經不能用了)跨度這麼大的升級必然會導致一些套件不能用例如 expo-app-loading 和 expo-ads-admob前者只要改成使用 expo-splash-screen 就可以了但處理後者花了我不少時間 根據 Expo SDK 45 Docexpo-ads-admob在 SDK 46 之後就不能用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在 expo 專案使用 google Ads">
+<meta property="og:url" content="http://roto93.github.io/2022/09/03/%E5%9C%A8-expo-%E5%B0%88%E6%A1%88%E4%BD%BF%E7%94%A8google-Ads/index.html">
+<meta property="og:site_name" content="Pi&#39;s Blog">
+<meta property="og:description" content="前言當完兵後把 JapanGo 從 Expo SDK 42 升級到 46(因為 42 已經不能用了)跨度這麼大的升級必然會導致一些套件不能用例如 expo-app-loading 和 expo-ads-admob前者只要改成使用 expo-splash-screen 就可以了但處理後者花了我不少時間 根據 Expo SDK 45 Docexpo-ads-admob在 SDK 46 之後就不能用">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://roto93.github.io/2022/09/03/%E5%9C%A8-expo-%E5%B0%88%E6%A1%88%E4%BD%BF%E7%94%A8google-Ads/error.jpg">
+<meta property="article:published_time" content="2022-09-03T08:55:09.000Z">
+<meta property="article:modified_time" content="2022-10-13T07:53:16.175Z">
+<meta property="article:author" content="Guan-Ting Su">
+<meta property="article:tag" content="程式,自學">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://roto93.github.io/2022/09/03/%E5%9C%A8-expo-%E5%B0%88%E6%A1%88%E4%BD%BF%E7%94%A8google-Ads/error.jpg">
+
+
+<link rel="canonical" href="http://roto93.github.io/2022/09/03/%E5%9C%A8-expo-%E5%B0%88%E6%A1%88%E4%BD%BF%E7%94%A8google-Ads/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"http://roto93.github.io/2022/09/03/%E5%9C%A8-expo-%E5%B0%88%E6%A1%88%E4%BD%BF%E7%94%A8google-Ads/","path":"2022/09/03/在-expo-專案使用google-Ads/","title":"在 expo 專案使用 google Ads"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>在 expo 專案使用 google Ads | Pi's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Pi's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#react-native-google-mobile-ads-%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">react-native-google-mobile-ads 基本用法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%84%A1%E6%B3%95-build%E2%80%A6"><span class="nav-number">3.</span> <span class="nav-text">無法 build…</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B5%90%E8%AB%96"><span class="nav-number">4.</span> <span class="nav-text">結論</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Guan-Ting Su</p>
+  <div class="site-description" itemprop="description">一些程式自學小記錄</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2022/09/03/%E5%9C%A8-expo-%E5%B0%88%E6%A1%88%E4%BD%BF%E7%94%A8google-Ads/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Guan-Ting Su">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pi's Blog">
+      <meta itemprop="description" content="一些程式自學小記錄">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="在 expo 專案使用 google Ads | Pi's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          在 expo 專案使用 google Ads
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-09-03 16:55:09" itemprop="dateCreated datePublished" datetime="2022-09-03T16:55:09+08:00">2022-09-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2022-10-13 15:53:16" itemprop="dateModified" datetime="2022-10-13T15:53:16+08:00">2022-10-13</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <font size="2" color="#aaa">
+
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><font color="#f4a261">前言</font></h2><p>當完兵後把 JapanGo 從 Expo SDK 42 升級到 46<br>(因為 42 已經不能用了)<br>跨度這麼大的升級必然會導致一些套件不能用<br>例如 <code>expo-app-loading</code> 和 <code>expo-ads-admob</code><br>前者只要改成使用 expo-splash-screen 就可以了<br>但處理後者花了我不少時間</p>
+<p>根據 <a target="_blank" rel="noopener" href="https://docs.expo.dev/versions/v45.0.0/sdk/admob/">Expo SDK 45 Doc</a><br><code>expo-ads-admob</code>在 SDK 46 之後就不能用了<br>建議改用<a target="_blank" rel="noopener" href="https://github.com/invertase/react-native-google-mobile-ads">react-native-google-mobile-ads</a></p>
+<h2 id="react-native-google-mobile-ads-基本用法"><a href="#react-native-google-mobile-ads-基本用法" class="headerlink" title="react-native-google-mobile-ads 基本用法"></a><font color="#f4a261">react-native-google-mobile-ads 基本用法</font></h2><p>首先安裝</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install react-native-google-mobile-ads</span><br></pre></td></tr></table></figure>
+
+<p>到 <a target="_blank" rel="noopener" href="https://admob.google.com/home/?utm_source=sem&utm_medium=text&utm_campaign=2022-admob-apac-apac&utm_content=rsa&gclid=CjwKCAjw9suYBhBIEiwA7iMhNKdrqxpgsuQbieggu-V-cqbNMAPcmpgiaNW3vxAaClmCULfKPOS7gBoC6pMQAvD_BwE&gclsrc=aw.ds">google admob</a> 取得 Android 和 iOS 的 app id (如果還沒有的話)</p>
+<p>接著一樣在 google admob 中取得 ad id<br>或者也可以從 <a target="_blank" rel="noopener" href="https://developers.google.com/admob/android/test-ads">這裡</a> 取得測試id</p>
+<p>下一步，編輯<code>app.json</code><br>這邊需要注意插入以下程式碼的位置，<br>react-native-google-mobile-ads 的相關設定必須在 expo 之外</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;expo&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    ...</span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;react-native-google-mobile-ads&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;android_app_id&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ca-app-pub-xxxxxxxxxxxxxxxx~xxxxxxxxxx&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;ios_app_id&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ca-app-pub-xxxxxxxxxxxxxxxx~xxxxxxxxxx&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>再來打開你要放廣告的元件<br>這邊我也 test id 為例</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">BannerAd</span>, <span class="title class_">BannerAdSize</span>, <span class="title class_">TestIds</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;react-native-google-mobile-ads&#x27;</span>;</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">&lt;<span class="title class_">BannerAd</span></span><br><span class="line">  size=&#123;<span class="title class_">BannerAdSize</span>.<span class="property">BANNER</span>&#125;</span><br><span class="line">  unitId=&#123;<span class="title class_">TestIds</span>.<span class="property">BANNER</span>&#125;</span><br><span class="line">/&gt;</span><br></pre></td></tr></table></figure>
+
+<p>最後一步，由於這個元件需要動用原生 API<br>代表我們不能夠用 Expo Go 來預覽開發了<br>而是要改用 expo dev client<br>這篇我就不深入探討這是什麼<br>可以先當作我們要客製一個可以動用原生元件的 Expo Go 來用</p>
+<p>結果這邊就出錯了</p>
+<h2 id="無法-build…"><a href="#無法-build…" class="headerlink" title="無法 build…"></a><font color="#f4a261">無法 build…</font></h2><p>執行 <code>eas build --profile development</code> 後</p>
+<img src="/2022/09/03/%E5%9C%A8-expo-%E5%B0%88%E6%A1%88%E4%BD%BF%E7%94%A8google-Ads/error.jpg">
+
+<p>重點應該在第 27 行(重新排版了一下)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">/home/expo/workingdir/build/android/app/src/debug/AndroidManifest.xml:17:85-105 Error:</span><br><span class="line">Attribute meta-data#com.google.android.gms.ads.DELAY_APP_MEASUREMENT_INIT@value value=(true) </span><br><span class="line">from AndroidMenifest.xml:17:85-105 is also present at [:react-native-google-mobile-ads] </span><br><span class="line">AndroidManifest.xml:19:13-34 value=(false).</span><br><span class="line"></span><br><span class="line">Suggestion: add &#x27;tools:replace=&quot;android:value&quot;&#x27; to &lt;meta-data&gt; element </span><br><span class="line">at AndroidManifest.xml:17:5-107 to override.</span><br></pre></td></tr></table></figure>
+
+<p>雖然不太清楚意思<br>但大概可以猜到問題出在<code>Android.Menifest.xml</code>裡的<br><code>DELAY_APP_MEASUREMENT_INIT</code>這個值<br>前者是 true 後者是 false</p>
+<p>於是我爬了一些資料:</p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/72337988/how-do-i-use-react-native-google-mobile-ads-with-expo-and-expo-go">how do I use react-native-google-mobile-ads with expo and expo go</a></p>
+<p><a target="_blank" rel="noopener" href="https://medium.com/react-native-expo/migrate-expo-ads-admob-to-react-native-google-mobile-ads-3747b3a3b75e">[Medium] migrate expo-ads-admob to react-native-google-mobile-ads</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/invertase/react-native-google-mobile-ads/issues/150">[github issue] migrate expo-ads-admob to react-native-google-mobile-ads</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/invertase/react-native-google-mobile-ads/issues/155">Add installation guide for Expo users</a></p>
+<p>關鍵是最後一篇<br><a target="_blank" rel="noopener" href="https://github.com/invertase/react-native-google-mobile-ads/issues/155#issuecomment-1142400646">這個留言</a>提到一個可能的解法是進到 android 資料夾更改 AndroidMenifest.xml<br>但那需要 eject，先盡可能避免這個做法<br>不過我<a target="_blank" rel="noopener" href="https://github.com/invertase/react-native-google-mobile-ads/issues/155#issuecomment-1161686309">往下看</a>發現作者有提供在<code>app.json</code>設定menifest的方法:</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">&quot;react-native-google-mobile-ads&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span> </span><br><span class="line">     <span class="attr">&quot;android_app_id&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ca-app-pub-3940256099942544~3347511713&quot;</span><span class="punctuation">,</span> </span><br><span class="line">     <span class="attr">&quot;ios_app_id&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ca-app-pub-3940256099942544~1458002511&quot;</span><span class="punctuation">,</span> </span><br><span class="line">     <span class="attr">&quot;delay_app_measurement_init&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span> </span><br><span class="line">     <span class="attr">&quot;user_tracking_usage_description&quot;</span><span class="punctuation">:</span> <span class="string">&quot;This identifier will be used to deliver personalized ads to you.&quot;</span> </span><br><span class="line">   <span class="punctuation">&#125;</span> </span><br></pre></td></tr></table></figure>
+
+<p>接著我在進一步去翻套件的檔案<br>在<code>european-user-consent.mdx</code>裡看到這段說明</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">### Delaying app measurement</span><br><span class="line"></span><br><span class="line">By default, the Google Mobile Ads SDK initializes app measurement and begins sending user-level event data to Google immediately when the app starts.</span><br><span class="line">If your app will be used by users within the EEA, it is important you prevent app measurement until your first ad has been requested (after consent).</span><br><span class="line"></span><br><span class="line">Within your projects `app.json` file, set the `delay_app_measurement_init` to `true` to delay app measurement:</span><br><span class="line"></span><br><span class="line">``json</span><br><span class="line">&#123;</span><br><span class="line">  &quot;react-native-google-mobile-ads&quot;: &#123;</span><br><span class="line">    &quot;android_app_id&quot;: &quot;ca-app-pub-xxxxxxxx~xxxxxxxx&quot;,</span><br><span class="line">    &quot;ios_app_id&quot;: &quot;ca-app-pub-xxxxxxxx~xxxxxxxx&quot;,</span><br><span class="line">    &quot;delay_app_measurement_init&quot;: true</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">``</span><br></pre></td></tr></table></figure>
+
+<p>這時我就想<br>既然 error message 說套件的 DELAY_APP_MEASUREMENT_INIT 和 Expo 裡的不合<br>那就設為 true 吧<br>然後就成功了!!!!!!!!! 可喜可賀</p>
+<h2 id="結論"><a href="#結論" class="headerlink" title="結論"></a><font color="#f4a261">結論</font></h2><p>其實還有很多環節不懂<br>例如這個 delay app measurement init 是什麼意思<br>或者說任何跟原生 code 有關的東西我都不知道是什麼意思…<br>總覺得還有好長一段路要走</p>
+<p>但這次的 debug 經驗還不錯<br>有從 error message 判斷出一些可能的方向<br>然後看了很多討論串<br>也實際去翻套件的程式碼<br>雖然不是完全懂了才解決問題<br>但也不至於誤打誤撞 不清楚自己做了什麼</p>
+<p>總之 APP 的廣告功能又回來啦！</p>
+</font>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/09/01/Nest-js-getStaticPaths-vs-useRouter/" rel="prev" title="Nest.js: getStaticPaths vs useRouter">
+                  <i class="fa fa-chevron-left"></i> Nest.js: getStaticPaths vs useRouter
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/09/15/EAS-iOS-error-Compatible-versions-of-some-pods-could-not-be-resolved/" rel="next" title="EAS iOS error: Compatible versions of some pods could not be resolved">
+                  EAS iOS error: Compatible versions of some pods could not be resolved <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Guan-Ting Su</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

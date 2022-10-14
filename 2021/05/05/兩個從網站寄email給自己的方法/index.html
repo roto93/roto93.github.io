@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"roto93.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.13.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="在建置網站的 contact 頁面時為了讓訪客能聯繫自己寄 email 應該是最簡單直接的方式了這裡介紹兩種從網站寄 email 的方法 1. FormSubmitFormSubmit 讓你可以用 RESTful API，由他們的 server 把訪客的訊息寄給你 優點是完全 free 沒有流量限制 首先在你的網站的 form tag 加入action和method別傻傻直接貼上，記得把you">
+<meta property="og:type" content="article">
+<meta property="og:title" content="兩個從網站寄email給自己的方法">
+<meta property="og:url" content="http://roto93.github.io/2021/05/05/%E5%85%A9%E5%80%8B%E5%BE%9E%E7%B6%B2%E7%AB%99%E5%AF%84email%E7%B5%A6%E8%87%AA%E5%B7%B1%E7%9A%84%E6%96%B9%E6%B3%95/index.html">
+<meta property="og:site_name" content="Pi&#39;s Blog">
+<meta property="og:description" content="在建置網站的 contact 頁面時為了讓訪客能聯繫自己寄 email 應該是最簡單直接的方式了這裡介紹兩種從網站寄 email 的方法 1. FormSubmitFormSubmit 讓你可以用 RESTful API，由他們的 server 把訪客的訊息寄給你 優點是完全 free 沒有流量限制 首先在你的網站的 form tag 加入action和method別傻傻直接貼上，記得把you">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://roto93.github.io/2021/05/05/%E5%85%A9%E5%80%8B%E5%BE%9E%E7%B6%B2%E7%AB%99%E5%AF%84email%E7%B5%A6%E8%87%AA%E5%B7%B1%E7%9A%84%E6%96%B9%E6%B3%95/FormSubmit1.png">
+<meta property="og:image" content="http://roto93.github.io/2021/05/05/%E5%85%A9%E5%80%8B%E5%BE%9E%E7%B6%B2%E7%AB%99%E5%AF%84email%E7%B5%A6%E8%87%AA%E5%B7%B1%E7%9A%84%E6%96%B9%E6%B3%95/FormSubmit2.png">
+<meta property="og:image" content="http://roto93.github.io/2021/05/05/%E5%85%A9%E5%80%8B%E5%BE%9E%E7%B6%B2%E7%AB%99%E5%AF%84email%E7%B5%A6%E8%87%AA%E5%B7%B1%E7%9A%84%E6%96%B9%E6%B3%95/emailjs1.png">
+<meta property="og:image" content="http://roto93.github.io/2021/05/05/%E5%85%A9%E5%80%8B%E5%BE%9E%E7%B6%B2%E7%AB%99%E5%AF%84email%E7%B5%A6%E8%87%AA%E5%B7%B1%E7%9A%84%E6%96%B9%E6%B3%95/emailjs2.png">
+<meta property="og:image" content="http://roto93.github.io/2021/05/05/%E5%85%A9%E5%80%8B%E5%BE%9E%E7%B6%B2%E7%AB%99%E5%AF%84email%E7%B5%A6%E8%87%AA%E5%B7%B1%E7%9A%84%E6%96%B9%E6%B3%95/emailjs3.png">
+<meta property="article:published_time" content="2021-05-05T03:47:35.000Z">
+<meta property="article:modified_time" content="2022-10-13T07:53:16.174Z">
+<meta property="article:author" content="Guan-Ting Su">
+<meta property="article:tag" content="程式,自學">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://roto93.github.io/2021/05/05/%E5%85%A9%E5%80%8B%E5%BE%9E%E7%B6%B2%E7%AB%99%E5%AF%84email%E7%B5%A6%E8%87%AA%E5%B7%B1%E7%9A%84%E6%96%B9%E6%B3%95/FormSubmit1.png">
+
+
+<link rel="canonical" href="http://roto93.github.io/2021/05/05/%E5%85%A9%E5%80%8B%E5%BE%9E%E7%B6%B2%E7%AB%99%E5%AF%84email%E7%B5%A6%E8%87%AA%E5%B7%B1%E7%9A%84%E6%96%B9%E6%B3%95/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"http://roto93.github.io/2021/05/05/%E5%85%A9%E5%80%8B%E5%BE%9E%E7%B6%B2%E7%AB%99%E5%AF%84email%E7%B5%A6%E8%87%AA%E5%B7%B1%E7%9A%84%E6%96%B9%E6%B3%95/","path":"2021/05/05/兩個從網站寄email給自己的方法/","title":"兩個從網站寄email給自己的方法"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>兩個從網站寄email給自己的方法 | Pi's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Pi's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-FormSubmit"><span class="nav-number">1.</span> <span class="nav-text">1. FormSubmit</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%97%9C%E9%96%89-reCAPTCHA"><span class="nav-number">1.0.1.</span> <span class="nav-text">關閉 reCAPTCHA</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B7%B3%E8%BD%89%E5%88%B0%E8%87%AA%E5%B7%B1%E7%9A%84-thankyou-page"><span class="nav-number">1.0.2.</span> <span class="nav-text">跳轉到自己的 thankyou page</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-emailJS"><span class="nav-number">2.</span> <span class="nav-text">2. emailJS </span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Guan-Ting Su</p>
+  <div class="site-description" itemprop="description">一些程式自學小記錄</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2021/05/05/%E5%85%A9%E5%80%8B%E5%BE%9E%E7%B6%B2%E7%AB%99%E5%AF%84email%E7%B5%A6%E8%87%AA%E5%B7%B1%E7%9A%84%E6%96%B9%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Guan-Ting Su">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pi's Blog">
+      <meta itemprop="description" content="一些程式自學小記錄">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="兩個從網站寄email給自己的方法 | Pi's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          兩個從網站寄email給自己的方法
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-05-05 11:47:35" itemprop="dateCreated datePublished" datetime="2021-05-05T11:47:35+08:00">2021-05-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2022-10-13 15:53:16" itemprop="dateModified" datetime="2022-10-13T15:53:16+08:00">2022-10-13</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <font size="2" color="#aaa">
+
+<p>在建置網站的 contact 頁面時<br>為了讓訪客能聯繫自己<br>寄 email 應該是最簡單直接的方式了<br>這裡介紹兩種從網站寄 email 的方法</p>
+<h2 id="1-FormSubmit"><a href="#1-FormSubmit" class="headerlink" title="1. FormSubmit"></a><font color="#BC2C1A">1. FormSubmit</font></h2><p><a target="_blank" rel="noopener" href="https://formsubmit.co/">FormSubmit</a> 讓你可以用 RESTful API，由他們的 server 把訪客的訊息寄給你</p>
+<p>優點是完全 free 沒有流量限制</p>
+<p>首先在你的網站的 form tag 加入<code>action</code>和<code>method</code><br>別傻傻直接貼上，記得把<code>your@email.com</code>改成你的信箱喔</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">&quot;https://formsubmit.co/your@email.com&quot;</span> <span class="attr">method</span>=<span class="string">&quot;POST&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>接著確保你的 input tag 都有加<code>name</code>的屬性<br>這個屬性會影響到你收到信件時的內容呈現方式<br>你可以設為: email message 之類的</p>
+<p>接下來只要 submit 這個 form 就可以了<br>如果你的收件 email 是第一次在這個 API 使用的話<br>在第一次送出時你會收到一封認證信，認證完成之後接下來的每次 submit 都會順利寄信給你囉!</p>
+<ul>
+<li>補充</li>
+</ul>
+<p>通常在訪客做出 submit 時，會自動跳出 reCAPTCHA 認證框</p>
+<img src="/2021/05/05/%E5%85%A9%E5%80%8B%E5%BE%9E%E7%B6%B2%E7%AB%99%E5%AF%84email%E7%B5%A6%E8%87%AA%E5%B7%B1%E7%9A%84%E6%96%B9%E6%B3%95/FormSubmit1.png" style="box-shadow: 2px 1px 6px gray" width="60%">
+
+<p>並且在成功寄出郵件後會跳轉到他們提供的 thankyou page </p>
+<img src="/2021/05/05/%E5%85%A9%E5%80%8B%E5%BE%9E%E7%B6%B2%E7%AB%99%E5%AF%84email%E7%B5%A6%E8%87%AA%E5%B7%B1%E7%9A%84%E6%96%B9%E6%B3%95/FormSubmit2.png" style="box-shadow: 2px 1px 6px gray" width="60%">
+
+<p>你可以視情況決定是否要顯示這些訊息<br>這邊就來示範一下</p>
+<h4 id="關閉-reCAPTCHA"><a href="#關閉-reCAPTCHA" class="headerlink" title="關閉 reCAPTCHA"></a>關閉 reCAPTCHA</h4><p>在<code>&lt;form&gt;</code>裡面加入這個</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;hidden&quot;</span> <span class="attr">name</span>=<span class="string">&quot;_captcha&quot;</span> <span class="attr">value</span>=<span class="string">&quot;false&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="跳轉到自己的-thankyou-page"><a href="#跳轉到自己的-thankyou-page" class="headerlink" title="跳轉到自己的 thankyou page"></a>跳轉到自己的 thankyou page</h4><p>一樣在<code>&lt;form&gt;</code>中加入:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;hidden&quot;</span> <span class="attr">name</span>=<span class="string">&quot;_next&quot;</span> <span class="attr">value</span>=<span class="string">&quot;https://yourdomain.co/thanks.html&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>並改成該網頁的路徑</p>
+<p>還有很多其他的功能，就留給讀者自己去發掘囉</p>
+<hr>
+<h2 id="2-emailJS"><a href="#2-emailJS" class="headerlink" title="2. emailJS "></a><font color="#BC2C1A">2. emailJS </font></h2><p>比起第一個方法，<a href>emailJS</a> 好像比較多人用<br>而且網路上的教學大多是搭配 React 使用</p>
+<p>首先，到官網註冊帳號，記得用你希望收到信的信箱註冊<br>(不過用別的也行，這個可以事後更改)</p>
+<p>登入後會進到 dashboard<br>我們先來到 Email Service 點擊 <b>Add New Service</b><br><img src="/2021/05/05/%E5%85%A9%E5%80%8B%E5%BE%9E%E7%B6%B2%E7%AB%99%E5%AF%84email%E7%B5%A6%E8%87%AA%E5%B7%B1%E7%9A%84%E6%96%B9%E6%B3%95/emailjs1.png" style="box-shadow: 2px 1px 6px gray" width="60%"><br>先跟大家釐清一件事(因為我當初搞混)<br>emailJS 並不會幫大家寄信，而是幫你建立起網站與 email server 之間的橋樑<br>這個橋梁就是 email service，<br>至於這個 server 需要由第三方提供，如果你流量不大，可以用 gmail、yahho mail 之類的<br>如果潛在使用量很高，你可能就需要使用下方的 Transactional Services<br>不過這些我目前都沒聽過XD Personal Services 應該就很夠用了<br>但是要記住，無論你選了什麼都不代表它是你的收件信箱，而是<b>寄信信箱</b><br>就像我前面提的，你註冊的信箱才是</p>
+<img src="/2021/05/05/%E5%85%A9%E5%80%8B%E5%BE%9E%E7%B6%B2%E7%AB%99%E5%AF%84email%E7%B5%A6%E8%87%AA%E5%B7%B1%E7%9A%84%E6%96%B9%E6%B3%95/emailjs2.png" style="box-shadow: 2px 1px 6px gray" width="60%">
+
+<p>做好選擇，依照指示進行，你就會得到一組 <font color="orange">service ID (記得它, 待會會用到)</font></p>
+<p>接下來到 Email Templates 設定你收件時所見的內容格式<br>這邊其實可以直接 Create New Template，什麼都不改直接</p>
+<img src="/2021/05/05/%E5%85%A9%E5%80%8B%E5%BE%9E%E7%B6%B2%E7%AB%99%E5%AF%84email%E7%B5%A6%E8%87%AA%E5%B7%B1%E7%9A%84%E6%96%B9%E6%B3%95/emailjs3.png" style="box-shadow: 2px 1px 6px gray" width="60%">
+
+<p>一樣我們會得到一組 <font color="orange">template ID (記得它, 待會會用到)</font></p>
+<p>下一步，我們要把 emailJS 和網站做串接啦</p>
+<p>如果你用的是 React，請先 npm 安裝</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install emailjs-com</span><br></pre></td></tr></table></figure>
+<p>接著在專案中:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;init&#125; <span class="keyword">from</span> <span class="string">&#x27;emailjs-com&#x27;</span></span><br><span class="line"><span class="title function_">init</span>(<span class="string">&quot;YOUR_USER_ID&quot;</span>) <span class="comment">// 在 EmailJS dashboard 的 integration 頁面可以找到自己的 user id</span></span><br></pre></td></tr></table></figure>
+
+<p>如果你用的是 html，就在 <code>&lt;head&gt;</code> 裡面加:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;text/javascript&quot;</span> <span class="attr">src</span>=<span class="string">&quot;https://cdn.jsdelivr.net/npm/emailjs-com@2/dist/email.min.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;text/javascript&quot;</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">(<span class="keyword">function</span>(<span class="params"></span>) &#123;</span></span><br><span class="line"><span class="language-javascript">emailjs.<span class="title function_">init</span>(<span class="string">&quot;YOUR_USER_ID&quot;</span>);</span></span><br><span class="line"><span class="language-javascript">&#125;)();</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>最後，在你 submit 時運行 <code>emailjs.sendForm()</code></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">id</span>=<span class="string">&quot;emailjs-form&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;email&quot;</span> <span class="attr">name</span>=<span class="string">&quot;email&quot;</span> /&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">name</span>=<span class="string">&quot;message&quot;</span> /&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">&quot;submit&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">	<span class="keyword">const</span> emailJsForm = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;#emailjs-form&#x27;</span>)</span></span><br><span class="line"><span class="language-javascript">	emailJsForm.<span class="title function_">addEventListener</span>(<span class="string">&#x27;submit&#x27;</span>,<span class="function">(<span class="params">event</span>)=&gt;</span>&#123;</span></span><br><span class="line"><span class="language-javascript">		event.<span class="title function_">preventDefault</span>()</span></span><br><span class="line"><span class="language-javascript">		emailjs.<span class="title function_">sendForm</span>(<span class="string">&#x27;YOUR_SERVICE_ID&#x27;</span>, <span class="string">&#x27;YOUR_TEMPLATE_ID&#x27;</span>, <span class="variable constant_">THE_FORM_NODE</span>)</span></span><br><span class="line"><span class="language-javascript">		&#125;)</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>注意<code>emailjs.sendForm()</code>有三個必填參數，其中最容易忽略的是第三個:</p>
+<ul>
+<li>THE_FORM_NODE: 放入 node，以這個例子來說就是<code>emailJsForm</code></li>
+</ul>
+<p><code>sendForm()</code> 會回傳 promise，所以可以接 <code>.then()</code> <code>.catch()</code></p>
+<hr>
+<p>好ㄌ<br>寄 email 的方法就介紹到這邊<br>最近幾乎都在研究建置個人網站的眉眉角角<br>再過一陣子或許就能開始動工了!!!<br>不過網站的設計也是一份大工程<br>要練習 figma 要讀 design guideline<br>真的有好多東西要學ㄚ~~~</p>
+</font>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/05/01/%E8%87%AA%E8%A3%BD%E6%97%A5%E6%9C%9F%E9%81%B8%E6%93%87%E5%99%A8-1/" rel="prev" title="自製日期選擇器-1 (輸入介面規劃)">
+                  <i class="fa fa-chevron-left"></i> 自製日期選擇器-1 (輸入介面規劃)
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/05/07/%E8%87%AA%E8%A3%BD%E6%97%A5%E6%9C%9F%E9%81%B8%E6%93%87%E5%99%A8-2/" rel="next" title="自製日期選擇器-2 (custom hook)">
+                  自製日期選擇器-2 (custom hook) <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Guan-Ting Su</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

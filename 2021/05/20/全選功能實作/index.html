@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"roto93.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.13.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="這篇會示範如何實作購物車app常有的全選功能 之前曾經用錯誤的方式做導致卡住而且腦筋轉不過來一時想不到其他變通方式只好到社團問一問才發現其實很容易不過應該很多事情都是這樣啦不懂的時候就好像很難會了之後就覺得自己好蠢XD 首先做出選單假設 MOCK 是我們資料庫的資料，或是從api獲取的資料data state 是我們的資料變數之所以先把資料放在 react state 中是因為傳入 FlatL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="全選功能實作">
+<meta property="og:url" content="http://roto93.github.io/2021/05/20/%E5%85%A8%E9%81%B8%E5%8A%9F%E8%83%BD%E5%AF%A6%E4%BD%9C/index.html">
+<meta property="og:site_name" content="Pi&#39;s Blog">
+<meta property="og:description" content="這篇會示範如何實作購物車app常有的全選功能 之前曾經用錯誤的方式做導致卡住而且腦筋轉不過來一時想不到其他變通方式只好到社團問一問才發現其實很容易不過應該很多事情都是這樣啦不懂的時候就好像很難會了之後就覺得自己好蠢XD 首先做出選單假設 MOCK 是我們資料庫的資料，或是從api獲取的資料data state 是我們的資料變數之所以先把資料放在 react state 中是因為傳入 FlatL">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://roto93.github.io/2021/05/20/%E5%85%A8%E9%81%B8%E5%8A%9F%E8%83%BD%E5%AF%A6%E4%BD%9C/demo.jpg">
+<meta property="og:image" content="http://roto93.github.io/2021/05/20/%E5%85%A8%E9%81%B8%E5%8A%9F%E8%83%BD%E5%AF%A6%E4%BD%9C/demo2.jpg">
+<meta property="og:image" content="http://roto93.github.io/2021/05/20/%E5%85%A8%E9%81%B8%E5%8A%9F%E8%83%BD%E5%AF%A6%E4%BD%9C/demo3.jpg">
+<meta property="og:image" content="http://roto93.github.io/2021/05/20/%E5%85%A8%E9%81%B8%E5%8A%9F%E8%83%BD%E5%AF%A6%E4%BD%9C/flowChart1.png">
+<meta property="og:image" content="http://roto93.github.io/2021/05/20/%E5%85%A8%E9%81%B8%E5%8A%9F%E8%83%BD%E5%AF%A6%E4%BD%9C/flowChart2.png">
+<meta property="og:image" content="http://roto93.github.io/2021/05/20/%E5%85%A8%E9%81%B8%E5%8A%9F%E8%83%BD%E5%AF%A6%E4%BD%9C/finish.gif">
+<meta property="article:published_time" content="2021-05-20T04:47:31.000Z">
+<meta property="article:modified_time" content="2022-10-13T07:53:16.169Z">
+<meta property="article:author" content="Guan-Ting Su">
+<meta property="article:tag" content="程式,自學">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://roto93.github.io/2021/05/20/%E5%85%A8%E9%81%B8%E5%8A%9F%E8%83%BD%E5%AF%A6%E4%BD%9C/demo.jpg">
+
+
+<link rel="canonical" href="http://roto93.github.io/2021/05/20/%E5%85%A8%E9%81%B8%E5%8A%9F%E8%83%BD%E5%AF%A6%E4%BD%9C/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"http://roto93.github.io/2021/05/20/%E5%85%A8%E9%81%B8%E5%8A%9F%E8%83%BD%E5%AF%A6%E4%BD%9C/","path":"2021/05/20/全選功能實作/","title":"全選功能實作"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>全選功能實作 | Pi's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Pi's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Guan-Ting Su</p>
+  <div class="site-description" itemprop="description">一些程式自學小記錄</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2021/05/20/%E5%85%A8%E9%81%B8%E5%8A%9F%E8%83%BD%E5%AF%A6%E4%BD%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Guan-Ting Su">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pi's Blog">
+      <meta itemprop="description" content="一些程式自學小記錄">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="全選功能實作 | Pi's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          全選功能實作
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-05-20 12:47:31" itemprop="dateCreated datePublished" datetime="2021-05-20T12:47:31+08:00">2021-05-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2022-10-13 15:53:16" itemprop="dateModified" datetime="2022-10-13T15:53:16+08:00">2022-10-13</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <font size="2" color="#aaa">
+
+<p>這篇會示範如何實作購物車app常有的全選功能</p>
+<p>之前曾經用錯誤的方式做導致卡住<br>而且腦筋轉不過來<br>一時想不到其他變通方式<br>只好到社團問<br>一問才發現其實很容易<br>不過應該很多事情都是這樣啦<br>不懂的時候就好像很難<br>會了之後就覺得自己好蠢XD</p>
+<p>首先做出選單<br>假設 MOCK 是我們資料庫的資料，或是從api獲取的資料<br>data state 是我們的資料變數<br>之所以先把資料放在 react state 中<br>是因為傳入 FlatList 的資料必須是能夠變動的<br>這樣我們只要改變資料<br>就能動態渲染在FlatList中</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="variable constant_">MOCK</span> = [</span><br><span class="line">  &#123; <span class="attr">name</span>: <span class="string">&#x27;Andy&#x27;</span> &#125;,</span><br><span class="line">  &#123; <span class="attr">name</span>: <span class="string">&#x27;Beck&#x27;</span> &#125;,</span><br><span class="line">  &#123; <span class="attr">name</span>: <span class="string">&#x27;Carl&#x27;</span> &#125;,</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">RenderData</span> = (<span class="params">&#123; item &#125;</span>) =&gt; &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">TouchableOpacity</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">      <span class="attr">onPress</span>=<span class="string">&#123;()</span> =&gt;</span> &#123;  &#125;&#125;</span></span><br><span class="line"><span class="language-xml">      style=&#123;[styles.item_btn]&#125;&gt;</span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">Text</span>&gt;</span>&#123;item.name&#125;<span class="tag">&lt;/<span class="name">Text</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">TouchableOpacity</span>&gt;</span></span></span><br><span class="line">  )</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">function</span> <span class="title function_">App</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">View</span> <span class="attr">style</span>=<span class="string">&#123;styles.container&#125;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">View</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">TouchableOpacity</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">          <span class="attr">onPress</span>=<span class="string">&#123;()</span>=&gt;</span>&#123;&#125;&#125;</span></span><br><span class="line"><span class="language-xml">          style=&#123;[styles.selectAll_btn]&#125;&gt;</span></span><br><span class="line"><span class="language-xml">          <span class="tag">&lt;<span class="name">Text</span>&gt;</span>全選<span class="tag">&lt;/<span class="name">Text</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">TouchableOpacity</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;/<span class="name">View</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">View</span> <span class="attr">style</span>=<span class="string">&#123;styles.flatlist_container&#125;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">FlatList</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">          <span class="attr">data</span>=<span class="string">&#123;MOCK&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">          <span class="attr">renderItem</span>=<span class="string">&#123;(cases)</span> =&gt;</span> <span class="tag">&lt;<span class="name">RenderData</span> <span class="attr">item</span>=<span class="string">&#123;cases.item&#125;</span> /&gt;</span>&#125;</span></span><br><span class="line"><span class="language-xml">          keyExtractor=&#123;(cases, index) =&gt; index.toString()&#125;</span></span><br><span class="line"><span class="language-xml">          style=&#123;&#123; width: &#x27;100%&#x27;, &#125;&#125;</span></span><br><span class="line"><span class="language-xml">        /&gt;</span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;/<span class="name">View</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">    &lt;/View &gt;</span></span><br><span class="line"><span class="language-xml">  );</span></span><br><span class="line"><span class="language-xml">&#125;</span></span><br><span class="line"><span class="language-xml"></span></span><br></pre></td></tr></table></figure>
+
+<p>左圖是 app 剛啟動的畫面<br>中間圖是選取單個項目時的畫面<br>右圖是點擊全選按鈕時的畫面</p>
+<div style="display:flex">
+<img src="/2021/05/20/%E5%85%A8%E9%81%B8%E5%8A%9F%E8%83%BD%E5%AF%A6%E4%BD%9C/demo.jpg" style="box-shadow: 2px 1px 6px gray">
+<img src="/2021/05/20/%E5%85%A8%E9%81%B8%E5%8A%9F%E8%83%BD%E5%AF%A6%E4%BD%9C/demo2.jpg" style="box-shadow: 2px 1px 6px gray">
+<img src="/2021/05/20/%E5%85%A8%E9%81%B8%E5%8A%9F%E8%83%BD%E5%AF%A6%E4%BD%9C/demo3.jpg" style="box-shadow: 2px 1px 6px gray">
+</div>
+
+<p>以下是實作全選功能的流程圖</p>
+<img src="/2021/05/20/%E5%85%A8%E9%81%B8%E5%8A%9F%E8%83%BD%E5%AF%A6%E4%BD%9C/flowChart1.png" style="box-shadow: 2px 1px 6px gray">
+
+<p>虛線部分是 app 剛啟動時的狀態，這時<code>data</code>也還是初始值<br>接下來我會宣告一個<code>selectedItem</code>陣列來放我所選的項目物件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> [selectedItems, setSelectedItems] = <span class="title function_">useState</span>([]);</span><br></pre></td></tr></table></figure>
+
+<p>每當項目被點擊時，用<code>some()</code>檢查<br>如果<code>selectedItem</code>中有這個物件，就用<code>filter()</code>把那個項目從中清除；<br>反之如果沒有的話，就複製一份丟進去<br>這個函數會被丟進每個項目中</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">onItemSelect</span> = (<span class="params">item</span>) =&gt; &#123;</span><br><span class="line">    <span class="title function_">setSelectedItems</span>(</span><br><span class="line">        <span class="function"><span class="params">prev</span> =&gt;</span> prev.<span class="title function_">some</span>(<span class="function">(<span class="params">prevItem</span>) =&gt;</span> prevItem === item) </span><br><span class="line">        ? prev.<span class="title function_">filter</span>(<span class="function">(<span class="params">prevItem</span>) =&gt;</span> prevItem !== item) </span><br><span class="line">        : [...prev, item])</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>接著記得把<code>selectedItem</code>傳入各個項目中<br>以便讓每個項目判斷自己是否在其中，改變<code>isSelected</code> state，藉此渲染自己的樣式</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// in &lt;RenderData/&gt;</span></span><br><span class="line"><span class="keyword">const</span> [isSelected, setIsSelected] = <span class="title function_">useState</span>(<span class="literal">false</span>)</span><br><span class="line"><span class="title function_">useEffect</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line"><span class="keyword">if</span> (selectedItems.<span class="title function_">some</span>(<span class="function"><span class="params">selectedItem</span> =&gt;</span> selectedItem === item)) &#123;</span><br><span class="line">    <span class="title function_">setIsSelected</span>(<span class="literal">true</span>)</span><br><span class="line">&#125; <span class="keyword">else</span> &#123; <span class="title function_">setIsSelected</span>(<span class="literal">false</span>) &#125;</span><br><span class="line">&#125;, [selectedItems])</span><br></pre></td></tr></table></figure>
+
+<p>選取後可能還會編輯項目，這時只要更新<code>data</code>並清空<code>selectedItem</code>就ok了<br>我這邊就先不做編輯的部分</p>
+<p>接著回到<code>app()</code><br>別忘了還沒做全選按鈕的功能<br>策略很簡單，宣告一個<code>isAllSelected</code> state<br>如果還沒全選，就把<code>data</code>中的所有項目丟進<code>selectedItems</code>；<br>如果已經全選了就把<code>selectedItems</code>清空<br>我們就叫他<code>selectAll</code>吧</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> [isAllSelected, setIsAllSelected] = <span class="title function_">useState</span>(<span class="literal">false</span>); <span class="comment">//現在有沒有全選?</span></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">selectAll</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">if</span> (isAllSelected) <span class="title function_">setSelectedItems</span>([]) </span><br><span class="line">  <span class="keyword">else</span> <span class="title function_">setSelectedItems</span>([...<span class="variable constant_">MOCK</span>])</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>在useEffect中判斷有沒有全選</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">useEffect</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (selectedItems.<span class="property">length</span> === <span class="variable constant_">MOCK</span>.<span class="property">length</span>) &#123;</span><br><span class="line">    <span class="title function_">setIsAllSelected</span>(<span class="literal">true</span>)</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123; <span class="title function_">setIsAllSelected</span>(<span class="literal">false</span>) &#125;</span><br><span class="line">&#125;, [selectedItems]) <span class="comment">// 每當selectedItems改變，就檢查一次</span></span><br></pre></td></tr></table></figure>
+
+<p>把前面提到的<code>onItemSelect</code>和剛剛的<code>selectAll</code>畫成流程圖:</p>
+<img src="/2021/05/20/%E5%85%A8%E9%81%B8%E5%8A%9F%E8%83%BD%E5%AF%A6%E4%BD%9C/flowChart2.png" style="box-shadow: 2px 1px 6px gray">
+
+<p>最後的成果:</p>
+<img src="/2021/05/20/%E5%85%A8%E9%81%B8%E5%8A%9F%E8%83%BD%E5%AF%A6%E4%BD%9C/finish.gif" style="box-shadow: 2px 1px 6px gray">
+
+
+
+<p>完整程式碼放在這邊:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="title class_">React</span>, &#123; useEffect, useState &#125; <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">FlatList</span>, <span class="title class_">StyleSheet</span>, <span class="title class_">Text</span>, <span class="title class_">TouchableOpacity</span>, <span class="title class_">View</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;react-native&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="variable constant_">MOCK</span> = [</span><br><span class="line">  &#123; <span class="attr">name</span>: <span class="string">&#x27;Andy&#x27;</span> &#125;,</span><br><span class="line">  &#123; <span class="attr">name</span>: <span class="string">&#x27;Beck&#x27;</span> &#125;,</span><br><span class="line">  &#123; <span class="attr">name</span>: <span class="string">&#x27;Carl&#x27;</span> &#125;,</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">RenderData</span> = (<span class="params">&#123; item, selectedItems, onItemSelect &#125;</span>) =&gt; &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> [isSelected, setIsSelected] = <span class="title function_">useState</span>(<span class="literal">false</span>);</span><br><span class="line">  <span class="title function_">useEffect</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (selectedItems.<span class="title function_">some</span>(<span class="function"><span class="params">selectedItem</span> =&gt;</span> selectedItem === item)) &#123;</span><br><span class="line">      <span class="title function_">setIsSelected</span>(<span class="literal">true</span>)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123; <span class="title function_">setIsSelected</span>(<span class="literal">false</span>) &#125;</span><br><span class="line">  &#125;, [selectedItems])</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">TouchableOpacity</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">      <span class="attr">onPress</span>=<span class="string">&#123;()</span> =&gt;</span> &#123; onItemSelect() &#125;&#125;</span></span><br><span class="line"><span class="language-xml">      style=&#123;[styles.item_btn, &#123; backgroundColor: isSelected ? &#x27;gray&#x27; : &#x27;transparent&#x27; &#125;]&#125;&gt;</span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">Text</span>&gt;</span>&#123;item.name&#125;<span class="tag">&lt;/<span class="name">Text</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">TouchableOpacity</span>&gt;</span></span></span><br><span class="line">  )</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">function</span> <span class="title function_">App</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> [selectedItems, setSelectedItems] = <span class="title function_">useState</span>([]);</span><br><span class="line">  <span class="keyword">const</span> [isAllSelected, setIsAllSelected] = <span class="title function_">useState</span>(<span class="literal">false</span>);</span><br><span class="line">  <span class="keyword">const</span> <span class="title function_">onItemSelect</span> = (<span class="params">item</span>) =&gt; &#123;</span><br><span class="line">    <span class="title function_">setSelectedItems</span>(<span class="function"><span class="params">prev</span> =&gt;</span> prev.<span class="title function_">some</span>(<span class="function">(<span class="params">prevItem</span>) =&gt;</span> prevItem === item) ? prev.<span class="title function_">filter</span>(<span class="function">(<span class="params">prevItem</span>) =&gt;</span> prevItem !== item) : [...prev, item])</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> <span class="title function_">selectAll</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> (isAllSelected) &#123;</span><br><span class="line">      <span class="title function_">setSelectedItems</span>([])</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="title function_">setSelectedItems</span>([...<span class="variable constant_">MOCK</span>])</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="title function_">useEffect</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (selectedItems.<span class="property">length</span> === <span class="variable constant_">MOCK</span>.<span class="property">length</span>) &#123;</span><br><span class="line">      <span class="title function_">setIsAllSelected</span>(<span class="literal">true</span>)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123; <span class="title function_">setIsAllSelected</span>(<span class="literal">false</span>) &#125;</span><br><span class="line">  &#125;, [selectedItems])</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">View</span> <span class="attr">style</span>=<span class="string">&#123;styles.container&#125;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">View</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">TouchableOpacity</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">          <span class="attr">onPress</span>=<span class="string">&#123;selectAll&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">          <span class="attr">style</span>=<span class="string">&#123;[styles.selectAll_btn,</span> &#123; <span class="attr">backgroundColor:</span> <span class="attr">isAllSelected</span> ? &#x27;<span class="attr">gray</span>&#x27; <span class="attr">:</span> &#x27;<span class="attr">transparent</span>&#x27; &#125;]&#125;&gt;</span></span></span><br><span class="line"><span class="language-xml">          <span class="tag">&lt;<span class="name">Text</span>&gt;</span>全選<span class="tag">&lt;/<span class="name">Text</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">TouchableOpacity</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;/<span class="name">View</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">View</span> <span class="attr">style</span>=<span class="string">&#123;styles.flatlist_container&#125;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">FlatList</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">          <span class="attr">data</span>=<span class="string">&#123;MOCK&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">          <span class="attr">renderItem</span>=<span class="string">&#123;(cases)</span> =&gt;</span> <span class="tag">&lt;<span class="name">RenderData</span> <span class="attr">item</span>=<span class="string">&#123;cases.item&#125;</span> <span class="attr">selectedItems</span>=<span class="string">&#123;selectedItems&#125;</span> <span class="attr">onItemSelect</span>=<span class="string">&#123;()</span> =&gt;</span> &#123; onItemSelect(cases.item) &#125;&#125; /&gt;&#125;</span></span><br><span class="line"><span class="language-xml">          keyExtractor=&#123;(cases, index) =&gt; index.toString()&#125;</span></span><br><span class="line"><span class="language-xml">          style=&#123;&#123; width: &#x27;100%&#x27;, &#125;&#125;</span></span><br><span class="line"><span class="language-xml">        /&gt;</span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;/<span class="name">View</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">    &lt;/View &gt;</span></span><br><span class="line"><span class="language-xml">  );</span></span><br><span class="line"><span class="language-xml">&#125;</span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">const styles = StyleSheet.create(&#123;</span></span><br><span class="line"><span class="language-xml">  container: &#123;</span></span><br><span class="line"><span class="language-xml">    flex: 1,</span></span><br><span class="line"><span class="language-xml">    backgroundColor: &#x27;#fff&#x27;,</span></span><br><span class="line"><span class="language-xml">    alignItems: &#x27;center&#x27;,</span></span><br><span class="line"><span class="language-xml">    justifyContent: &#x27;center&#x27;,</span></span><br><span class="line"><span class="language-xml">  &#125;,</span></span><br><span class="line"><span class="language-xml">  selectAll_btn: &#123;</span></span><br><span class="line"><span class="language-xml">    borderWidth: 1,</span></span><br><span class="line"><span class="language-xml">    width: 80,</span></span><br><span class="line"><span class="language-xml">    height: 40,</span></span><br><span class="line"><span class="language-xml">    justifyContent: &#x27;center&#x27;,</span></span><br><span class="line"><span class="language-xml">    alignItems: &#x27;center&#x27;,</span></span><br><span class="line"><span class="language-xml">  &#125;,</span></span><br><span class="line"><span class="language-xml">  flatlist_container: &#123;</span></span><br><span class="line"><span class="language-xml">    borderWidth: 1,</span></span><br><span class="line"><span class="language-xml">    width: 200,</span></span><br><span class="line"><span class="language-xml">    height: 150,</span></span><br><span class="line"><span class="language-xml">    alignItems: &#x27;center&#x27;,</span></span><br><span class="line"><span class="language-xml">    marginTop: 20,</span></span><br><span class="line"><span class="language-xml">  &#125;,</span></span><br><span class="line"><span class="language-xml">  item_btn: &#123;</span></span><br><span class="line"><span class="language-xml">    height: 40,</span></span><br><span class="line"><span class="language-xml">    justifyContent: &#x27;center&#x27;,</span></span><br><span class="line"><span class="language-xml">    alignItems: &#x27;center&#x27;,</span></span><br><span class="line"><span class="language-xml">  &#125;,</span></span><br><span class="line"><span class="language-xml">&#125;);</span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml"></span></span><br></pre></td></tr></table></figure></font>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/05/07/%E8%87%AA%E8%A3%BD%E6%97%A5%E6%9C%9F%E9%81%B8%E6%93%87%E5%99%A8-2/" rel="prev" title="自製日期選擇器-2 (custom hook)">
+                  <i class="fa fa-chevron-left"></i> 自製日期選擇器-2 (custom hook)
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/05/23/%E6%8E%A7%E5%88%B6-Expo-app-%E7%9A%84%E8%AE%80%E5%8F%96%E7%95%AB%E9%9D%A2/" rel="next" title="控制 Expo app 的讀取畫面">
+                  控制 Expo app 的讀取畫面 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Guan-Ting Su</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

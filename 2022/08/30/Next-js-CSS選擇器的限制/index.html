@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"roto93.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.13.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="前言最近求職的過程中看到幾間公司有將 Next.js 列在加分項目因此提升了我對 Next.js 的好奇心 其實我在滿久以前就聽過 Next 了只知道是 React 的加強版針對 React 天生不利於 SEO 的缺點提供解決方案而且不需要依賴 react-router 就能做到換頁所以最近正式的來學習一下 途中在 CSS 上遇到了小問題 在 Next 中使用 CSS 的方法先不論 SASS,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Next.js CSS選擇器的限制">
+<meta property="og:url" content="http://roto93.github.io/2022/08/30/Next-js-CSS%E9%81%B8%E6%93%87%E5%99%A8%E7%9A%84%E9%99%90%E5%88%B6/index.html">
+<meta property="og:site_name" content="Pi&#39;s Blog">
+<meta property="og:description" content="前言最近求職的過程中看到幾間公司有將 Next.js 列在加分項目因此提升了我對 Next.js 的好奇心 其實我在滿久以前就聽過 Next 了只知道是 React 的加強版針對 React 天生不利於 SEO 的缺點提供解決方案而且不需要依賴 react-router 就能做到換頁所以最近正式的來學習一下 途中在 CSS 上遇到了小問題 在 Next 中使用 CSS 的方法先不論 SASS,">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2022-08-29T17:15:21.000Z">
+<meta property="article:modified_time" content="2022-10-13T07:53:16.162Z">
+<meta property="article:author" content="Guan-Ting Su">
+<meta property="article:tag" content="程式,自學">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://roto93.github.io/2022/08/30/Next-js-CSS%E9%81%B8%E6%93%87%E5%99%A8%E7%9A%84%E9%99%90%E5%88%B6/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"http://roto93.github.io/2022/08/30/Next-js-CSS%E9%81%B8%E6%93%87%E5%99%A8%E7%9A%84%E9%99%90%E5%88%B6/","path":"2022/08/30/Next-js-CSS選擇器的限制/","title":"Next.js CSS選擇器的限制"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Next.js CSS選擇器的限制 | Pi's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Pi's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8-Next-%E4%B8%AD%E4%BD%BF%E7%94%A8-CSS-%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">在 Next 中使用 CSS 的方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E5%9C%A8-app-js-%E4%B8%AD%E5%BC%95%E5%85%A5-global-CSS"><span class="nav-number">2.0.1.</span> <span class="nav-text">1. 在 _app.js 中引入 global CSS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E5%9C%A8%E5%90%84%E5%88%A5%E9%A0%81%E9%9D%A2%E6%88%96%E5%85%83%E4%BB%B6%E4%B8%AD%E4%BD%BF%E7%94%A8-CSS-module"><span class="nav-number">2.0.2.</span> <span class="nav-text">2. 在各別頁面或元件中使用 CSS module</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E9%99%90%E5%88%B6"><span class="nav-number">3.</span> <span class="nav-text">一些限制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B5%90%E8%AB%96"><span class="nav-number">4.</span> <span class="nav-text">結論</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Guan-Ting Su</p>
+  <div class="site-description" itemprop="description">一些程式自學小記錄</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2022/08/30/Next-js-CSS%E9%81%B8%E6%93%87%E5%99%A8%E7%9A%84%E9%99%90%E5%88%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Guan-Ting Su">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pi's Blog">
+      <meta itemprop="description" content="一些程式自學小記錄">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Next.js CSS選擇器的限制 | Pi's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Next.js CSS選擇器的限制
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-08-30 01:15:21" itemprop="dateCreated datePublished" datetime="2022-08-30T01:15:21+08:00">2022-08-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2022-10-13 15:53:16" itemprop="dateModified" datetime="2022-10-13T15:53:16+08:00">2022-10-13</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <font size="2" color="#aaa">
+
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><font color="#f4a261">前言</font></h2><p>最近求職的過程中<br>看到幾間公司有將 Next.js 列在加分項目<br>因此提升了我對 Next.js 的好奇心</p>
+<p>其實我在滿久以前就聽過 Next 了<br>只知道是 React 的加強版<br>針對 React 天生不利於 SEO 的缺點提供解決方案<br>而且不需要依賴 react-router 就能做到換頁<br>所以最近正式的來學習一下</p>
+<p>途中在 CSS 上遇到了小問題</p>
+<h2 id="在-Next-中使用-CSS-的方法"><a href="#在-Next-中使用-CSS-的方法" class="headerlink" title="在 Next 中使用 CSS 的方法"></a><font color="#f4a261">在 Next 中使用 CSS 的方法</font></h2><p>先不論 SASS, CSS-in-JS 這些用法<br>如果要用正統 CSS 的話<br>有以下兩種方法</p>
+<h4 id="1-在-app-js-中引入-global-CSS"><a href="#1-在-app-js-中引入-global-CSS" class="headerlink" title="1. 在 _app.js 中引入 global CSS"></a>1. 在 <code>_app.js</code> 中引入 global CSS</h4><p>在 Next 專案中<br>只有一個地方可以引入純 CSS<br>就是<code>_app.js</code>，如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// In _app.js</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;../styles/global.css&#x27;</span> <span class="comment">// &lt;--- Here!</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">function</span> <span class="title function_">MyApp</span>(<span class="params">&#123;Component, pageProps&#125;</span>)&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">Component</span> &#123;<span class="attr">...pageProps</span>&#125;&gt;</span></span></span><br><span class="line"><span class="language-xml">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>如果在其他元件中<code>import &#39;xxx.css&#39;</code>的話<br>會出現以下 error</p>
+<blockquote>
+<p>./styles/global.css<br>Global CSS cannot be imported from files other than your Custom <App>. Due to the Global nature of stylesheets, and to avoid conflicts, Please move all first-party global CSS imports to pages/_app.js. Or convert the import to Component-Level CSS (CSS Modules).<br>Read more: <a target="_blank" rel="noopener" href="https://nextjs.org/docs/messages/css-global">https://nextjs.org/docs/messages/css-global</a></App></p>
+</blockquote>
+<h4 id="2-在各別頁面或元件中使用-CSS-module"><a href="#2-在各別頁面或元件中使用-CSS-module" class="headerlink" title="2. 在各別頁面或元件中使用 CSS module"></a>2. 在各別頁面或元件中使用 CSS module</h4><p>CSS module 也是一個見了許久卻沒使用的東西<br>他主要的功用是 能依照作用範圍切分 CSS 文件的大小</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* In page.module.css */</span></span><br><span class="line"><span class="selector-class">.container</span> &#123;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">0</span> <span class="number">1rem</span>;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">3rem</span> auto <span class="number">6rem</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// In page.js</span></span><br><span class="line"><span class="keyword">import</span> styles <span class="keyword">from</span> <span class="string">&#x27;./page.module.css&#x27;</span>  <span class="comment">// &lt;--- Here!</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">function</span> <span class="title function_">page</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">className</span>=<span class="string">&#123;styles.container&#125;</span>&gt;</span>  &#123;/* &lt;--- Here!*/&#125;</span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">h2</span>&gt;</span>This is a page.<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">  )</span></span><br><span class="line"><span class="language-xml">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>上面的例子，<code>page.module.css</code>就是專門寫給<code>page.js</code>用的<br>這樣就可以避免跟其他元件的 class 撞名</p>
+<p>以前當我要避免撞名時<br>不是把 APP 的所有 CSS 都寫在一份檔案<br>就是極致利用 BEM 規則把每個 class 都寫得超長</p>
+<p>用了 CSS module 後<br>當你去看網頁上實際的 class 會發現他可能長這樣<br><code>&lt;div class=&quot;container__fbLkO&quot;&gt;&lt;/div&gt;</code><br>CSS module 會在 class 後面加上亂碼<br>避免跟其他元件的 class 撞名</p>
+<h2 id="一些限制"><a href="#一些限制" class="headerlink" title="一些限制"></a><font color="#f4a261">一些限制</font></h2><p>進入正題(前面講了好多別的)<br>CSS module 雖然方便<br>但仍然有一些限制<br>例如在<code>.module.css</code>中<br>只能用 class 或 id 選擇器<br>不能用 element 選擇器</p>
+<p>意思是不能在<code>.module.css</code>中這樣寫</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">p</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: red;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>詳細原因可以參考  –&gt;  <a target="_blank" rel="noopener" href="https://github.com/vercel/next.js/discussions/16050#discussioncomment-49022">這個連結</a>  &lt;– </p>
+<p>如果基於某些原因必須去選 element<br>就只能寫在 global.css 中囉</p>
+<p>除此之外，偽類偽元素以及選擇器的組合都還是能正常使用的喔</p>
+<h2 id="結論"><a href="#結論" class="headerlink" title="結論"></a><font color="#f4a261">結論</font></h2><p>我覺得不管是什麼前端技術(或程式語言技術)<br>最終都會向元件化靠攏<br>像 styled component 或今天介紹的 CSS module<br>都是盡可能的把「屬於元件的部分」跟元件本身放得越近越好<br>享受方便性的同時，也要同時注意使用上的限制才行</p>
+</font>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/08/05/JS%E8%A7%80%E5%BF%B5%E7%AF%87-call-apply-bind/" rel="prev" title="JS觀念篇-call, apply, bind">
+                  <i class="fa fa-chevron-left"></i> JS觀念篇-call, apply, bind
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/09/01/Nest-js-getStaticPaths-vs-useRouter/" rel="next" title="Nest.js: getStaticPaths vs useRouter">
+                  Nest.js: getStaticPaths vs useRouter <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Guan-Ting Su</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

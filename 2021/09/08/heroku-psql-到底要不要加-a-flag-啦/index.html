@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"roto93.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.13.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="前言有件事一直搞不懂我在看 heroku postgres 要怎麼備份時看到有些範例會寫 –app 來指定 app 名稱如: heroku pg:backups:capture --app sushi 看起來好像是必要的參數但有時範例又沒有加  尋找答案先看helphelp flag 永遠是第一步所以我輸入 heroku pg:backups --help 求解，得到 123OPTIONS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="heroku psql 到底要不要加 -a flag 啦">
+<meta property="og:url" content="http://roto93.github.io/2021/09/08/heroku-psql-%E5%88%B0%E5%BA%95%E8%A6%81%E4%B8%8D%E8%A6%81%E5%8A%A0-a-flag-%E5%95%A6/index.html">
+<meta property="og:site_name" content="Pi&#39;s Blog">
+<meta property="og:description" content="前言有件事一直搞不懂我在看 heroku postgres 要怎麼備份時看到有些範例會寫 –app 來指定 app 名稱如: heroku pg:backups:capture --app sushi 看起來好像是必要的參數但有時範例又沒有加  尋找答案先看helphelp flag 永遠是第一步所以我輸入 heroku pg:backups --help 求解，得到 123OPTIONS">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2021-09-07T17:21:15.000Z">
+<meta property="article:modified_time" content="2022-10-13T07:53:16.168Z">
+<meta property="article:author" content="Guan-Ting Su">
+<meta property="article:tag" content="程式,自學">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://roto93.github.io/2021/09/08/heroku-psql-%E5%88%B0%E5%BA%95%E8%A6%81%E4%B8%8D%E8%A6%81%E5%8A%A0-a-flag-%E5%95%A6/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"http://roto93.github.io/2021/09/08/heroku-psql-%E5%88%B0%E5%BA%95%E8%A6%81%E4%B8%8D%E8%A6%81%E5%8A%A0-a-flag-%E5%95%A6/","path":"2021/09/08/heroku-psql-到底要不要加-a-flag-啦/","title":"heroku psql 到底要不要加 -a flag 啦"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>heroku psql 到底要不要加 -a flag 啦 | Pi's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Pi's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%8B%E6%89%BE%E7%AD%94%E6%A1%88"><span class="nav-number">2.</span> <span class="nav-text">尋找答案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%88%E7%9C%8Bhelp"><span class="nav-number">2.1.</span> <span class="nav-text">先看help</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A9%A6%E8%A9%A6%E8%B7%9F-app-%E6%9C%89%E9%97%9C%E7%9A%84%E6%8C%87%E4%BB%A4"><span class="nav-number">2.2.</span> <span class="nav-text">試試跟 app 有關的指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%98%AF%E5%90%A6%E5%8F%AA%E6%9C%89%E6%AD%A4%E8%B7%AF%E5%BE%91%E8%83%BD%E8%87%AA%E5%8B%95%E6%8C%87%E5%AE%9Aapp"><span class="nav-number">2.3.</span> <span class="nav-text">是否只有此路徑能自動指定app?</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B5%90%E8%AB%96"><span class="nav-number">3.</span> <span class="nav-text">結論</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Guan-Ting Su</p>
+  <div class="site-description" itemprop="description">一些程式自學小記錄</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2021/09/08/heroku-psql-%E5%88%B0%E5%BA%95%E8%A6%81%E4%B8%8D%E8%A6%81%E5%8A%A0-a-flag-%E5%95%A6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Guan-Ting Su">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pi's Blog">
+      <meta itemprop="description" content="一些程式自學小記錄">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="heroku psql 到底要不要加 -a flag 啦 | Pi's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          heroku psql 到底要不要加 -a flag 啦
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-09-08 01:21:15" itemprop="dateCreated datePublished" datetime="2021-09-08T01:21:15+08:00">2021-09-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2022-10-13 15:53:16" itemprop="dateModified" datetime="2022-10-13T15:53:16+08:00">2022-10-13</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <font size="2" color="#aaa">
+
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><font color="#f4a261">前言</font></h2><p>有件事一直搞不懂<br>我在看 heroku postgres 要怎麼備份時<br>看到有些範例會寫 –app 來指定 app 名稱<br>如: <code>heroku pg:backups:capture --app sushi</code></p>
+<p>看起來好像是必要的參數<br>但有時範例又沒有加</p>
+<hr>
+<h2 id="尋找答案"><a href="#尋找答案" class="headerlink" title="尋找答案"></a><font color="#f4a261">尋找答案</font></h2><h3 id="先看help"><a href="#先看help" class="headerlink" title="先看help"></a>先看help</h3><p>help flag 永遠是第一步<br>所以我輸入 <code>heroku pg:backups --help</code> 求解，得到</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">OPTIONS</span><br><span class="line">  -a, --app=app        (required) app to run command against</span><br><span class="line">  -r, --remote=remote  git remote of app to use</span><br></pre></td></tr></table></figure>
+
+<p>哦! 他說 required<br>但實際運行 <code>heroku pg:backups</code> 的時候<br>卻又沒問題</p>
+<h3 id="試試跟-app-有關的指令"><a href="#試試跟-app-有關的指令" class="headerlink" title="試試跟 app 有關的指令"></a>試試跟 app 有關的指令</h3><p>於是接下來，我運行 <code>heroku apps</code> 得到</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">=== *******@yahoo.com.tw Apps</span><br><span class="line">pi-first-api</span><br><span class="line">taiwan-astronomy-network-api</span><br></pre></td></tr></table></figure>
+
+<p>沒錯<br>目前我的帳號有這兩個app<br><code>pi-first-api</code>是我第一次使用heroku時的練習app<br><code>taiwan-astronomy-network-api</code>這是我正在用的app<br>我輸入指令沒指定app<br>heroku卻知道我要使用哪個app<br>這可能代表我之前有做過什麼設定<br>讓heroku在「目前的資料夾當中」自動連結到正確的app上</p>
+<h3 id="是否只有此路徑能自動指定app"><a href="#是否只有此路徑能自動指定app" class="headerlink" title="是否只有此路徑能自動指定app?"></a>是否只有此路徑能自動指定app?</h3><p>為了證實剛剛的假設<br>我移動到上層資料夾(不在專案內)<br>執行 <code>heroku pg:backups</code><br>居然跳出錯誤訊息!</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">»   Error: Missing required flag:</span><br><span class="line">»     -a, --app APP  app to run command against</span><br><span class="line">»   See more help with --help</span><br></pre></td></tr></table></figure>
+<p>所以現在確定了<br>只有在我的專案資料夾才能夠省略 –app</p>
+<p>這時我突然想到<br>在當初第一次使用 heroku 的時候<br>有做了一些前置作業<br>其中包含了指定 remote<br>很有可能就是這個原因</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt; git remote -v</span><br><span class="line">heroku  https://git.heroku.com/taiwan-astronomy-network-api.git (fetch)</span><br><span class="line">heroku  https://git.heroku.com/taiwan-astronomy-network-api.git (push)</span><br><span class="line">origin  https://github.com/roto93/TAN-API.git (fetch)</span><br><span class="line">origin  https://github.com/roto93/TAN-API.git (push)</span><br></pre></td></tr></table></figure>
+
+<p>後來我也試著把 remote 去掉再試一次，這樣就不行了<br>看來可以確定主因了</p>
+<h2 id="結論"><a href="#結論" class="headerlink" title="結論"></a><font color="#f4a261">結論</font></h2><p>若專案資料夾有設定 heroku 的 remote<br>那在輸入 heroku 指令時就不需要加上 –app 的 flag</p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/51815542/heroku-missing-required-flag-a">參考</a></p>
+</font>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/09/07/Heroku-Postgres-Cheat-Sheet/" rel="prev" title="Heroku Postgres Cheat Sheet">
+                  <i class="fa fa-chevron-left"></i> Heroku Postgres Cheat Sheet
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/09/26/JS-%E7%94%9F%E6%88%90-unique-id/" rel="next" title="JS 生成 unique id">
+                  JS 生成 unique id <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Guan-Ting Su</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

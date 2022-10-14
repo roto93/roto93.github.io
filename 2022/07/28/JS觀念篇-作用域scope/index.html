@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"roto93.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.13.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="前言接下來幾篇會著重在一些 javascript 的重要觀念未來如果忘了哪部分就可以回來看看 作用域 ScopeScope 其實就是字面上的意思一個變數或函式所能作用的範圍在作用域以外的地方，就無法存取該變數現在就用變數的宣告來解釋 scope 吧 在我開始學程式之前曾經有個東西風靡一時那就是var，函數變數在我寫這篇文章之前，原本以為var是宣告全域變數結果仔細一查才發現並不是連現今常用的l">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS 觀念篇1 -- 作用域 scope">
+<meta property="og:url" content="http://roto93.github.io/2022/07/28/JS%E8%A7%80%E5%BF%B5%E7%AF%87-%E4%BD%9C%E7%94%A8%E5%9F%9Fscope/index.html">
+<meta property="og:site_name" content="Pi&#39;s Blog">
+<meta property="og:description" content="前言接下來幾篇會著重在一些 javascript 的重要觀念未來如果忘了哪部分就可以回來看看 作用域 ScopeScope 其實就是字面上的意思一個變數或函式所能作用的範圍在作用域以外的地方，就無法存取該變數現在就用變數的宣告來解釋 scope 吧 在我開始學程式之前曾經有個東西風靡一時那就是var，函數變數在我寫這篇文章之前，原本以為var是宣告全域變數結果仔細一查才發現並不是連現今常用的l">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2022-07-28T13:48:07.000Z">
+<meta property="article:modified_time" content="2022-10-13T07:53:16.161Z">
+<meta property="article:author" content="Guan-Ting Su">
+<meta property="article:tag" content="程式,自學">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://roto93.github.io/2022/07/28/JS%E8%A7%80%E5%BF%B5%E7%AF%87-%E4%BD%9C%E7%94%A8%E5%9F%9Fscope/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"http://roto93.github.io/2022/07/28/JS%E8%A7%80%E5%BF%B5%E7%AF%87-%E4%BD%9C%E7%94%A8%E5%9F%9Fscope/","path":"2022/07/28/JS觀念篇-作用域scope/","title":"JS 觀念篇1 -- 作用域 scope"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>JS 觀念篇1 -- 作用域 scope | Pi's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Pi's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%9C%E7%94%A8%E5%9F%9F-Scope"><span class="nav-number">2.</span> <span class="nav-text">作用域 Scope</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#var-%E7%9A%84%E4%BD%9C%E7%94%A8%E5%9F%9F"><span class="nav-number">3.</span> <span class="nav-text">var 的作用域</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#let-%E5%92%8C-const-%E7%9A%84%E4%BD%9C%E7%94%A8%E5%9F%9F"><span class="nav-number">4.</span> <span class="nav-text">let 和 const 的作用域</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#var-VS-let-const"><span class="nav-number">5.</span> <span class="nav-text">var VS let&#x2F;const</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B5%90%E8%AB%96"><span class="nav-number">6.</span> <span class="nav-text">結論</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Scope-%E4%BD%9C%E7%94%A8%E5%9F%9F%EF%BC%8C%E8%AE%8A%E6%95%B8%E6%88%96%E5%87%BD%E5%BC%8F%E7%9A%84%E4%BD%9C%E7%94%A8%E7%AF%84%E5%9C%8D%EF%BC%8C%E4%B9%9F%E5%8F%AF%E4%BB%A5%E6%83%B3%E6%88%90%E7%94%9F%E5%AD%98%E7%AF%84%E5%9C%8D"><span class="nav-number">6.0.1.</span> <span class="nav-text">Scope: 作用域，變數或函式的作用範圍，也可以想成生存範圍</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Guan-Ting Su</p>
+  <div class="site-description" itemprop="description">一些程式自學小記錄</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2022/07/28/JS%E8%A7%80%E5%BF%B5%E7%AF%87-%E4%BD%9C%E7%94%A8%E5%9F%9Fscope/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Guan-Ting Su">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pi's Blog">
+      <meta itemprop="description" content="一些程式自學小記錄">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="JS 觀念篇1 -- 作用域 scope | Pi's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          JS 觀念篇1 -- 作用域 scope
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-07-28 21:48:07" itemprop="dateCreated datePublished" datetime="2022-07-28T21:48:07+08:00">2022-07-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2022-10-13 15:53:16" itemprop="dateModified" datetime="2022-10-13T15:53:16+08:00">2022-10-13</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <font size="2" color="#aaa">
+
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><font color="#f4a261">前言</font></h2><p>接下來幾篇會著重在一些 javascript 的重要觀念<br>未來如果忘了哪部分就可以回來看看</p>
+<h2 id="作用域-Scope"><a href="#作用域-Scope" class="headerlink" title="作用域 Scope"></a><font color="#f4a261">作用域 Scope</font></h2><p>Scope 其實就是字面上的意思<br>一個變數或函式所能作用的範圍<br>在作用域以外的地方，就無法存取該變數<br>現在就用變數的宣告來解釋 scope 吧</p>
+<p>在我開始學程式之前<br>曾經有個東西風靡一時<br>那就是<code>var</code>，函數變數<br>在我寫這篇文章之前，原本以為<code>var</code>是宣告全域變數<br>結果仔細一查才發現並不是<br>連現今常用的<code>let</code>和<code>const</code>也不僅僅只是區域變數而已<br>只要搞清楚它們的作用域範圍就會懂了</p>
+<h2 id="var-的作用域"><a href="#var-的作用域" class="headerlink" title="var 的作用域"></a><font color="#f4a261">var 的作用域</font></h2><p>var 用來宣告函數變數 function variable<br>意即其作用域是在宣告他的函數內<br>來看個簡單的例子</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">printText</span> = (<span class="params"></span>)=&gt;&#123;</span><br><span class="line">  <span class="keyword">var</span> text1 = <span class="string">&#x27;Earth&#x27;</span></span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`text1: <span class="subst">$&#123;text1&#125;</span>`</span>)</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">if</span> (<span class="literal">true</span>)&#123;</span><br><span class="line">    <span class="keyword">var</span> text2 = <span class="string">&#x27;Moon&#x27;</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`text2: <span class="subst">$&#123;text2&#125;</span>`</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">printText</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment">// &quot;text1: Earth&quot;</span></span><br><span class="line"><span class="comment">// &quot;text2: Moon&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>text1 能被順利印出很正常<br>但 text2 也印的出來就沒那麼直觀了<br>這正是因為用<code>var</code>宣告的變數，在整個宣告它的函數內都有效<br>就算是在迴圈中宣告也一樣<br><code>var</code>變數不會被限制在迴圈的 block 中<br>但如果在父層函數內的話就行不通囉~ 如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">printText</span> = (<span class="params"></span>)=&gt;&#123;</span><br><span class="line">  <span class="keyword">const</span> <span class="title function_">innerPrint</span> = (<span class="params"></span>)=&gt;&#123;</span><br><span class="line">    <span class="keyword">var</span> text = <span class="string">&#x27;Sun&#x27;</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(text)</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">printText</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment">// Throwing error</span></span><br></pre></td></tr></table></figure>
+
+<p>text 變數的作用域只在 innerPrint 函式內<br>超出這個 scope 就取不到了</p>
+<p>話說那我們要怎麼宣告全域變數呢<br>只要在所有函式之外進行 var 宣告就可以了<br>只是要注意，不要再說「var就是宣告全域變數」囉</p>
+<h2 id="let-和-const-的作用域"><a href="#let-和-const-的作用域" class="headerlink" title="let 和 const 的作用域"></a><font color="#f4a261">let 和 const 的作用域</font></h2><p><code>let</code>和<code>const</code>都是用來宣告「區塊變數 block variable」<br>他們的作用域相同，都是在區塊內<br>如迴圈的區塊，或<code>if</code>區塊<br>再來一個簡單的例子</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">printText</span> = (<span class="params"></span>)=&gt;&#123;</span><br><span class="line">  <span class="keyword">let</span> text1 = <span class="string">&#x27;Earth&#x27;</span></span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`text1: <span class="subst">$&#123;text1&#125;</span>`</span>)</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">if</span> (<span class="literal">true</span>)&#123;</span><br><span class="line">    <span class="keyword">let</span> text2 = <span class="string">&#x27;Moon&#x27;</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`text2: <span class="subst">$&#123;text2&#125;</span>`</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">printText</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment">// &quot;text1: Earth&quot;</span></span><br><span class="line"><span class="comment">// Throwing error</span></span><br></pre></td></tr></table></figure>
+
+<p>text2 就印不出來了<br>因為 text2 只能在 if statement 中生存<br>這就是超出作用域的例子</p>
+<h2 id="var-VS-let-const"><a href="#var-VS-let-const" class="headerlink" title="var VS let/const"></a><font color="#f4a261">var VS let/const</font></h2><p>另外補充一個<code>var</code>與<code>let</code>的不同之處是<br><code>var</code>會將宣告上提 (hoisting)<br>只是不會初始化<br>可看看下列例子</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">printText</span> = (<span class="params"></span>)=&gt;&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;inside function before var:&#x27;</span>, text)</span><br><span class="line">  <span class="keyword">var</span> text = <span class="string">&#x27;Earth&#x27;</span></span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;inside function after var:&#x27;</span>, text)</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">printText</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment">// &quot;inside function before var:&quot;, undefined</span></span><br><span class="line"><span class="comment">// &quot;inside function after var:&quot;, &quot;Earth&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>雖然在宣告 text 前就取值<br>但只顯示<code>undefined</code>，並不會報錯<br>因為 text 已經被宣告了，只是沒賦值而已</p>
+<p>反之，<code>let</code>和<code>const</code>則會有所謂的暫時執行死區（TDZ）<br>所以這樣寫會出錯</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">const printText = ()=&gt;&#123;</span><br><span class="line">  console.log(&#x27;inside function before var:&#x27;, text)</span><br><span class="line">  let text = &#x27;Earth&#x27;</span><br><span class="line">&#125;</span><br><span class="line">printText()</span><br><span class="line"></span><br><span class="line">// Throwing error</span><br></pre></td></tr></table></figure>
+
+<p>有關 hoisting 就留到之後幾篇再說吧</p>
+<h2 id="結論"><a href="#結論" class="headerlink" title="結論"></a><font color="#f4a261">結論</font></h2><h4 id="Scope-作用域，變數或函式的作用範圍，也可以想成生存範圍"><a href="#Scope-作用域，變數或函式的作用範圍，也可以想成生存範圍" class="headerlink" title="Scope: 作用域，變數或函式的作用範圍，也可以想成生存範圍"></a>Scope: 作用域，變數或函式的作用範圍，也可以想成生存範圍</h4><p><code>var</code>變數的作用域在宣告時的函式內<br><code>let</code>變數和<code>const</code>常數的作用域則僅限於宣告時的區塊內</p>
+</font>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/07/27/%E5%81%9A%E4%B8%80%E5%80%8B%E8%87%AA%E5%B7%B1%E7%9A%84-IG-%E9%80%A3%E7%B5%90%E9%A0%81/" rel="prev" title="做一個自己的 IG 連結頁">
+                  <i class="fa fa-chevron-left"></i> 做一個自己的 IG 連結頁
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/08/01/JS%E8%A7%80%E5%BF%B5%E7%AF%87-%E9%96%89%E5%8C%85closure/" rel="next" title="JS 觀念篇 -- 閉包 closure">
+                  JS 觀念篇 -- 閉包 closure <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Guan-Ting Su</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

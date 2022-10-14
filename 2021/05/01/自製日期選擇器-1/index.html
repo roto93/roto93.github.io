@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"roto93.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.13.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="我決定要來做一個 for RN 的日期選擇器 原因是因為雖然之前有查到兩個套件，但都有點不合需求: 第一個是 react-native-modal-datetime-picker是調用 android&#x2F;ios 原生的日期選擇器雖然用起來很順又好看 (畢竟是原生元件)但唯一的缺點是不能選日期區間 QQ而我們想要用的就是選時段的功能 r像是設定旅行日期之類的 第二個是 react-native-d">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自製日期選擇器-1 (輸入介面規劃)">
+<meta property="og:url" content="http://roto93.github.io/2021/05/01/%E8%87%AA%E8%A3%BD%E6%97%A5%E6%9C%9F%E9%81%B8%E6%93%87%E5%99%A8-1/index.html">
+<meta property="og:site_name" content="Pi&#39;s Blog">
+<meta property="og:description" content="我決定要來做一個 for RN 的日期選擇器 原因是因為雖然之前有查到兩個套件，但都有點不合需求: 第一個是 react-native-modal-datetime-picker是調用 android&#x2F;ios 原生的日期選擇器雖然用起來很順又好看 (畢竟是原生元件)但唯一的缺點是不能選日期區間 QQ而我們想要用的就是選時段的功能 r像是設定旅行日期之類的 第二個是 react-native-d">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2021-05-01T13:17:40.000Z">
+<meta property="article:modified_time" content="2022-10-13T07:53:16.181Z">
+<meta property="article:author" content="Guan-Ting Su">
+<meta property="article:tag" content="程式,自學">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://roto93.github.io/2021/05/01/%E8%87%AA%E8%A3%BD%E6%97%A5%E6%9C%9F%E9%81%B8%E6%93%87%E5%99%A8-1/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"http://roto93.github.io/2021/05/01/%E8%87%AA%E8%A3%BD%E6%97%A5%E6%9C%9F%E9%81%B8%E6%93%87%E5%99%A8-1/","path":"2021/05/01/自製日期選擇器-1/","title":"自製日期選擇器-1 (輸入介面規劃)"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>自製日期選擇器-1 (輸入介面規劃) | Pi's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Pi's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BC%B8%E5%85%A5%E4%BB%8B%E9%9D%A2%E8%A6%8F%E5%8A%83-Interface-Design"><span class="nav-number">1.</span> <span class="nav-text">輸入介面規劃 Interface Design</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%98%AF%E5%90%A6%E9%A1%AF%E7%A4%BA"><span class="nav-number">1.1.</span> <span class="nav-text">1. 是否顯示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E9%96%8B%E5%95%9F%E6%99%82%E9%A1%AF%E7%A4%BA%E7%9A%84%E6%97%A5%E6%9C%9F"><span class="nav-number">1.2.</span> <span class="nav-text">2. 開啟時顯示的日期</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%96%AE%E6%97%A5%E9%82%84%E6%98%AF%E6%9C%9F%E9%96%93"><span class="nav-number">1.3.</span> <span class="nav-text">3. 單日還是期間</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E6%8C%89%E5%AE%8C%E6%88%90%E5%BE%8C%E5%9B%9E%E5%82%B3%E7%9A%84%E6%97%A5%E6%9C%9F"><span class="nav-number">1.4.</span> <span class="nav-text">4. 按完成後回傳的日期</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Guan-Ting Su</p>
+  <div class="site-description" itemprop="description">一些程式自學小記錄</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2021/05/01/%E8%87%AA%E8%A3%BD%E6%97%A5%E6%9C%9F%E9%81%B8%E6%93%87%E5%99%A8-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Guan-Ting Su">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pi's Blog">
+      <meta itemprop="description" content="一些程式自學小記錄">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="自製日期選擇器-1 (輸入介面規劃) | Pi's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          自製日期選擇器-1 (輸入介面規劃)
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-05-01 21:17:40" itemprop="dateCreated datePublished" datetime="2021-05-01T21:17:40+08:00">2021-05-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2022-10-13 15:53:16" itemprop="dateModified" datetime="2022-10-13T15:53:16+08:00">2022-10-13</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <font size="2" color="#aaa">
+
+<p>我決定要來做一個 for RN 的日期選擇器</p>
+<p>原因是因為雖然之前有查到兩個套件，但都有點不合需求:</p>
+<p>第一個是 <a target="_blank" rel="noopener" href="https://github.com/mmazzarolo/react-native-modal-datetime-picker">react-native-modal-datetime-picker</a><br>是調用 android/ios 原生的日期選擇器<br>雖然用起來很順又好看 (畢竟是原生元件)<br>但唯一的缺點是不能選日期區間 QQ<br>而我們想要用的就是選時段的功能 r<br>像是設定旅行日期之類的</p>
+<p>第二個是 <a target="_blank" rel="noopener" href="https://github.com/naxulanth/react-native-daterange-picker/">react-native-daterange-picker</a><br>這看起來是 Naxulanth 這位網友自製的元件<br>畫面簡潔，也可以選擇日期區間<br>但是，使用上有很多限制<br>doc 也沒有寫的很完整，實際使用方式跟示範的 code 有點不同<br>還有不少 bug</p>
+<p>正好我也想當練習<br>就來做一個屬於自己的日期判斷器吧<br>如果開發的不錯，就順便發布出去 讚</p>
+<p>寫這篇文的現在其實還沒做好<br>所以可能會分成幾個章節吧</p>
+<h2 id="輸入介面規劃-Interface-Design"><a href="#輸入介面規劃-Interface-Design" class="headerlink" title="輸入介面規劃 Interface Design"></a><font color="#BC2C1A">輸入介面規劃 Interface Design</font></h2><p>我希望這個元件的畫面、以及使用方式都夠簡單<br>並沿用 <a target="_blank" rel="noopener" href="https://github.com/react-native-modal/react-native-modal">react-native-modal</a> 的使用介面做開發<br>暫定最簡短的介面如下:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="title class_">DatePicker</span></span><br><span class="line"> <span class="comment">// 是否顯示</span></span><br><span class="line"> <span class="comment">// 開啟時顯示的日期</span></span><br><span class="line"> <span class="comment">// 模式:單日還是期間</span></span><br><span class="line"> <span class="comment">// 按完成後回傳的日期</span></span><br><span class="line">/&gt;</span><br></pre></td></tr></table></figure>
+<p>這四個是 required attributes<br>後續可能可以再加一些 styling 的屬性進來<br>但目前還是先 focus 在這幾個上面就好</p>
+<h3 id="1-是否顯示"><a href="#1-是否顯示" class="headerlink" title="1. 是否顯示"></a>1. 是否顯示</h3><p><strong>名稱:</strong> <font color="crimson"><code>isVisible</code></font><br><strong>類型:</strong> Boolean<br><strong>說明:</strong> 這應該沒什麼，就是開啟或關閉日期選擇器</p>
+<h3 id="2-開啟時顯示的日期"><a href="#2-開啟時顯示的日期" class="headerlink" title="2. 開啟時顯示的日期"></a>2. 開啟時顯示的日期</h3><p><strong>名稱:</strong> <font color="crimson"><code>displayDate</code></font><br><strong>類型:</strong> Date物件<br><strong>說明:</strong> 選填但是建議輸入，沒設定的話就預設為現在。當選擇器開啟時會顯示這個時間的月份，你可以利用這個屬性讓選擇器顯示使用者上次所選的日期的月份</p>
+<h3 id="3-單日還是期間"><a href="#3-單日還是期間" class="headerlink" title="3. 單日還是期間"></a>3. 單日還是期間</h3><p><strong>名稱:</strong> <font color="crimson"><code>mode</code></font><br><strong>類型:</strong> string<br><strong>輸入值:</strong> <font color="crimson"><code>&#39;single&#39;</code></font> / <font color="crimson"><code>&#39;range&#39;</code></font><br><strong>說明:</strong> 模式選擇: 要回傳單一日期就選 ‘single’；要回傳一段時間就選 ‘range’</p>
+<h3 id="4-按完成後回傳的日期"><a href="#4-按完成後回傳的日期" class="headerlink" title="4. 按完成後回傳的日期"></a>4. 按完成後回傳的日期</h3><p><strong>名稱:</strong> <font color="crimson"><code>onConfirm</code></font><br><strong>類型:</strong> function<br><strong>輸入值:</strong> <font color="crimson"><code>(data)=&gt;&#123; &#125;</code></font><br><strong>說明:</strong> 回傳一個物件。如果是單日模式物件的結構會是: </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">data=&#123;</span><br><span class="line"> <span class="attr">date</span>:<span class="title class_">Date</span>(),</span><br><span class="line"> <span class="attr">startDate</span>:<span class="literal">null</span>,</span><br><span class="line"> <span class="attr">endDate</span>:<span class="literal">null</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>反之如果是期間模式則是:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">data=&#123;</span><br><span class="line"> <span class="attr">date</span>:<span class="literal">null</span>,</span><br><span class="line"> <span class="attr">startDate</span>:<span class="title class_">Date</span>(),</span><br><span class="line"> <span class="attr">endDate</span>:<span class="title class_">Date</span>()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>好啦 第一篇就先到這<br>這可能會是個大系列(會分很多篇的意思XD)</p>
+</font>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/04/23/%E5%9C%A8firebase%E9%83%A8%E7%BD%B2%E4%BD%A0%E7%9A%84react%E5%B0%88%E6%A1%88/" rel="prev" title="在 firebase 部署你的 react 專案">
+                  <i class="fa fa-chevron-left"></i> 在 firebase 部署你的 react 專案
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/05/05/%E5%85%A9%E5%80%8B%E5%BE%9E%E7%B6%B2%E7%AB%99%E5%AF%84email%E7%B5%A6%E8%87%AA%E5%B7%B1%E7%9A%84%E6%96%B9%E6%B3%95/" rel="next" title="兩個從網站寄email給自己的方法">
+                  兩個從網站寄email給自己的方法 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Guan-Ting Su</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

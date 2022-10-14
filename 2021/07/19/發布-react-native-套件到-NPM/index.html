@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"roto93.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.13.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="前言最近把日期選擇器開發到一個段落了差不多要發布了吧… 等等! 我的開發紀錄才寫了兩篇欸後面還有很多內容沒寫而且其實唯一寫的那兩篇規劃的東西大部分都改了… 好啦我之後補!!!現在誰也不能阻止我發布套件!!! NPM 是什麼?NPM, Node Package Manager是 NodeJS 專屬的 套件管理工具 就像 Python 有 pip，Ruby 有 gem 一樣裡面放著來自世界各地工程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="發布 react native 套件到 NPM">
+<meta property="og:url" content="http://roto93.github.io/2021/07/19/%E7%99%BC%E5%B8%83-react-native-%E5%A5%97%E4%BB%B6%E5%88%B0-NPM/index.html">
+<meta property="og:site_name" content="Pi&#39;s Blog">
+<meta property="og:description" content="前言最近把日期選擇器開發到一個段落了差不多要發布了吧… 等等! 我的開發紀錄才寫了兩篇欸後面還有很多內容沒寫而且其實唯一寫的那兩篇規劃的東西大部分都改了… 好啦我之後補!!!現在誰也不能阻止我發布套件!!! NPM 是什麼?NPM, Node Package Manager是 NodeJS 專屬的 套件管理工具 就像 Python 有 pip，Ruby 有 gem 一樣裡面放著來自世界各地工程">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2021-07-18T17:13:47.000Z">
+<meta property="article:modified_time" content="2022-10-13T07:53:16.181Z">
+<meta property="article:author" content="Guan-Ting Su">
+<meta property="article:tag" content="程式,自學">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://roto93.github.io/2021/07/19/%E7%99%BC%E5%B8%83-react-native-%E5%A5%97%E4%BB%B6%E5%88%B0-NPM/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"http://roto93.github.io/2021/07/19/%E7%99%BC%E5%B8%83-react-native-%E5%A5%97%E4%BB%B6%E5%88%B0-NPM/","path":"2021/07/19/發布-react-native-套件到-NPM/","title":"發布 react native 套件到 NPM"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>發布 react native 套件到 NPM | Pi's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Pi's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NPM-%E6%98%AF%E4%BB%80%E9%BA%BC"><span class="nav-number">2.</span> <span class="nav-text">NPM 是什麼?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%99%BC%E5%B8%83%E6%AD%A5%E9%A9%9F"><span class="nav-number">3.</span> <span class="nav-text">發布步驟</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E5%BB%BA%E7%AB%8B%E5%B0%88%E6%A1%88%E8%B3%87%E6%96%99%E5%A4%BE"><span class="nav-number">3.0.1.</span> <span class="nav-text">1. 建立專案資料夾</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E9%80%A3%E7%B5%90-github"><span class="nav-number">3.0.2.</span> <span class="nav-text">2. 連結 github</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E5%BB%BA%E7%AB%8B%E5%B0%88%E6%A1%88"><span class="nav-number">3.0.3.</span> <span class="nav-text">3. 建立專案</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-%E5%BB%BA%E7%AB%8B%E5%A5%97%E4%BB%B6%E9%80%B2%E5%85%A5%E9%BB%9E"><span class="nav-number">3.0.4.</span> <span class="nav-text">4. 建立套件進入點</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-%E8%A8%AD%E5%AE%9A-Babel"><span class="nav-number">3.0.5.</span> <span class="nav-text">5. 設定 Babel</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-%E5%BB%BA%E7%AB%8B-gitignore-%E5%92%8C-npmignore"><span class="nav-number">3.0.6.</span> <span class="nav-text">6. 建立 .gitignore 和 .npmignore</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-%E6%9C%AC%E5%9C%B0%E6%B8%AC%E8%A9%A6"><span class="nav-number">3.0.7.</span> <span class="nav-text">7. 本地測試</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-%E7%99%BC%E5%B8%83"><span class="nav-number">3.0.8.</span> <span class="nav-text">8. 發布</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B5%90%E8%AA%9E"><span class="nav-number">4.</span> <span class="nav-text">結語</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Guan-Ting Su</p>
+  <div class="site-description" itemprop="description">一些程式自學小記錄</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2021/07/19/%E7%99%BC%E5%B8%83-react-native-%E5%A5%97%E4%BB%B6%E5%88%B0-NPM/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Guan-Ting Su">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pi's Blog">
+      <meta itemprop="description" content="一些程式自學小記錄">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="發布 react native 套件到 NPM | Pi's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          發布 react native 套件到 NPM
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-07-19 01:13:47" itemprop="dateCreated datePublished" datetime="2021-07-19T01:13:47+08:00">2021-07-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2022-10-13 15:53:16" itemprop="dateModified" datetime="2022-10-13T15:53:16+08:00">2022-10-13</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <font size="2" color="#aaa">
+
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><font color="#f4a261">前言</font></h2><p>最近把日期選擇器開發到一個段落了<br>差不多要發布了吧…</p>
+<p>等等! 我的開發紀錄才寫了兩篇欸<br>後面還有很多內容沒寫<br>而且其實唯一寫的那兩篇規劃的東西大部分都改了…</p>
+<p>好啦我之後補!!!<br>現在誰也不能阻止我發布套件!!!</p>
+<h2 id="NPM-是什麼"><a href="#NPM-是什麼" class="headerlink" title="NPM 是什麼?"></a><font color="#f4a261">NPM 是什麼?</font></h2><p>NPM, Node Package Manager<br>是 NodeJS 專屬的 套件管理工具</p>
+<p>就像 Python 有 pip，Ruby 有 gem 一樣<br>裡面放著來自世界各地工程師提供的套件<br>讓你可以不用從頭開始打造，就能使用許多功能</p>
+<p><code>npm</code> command line tool 會在你安裝 NodeJS 時一起被安裝</p>
+<p>今天這篇便是要來介紹如何在 npm 上發布自己的套件<br>那我當然就以 react native 為例囉!</p>
+<h2 id="發布步驟"><a href="#發布步驟" class="headerlink" title="發布步驟"></a><font color="#f4a261">發布步驟</font></h2><h4 id="1-建立專案資料夾"><a href="#1-建立專案資料夾" class="headerlink" title="1. 建立專案資料夾"></a>1. 建立專案資料夾</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir react-native-neat-date-picker</span><br><span class="line">cd react-native-neat-date-picker</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-連結-github"><a href="#2-連結-github" class="headerlink" title="2. 連結 github"></a>2. 連結 github</h4><p>到 github 上建立一個新的 repository 叫 react-native-neat-date-picker<br>並將它連結到你的專案資料夾</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;# test&quot; &gt;&gt; README.md</span><br><span class="line">git init</span><br><span class="line">git add README.md</span><br><span class="line">git commit -m &quot;first commit&quot;</span><br><span class="line">git branch -M main</span><br><span class="line">git remote add origin https://github.com/roto93/react-native-neat-date-picker.git</span><br><span class="line">git push -u origin main</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-建立專案"><a href="#3-建立專案" class="headerlink" title="3. 建立專案"></a>3. 建立專案</h4><p>執行 <code>npm init</code><br>接下來他會問你一系列問題<br>以下是我的輸入值</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">package name: (react-native-date-picker) react-native-neat-date-picker</span><br><span class="line">version: (1.0.0)</span><br><span class="line">description: An easy-to-use date picker for React Native</span><br><span class="line">entry point: (index.js)</span><br><span class="line">test command:</span><br><span class="line">git repository: (https://github.com/roto93/react-native-date-picker.git)</span><br><span class="line">keywords: react-native, date, datePicker, date-picker, date picker, react native</span><br><span class="line">author: roto93</span><br><span class="line">license: (ISC) MIT</span><br></pre></td></tr></table></figure>
+
+<font size="2">
+
+<ul>
+<li><strong>package name:</strong> 套件的名稱。</li>
+<li><strong>version:</strong> 版本，通常從 1.0.0 開始。<br>之後每次你 publish 套件到 npm 時都必須更新版本，如果沒更新 npm 不會讓你發布。</li>
+<li><strong>description:</strong> 套件描述。可以在這裡描述套件的主要功能。</li>
+<li><strong>entry point:</strong> 套件的程式進入點。<br>一般來說不會更動，維持index.js就好。<br>雖然自訂進入點也是可以，但會不利於其他人 contribute</li>
+<li><strong>test command:</strong> 執行測試的指令，我目前沒用到所以沒深入研究。</li>
+<li><strong>git repository:</strong> 原始碼來源。<br>之所以會在 npm init 之前就先建立 github repo 就是為了讓這裡能自動設定。<br>我個人是認為 github 要打從一開始就設定好比較不會有問題</li>
+<li><strong>keywords:</strong> 關鍵字。<br>意思是其他人可以藉由查詢什麼關鍵字來找到你的套件，越多越相關越好。</li>
+<li><strong>author:</strong> 作者。<br>通常就放自己的 github 帳號，或名字</li>
+<li><strong>license:</strong> 認證。<br>open source 的認證百百種，通常最簡單的就選 ISC 或 MIT。<br>他們的意思都差不多是：「嘿 自己拿去用啦 你可以自由修改 但不要哪天反過來說是我抄你的ㄛ」</li></ul></font>
+
+
+
+<h4 id="4-建立套件進入點"><a href="#4-建立套件進入點" class="headerlink" title="4. 建立套件進入點"></a>4. 建立套件進入點</h4><p>剛剛有提到 index.js 是套件的進入點，意思是你必須讓你的套件要提供的功能從 index.js 中 export 出去。<br>你可以選擇直接把套件主程式寫在 index.js 裡<br>或者是你也可以寫在其他檔案中，import 進 index.js 裡，再 export<br>我的作法是後者，因為一開始開發時我就直接把主元件寫在 components 資料夾裡了，<br>如果現在又改變結構的話還要處理一些 import 的路徑問題<br>但我懶</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// index.js</span></span><br><span class="line"><span class="keyword">import</span> <span class="title class_">DatePicker</span> <span class="keyword">from</span> <span class="string">&#x27;./src/components/NeatDatePicker&#x27;</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title class_">DatePicker</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="5-設定-Babel"><a href="#5-設定-Babel" class="headerlink" title="5. 設定 Babel"></a>5. 設定 Babel</h4><p>Babel 簡單來說是一個語法轉換器。<br>以網頁為例，就是讓瀏覽器可以使用 JS 的新語法</p>
+<p>很幸運地，有現成的 preset 可以使用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install metro-react-native-babel-preset --save-dev</span><br></pre></td></tr></table></figure>
+
+<p>接著新增一個 <code>.babelrc</code> 檔案<br>裡面放:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;presets&quot;: [&quot;module:metro-react-native-babel-preset&quot;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這部分就 ok 了</p>
+<h4 id="6-建立-gitignore-和-npmignore"><a href="#6-建立-gitignore-和-npmignore" class="headerlink" title="6. 建立 .gitignore 和 .npmignore"></a>6. 建立 .gitignore 和 .npmignore</h4><p>這兩份檔案會影響到當你上傳套件或 push 到 github 時，要忽略那些檔案<br>這邊提供簡單的 template<br>可以再視情況做增減</p>
+<p><code>.gitignore</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># Logs</span><br><span class="line">*.log</span><br><span class="line">npm-debug.log</span><br><span class="line"></span><br><span class="line"># Runtime data</span><br><span class="line">tmp</span><br><span class="line">build</span><br><span class="line">dist</span><br><span class="line"></span><br><span class="line"># Dependency directory</span><br><span class="line">node_modules</span><br></pre></td></tr></table></figure>
+
+<p><code>.npmignore</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># Logs</span><br><span class="line">*.log</span><br><span class="line">npm-debug.log</span><br><span class="line"></span><br><span class="line"># Dependency directory</span><br><span class="line">node_modules</span><br><span class="line"></span><br><span class="line"># Runtime data</span><br><span class="line">tmp</span><br><span class="line"></span><br><span class="line"># Examples (If applicable to your project)</span><br><span class="line">examples</span><br></pre></td></tr></table></figure>
+
+<h4 id="7-本地測試"><a href="#7-本地測試" class="headerlink" title="7. 本地測試"></a>7. 本地測試</h4><p>在發布之前，比較好的做法是先進行本地安裝測試看看<br>如果先發布，後來卻發現有嚴重問題的話就會修改得很匆忙<br>因為很可能已經有人下載來用了<br>然後他們就會覺得這套件怎麼這麼爛XD<br>與其如此不如在發布前先確保沒有什麼大問題</p>
+<p>雖然這麼說<br>但我其實這步驟沒有成功<br>但我還是把流程放上來辣</p>
+<p>首先在你即將發布套件的專案中執行<br><code>npm link</code><br>這行命令會告訴 npm<br>這個資料夾的專案是一個可安裝的套件喔</p>
+<p>接著你進到本地的任何一個 app 專案中<br>執行 <code>npm link react-native-neat-date-picker</code><br>便會進行本地安裝</p>
+<p>如果以上步驟遇到問題<br>也可以選擇以路徑安裝<br>如: <code>npm install &#123;PATH_TO_PACKAGE&#125;</code></p>
+<p>這個做法的先天缺陷是一旦你對套件本身有做任何修改<br>你必須重新安裝一次，才能更新</p>
+<p>不過很可惜上述兩個方法我都沒成功，<br>link 沒報錯，install 也沒 error<br>但 import 時就告訴我找不到 module<br>試了網路上很多方法都不行，所以我乾脆先跳過<br>直接發布試試看<br>結果可以 run ! 到底是怎樣 !!!</p>
+<h4 id="8-發布"><a href="#8-發布" class="headerlink" title="8. 發布"></a>8. 發布</h4><p>終於進到發布的環節了<br>首先我們登入 npm (你要先去<a target="_blank" rel="noopener" href="https://www.npmjs.com/">註冊</a>)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm login</span><br></pre></td></tr></table></figure>
+
+<p>接著</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm publish</span><br></pre></td></tr></table></figure>
+
+<p>完成! 現在任何人都可以上去下載你提供的套件了<br>國家…不<br>我是說全世界都會感謝你的:)))</p>
+<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a><font color="#f4a261">結語</font></h2><p>上傳我的第一個 npm 套件實在是很興奮<br>可是也隱約有股壓力，因為不知道大家會不會覺得東西很爛<br>而且因為我發布的時候連 README 都很不完整，<br>也就是說前期下載的人可能完全不知道怎麼用<br>所以發布後到寫文的現在經過的這兩天<br>我便盡力把 README 補充到至少知道用法的地步<br>最後<br>希望世界上有人會喜歡我的套件<br>哈哈哈哈哈</p>
+</font>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/06/30/%E5%9C%A8Expo%E5%B0%88%E6%A1%88%E4%BD%BF%E7%94%A8reanimated-v2-0/" rel="prev" title="在 Expo 專案使用 reanimated v2 基礎篇">
+                  <i class="fa fa-chevron-left"></i> 在 Expo 專案使用 reanimated v2 基礎篇
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/07/27/%E7%94%A8Python-Flask%E6%89%93%E9%80%A0API/" rel="next" title="用 Python Flask 打造 API">
+                  用 Python Flask 打造 API <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Guan-Ting Su</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

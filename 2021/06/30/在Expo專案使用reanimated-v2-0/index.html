@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"roto93.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.13.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="什麼是 reaimated ?reanimated 完整名稱是 react-native-reanimated是一個專門用來做 react native 動畫的套件在我寫這篇文的現在，最新穩定版本是 v2.2.0 前言在過去 v1 時期，要學習還蠻不容易的想當初我就是先接觸 v1，那時候我對 rn 和 js 的基礎都還不熟看網路上的教學時一下看到用 Animated.Value，一下有人用 u">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在 Expo 專案使用 reanimated v2 基礎篇">
+<meta property="og:url" content="http://roto93.github.io/2021/06/30/%E5%9C%A8Expo%E5%B0%88%E6%A1%88%E4%BD%BF%E7%94%A8reanimated-v2-0/index.html">
+<meta property="og:site_name" content="Pi&#39;s Blog">
+<meta property="og:description" content="什麼是 reaimated ?reanimated 完整名稱是 react-native-reanimated是一個專門用來做 react native 動畫的套件在我寫這篇文的現在，最新穩定版本是 v2.2.0 前言在過去 v1 時期，要學習還蠻不容易的想當初我就是先接觸 v1，那時候我對 rn 和 js 的基礎都還不熟看網路上的教學時一下看到用 Animated.Value，一下有人用 u">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2021-06-30T05:48:38.000Z">
+<meta property="article:modified_time" content="2022-10-13T07:53:16.176Z">
+<meta property="article:author" content="Guan-Ting Su">
+<meta property="article:tag" content="程式,自學">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://roto93.github.io/2021/06/30/%E5%9C%A8Expo%E5%B0%88%E6%A1%88%E4%BD%BF%E7%94%A8reanimated-v2-0/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"http://roto93.github.io/2021/06/30/%E5%9C%A8Expo%E5%B0%88%E6%A1%88%E4%BD%BF%E7%94%A8reanimated-v2-0/","path":"2021/06/30/在Expo專案使用reanimated-v2-0/","title":"在 Expo 專案使用 reanimated v2 基礎篇"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>在 Expo 專案使用 reanimated v2 基礎篇 | Pi's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Pi's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E9%BA%BC%E6%98%AF-reaimated"><span class="nav-number">1.</span> <span class="nav-text">什麼是 reaimated ?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">2.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D"><span class="nav-number">3.</span> <span class="nav-text">安裝</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9D%E6%8E%A2-worklet"><span class="nav-number">4.</span> <span class="nav-text">初探 worklet</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B5%90%E8%AA%9E"><span class="nav-number">5.</span> <span class="nav-text">結語</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Guan-Ting Su</p>
+  <div class="site-description" itemprop="description">一些程式自學小記錄</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2021/06/30/%E5%9C%A8Expo%E5%B0%88%E6%A1%88%E4%BD%BF%E7%94%A8reanimated-v2-0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Guan-Ting Su">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pi's Blog">
+      <meta itemprop="description" content="一些程式自學小記錄">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="在 Expo 專案使用 reanimated v2 基礎篇 | Pi's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          在 Expo 專案使用 reanimated v2 基礎篇
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-06-30 13:48:38" itemprop="dateCreated datePublished" datetime="2021-06-30T13:48:38+08:00">2021-06-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2022-10-13 15:53:16" itemprop="dateModified" datetime="2022-10-13T15:53:16+08:00">2022-10-13</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <font size="2" color="#aaa">
+
+<h2 id="什麼是-reaimated"><a href="#什麼是-reaimated" class="headerlink" title="什麼是 reaimated ?"></a><font color="#BC2C1A">什麼是 reaimated ?</font></h2><p>reanimated 完整名稱是 react-native-reanimated<br>是一個專門用來做 react native 動畫的套件<br>在我寫這篇文的現在，最新穩定版本是 v2.2.0</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><font color="#BC2C1A">前言</font></h2><p>在過去 v1 時期，要學習還蠻不容易的<br>想當初我就是先接觸 v1，那時候我對 rn 和 js 的基礎都還不熟<br>看網路上的教學時一下看到用 Animated.Value，一下有人用 useRef.current<br>語法有點不一樣我就不行了，更不用說當時大多數人都還在用 class component<br>所以學得蠻挫折的，我到現在還不知道要怎麼用 v1 實作動畫</p>
+<p>2020 年中推出的 v2 給了我一絲希望<br>他提供幾個方便的 hook，簡單幾行就可以實現動畫<br>太開心了<br>多虧了它我才能在菜鳥時期學會做一些不太複雜的動畫<br>(不過基礎還是應該要先會啦XD)</p>
+<p>v2 版本也被很多 youtuber 推薦<br>其最大的優點在於能將動畫統一放到 UI thread 上執行<br>甚至提供一些 method 讓我們能操作 JS/UI thread<br>於是動畫就能變得非常流暢<br>我真的覺得一個 app 好不好用，順暢度真的佔了很大一部份</p>
+<h2 id="安裝"><a href="#安裝" class="headerlink" title="安裝"></a><font color="#BC2C1A">安裝</font></h2><p>今天會想整理這篇是因為當初在安裝時耗了很多工夫<br>除了一直來來回回安裝<br>也很怕不小心把專案毀了回不去</p>
+<p>這是因為我沒注意到不同 expo-cli 版本可以使用的 reanimated 版本是不一樣的<br>安裝前必須先確認好才行<br>不過現在已經沒有這個問題了</p>
+<ol>
+<li>npm 安裝</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install react-native-reanimated</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>打開<code>babel.config.js</code></li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = <span class="keyword">function</span> (<span class="params">api</span>) &#123;</span><br><span class="line">  api.<span class="title function_">cache</span>(<span class="literal">true</span>);</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    <span class="attr">presets</span>: [<span class="string">&#x27;babel-preset-expo&#x27;</span>],</span><br><span class="line">    <span class="attr">plugins</span>: [<span class="string">&#x27;react-native-reanimated/plugin&#x27;</span>], <span class="comment">// &lt;-- 加上這行</span></span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>重新啟動專案並清除 cache</li>
+</ol>
+<p>再次啟動時不要執行<code>npm start</code>，而是</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">expo start -c</span><br></pre></td></tr></table></figure>
+
+<p>這步非常重要，當初不知道這個步驟的我浪費非常多時間<br>偏偏 doc 裡面也沒講 QQ</p>
+<p>至此，只要安裝版本正確、有加 plugin、有清除 cache<br>就可以順跑ㄌ…我是說使用 reanimated 了</p>
+<h2 id="初探-worklet"><a href="#初探-worklet" class="headerlink" title="初探 worklet"></a><font color="#BC2C1A">初探 worklet</font></h2><p>worklet 是 v2 新發布的功能，介紹功能之前先讓大家看看它的用法</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">doSomething</span> = (<span class="params">input</span>)=&gt;&#123;</span><br><span class="line">    <span class="comment">// do something</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">doSomethingWorklet</span> = (<span class="params">input</span>)=&gt;&#123;</span><br><span class="line">    <span class="string">&#x27;worklet&#x27;</span></span><br><span class="line">    <span class="comment">// do something</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>跟一般的 function 幾乎沒差異<br>就只是在閉包裡頭第一行多寫一句<code>&#39;worklet&#39;</code>而已<br>當一個 fuction 被定義成 worklet，它就「能」被交由 UI thread 執行<br>至於什麼是 UI thread 嘛…</p>
+<p>就定義而言，它是從原本的 javascript thread 中分離出來的一部份<br>你可以把 UI thread 看成是 JS 因忙不過來而請來的助理<br>顧名思義，UI thread 主要是用來處理畫面渲染的工作的</p>
+<p>而 reanimated 引入 worklet 這個新用法正是為了讓動畫從 app 的運算中獨立出來<br>不要讓動畫被其他事情影響卡住，能夠順順跑</p>
+<p>另外有發現我前面強調「能」由 UI thread 執行嗎?<br>這是因為如果真的要在 UI thread 執行，必須用<code>runOnUI</code>這個函式才行<br>如下:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="title class_">Button</span> onPress=&#123;<span class="function">()=&gt;</span>&#123;</span><br><span class="line">    <span class="title function_">runOnUI</span>(doSomethingWorklet)(input) <span class="comment">// doSomethingWorklet 將會在 UI thread 執行</span></span><br><span class="line">&#125;&#125;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>那如果情況反過來，我想在 worklet 中執行 JS thread 怎麼辦?<br>方法很類似，只要用<code>runOnJS</code>就行了</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">doSomethingWorklet</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">    <span class="string">&#x27;worklet&#x27;</span></span><br><span class="line">    <span class="title function_">runOnJS</span>(doSomething)(input) <span class="comment">// doSomething 將會在 JS thread 執行</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>值得一提的是這個<code>runOnJS</code>會蠻常碰到的<br>例如我在做匯率 APP 的時候有些按鈕同時兼顧動畫跟 setState<br>state 的變動就必須用<code>runOnJS</code>來執行了</p>
+<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a><font color="#BC2C1A">結語</font></h2><p>今天的超入門介紹就到這邊<br>雖然還沒講到能實作動畫的階段<br>但我覺得快速確實地安裝好套件<br>並搞清楚<code>worklet</code>、<code>runOnUI</code>、<code>runOnJS</code>的用法原理還是很重要的</p>
+<p>下一篇介紹 reanimated 的文就會來說說<code>useSharedValue</code>和<code>useAnimatedStyle</code>怎麼使用!</p>
+</font>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/06/09/TextInput-%E8%88%87%E9%8D%B5%E7%9B%A4%E9%96%8B%E9%97%9C%E6%99%82%E6%A9%9F%E7%9A%84%E9%85%8D%E5%90%88/" rel="prev" title="TextInput 與鍵盤開關時機的配合">
+                  <i class="fa fa-chevron-left"></i> TextInput 與鍵盤開關時機的配合
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/07/19/%E7%99%BC%E5%B8%83-react-native-%E5%A5%97%E4%BB%B6%E5%88%B0-NPM/" rel="next" title="發布 react native 套件到 NPM">
+                  發布 react native 套件到 NPM <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Guan-Ting Su</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"roto93.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.13.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="前言在學習生成動態頁面(dynamic routes)時看到了兩種方法: getStaticPaths和useRouter來整理一下他們之間的差異 在 server side 生成動態頁面 getStaticPathsgetStaticPaths 和 getStaticProps 一樣是只會跑在 build time 的函式假如我們的頁面數量是根據某個資料決定的那是不是我們只要在 build">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nest.js: getStaticPaths vs useRouter">
+<meta property="og:url" content="http://roto93.github.io/2022/09/01/Nest-js-getStaticPaths-vs-useRouter/index.html">
+<meta property="og:site_name" content="Pi&#39;s Blog">
+<meta property="og:description" content="前言在學習生成動態頁面(dynamic routes)時看到了兩種方法: getStaticPaths和useRouter來整理一下他們之間的差異 在 server side 生成動態頁面 getStaticPathsgetStaticPaths 和 getStaticProps 一樣是只會跑在 build time 的函式假如我們的頁面數量是根據某個資料決定的那是不是我們只要在 build">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2022-09-01T14:52:49.000Z">
+<meta property="article:modified_time" content="2022-10-13T07:53:16.162Z">
+<meta property="article:author" content="Guan-Ting Su">
+<meta property="article:tag" content="程式,自學">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://roto93.github.io/2022/09/01/Nest-js-getStaticPaths-vs-useRouter/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"http://roto93.github.io/2022/09/01/Nest-js-getStaticPaths-vs-useRouter/","path":"2022/09/01/Nest-js-getStaticPaths-vs-useRouter/","title":"Nest.js: getStaticPaths vs useRouter"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Nest.js: getStaticPaths vs useRouter | Pi's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Pi's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8-server-side-%E7%94%9F%E6%88%90%E5%8B%95%E6%85%8B%E9%A0%81%E9%9D%A2-getStaticPaths"><span class="nav-number">2.</span> <span class="nav-text">在 server side 生成動態頁面 getStaticPaths</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8-client-side-%E7%94%A2%E7%94%9F%E5%8B%95%E6%85%8B%E8%B3%87%E6%96%99-useRouter"><span class="nav-number">3.</span> <span class="nav-text">在 client side 產生動態資料 useRouter</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B5%90%E8%AA%9E"><span class="nav-number">4.</span> <span class="nav-text">結語</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Guan-Ting Su</p>
+  <div class="site-description" itemprop="description">一些程式自學小記錄</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2022/09/01/Nest-js-getStaticPaths-vs-useRouter/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Guan-Ting Su">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pi's Blog">
+      <meta itemprop="description" content="一些程式自學小記錄">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Nest.js: getStaticPaths vs useRouter | Pi's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Nest.js: getStaticPaths vs useRouter
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-09-01 22:52:49" itemprop="dateCreated datePublished" datetime="2022-09-01T22:52:49+08:00">2022-09-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2022-10-13 15:53:16" itemprop="dateModified" datetime="2022-10-13T15:53:16+08:00">2022-10-13</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <font size="2" color="#aaa">
+
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><font color="#f4a261">前言</font></h2><p>在學習生成動態頁面(dynamic routes)時<br>看到了兩種方法: <code>getStaticPaths</code>和<code>useRouter</code><br>來整理一下他們之間的差異</p>
+<h2 id="在-server-side-生成動態頁面-getStaticPaths"><a href="#在-server-side-生成動態頁面-getStaticPaths" class="headerlink" title="在 server side 生成動態頁面 getStaticPaths"></a><font color="#f4a261">在 server side 生成動態頁面 getStaticPaths</font></h2><p><a target="_blank" rel="noopener" href="https://nextjs.org/docs/basic-features/data-fetching/get-static-paths">getStaticPaths</a> 和 getStaticProps 一樣<br>是只會跑在 build time 的函式<br>假如我們的頁面數量是根據某個資料決定的<br>那是不是我們只要在 build time 之前<br>手中握有那份資料，然後告訴 Next 怎麼依照資料產生頁面<br>這樣就不用手刻好幾十個頁面檔案<br>這時就要用到<code>getStaticPaths</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// in &#x27;/pages/[id].js&#x27;</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> <span class="title function_">getStaticPaths</span> = <span class="keyword">async</span>(<span class="params"></span>)=&gt;&#123;</span><br><span class="line">  <span class="keyword">const</span> res = <span class="keyword">await</span> <span class="title function_">fetch</span>(<span class="string">&#x27;https://some-api&#x27;</span>)</span><br><span class="line">  <span class="keyword">const</span> data = <span class="keyword">await</span> res.<span class="title function_">json</span>()</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> paths = data.<span class="title function_">map</span>(<span class="function"><span class="params">item</span>=&gt;</span>&#123;</span><br><span class="line">    <span class="keyword">return</span>&#123;</span><br><span class="line">      <span class="attr">params</span>:&#123;<span class="attr">id</span>:item.<span class="property">id</span>.<span class="title function_">toString</span>()&#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    paths, </span><br><span class="line">    <span class="comment">//paths 必須是一個 array 包含數個 object，</span></span><br><span class="line">    <span class="comment">//每個 object 都長這樣: &#123;params: &#123;id:&#x27;xxx&#x27;&#125;&#125; &lt;--- 註: key 是 id 因為檔名是[id].js</span></span><br><span class="line">    <span class="comment">//這些 object 會作為 prop 分別傳進 getStaticProps 中</span></span><br><span class="line"></span><br><span class="line">    <span class="attr">fallback</span>: <span class="literal">false</span></span><br><span class="line">    <span class="comment">//當 fallback 為 false 時，如果用戶進到不存在的 route 時，預設會顯示Next.js</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// in &#x27;pages/[id].js&#x27;</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> <span class="title function_">getStaticProps</span> = <span class="keyword">async</span>(<span class="params">&#123;params&#125;</span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> res = <span class="keyword">await</span> <span class="title function_">fetch</span>(<span class="string">`https://some-api/<span class="subst">$&#123;params.id&#125;</span>`</span>)</span><br><span class="line">  <span class="keyword">const</span> data = <span class="keyword">await</span> res.<span class="title function_">json</span>()</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    <span class="attr">props</span>:&#123; <span class="comment">//這個 props 會傳進 page component 中</span></span><br><span class="line">      data</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以上動作會在 build time 的時候進行一次</p>
+<h2 id="在-client-side-產生動態資料-useRouter"><a href="#在-client-side-產生動態資料-useRouter" class="headerlink" title="在 client side 產生動態資料 useRouter"></a><font color="#f4a261">在 client side 產生動態資料 useRouter</font></h2><p>另一種情境是<br>可能我們的網站有連接資料庫，而那個資料庫時常更新<br>每當資料庫多出現一個 record 時(例如新增一篇貼文)<br>前端可能也需要多一個頁面來呈現它<br>但如果因此就需要重新 build 一次的話就太麻煩了<br>這時就可以用<code>useRouter</code>來達到動態頁面<br>簡單來說，頁面都是同一個<br>只是會根據 URL 來取得動態資料</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// in &#x27;/pages/[id].js&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123;useRouter&#125; <span class="keyword">from</span> <span class="string">&#x27;next/router&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">function</span> <span class="title function_">Page</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="keyword">const</span> router = <span class="title function_">useRouter</span>()</span><br><span class="line">  <span class="keyword">const</span> &#123;id&#125; = router.<span class="property">query</span> </span><br><span class="line">  <span class="comment">// 由於檔名中有 [id]</span></span><br><span class="line">  <span class="comment">// 所以實際 URL 中，&#x27;/pages/&#x27;之後的字串就會被當作 id params</span></span><br><span class="line">  <span class="comment">// 可藉由 useRouter().query 取得其值</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">p</span>&gt;</span>&#123;id&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">  )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以上動作會在 client side 的每次 request time 運行一次</p>
+<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a><font color="#f4a261">結語</font></h2><p><code>getStaticPaths</code> 是在 build time 根據你定義的方法動態生成頁面</p>
+<p><code>useRouter</code> 是在 request time 根據瀏覽器的 URL 動態生成參數</p>
+</font>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/08/30/Next-js-CSS%E9%81%B8%E6%93%87%E5%99%A8%E7%9A%84%E9%99%90%E5%88%B6/" rel="prev" title="Next.js CSS選擇器的限制">
+                  <i class="fa fa-chevron-left"></i> Next.js CSS選擇器的限制
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/09/03/%E5%9C%A8-expo-%E5%B0%88%E6%A1%88%E4%BD%BF%E7%94%A8google-Ads/" rel="next" title="在 expo 專案使用 google Ads">
+                  在 expo 專案使用 google Ads <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Guan-Ting Su</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
