@@ -120,7 +120,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-count">46</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -150,6 +150,202 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2021/06/09/TextInput-%E8%88%87%E9%8D%B5%E7%9B%A4%E9%96%8B%E9%97%9C%E6%99%82%E6%A9%9F%E7%9A%84%E9%85%8D%E5%90%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Guan-Ting Su">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pi's Blog">
+      <meta itemprop="description" content="一些程式自學小記錄">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Pi's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/06/09/TextInput-%E8%88%87%E9%8D%B5%E7%9B%A4%E9%96%8B%E9%97%9C%E6%99%82%E6%A9%9F%E7%9A%84%E9%85%8D%E5%90%88/" class="post-title-link" itemprop="url">TextInput 與鍵盤開關時機的配合</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-06-09 12:33:40" itemprop="dateCreated datePublished" datetime="2021-06-09T12:33:40+08:00">2021-06-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2022-10-13 15:53:16" itemprop="dateModified" datetime="2022-10-13T15:53:16+08:00">2022-10-13</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <font size="2" color="#aaa">
+
+<p>在做 SideProject 時很常遇到一個狀況<br>TextInput 在 Focus 狀態時，是沒辦法立刻觸發其他按鈕的<br>你必須先點擊螢幕一次 (TextInput和鍵盤以外的地方)，將鍵盤收起<br>才能觸發別的按鈕<br>其實不只是按鈕，其他需要 recieve touch 的元件也有這個問題</p>
+<img src="/2021/06/09/TextInput-%E8%88%87%E9%8D%B5%E7%9B%A4%E9%96%8B%E9%97%9C%E6%99%82%E6%A9%9F%E7%9A%84%E9%85%8D%E5%90%88/situation.png" width="50%" style="box-shadow:3px 3px 8px darkgray">
+
+<p>至於為什麼強調是在做 sideProject 的時候呢?<br>因為這在一般情況不太算是問題<br>直到我以使用者的角度來操作app時才發現<br>當我預期點擊按鈕有用時，結果居然只是給我收起鍵盤而已?<br>真的很煩躁啊!我的耐心都到哪去了<br>這時我才了解使用者經驗的精隨<br>任何操作都要有預期的效果<br>只要有任何一次的點擊失效<br>負評的心情就來了</p>
+<p>回到問題本身，會有這個限制我想是因為輸入文字跟顯示鍵盤這兩件事是密切相關的<br>該輸入文字的時候就該顯示鍵盤<br>不打算輸入文字的時候就關閉鍵盤<br>在流程操作上比較直觀<br>但就像我說的，這不符合使用者的直覺<br>那該怎麼控制呢?</p>
+<h2 id="ScrollView-來幫個忙"><a href="#ScrollView-來幫個忙" class="headerlink" title="ScrollView 來幫個忙"></a><font color="#BC2C1A">ScrollView 來幫個忙</font></h2><hr>
+<p>ScrollView 有一個屬性是我們需要的<br>叫做 <code>keyboardShouldPersistTaps</code><br>一句話解釋:鍵盤打開的時候要不要接收觸控訊號?</p>
+<p>可以設定三種值:<br><code>&#39;never&#39;</code>: 當子元件的 TextInput focus 時，點擊文字框和鍵盤以外的地方會關閉鍵盤，當這件事發生時，子元件不會接收到 tap<br><code>&#39;always&#39;</code>: 鍵盤不會自動收起，ScrollView 不會接收到 tap (但可以滑動)，子元件可以接收到 tap<br><code>&#39;handled&#39;</code>: 如果 tap 被子元件或父元件 catch，鍵盤不會自動收起；但如果是被 ScrollView catch，鍵盤還是會收起來。</p>
+<p>所以策略是這樣的<br>我們可以將此屬性設為<code>&#39;handled&#39;</code>，先防止鍵盤自動關閉<br>這時按鈕就能互動了<br>接著再手動控制鍵盤關閉的時機就好<br>控制鍵盤的方式是用 react native 的<code>Keyboard</code>API</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> &#123;<span class="title class_">ScrollView</span>, <span class="title class_">Keyboard</span>&#125; <span class="keyword">from</span> <span class="string">&#x27;react native&#x27;</span></span><br><span class="line"></span><br><span class="line">&lt;<span class="title class_">ScrollView</span> keyboardShouldPersistTaps=<span class="string">&quot;handled&quot;</span>&gt;</span><br><span class="line">  <span class="language-xml"><span class="tag">&lt;<span class="name">TextInput</span>/&gt;</span></span></span><br><span class="line">  <span class="language-xml"><span class="tag">&lt;<span class="name">TouchableOpacity</span>/&gt;</span></span></span><br><span class="line">&lt;/<span class="title class_">ScrollView</span>&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>正當我以為沒問題的時候來了個小插曲ˋˊ</p>
+<h2 id="檢查上層了嗎"><a href="#檢查上層了嗎" class="headerlink" title="檢查上層了嗎?"></a><font color="#BC2C1A">檢查上層了嗎?</font></h2><hr>
+<p>在某一次我完成這些設定後卻發現沒效果!? 按鈕還是不能按<br>經過一番研究後終於知道了<br>設定沒效果代表在此元件之上一定還有另一層沒設定的 ScrollView<br>所以只要找到該標籤，加上<code>keyboardShouldPersistTaps</code>的屬性就可以了<br>記得要一路檢查到 root 哦</p>
+</font>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2021/05/23/%E6%8E%A7%E5%88%B6-Expo-app-%E7%9A%84%E8%AE%80%E5%8F%96%E7%95%AB%E9%9D%A2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Guan-Ting Su">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pi's Blog">
+      <meta itemprop="description" content="一些程式自學小記錄">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Pi's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/05/23/%E6%8E%A7%E5%88%B6-Expo-app-%E7%9A%84%E8%AE%80%E5%8F%96%E7%95%AB%E9%9D%A2/" class="post-title-link" itemprop="url">控制 Expo app 的讀取畫面</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-05-23 09:54:13" itemprop="dateCreated datePublished" datetime="2021-05-23T09:54:13+08:00">2021-05-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2022-10-13 15:53:16" itemprop="dateModified" datetime="2022-10-13T15:53:16+08:00">2022-10-13</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <font size="2" color="#aaa">
+
+
+<font color="gold">
+
+<h4 id="2022-08-22-更新-從-Expo-SDK-45-之後-expo-app-loading-已經-deprecated，只能使用-expo-splash-screen"><a href="#2022-08-22-更新-從-Expo-SDK-45-之後-expo-app-loading-已經-deprecated，只能使用-expo-splash-screen" class="headerlink" title="(2022.08.22 更新) 從 Expo SDK 45 之後 expo-app-loading 已經 deprecated，只能使用 expo-splash-screen"></a>(2022.08.22 更新) 從 Expo SDK 45 之後 expo-app-loading 已經 deprecated，只能使用 expo-splash-screen</h4></font>
+
+<h2 id="介紹"><a href="#介紹" class="headerlink" title="介紹"></a><font color="#BC2C1A">介紹</font></h2><hr>
+<p>Expo 提供了兩個 API<br>讓你能夠修改 app 的讀取畫面<br>分別是 <a target="_blank" rel="noopener" href="https://docs.expo.io/versions/latest/sdk/app-loading/">AppLoading</a> 跟 <a target="_blank" rel="noopener" href="https://docs.expo.io/versions/v41.0.0/sdk/splash-screen/">SplashScreen</a></p>
+<p>AppLoading 是一個元件，當整個app渲染的只有AppLoading而沒有別的元件時<br>它就會讓 splash screen 持續顯示<br>所以我們就可以在 app 剛打開正在進行 API call 時先渲染 AppLoading<br>等資料都得到了再恢復顯示主畫面</p>
+<p>另一個 SplashScreen 就不是元件了<br>但他提供兩個函數 </p>
+<ol>
+<li><code>SplashScreen.preventAutoHideAsyce()</code>:防止 splash screen 在程式讀取完後關閉</li>
+<li><code>SplashScreen.hideAsyce()</code>: 觸發時，關閉 spalsh screen </li>
+</ol>
+<p>簡單來說他讓我們能自由控制 splash screen 消失的時機<br>除了可以達到跟單獨使用 AppLoading 一樣的效果外<br>更厲害的是我們也能藉此讓App初始化完成後<br>由顯示靜態 splash screen 切換成動畫(看你要放 gif 或寫 animation 都可以)</p>
+<h2 id="使用方式"><a href="#使用方式" class="headerlink" title="使用方式"></a><font color="#BC2C1A">使用方式</font></h2><hr>
+<p>首先下載並引入</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">expo install expo-app-loading</span><br><span class="line">expo install expo-splash-screen</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">AppLoading</span> <span class="keyword">from</span> <span class="string">&#x27;expo-app-loading&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> <span class="title class_">SplashScreen</span> <span class="keyword">from</span> <span class="string">&#x27;expo-splash-screen&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>再來，若你只想單獨使用 AppLoading 可以這樣做:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> [isLoading, setIsLoading] = <span class="title function_">useState</span>(<span class="literal">true</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">fetchData</span> = <span class="keyword">async</span> (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">    <span class="keyword">try</span>&#123;</span><br><span class="line">        <span class="keyword">await</span> <span class="title function_">fetch</span>(<span class="string">&#x27;...&#x27;</span>)</span><br><span class="line">    &#125; <span class="keyword">catch</span>(e)&#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(e)</span><br><span class="line">    &#125;<span class="keyword">finally</span>&#123;</span><br><span class="line">        <span class="title function_">setIsLoading</span>(<span class="literal">false</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">useEffect</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">    <span class="title function_">fetchData</span>()</span><br><span class="line">&#125;,[])</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (isLoading) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">AppLoading</span>/&gt;</span></span></span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">App</span>/&gt;</span></span></span><br></pre></td></tr></table></figure>
+
+<p>其實這可以應付大部分的狀況<br>例如在進入app前先讀取字型等等的<br>然而使用 SplashScreen 的話靈活度更高</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">const</span> [isLoading, setIsLoading] = <span class="title function_">useState</span>(<span class="literal">true</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">fetchData</span> = <span class="keyword">async</span> (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">    <span class="keyword">try</span>&#123;</span><br><span class="line">    <span class="keyword">await</span> <span class="title class_">SplashScreen</span>.<span class="title function_">preventAutoHideAsync</span>() <span class="comment">//等等!先別關!</span></span><br><span class="line">        <span class="keyword">await</span> <span class="title function_">fetch</span>(<span class="string">&#x27;...&#x27;</span>) <span class="comment">// 做一些事</span></span><br><span class="line">    &#125; <span class="keyword">catch</span>(e)&#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(e)</span><br><span class="line">    &#125;<span class="keyword">finally</span>&#123;</span><br><span class="line">        <span class="title class_">SplashScreen</span>.<span class="title function_">preventAutoHideAsync</span>() <span class="comment">//好可以關了</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">useEffect</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">    <span class="title function_">fetchData</span>()</span><br><span class="line">&#125;,[])</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (isLoading) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">null</span> <span class="comment">//不渲染東西 但因為 splash screen 還蓋在畫面上，所以不會沒畫面</span></span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">App</span>/&gt;</span></span></span><br></pre></td></tr></table></figure>
+
+<font color="gold">
+
+<h4 id="2022-08-22-更新-從-Expo-SDK-45-之後-expo-app-loading-已經-deprecated，只能使用-expo-splash-screen-1"><a href="#2022-08-22-更新-從-Expo-SDK-45-之後-expo-app-loading-已經-deprecated，只能使用-expo-splash-screen-1" class="headerlink" title="(2022.08.22 更新) 從 Expo SDK 45 之後 expo-app-loading 已經 deprecated，只能使用 expo-splash-screen"></a>(2022.08.22 更新) 從 Expo SDK 45 之後 expo-app-loading 已經 deprecated，只能使用 expo-splash-screen</h4></font></font>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -269,256 +465,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2021/05/07/%E8%87%AA%E8%A3%BD%E6%97%A5%E6%9C%9F%E9%81%B8%E6%93%87%E5%99%A8-2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Guan-Ting Su">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pi's Blog">
-      <meta itemprop="description" content="一些程式自學小記錄">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Pi's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/05/07/%E8%87%AA%E8%A3%BD%E6%97%A5%E6%9C%9F%E9%81%B8%E6%93%87%E5%99%A8-2/" class="post-title-link" itemprop="url">自製日期選擇器-2 (custom hook)</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-
-      <time title="創建時間：2021-05-07 11:15:05" itemprop="dateCreated datePublished" datetime="2021-05-07T11:15:05+08:00">2021-05-07</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2022-10-13 15:53:16" itemprop="dateModified" datetime="2022-10-13T15:53:16+08:00">2022-10-13</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <font size="2" color="#aaa">
-
-<p>延續 <a href="https://roto93.github.io/2021/05/01/%E8%87%AA%E8%A3%BD%E6%97%A5%E6%9C%9F%E9%81%B8%E6%93%87%E5%99%A8-1/">上一集</a><br>確定元件的輸入輸出介面後<br>(回顧四個基本屬性: <code>isVisible</code>, <code>displayDate</code>, <code>mode</code>, <code>onConfirm</code>)<br>現在要開始實作功能啦</p>
-<p>我們可以把實作步驟切分成幾個部分：</p>
-<ol>
-<li><b>排版:</b> 如何動態顯示每個月的日期數以及星期</li>
-<li><b>單日日期操作:</b> 每次點選都會更新 <code>data.date</code></li>
-<li><b>多日日期操作:</b> 有時點選是設定開始日<code>date.startDate</code>，有時是結束日<code>endDate</code>，需設計操控流程</li>
-<li><b>效能問題:</b> 目前為止每次當元件內有一堆按鈕的時候都會有不可忽略的卡頓(因為每次點擊都會讓每個按鈕重新渲染)，希望我能研究出如何減少這個卡頓時間</li>
-</ol>
-<p>今天這章節就來看看如何做日期的動態顯示吧!</p>
-<h2 id="動態顯示日期"><a href="#動態顯示日期" class="headerlink" title="動態顯示日期"></a><font color="#BC2C1A">動態顯示日期</font></h2><p>首先我們來想一想<br>一般的日曆app都怎麼排版?<br>每個月第一天的星期都不一樣<br>並且前後分別會補上個月最後幾天和下個月前幾天<br>直到補滿整行，像這樣(網路找的圖):<br><img src="/2021/05/07/%E8%87%AA%E8%A3%BD%E6%97%A5%E6%9C%9F%E9%81%B8%E6%93%87%E5%99%A8-2/日曆範例.jpg" style="box-shadow: 2px 1px 6px gray" width="25%"></p>
-<p>要達到這個目標，必須先有三個資訊:</p>
-<ol>
-<li>本月有幾天? <code>days</code></li>
-<li>本月第一天是星期幾? <code>firstDay</code></li>
-<li>上個月有幾天? <code>prevMonthDays</code></li>
-</ol>
-<p>所以我打算做一個<code>useDaysOfMonth</code>custom hook 來提供這些訊息</p>
-<ul>
-<li><b> Custom Hook </b> 是一組包裝起來的邏輯，有自己的 life cycle，你可以在其中使用<code>useState</code>、<code>useEffect</code>之類的 React hook。如果你還記得，hook 不是有很多使用上的限制嗎? 例如只能存在於元件內的第一層而不能被包在元件內的函數內，這項限制讓你沒辦法把重複用的邏輯包起來。而 custom hook 就是為此而生。</li>
-</ul>
-<h3 id="Custom-Hook-useDaysOfMonth"><a href="#Custom-Hook-useDaysOfMonth" class="headerlink" title=" Custom Hook: useDaysOfMonth "></a><font color="#BC2C1A"> Custom Hook: <code>useDaysOfMonth</code> </font></h3><p>custom hook 有個條件，就是一定要是<code>use</code>開頭，如此一來 React 運行時才能判斷元件內的 hook 是不是都在最上層，所以別忘了這步。<br>除此要求之外，一個 custom hook 看起來就像是不做渲染的 React 元件，或是可以放 hook 的一般函數。</p>
-<p>那就開始吧，首先我們建立一個檔案叫 <code>useDaysOfMonth.jsx</code></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// in useDaysOfMonth.jsx</span></span><br><span class="line"><span class="keyword">import</span> &#123; useState &#125; <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">useDaysOfMonth</span> =(<span class="params">inputTime</span>)=&gt;&#123; <span class="comment">//輸入一個時間，這會是來自元件的 displayDate 屬性</span></span><br><span class="line">  <span class="keyword">const</span> [days, setDays] = <span class="title function_">useState</span>(<span class="number">0</span>);</span><br><span class="line">  <span class="keyword">const</span> [firstDay, setFirstDay] = <span class="title function_">useState</span>(<span class="number">0</span>)</span><br><span class="line">  <span class="keyword">const</span> [prevMonthDays, setPrevMonthDays] = <span class="title function_">useState</span>(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 這裡要做點事</span></span><br><span class="line">  </span><br><span class="line">  <span class="keyword">return</span> &#123;days, firstDay, prevMonthDays&#125; <span class="comment">//輸出三個我們要的資訊，皆為 number type</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> useDaysOfMonth</span><br></pre></td></tr></table></figure>
-
-<p>接下來我們需要拆解輸入進來的日期物件，得到年份，月份</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> year = inputTime.<span class="title function_">getFullYear</span>()</span><br><span class="line"><span class="keyword">const</span> month = inputTime.<span class="title function_">getMonth</span>()</span><br></pre></td></tr></table></figure>
-
-<p>然後我們就要依照年月來獲得 days, firstDay, prevMonthDays 三個資訊<br>*注意不要用日期物件的<code>setDate</code>來做這些事，因為<code>Date()</code>的 method 都會 mutate(會改變物件自身的值，而不會另外建立一個物件)</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">setDays</span>( <span class="keyword">new</span> <span class="title class_">Date</span>(year,month+<span class="number">1</span>,<span class="number">0</span>).<span class="title function_">getDate</span>() )</span><br><span class="line"><span class="comment">// 在 Date constructor 中，如果日期填0，則會視為上個月的最後一天</span></span><br><span class="line"><span class="comment">// new Date(2021,2,1) =&gt; 三月一號</span></span><br><span class="line"><span class="comment">// new Date(2021,2,0) =&gt; 二月二十八號</span></span><br><span class="line"><span class="comment">// new Date(2021,2,-1) =&gt; 二月二十七號</span></span><br><span class="line"><span class="comment">// 所以若要獲得本月最後一天的日期，只要把月份+1，然後日期設為0即可</span></span><br><span class="line"></span><br><span class="line"><span class="title function_">setFirstDay</span>(<span class="keyword">new</span> <span class="title class_">Date</span>(year,month,<span class="number">1</span>).<span class="title function_">getDay</span>())</span><br><span class="line"><span class="comment">// 很直觀，取本月第一天的星期</span></span><br><span class="line"></span><br><span class="line"><span class="title function_">setPrevMonthDays</span>(<span class="keyword">new</span> <span class="title class_">Date</span>(year, month, <span class="number">0</span>).<span class="title function_">getDate</span>())</span><br><span class="line"><span class="comment">// 同 setDays() 不過月份不用+1</span></span><br></pre></td></tr></table></figure>
-
-<p>過程很簡單，都是基本的<code>Date</code>物件取值<br>再來我們希望在任何使用這個 hook 的元件中，每當 input 值改變時，輸出值也要跟著更新<br>這不就是<code>useEffect</code>的功能嗎!<br>所以我們將以上運算放進<code>useEffect</code>中，並將<code>inputTime</code>設為 dependency</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">useEffect</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">  <span class="keyword">let</span> year = inputTime.<span class="title function_">getFullYear</span>()</span><br><span class="line">  <span class="keyword">let</span> month = inputTime.<span class="title function_">getMonth</span>()</span><br><span class="line">  <span class="title function_">setDays</span>(<span class="keyword">new</span> <span class="title class_">Date</span>(year, month + <span class="number">1</span>, <span class="number">0</span>).<span class="title function_">getDate</span>())</span><br><span class="line">  <span class="title function_">setFirstDay</span>(<span class="keyword">new</span> <span class="title class_">Date</span>(year, month, <span class="number">1</span>).<span class="title function_">getDay</span>())</span><br><span class="line">  <span class="title function_">setPrevMonthDays</span>(<span class="keyword">new</span> <span class="title class_">Date</span>(year, month, <span class="number">0</span>).<span class="title function_">getDate</span>())</span><br><span class="line">&#125;,[inputTime])</span><br></pre></td></tr></table></figure>
-
-<h4 id="完成-完整的code如下"><a href="#完成-完整的code如下" class="headerlink" title="完成! 完整的code如下:"></a>完成! 完整的code如下:</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; useState, useEffect &#125; <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">useDaysOfMonth</span> = (<span class="params">inputTime</span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> [days, setDays] = <span class="title function_">useState</span>(<span class="number">0</span>);</span><br><span class="line">  <span class="keyword">const</span> [firstDay, setFirstDay] = <span class="title function_">useState</span>(<span class="number">0</span>)</span><br><span class="line">  <span class="keyword">const</span> [prevMonthDays, setPrevMonthDays] = <span class="title function_">useState</span>(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">  <span class="title function_">useEffect</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> year = inputTime.<span class="title function_">getFullYear</span>()</span><br><span class="line">    <span class="keyword">let</span> month = inputTime.<span class="title function_">getMonth</span>()</span><br><span class="line">    <span class="title function_">setDays</span>(<span class="keyword">new</span> <span class="title class_">Date</span>(year, month + <span class="number">1</span>, <span class="number">0</span>).<span class="title function_">getDate</span>())</span><br><span class="line">    <span class="title function_">setFirstDay</span>(<span class="keyword">new</span> <span class="title class_">Date</span>(year, month, <span class="number">1</span>).<span class="title function_">getDay</span>())</span><br><span class="line">    <span class="title function_">setPrevMonthDays</span>(<span class="keyword">new</span> <span class="title class_">Date</span>(year, month, <span class="number">0</span>).<span class="title function_">getDate</span>())</span><br><span class="line">  &#125;, [inputTime])</span><br><span class="line">  <span class="keyword">return</span> &#123; days, firstDay, prevMonthDays &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> useDaysOfMonth</span><br></pre></td></tr></table></figure>
-
-<p>一個小細節，我把輸出的參數用大括號(object literal)包起來，這樣在存取參數時就不需考慮順序<br>什麼意思呢? 看以下的使用方式就知道了</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123;firstDay, prevMonthDays, days&#125; = <span class="title function_">useDaysOfMonth</span>(<span class="keyword">new</span> <span class="title class_">Date</span>())</span><br></pre></td></tr></table></figure>
-
-<p>可以看到我取得三個參數的順序不同，但仍然會work<br>缺點是這樣就一定要把參數名稱打對了，想要更改參數名就要打<code>&#123;firstDay: xxx&#125;</code><br>反之，如果你回傳的是用中括號(array literal)包起來<code>[firstDay, prevMonthDays, days]</code><br>取得參數時的順序就很重要了，不過就可以直接改名</p>
-</font>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2021/05/05/%E5%85%A9%E5%80%8B%E5%BE%9E%E7%B6%B2%E7%AB%99%E5%AF%84email%E7%B5%A6%E8%87%AA%E5%B7%B1%E7%9A%84%E6%96%B9%E6%B3%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Guan-Ting Su">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pi's Blog">
-      <meta itemprop="description" content="一些程式自學小記錄">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Pi's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/05/05/%E5%85%A9%E5%80%8B%E5%BE%9E%E7%B6%B2%E7%AB%99%E5%AF%84email%E7%B5%A6%E8%87%AA%E5%B7%B1%E7%9A%84%E6%96%B9%E6%B3%95/" class="post-title-link" itemprop="url">兩個從網站寄email給自己的方法</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-
-      <time title="創建時間：2021-05-05 11:47:35" itemprop="dateCreated datePublished" datetime="2021-05-05T11:47:35+08:00">2021-05-05</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2022-10-13 15:53:16" itemprop="dateModified" datetime="2022-10-13T15:53:16+08:00">2022-10-13</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <font size="2" color="#aaa">
-
-<p>在建置網站的 contact 頁面時<br>為了讓訪客能聯繫自己<br>寄 email 應該是最簡單直接的方式了<br>這裡介紹兩種從網站寄 email 的方法</p>
-<h2 id="1-FormSubmit"><a href="#1-FormSubmit" class="headerlink" title="1. FormSubmit"></a><font color="#BC2C1A">1. FormSubmit</font></h2><p><a target="_blank" rel="noopener" href="https://formsubmit.co/">FormSubmit</a> 讓你可以用 RESTful API，由他們的 server 把訪客的訊息寄給你</p>
-<p>優點是完全 free 沒有流量限制</p>
-<p>首先在你的網站的 form tag 加入<code>action</code>和<code>method</code><br>別傻傻直接貼上，記得把<code>your@email.com</code>改成你的信箱喔</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">&quot;https://formsubmit.co/your@email.com&quot;</span> <span class="attr">method</span>=<span class="string">&quot;POST&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>接著確保你的 input tag 都有加<code>name</code>的屬性<br>這個屬性會影響到你收到信件時的內容呈現方式<br>你可以設為: email message 之類的</p>
-<p>接下來只要 submit 這個 form 就可以了<br>如果你的收件 email 是第一次在這個 API 使用的話<br>在第一次送出時你會收到一封認證信，認證完成之後接下來的每次 submit 都會順利寄信給你囉!</p>
-<ul>
-<li>補充</li>
-</ul>
-<p>通常在訪客做出 submit 時，會自動跳出 reCAPTCHA 認證框</p>
-<img src="/2021/05/05/%E5%85%A9%E5%80%8B%E5%BE%9E%E7%B6%B2%E7%AB%99%E5%AF%84email%E7%B5%A6%E8%87%AA%E5%B7%B1%E7%9A%84%E6%96%B9%E6%B3%95/FormSubmit1.png" style="box-shadow: 2px 1px 6px gray" width="60%">
-
-<p>並且在成功寄出郵件後會跳轉到他們提供的 thankyou page </p>
-<img src="/2021/05/05/%E5%85%A9%E5%80%8B%E5%BE%9E%E7%B6%B2%E7%AB%99%E5%AF%84email%E7%B5%A6%E8%87%AA%E5%B7%B1%E7%9A%84%E6%96%B9%E6%B3%95/FormSubmit2.png" style="box-shadow: 2px 1px 6px gray" width="60%">
-
-<p>你可以視情況決定是否要顯示這些訊息<br>這邊就來示範一下</p>
-<h4 id="關閉-reCAPTCHA"><a href="#關閉-reCAPTCHA" class="headerlink" title="關閉 reCAPTCHA"></a>關閉 reCAPTCHA</h4><p>在<code>&lt;form&gt;</code>裡面加入這個</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;hidden&quot;</span> <span class="attr">name</span>=<span class="string">&quot;_captcha&quot;</span> <span class="attr">value</span>=<span class="string">&quot;false&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="跳轉到自己的-thankyou-page"><a href="#跳轉到自己的-thankyou-page" class="headerlink" title="跳轉到自己的 thankyou page"></a>跳轉到自己的 thankyou page</h4><p>一樣在<code>&lt;form&gt;</code>中加入:</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;hidden&quot;</span> <span class="attr">name</span>=<span class="string">&quot;_next&quot;</span> <span class="attr">value</span>=<span class="string">&quot;https://yourdomain.co/thanks.html&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>並改成該網頁的路徑</p>
-<p>還有很多其他的功能，就留給讀者自己去發掘囉</p>
-<hr>
-<h2 id="2-emailJS"><a href="#2-emailJS" class="headerlink" title="2. emailJS "></a><font color="#BC2C1A">2. emailJS </font></h2><p>比起第一個方法，<a href>emailJS</a> 好像比較多人用<br>而且網路上的教學大多是搭配 React 使用</p>
-<p>首先，到官網註冊帳號，記得用你希望收到信的信箱註冊<br>(不過用別的也行，這個可以事後更改)</p>
-<p>登入後會進到 dashboard<br>我們先來到 Email Service 點擊 <b>Add New Service</b><br><img src="/2021/05/05/%E5%85%A9%E5%80%8B%E5%BE%9E%E7%B6%B2%E7%AB%99%E5%AF%84email%E7%B5%A6%E8%87%AA%E5%B7%B1%E7%9A%84%E6%96%B9%E6%B3%95/emailjs1.png" style="box-shadow: 2px 1px 6px gray" width="60%"><br>先跟大家釐清一件事(因為我當初搞混)<br>emailJS 並不會幫大家寄信，而是幫你建立起網站與 email server 之間的橋樑<br>這個橋梁就是 email service，<br>至於這個 server 需要由第三方提供，如果你流量不大，可以用 gmail、yahho mail 之類的<br>如果潛在使用量很高，你可能就需要使用下方的 Transactional Services<br>不過這些我目前都沒聽過XD Personal Services 應該就很夠用了<br>但是要記住，無論你選了什麼都不代表它是你的收件信箱，而是<b>寄信信箱</b><br>就像我前面提的，你註冊的信箱才是</p>
-<img src="/2021/05/05/%E5%85%A9%E5%80%8B%E5%BE%9E%E7%B6%B2%E7%AB%99%E5%AF%84email%E7%B5%A6%E8%87%AA%E5%B7%B1%E7%9A%84%E6%96%B9%E6%B3%95/emailjs2.png" style="box-shadow: 2px 1px 6px gray" width="60%">
-
-<p>做好選擇，依照指示進行，你就會得到一組 <font color="orange">service ID (記得它, 待會會用到)</font></p>
-<p>接下來到 Email Templates 設定你收件時所見的內容格式<br>這邊其實可以直接 Create New Template，什麼都不改直接</p>
-<img src="/2021/05/05/%E5%85%A9%E5%80%8B%E5%BE%9E%E7%B6%B2%E7%AB%99%E5%AF%84email%E7%B5%A6%E8%87%AA%E5%B7%B1%E7%9A%84%E6%96%B9%E6%B3%95/emailjs3.png" style="box-shadow: 2px 1px 6px gray" width="60%">
-
-<p>一樣我們會得到一組 <font color="orange">template ID (記得它, 待會會用到)</font></p>
-<p>下一步，我們要把 emailJS 和網站做串接啦</p>
-<p>如果你用的是 React，請先 npm 安裝</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install emailjs-com</span><br></pre></td></tr></table></figure>
-<p>接著在專案中:</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;init&#125; <span class="keyword">from</span> <span class="string">&#x27;emailjs-com&#x27;</span></span><br><span class="line"><span class="title function_">init</span>(<span class="string">&quot;YOUR_USER_ID&quot;</span>) <span class="comment">// 在 EmailJS dashboard 的 integration 頁面可以找到自己的 user id</span></span><br></pre></td></tr></table></figure>
-
-<p>如果你用的是 html，就在 <code>&lt;head&gt;</code> 裡面加:</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;text/javascript&quot;</span> <span class="attr">src</span>=<span class="string">&quot;https://cdn.jsdelivr.net/npm/emailjs-com@2/dist/email.min.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;text/javascript&quot;</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">(<span class="keyword">function</span>(<span class="params"></span>) &#123;</span></span><br><span class="line"><span class="language-javascript">emailjs.<span class="title function_">init</span>(<span class="string">&quot;YOUR_USER_ID&quot;</span>);</span></span><br><span class="line"><span class="language-javascript">&#125;)();</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>最後，在你 submit 時運行 <code>emailjs.sendForm()</code></p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">id</span>=<span class="string">&quot;emailjs-form&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;email&quot;</span> <span class="attr">name</span>=<span class="string">&quot;email&quot;</span> /&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">name</span>=<span class="string">&quot;message&quot;</span> /&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">&quot;submit&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">	<span class="keyword">const</span> emailJsForm = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;#emailjs-form&#x27;</span>)</span></span><br><span class="line"><span class="language-javascript">	emailJsForm.<span class="title function_">addEventListener</span>(<span class="string">&#x27;submit&#x27;</span>,<span class="function">(<span class="params">event</span>)=&gt;</span>&#123;</span></span><br><span class="line"><span class="language-javascript">		event.<span class="title function_">preventDefault</span>()</span></span><br><span class="line"><span class="language-javascript">		emailjs.<span class="title function_">sendForm</span>(<span class="string">&#x27;YOUR_SERVICE_ID&#x27;</span>, <span class="string">&#x27;YOUR_TEMPLATE_ID&#x27;</span>, <span class="variable constant_">THE_FORM_NODE</span>)</span></span><br><span class="line"><span class="language-javascript">		&#125;)</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>注意<code>emailjs.sendForm()</code>有三個必填參數，其中最容易忽略的是第三個:</p>
-<ul>
-<li>THE_FORM_NODE: 放入 node，以這個例子來說就是<code>emailJsForm</code></li>
-</ul>
-<p><code>sendForm()</code> 會回傳 promise，所以可以接 <code>.then()</code> <code>.catch()</code></p>
-<hr>
-<p>好ㄌ<br>寄 email 的方法就介紹到這邊<br>最近幾乎都在研究建置個人網站的眉眉角角<br>再過一陣子或許就能開始動工了!!!<br>不過網站的設計也是一份大工程<br>要練習 figma 要讀 design guideline<br>真的有好多東西要學ㄚ~~~</p>
-</font>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/9/"><i class="fa fa-angle-left" aria-label="上一頁"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/11/"><i class="fa fa-angle-right" aria-label="下一頁"></i></a>
+    <a class="extend prev" rel="prev" href="/page/9/"><i class="fa fa-angle-left" aria-label="上一頁"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/11/"><i class="fa fa-angle-right" aria-label="下一頁"></i></a>
   </nav>
 
 </div>
