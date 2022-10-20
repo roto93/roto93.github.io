@@ -120,7 +120,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">45</span>
+          <span class="site-state-item-count">46</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -150,6 +150,122 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2021/05/07/%E8%87%AA%E8%A3%BD%E6%97%A5%E6%9C%9F%E9%81%B8%E6%93%87%E5%99%A8-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Guan-Ting Su">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pi's Blog">
+      <meta itemprop="description" content="一些程式自學小記錄">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Pi's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/05/07/%E8%87%AA%E8%A3%BD%E6%97%A5%E6%9C%9F%E9%81%B8%E6%93%87%E5%99%A8-2/" class="post-title-link" itemprop="url">自製日期選擇器-2 (custom hook)</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-05-07 11:15:05" itemprop="dateCreated datePublished" datetime="2021-05-07T11:15:05+08:00">2021-05-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2022-10-13 15:53:16" itemprop="dateModified" datetime="2022-10-13T15:53:16+08:00">2022-10-13</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <font size="2" color="#aaa">
+
+<p>延續 <a href="https://roto93.github.io/2021/05/01/%E8%87%AA%E8%A3%BD%E6%97%A5%E6%9C%9F%E9%81%B8%E6%93%87%E5%99%A8-1/">上一集</a><br>確定元件的輸入輸出介面後<br>(回顧四個基本屬性: <code>isVisible</code>, <code>displayDate</code>, <code>mode</code>, <code>onConfirm</code>)<br>現在要開始實作功能啦</p>
+<p>我們可以把實作步驟切分成幾個部分：</p>
+<ol>
+<li><b>排版:</b> 如何動態顯示每個月的日期數以及星期</li>
+<li><b>單日日期操作:</b> 每次點選都會更新 <code>data.date</code></li>
+<li><b>多日日期操作:</b> 有時點選是設定開始日<code>date.startDate</code>，有時是結束日<code>endDate</code>，需設計操控流程</li>
+<li><b>效能問題:</b> 目前為止每次當元件內有一堆按鈕的時候都會有不可忽略的卡頓(因為每次點擊都會讓每個按鈕重新渲染)，希望我能研究出如何減少這個卡頓時間</li>
+</ol>
+<p>今天這章節就來看看如何做日期的動態顯示吧!</p>
+<h2 id="動態顯示日期"><a href="#動態顯示日期" class="headerlink" title="動態顯示日期"></a><font color="#BC2C1A">動態顯示日期</font></h2><p>首先我們來想一想<br>一般的日曆app都怎麼排版?<br>每個月第一天的星期都不一樣<br>並且前後分別會補上個月最後幾天和下個月前幾天<br>直到補滿整行，像這樣(網路找的圖):<br><img src="/2021/05/07/%E8%87%AA%E8%A3%BD%E6%97%A5%E6%9C%9F%E9%81%B8%E6%93%87%E5%99%A8-2/日曆範例.jpg" style="box-shadow: 2px 1px 6px gray" width="25%"></p>
+<p>要達到這個目標，必須先有三個資訊:</p>
+<ol>
+<li>本月有幾天? <code>days</code></li>
+<li>本月第一天是星期幾? <code>firstDay</code></li>
+<li>上個月有幾天? <code>prevMonthDays</code></li>
+</ol>
+<p>所以我打算做一個<code>useDaysOfMonth</code>custom hook 來提供這些訊息</p>
+<ul>
+<li><b> Custom Hook </b> 是一組包裝起來的邏輯，有自己的 life cycle，你可以在其中使用<code>useState</code>、<code>useEffect</code>之類的 React hook。如果你還記得，hook 不是有很多使用上的限制嗎? 例如只能存在於元件內的第一層而不能被包在元件內的函數內，這項限制讓你沒辦法把重複用的邏輯包起來。而 custom hook 就是為此而生。</li>
+</ul>
+<h3 id="Custom-Hook-useDaysOfMonth"><a href="#Custom-Hook-useDaysOfMonth" class="headerlink" title=" Custom Hook: useDaysOfMonth "></a><font color="#BC2C1A"> Custom Hook: <code>useDaysOfMonth</code> </font></h3><p>custom hook 有個條件，就是一定要是<code>use</code>開頭，如此一來 React 運行時才能判斷元件內的 hook 是不是都在最上層，所以別忘了這步。<br>除此要求之外，一個 custom hook 看起來就像是不做渲染的 React 元件，或是可以放 hook 的一般函數。</p>
+<p>那就開始吧，首先我們建立一個檔案叫 <code>useDaysOfMonth.jsx</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// in useDaysOfMonth.jsx</span></span><br><span class="line"><span class="keyword">import</span> &#123; useState &#125; <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">useDaysOfMonth</span> =(<span class="params">inputTime</span>)=&gt;&#123; <span class="comment">//輸入一個時間，這會是來自元件的 displayDate 屬性</span></span><br><span class="line">  <span class="keyword">const</span> [days, setDays] = <span class="title function_">useState</span>(<span class="number">0</span>);</span><br><span class="line">  <span class="keyword">const</span> [firstDay, setFirstDay] = <span class="title function_">useState</span>(<span class="number">0</span>)</span><br><span class="line">  <span class="keyword">const</span> [prevMonthDays, setPrevMonthDays] = <span class="title function_">useState</span>(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 這裡要做點事</span></span><br><span class="line">  </span><br><span class="line">  <span class="keyword">return</span> &#123;days, firstDay, prevMonthDays&#125; <span class="comment">//輸出三個我們要的資訊，皆為 number type</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> useDaysOfMonth</span><br></pre></td></tr></table></figure>
+
+<p>接下來我們需要拆解輸入進來的日期物件，得到年份，月份</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> year = inputTime.<span class="title function_">getFullYear</span>()</span><br><span class="line"><span class="keyword">const</span> month = inputTime.<span class="title function_">getMonth</span>()</span><br></pre></td></tr></table></figure>
+
+<p>然後我們就要依照年月來獲得 days, firstDay, prevMonthDays 三個資訊<br>*注意不要用日期物件的<code>setDate</code>來做這些事，因為<code>Date()</code>的 method 都會 mutate(會改變物件自身的值，而不會另外建立一個物件)</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">setDays</span>( <span class="keyword">new</span> <span class="title class_">Date</span>(year,month+<span class="number">1</span>,<span class="number">0</span>).<span class="title function_">getDate</span>() )</span><br><span class="line"><span class="comment">// 在 Date constructor 中，如果日期填0，則會視為上個月的最後一天</span></span><br><span class="line"><span class="comment">// new Date(2021,2,1) =&gt; 三月一號</span></span><br><span class="line"><span class="comment">// new Date(2021,2,0) =&gt; 二月二十八號</span></span><br><span class="line"><span class="comment">// new Date(2021,2,-1) =&gt; 二月二十七號</span></span><br><span class="line"><span class="comment">// 所以若要獲得本月最後一天的日期，只要把月份+1，然後日期設為0即可</span></span><br><span class="line"></span><br><span class="line"><span class="title function_">setFirstDay</span>(<span class="keyword">new</span> <span class="title class_">Date</span>(year,month,<span class="number">1</span>).<span class="title function_">getDay</span>())</span><br><span class="line"><span class="comment">// 很直觀，取本月第一天的星期</span></span><br><span class="line"></span><br><span class="line"><span class="title function_">setPrevMonthDays</span>(<span class="keyword">new</span> <span class="title class_">Date</span>(year, month, <span class="number">0</span>).<span class="title function_">getDate</span>())</span><br><span class="line"><span class="comment">// 同 setDays() 不過月份不用+1</span></span><br></pre></td></tr></table></figure>
+
+<p>過程很簡單，都是基本的<code>Date</code>物件取值<br>再來我們希望在任何使用這個 hook 的元件中，每當 input 值改變時，輸出值也要跟著更新<br>這不就是<code>useEffect</code>的功能嗎!<br>所以我們將以上運算放進<code>useEffect</code>中，並將<code>inputTime</code>設為 dependency</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">useEffect</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">  <span class="keyword">let</span> year = inputTime.<span class="title function_">getFullYear</span>()</span><br><span class="line">  <span class="keyword">let</span> month = inputTime.<span class="title function_">getMonth</span>()</span><br><span class="line">  <span class="title function_">setDays</span>(<span class="keyword">new</span> <span class="title class_">Date</span>(year, month + <span class="number">1</span>, <span class="number">0</span>).<span class="title function_">getDate</span>())</span><br><span class="line">  <span class="title function_">setFirstDay</span>(<span class="keyword">new</span> <span class="title class_">Date</span>(year, month, <span class="number">1</span>).<span class="title function_">getDay</span>())</span><br><span class="line">  <span class="title function_">setPrevMonthDays</span>(<span class="keyword">new</span> <span class="title class_">Date</span>(year, month, <span class="number">0</span>).<span class="title function_">getDate</span>())</span><br><span class="line">&#125;,[inputTime])</span><br></pre></td></tr></table></figure>
+
+<h4 id="完成-完整的code如下"><a href="#完成-完整的code如下" class="headerlink" title="完成! 完整的code如下:"></a>完成! 完整的code如下:</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; useState, useEffect &#125; <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">useDaysOfMonth</span> = (<span class="params">inputTime</span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> [days, setDays] = <span class="title function_">useState</span>(<span class="number">0</span>);</span><br><span class="line">  <span class="keyword">const</span> [firstDay, setFirstDay] = <span class="title function_">useState</span>(<span class="number">0</span>)</span><br><span class="line">  <span class="keyword">const</span> [prevMonthDays, setPrevMonthDays] = <span class="title function_">useState</span>(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">  <span class="title function_">useEffect</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> year = inputTime.<span class="title function_">getFullYear</span>()</span><br><span class="line">    <span class="keyword">let</span> month = inputTime.<span class="title function_">getMonth</span>()</span><br><span class="line">    <span class="title function_">setDays</span>(<span class="keyword">new</span> <span class="title class_">Date</span>(year, month + <span class="number">1</span>, <span class="number">0</span>).<span class="title function_">getDate</span>())</span><br><span class="line">    <span class="title function_">setFirstDay</span>(<span class="keyword">new</span> <span class="title class_">Date</span>(year, month, <span class="number">1</span>).<span class="title function_">getDay</span>())</span><br><span class="line">    <span class="title function_">setPrevMonthDays</span>(<span class="keyword">new</span> <span class="title class_">Date</span>(year, month, <span class="number">0</span>).<span class="title function_">getDate</span>())</span><br><span class="line">  &#125;, [inputTime])</span><br><span class="line">  <span class="keyword">return</span> &#123; days, firstDay, prevMonthDays &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> useDaysOfMonth</span><br></pre></td></tr></table></figure>
+
+<p>一個小細節，我把輸出的參數用大括號(object literal)包起來，這樣在存取參數時就不需考慮順序<br>什麼意思呢? 看以下的使用方式就知道了</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123;firstDay, prevMonthDays, days&#125; = <span class="title function_">useDaysOfMonth</span>(<span class="keyword">new</span> <span class="title class_">Date</span>())</span><br></pre></td></tr></table></figure>
+
+<p>可以看到我取得三個參數的順序不同，但仍然會work<br>缺點是這樣就一定要把參數名稱打對了，想要更改參數名就要打<code>&#123;firstDay: xxx&#125;</code><br>反之，如果你回傳的是用中括號(array literal)包起來<code>[firstDay, prevMonthDays, days]</code><br>取得參數時的順序就很重要了，不過就可以直接改名</p>
+</font>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -378,129 +494,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2021/04/23/%E5%9C%A8firebase%E9%83%A8%E7%BD%B2%E4%BD%A0%E7%9A%84react%E5%B0%88%E6%A1%88/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Guan-Ting Su">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pi's Blog">
-      <meta itemprop="description" content="一些程式自學小記錄">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Pi's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/04/23/%E5%9C%A8firebase%E9%83%A8%E7%BD%B2%E4%BD%A0%E7%9A%84react%E5%B0%88%E6%A1%88/" class="post-title-link" itemprop="url">在 firebase 部署你的 react 專案</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-
-      <time title="創建時間：2021-04-23 09:01:02" itemprop="dateCreated datePublished" datetime="2021-04-23T09:01:02+08:00">2021-04-23</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2022-10-13 15:53:16" itemprop="dateModified" datetime="2022-10-13T15:53:16+08:00">2022-10-13</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <font size="2" color="#aaa">
-
-<p>最近在學 react，希望可以每次完成一個 mini project 的時候就能放在網路上<br>這樣出門在外隨時可以向人展示<br><font color="gray">(雖然可能也沒什麼向人展示的機會QQ)</font></p>
-<p>稍微查了一下各種部署react網站的方法，發現firebase可以說是最快的<br>步驟如下：</p>
-<ol>
-<li><p>到firebase創帳號，建立專案</p>
-</li>
-<li><p>在 firebase console 中，進到 hosting 頁面，他會請你安裝</p>
-</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g firebase-tools</span><br></pre></td></tr></table></figure>
-
-<ol start="3">
-<li>接著到 react 專案資料夾，先登入</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">firebase login</span><br></pre></td></tr></table></figure>
-
-<ol start="4">
-<li>然後初始化</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">firebase init</span><br></pre></td></tr></table></figure>
-
-<ol start="5">
-<li><p>初始化過程中會問你一系列問題： </p>
-<ul>
-<li>問你要啟用什麼功能：選 hosting</li>
-<li>問你要連結到哪個 firebase project</li>
-<li>問你要用哪個資料夾作為網站的 public 資料夾：輸入 build(或你定義的資料夾名稱)</li>
-<li>問你是不是 single-page app (SPA) 這個都選是應該沒問題</li>
-<li>如果你之前有執行過<code>npm run build</code>他可能會問你要不要覆寫index.html，選要</li>
-</ul>
-</li>
-<li><p>完成後你會在專案裡看到 firebase.json, .firebaserc 兩個檔案</p>
-</li>
-<li><p>如果還沒 build 過，執行<code>npm run build</code></p>
-</li>
-<li><p>執行 firebase deploy</p>
-</li>
-<li><p>到 firebase hosting console 可以看到你的部屬紀錄，可以回到之前的版本 </p>
-</li>
-<li><p>你也可以在本地開伺服器，只要執行<code>firebase serve</code>就可以了</p>
-</li>
-</ol>
-<p>第一次做的時候網站馬上就發布了，但第二次隔了一些時間才發布</p>
-<p>害我還到處查為什麼是哪個步驟不對QAQ 結果稍微等一下就看到網站了哈哈</p>
-<p>所以如果你沒看到馬上發布不要慌XD</p>
-</font>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/10/"><i class="fa fa-angle-left" aria-label="上一頁"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/12/"><i class="fa fa-angle-right" aria-label="下一頁"></i></a>
+    <a class="extend prev" rel="prev" href="/page/10/"><i class="fa fa-angle-left" aria-label="上一頁"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/12/"><i class="fa fa-angle-right" aria-label="下一頁"></i></a>
   </nav>
 
 </div>
