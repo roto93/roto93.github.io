@@ -120,7 +120,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-count">47</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -150,6 +150,107 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2022/07/28/JS%E8%A7%80%E5%BF%B5%E7%AF%87-%E4%BD%9C%E7%94%A8%E5%9F%9Fscope/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Guan-Ting Su">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pi's Blog">
+      <meta itemprop="description" content="一些程式自學小記錄">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Pi's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/07/28/JS%E8%A7%80%E5%BF%B5%E7%AF%87-%E4%BD%9C%E7%94%A8%E5%9F%9Fscope/" class="post-title-link" itemprop="url">JS 觀念篇1 -- 作用域 scope</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-07-28 21:48:07" itemprop="dateCreated datePublished" datetime="2022-07-28T21:48:07+08:00">2022-07-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2022-10-13 15:53:16" itemprop="dateModified" datetime="2022-10-13T15:53:16+08:00">2022-10-13</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <font size="2" color="#aaa">
+
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><font color="#f4a261">前言</font></h2><p>接下來幾篇會著重在一些 javascript 的重要觀念<br>未來如果忘了哪部分就可以回來看看</p>
+<h2 id="作用域-Scope"><a href="#作用域-Scope" class="headerlink" title="作用域 Scope"></a><font color="#f4a261">作用域 Scope</font></h2><p>Scope 其實就是字面上的意思<br>一個變數或函式所能作用的範圍<br>在作用域以外的地方，就無法存取該變數<br>現在就用變數的宣告來解釋 scope 吧</p>
+<p>在我開始學程式之前<br>曾經有個東西風靡一時<br>那就是<code>var</code>，函數變數<br>在我寫這篇文章之前，原本以為<code>var</code>是宣告全域變數<br>結果仔細一查才發現並不是<br>連現今常用的<code>let</code>和<code>const</code>也不僅僅只是區域變數而已<br>只要搞清楚它們的作用域範圍就會懂了</p>
+<h2 id="var-的作用域"><a href="#var-的作用域" class="headerlink" title="var 的作用域"></a><font color="#f4a261">var 的作用域</font></h2><p>var 用來宣告函數變數 function variable<br>意即其作用域是在宣告他的函數內<br>來看個簡單的例子</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">printText</span> = (<span class="params"></span>)=&gt;&#123;</span><br><span class="line">  <span class="keyword">var</span> text1 = <span class="string">&#x27;Earth&#x27;</span></span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`text1: <span class="subst">$&#123;text1&#125;</span>`</span>)</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">if</span> (<span class="literal">true</span>)&#123;</span><br><span class="line">    <span class="keyword">var</span> text2 = <span class="string">&#x27;Moon&#x27;</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`text2: <span class="subst">$&#123;text2&#125;</span>`</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">printText</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment">// &quot;text1: Earth&quot;</span></span><br><span class="line"><span class="comment">// &quot;text2: Moon&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>text1 能被順利印出很正常<br>但 text2 也印的出來就沒那麼直觀了<br>這正是因為用<code>var</code>宣告的變數，在整個宣告它的函數內都有效<br>就算是在迴圈中宣告也一樣<br><code>var</code>變數不會被限制在迴圈的 block 中<br>但如果在父層函數內的話就行不通囉~ 如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">printText</span> = (<span class="params"></span>)=&gt;&#123;</span><br><span class="line">  <span class="keyword">const</span> <span class="title function_">innerPrint</span> = (<span class="params"></span>)=&gt;&#123;</span><br><span class="line">    <span class="keyword">var</span> text = <span class="string">&#x27;Sun&#x27;</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(text)</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">printText</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment">// Throwing error</span></span><br></pre></td></tr></table></figure>
+
+<p>text 變數的作用域只在 innerPrint 函式內<br>超出這個 scope 就取不到了</p>
+<p>話說那我們要怎麼宣告全域變數呢<br>只要在所有函式之外進行 var 宣告就可以了<br>只是要注意，不要再說「var就是宣告全域變數」囉</p>
+<h2 id="let-和-const-的作用域"><a href="#let-和-const-的作用域" class="headerlink" title="let 和 const 的作用域"></a><font color="#f4a261">let 和 const 的作用域</font></h2><p><code>let</code>和<code>const</code>都是用來宣告「區塊變數 block variable」<br>他們的作用域相同，都是在區塊內<br>如迴圈的區塊，或<code>if</code>區塊<br>再來一個簡單的例子</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">printText</span> = (<span class="params"></span>)=&gt;&#123;</span><br><span class="line">  <span class="keyword">let</span> text1 = <span class="string">&#x27;Earth&#x27;</span></span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`text1: <span class="subst">$&#123;text1&#125;</span>`</span>)</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">if</span> (<span class="literal">true</span>)&#123;</span><br><span class="line">    <span class="keyword">let</span> text2 = <span class="string">&#x27;Moon&#x27;</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`text2: <span class="subst">$&#123;text2&#125;</span>`</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">printText</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment">// &quot;text1: Earth&quot;</span></span><br><span class="line"><span class="comment">// Throwing error</span></span><br></pre></td></tr></table></figure>
+
+<p>text2 就印不出來了<br>因為 text2 只能在 if statement 中生存<br>這就是超出作用域的例子</p>
+<h2 id="var-VS-let-const"><a href="#var-VS-let-const" class="headerlink" title="var VS let/const"></a><font color="#f4a261">var VS let/const</font></h2><p>另外補充一個<code>var</code>與<code>let</code>的不同之處是<br><code>var</code>會將宣告上提 (hoisting)<br>只是不會初始化<br>可看看下列例子</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">printText</span> = (<span class="params"></span>)=&gt;&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;inside function before var:&#x27;</span>, text)</span><br><span class="line">  <span class="keyword">var</span> text = <span class="string">&#x27;Earth&#x27;</span></span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;inside function after var:&#x27;</span>, text)</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">printText</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment">// &quot;inside function before var:&quot;, undefined</span></span><br><span class="line"><span class="comment">// &quot;inside function after var:&quot;, &quot;Earth&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>雖然在宣告 text 前就取值<br>但只顯示<code>undefined</code>，並不會報錯<br>因為 text 已經被宣告了，只是沒賦值而已</p>
+<p>反之，<code>let</code>和<code>const</code>則會有所謂的暫時執行死區（TDZ）<br>所以這樣寫會出錯</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">const printText = ()=&gt;&#123;</span><br><span class="line">  console.log(&#x27;inside function before var:&#x27;, text)</span><br><span class="line">  let text = &#x27;Earth&#x27;</span><br><span class="line">&#125;</span><br><span class="line">printText()</span><br><span class="line"></span><br><span class="line">// Throwing error</span><br></pre></td></tr></table></figure>
+
+<p>有關 hoisting 就留到之後幾篇再說吧</p>
+<h2 id="結論"><a href="#結論" class="headerlink" title="結論"></a><font color="#f4a261">結論</font></h2><h4 id="Scope-作用域，變數或函式的作用範圍，也可以想成生存範圍"><a href="#Scope-作用域，變數或函式的作用範圍，也可以想成生存範圍" class="headerlink" title="Scope: 作用域，變數或函式的作用範圍，也可以想成生存範圍"></a>Scope: 作用域，變數或函式的作用範圍，也可以想成生存範圍</h4><p><code>var</code>變數的作用域在宣告時的函式內<br><code>let</code>變數和<code>const</code>常數的作用域則僅限於宣告時的區塊內</p>
+</font>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -344,95 +445,6 @@
 </div>
 
 <h2 id="結論"><a href="#結論" class="headerlink" title="結論"></a><font color="#f4a261">結論</font></h2><p>無障礙設定給人方便<br>也帶來一點不方便<br>往後在思考排版的時候<br>也要記得考慮到無障礙設定才行</p>
-</font>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2022/02/16/create-react-app-5-0-0-%E9%96%8B%E5%A7%8B%E4%B8%8D%E6%94%AF%E6%8F%B4%E5%85%A8%E5%9F%9F%E5%AE%89%E8%A3%9D%E4%BA%86/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Guan-Ting Su">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pi's Blog">
-      <meta itemprop="description" content="一些程式自學小記錄">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Pi's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/02/16/create-react-app-5-0-0-%E9%96%8B%E5%A7%8B%E4%B8%8D%E6%94%AF%E6%8F%B4%E5%85%A8%E5%9F%9F%E5%AE%89%E8%A3%9D%E4%BA%86/" class="post-title-link" itemprop="url">create-react-app 5.0.0 開始不支援全域安裝了</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-
-      <time title="創建時間：2022-02-16 19:01:03" itemprop="dateCreated datePublished" datetime="2022-02-16T19:01:03+08:00">2022-02-16</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2022-10-13 15:53:16" itemprop="dateModified" datetime="2022-10-13T15:53:16+08:00">2022-10-13</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <font size="2" color="#aaa">
-
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><font color="#f4a261">前言</font></h2><p>整個過年期間後有點小荒廢<br>於是決定做一些 react 的小 project 練習一下<br>結果在初始化專案就卡住…</p>
-<img src="/2022/02/16/create-react-app-5-0-0-%E9%96%8B%E5%A7%8B%E4%B8%8D%E6%94%AF%E6%8F%B4%E5%85%A8%E5%9F%9F%E5%AE%89%E8%A3%9D%E4%BA%86/1.jpg">
-
-<p>第一行說需要安裝create-react-app<br>我就覺得怪怪的<br>之前明明就用過啊<br>指令也下得一樣<br>怎麼突然要下載</p>
-<p>當時也沒繼續多想就直接按下 y 繼續<br>結果還是沒執行<br>這裡有一句非常關鍵: </p>
-<blockquote>
-<p><font color="gold">We no longer support global installation of Create React App.</font></p>
-</blockquote>
-<p>根據官方文件，現在不支援用全域安裝的方式來執行了<br>原因是要讓大家盡可能使用最新版本<br>所以之後每次執行<code>npx create-react-app</code>時<br>都會當下下載最新版來用</p>
-<h2 id="還沒結束"><a href="#還沒結束" class="headerlink" title="還沒結束"></a><font color="#f4a261">還沒結束</font></h2><p>所以我照他的只是把電腦上全域安裝的 create-react-app 移除<br>但結果完全一樣<br>我已經檢查過電腦上已經沒有裝了<br>只好再次求救 google</p>
-<p>後來發現是因為 npx 的 cache 要清除<br>只要執行 <code>npx clear-npx-cache</code> 就可以了</p>
-<h2 id="結論"><a href="#結論" class="headerlink" title="結論"></a><font color="#f4a261">結論</font></h2><p>官方呼籲大家盡早把自己電腦上的全域套件移除<br>以後要建立新的 react 專案<br>不能再用全域套件來創了<br>但初始化指令不變<br>一樣是 <code>npx create-react-app &lt;your-app-name&gt;</code> ㄛ</p>
 </font>
       
     </div>

@@ -120,7 +120,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-count">47</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -150,6 +150,114 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2022/10/13/react-Web3js-%E9%A1%AF%E7%A4%BA-MetaMask-%E9%8C%A2%E5%8C%85%E8%B3%87%E8%A8%8A/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Guan-Ting Su">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pi's Blog">
+      <meta itemprop="description" content="一些程式自學小記錄">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Pi's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/10/13/react-Web3js-%E9%A1%AF%E7%A4%BA-MetaMask-%E9%8C%A2%E5%8C%85%E8%B3%87%E8%A8%8A/" class="post-title-link" itemprop="url">react+Web3js  顯示 MetaMask 錢包資訊</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-10-13 22:44:25" itemprop="dateCreated datePublished" datetime="2022-10-13T22:44:25+08:00">2022-10-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2022-10-14 09:50:40" itemprop="dateModified" datetime="2022-10-14T09:50:40+08:00">2022-10-14</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <font size="2" color="#999">
+
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><font color="#f4a261">前言</font></h2><p>因緣際會踏入區塊鏈這個圈子<br>也創建了自己的 MetaMask 錢包<br>雖然還沒有錢可以放進去 QQ<br>但身為工程師就要試著自己在網站中連接錢包並顯示出來！</p>
+<h2 id="Web3-js"><a href="#Web3-js" class="headerlink" title="Web3.js"></a><font color="#f4a261">Web3.js</font></h2><p><a target="_blank" rel="noopener" href="https://web3js.readthedocs.io/en/v1.2.11/index.html">Web3.js</a> 是一個用來和以太坊區塊鏈互動的 library<br>讓你可以跟本地的區塊鏈，或是用 HTTP, IPC, WebSocket 去跟遠端的區塊鏈互動<br>安裝方式很簡單</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install web3</span><br></pre></td></tr></table></figure>
+
+<p>他提供很多 api，讓你可以做到連接錢包，查詢餘額，或是跟智能合約互動等等的功能</p>
+<h2 id="一：取得-Provider"><a href="#一：取得-Provider" class="headerlink" title="一：取得 Provider"></a><font color="#f4a261">一：取得 Provider</font></h2><p>首先要 import web3</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">Web3</span> <span class="keyword">from</span> <span class="string">&#x27;web3&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>並且取得 provider</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> web3 = <span class="keyword">new</span> <span class="title class_">Web3</span>(<span class="title class_">Web3</span>.<span class="property">givenProvider</span>)</span><br></pre></td></tr></table></figure>
+
+<p>所謂的 provider 我認為可以把它當作「對區塊鏈發出請求的實體」<br>他就像律師一樣，幫我跟以太坊交談<br>(不知道為什麼會突然拿律師當例子，可能最近看太多禹英禑ㄌ)<br>例如當你要查詢餘額，就對 provider 發出請求，他會在跟乙太坊要資料後做出回應。<br>網路上查到的一個解釋如下：</p>
+<blockquote>
+<p>Web3 provider allows your application to communicate with an Ethereum or Blockchain Node.<br>Providers take JSON-RPC requests and return the response.<br>This is normally done by submitting the request to an HTTP or IPC socket based server.</p>
+</blockquote>
+<p>另外，如果我們是在測試階段，就不一定要真的連上以太坊網路<br>那我們就可以設定一個 fallback URL<br>以 Ｇanache 為例 (<a target="_blank" rel="noopener" href="https://trufflesuite.com/ganache/">Ganache</a> 是一個讓你能夠搭建虛擬區塊鏈的工具)<br>他的測試 port 是 <code>http://localhost:8545</code><br>於是上面的code 可以改寫成這樣</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> web3 = <span class="keyword">new</span> <span class="title class_">Web3</span>(<span class="title class_">Web3</span>.<span class="property">givenProvider</span> || <span class="string">&#x27;http://localhost:8545&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="二：連接錢包"><a href="#二：連接錢包" class="headerlink" title="二：連接錢包"></a><font color="#f4a261">二：連接錢包</font></h2><p>稍微看了幾個 Web3 網站，發現通常都會有一個按鈕叫做「connect wallet」<br>按下去後 MetaMask 小視窗就會跳出來，按下確認後網頁就跟錢包做好連接了<br>我們現在就是要來做這件事情<br>需要用到 <code>web3.eth.requestAccounts</code> API<br>不過我這次暫時先寫在<code>useEffect</code>裡面好了</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> [account, setAccount] = <span class="title function_">useState</span>(<span class="string">&#x27;&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="title function_">useEffect</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// run once at mount</span></span><br><span class="line">  <span class="keyword">const</span> <span class="title function_">loadAccount</span> = <span class="keyword">async</span> (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> accounts = <span class="keyword">await</span> web3.<span class="property">eth</span>.<span class="title function_">requestAccounts</span>() <span class="comment">// 回傳的是 array</span></span><br><span class="line">    <span class="title function_">setAccount</span>(accounts[<span class="number">0</span>])</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">loadAccount</span>()</span><br><span class="line">&#125;, [])</span><br></pre></td></tr></table></figure>
+
+<p>如此一來就取得錢包帳號了</p>
+<h2 id="三：顯示餘額"><a href="#三：顯示餘額" class="headerlink" title="三：顯示餘額"></a><font color="#f4a261">三：顯示餘額</font></h2><p>連上錢包就能顯示餘額<br>要用到的是<code>web3.eth.getBalance</code>這個 API，並傳入剛剛的帳號<br>另外我們也可以利用<code>web3.eth.net.getNetworkType</code>來檢視目前連接的區塊鏈網路</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> [network, setNetwork] = <span class="title function_">useState</span>(<span class="string">&#x27;&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> [balance, setBalance] = <span class="title function_">useState</span>(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="title function_">useEffect</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> <span class="title function_">loadBalance</span> = <span class="keyword">async</span> (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> network = <span class="keyword">await</span> web3.<span class="property">eth</span>.<span class="property">net</span>.<span class="title function_">getNetworkType</span>()</span><br><span class="line">    <span class="keyword">const</span> balance = <span class="keyword">await</span> web3.<span class="property">eth</span>.<span class="title function_">getBalance</span>(account) <span class="comment">// given in Wei</span></span><br><span class="line">    <span class="title function_">setNetwork</span>(network)</span><br><span class="line">    <span class="title function_">setBalance</span>(balance)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">loadBalance</span>()</span><br><span class="line">&#125;, [account])</span><br></pre></td></tr></table></figure>
+
+<p>記得填入 dependency array,<br>每當<code>account</code>更新，我們都要重新呼叫<code>loadBalance()</code></p>
+<p>最後，我們將步驟二跟三合併在同一個<code>useEffect</code>裡面<br>由於如果還沒有取得<code>account</code>就無法呼叫<code>getBalance()</code><br>所以還需要一個判斷</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">if (!account) &#123;</span><br><span class="line">  loadAccount()</span><br><span class="line">&#125; else loadBalance()</span><br></pre></td></tr></table></figure>
+
+<h2 id="結論"><a href="#結論" class="headerlink" title="結論"></a><font color="#f4a261">結論</font></h2><p>至此就完成了極簡易的 dapp<br>之後再繼續探究更多功能！</p>
+<p>完整 code 如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; useEffect, useState &#125; <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;./css/App.css&#x27;</span></span><br><span class="line"><span class="keyword">import</span> <span class="title class_">Web3</span> <span class="keyword">from</span> <span class="string">&#x27;web3&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">App</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> [account, setAccount] = <span class="title function_">useState</span>(<span class="string">&#x27;&#x27;</span>);</span><br><span class="line">  <span class="keyword">const</span> [network, setNetwork] = <span class="title function_">useState</span>(<span class="string">&#x27;&#x27;</span>);</span><br><span class="line">  <span class="keyword">const</span> [balance, setBalance] = <span class="title function_">useState</span>(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">  <span class="title function_">useEffect</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> <span class="variable constant_">GANACHE_URL</span> = <span class="string">&#x27;http://localhost:8545&#x27;</span></span><br><span class="line">    <span class="keyword">const</span> web3 = <span class="keyword">new</span> <span class="title class_">Web3</span>(<span class="title class_">Web3</span>.<span class="property">givenProvider</span> || <span class="variable constant_">GANACHE_URL</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> <span class="title function_">loadAccount</span> = <span class="keyword">async</span> (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">      <span class="keyword">const</span> accounts = <span class="keyword">await</span> web3.<span class="property">eth</span>.<span class="title function_">requestAccounts</span>()</span><br><span class="line">      <span class="title function_">setAccount</span>(accounts[<span class="number">0</span>])</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> <span class="title function_">loadBalance</span> = <span class="keyword">async</span> (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">      <span class="keyword">const</span> network = <span class="keyword">await</span> web3.<span class="property">eth</span>.<span class="property">net</span>.<span class="title function_">getNetworkType</span>()</span><br><span class="line">      <span class="keyword">const</span> balance = <span class="keyword">await</span> web3.<span class="property">eth</span>.<span class="title function_">getBalance</span>(account) <span class="comment">// given in Wei</span></span><br><span class="line">      <span class="title function_">setNetwork</span>(network)</span><br><span class="line">      <span class="title function_">setBalance</span>(balance)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!account) &#123;</span><br><span class="line">      <span class="title function_">loadAccount</span>()</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="title function_">loadBalance</span>()</span><br><span class="line">  &#125;, [account])</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">className</span>=<span class="string">&quot;App&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">header</span> <span class="attr">className</span>=<span class="string">&#x27;header&#x27;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">h2</span>&gt;</span>My First Web3 <span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">hr</span> <span class="attr">style</span>=<span class="string">&#123;&#123;</span> <span class="attr">marginBottom:</span> &#x27;<span class="attr">2rem</span>&#x27; &#125;&#125; /&gt;</span></span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">p</span> <span class="attr">className</span>=<span class="string">&quot;account&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">          <span class="tag">&lt;<span class="name">span</span>&gt;</span>Account: <span class="tag">&lt;/<span class="name">span</span>&gt;</span>&#123;account&#125;</span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">p</span> <span class="attr">className</span>=<span class="string">&quot;account&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">          <span class="tag">&lt;<span class="name">span</span>&gt;</span>Network: <span class="tag">&lt;/<span class="name">span</span>&gt;</span>&#123;network || &#x27;loading...&#x27;&#125;</span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">p</span> <span class="attr">className</span>=<span class="string">&quot;account&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">          <span class="tag">&lt;<span class="name">span</span>&gt;</span>Balance: <span class="tag">&lt;/<span class="name">span</span>&gt;</span>&#123;balance ? `$&#123;balance / 1000000000&#125; GWei` : &#x27;loading...&#x27;&#125;</span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;/<span class="name">header</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">  )</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title class_">App</span></span><br><span class="line"></span><br></pre></td></tr></table></figure></font>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -333,96 +441,6 @@
 <h2 id="結論"><a href="#結論" class="headerlink" title="結論"></a><font color="#f4a261">結論</font></h2><p>其實還有很多環節不懂<br>例如這個 delay app measurement init 是什麼意思<br>或者說任何跟原生 code 有關的東西我都不知道是什麼意思…<br>總覺得還有好長一段路要走</p>
 <p>但這次的 debug 經驗還不錯<br>有從 error message 判斷出一些可能的方向<br>然後看了很多討論串<br>也實際去翻套件的程式碼<br>雖然不是完全懂了才解決問題<br>但也不至於誤打誤撞 不清楚自己做了什麼</p>
 <p>總之 APP 的廣告功能又回來啦！</p>
-</font>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2022/09/01/Nest-js-getStaticPaths-vs-useRouter/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Guan-Ting Su">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pi's Blog">
-      <meta itemprop="description" content="一些程式自學小記錄">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Pi's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/09/01/Nest-js-getStaticPaths-vs-useRouter/" class="post-title-link" itemprop="url">Nest.js: getStaticPaths vs useRouter</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-
-      <time title="創建時間：2022-09-01 22:52:49" itemprop="dateCreated datePublished" datetime="2022-09-01T22:52:49+08:00">2022-09-01</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2022-10-13 15:53:16" itemprop="dateModified" datetime="2022-10-13T15:53:16+08:00">2022-10-13</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <font size="2" color="#aaa">
-
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><font color="#f4a261">前言</font></h2><p>在學習生成動態頁面(dynamic routes)時<br>看到了兩種方法: <code>getStaticPaths</code>和<code>useRouter</code><br>來整理一下他們之間的差異</p>
-<h2 id="在-server-side-生成動態頁面-getStaticPaths"><a href="#在-server-side-生成動態頁面-getStaticPaths" class="headerlink" title="在 server side 生成動態頁面 getStaticPaths"></a><font color="#f4a261">在 server side 生成動態頁面 getStaticPaths</font></h2><p><a target="_blank" rel="noopener" href="https://nextjs.org/docs/basic-features/data-fetching/get-static-paths">getStaticPaths</a> 和 getStaticProps 一樣<br>是只會跑在 build time 的函式<br>假如我們的頁面數量是根據某個資料決定的<br>那是不是我們只要在 build time 之前<br>手中握有那份資料，然後告訴 Next 怎麼依照資料產生頁面<br>這樣就不用手刻好幾十個頁面檔案<br>這時就要用到<code>getStaticPaths</code></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// in &#x27;/pages/[id].js&#x27;</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> <span class="title function_">getStaticPaths</span> = <span class="keyword">async</span>(<span class="params"></span>)=&gt;&#123;</span><br><span class="line">  <span class="keyword">const</span> res = <span class="keyword">await</span> <span class="title function_">fetch</span>(<span class="string">&#x27;https://some-api&#x27;</span>)</span><br><span class="line">  <span class="keyword">const</span> data = <span class="keyword">await</span> res.<span class="title function_">json</span>()</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> paths = data.<span class="title function_">map</span>(<span class="function"><span class="params">item</span>=&gt;</span>&#123;</span><br><span class="line">    <span class="keyword">return</span>&#123;</span><br><span class="line">      <span class="attr">params</span>:&#123;<span class="attr">id</span>:item.<span class="property">id</span>.<span class="title function_">toString</span>()&#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    paths, </span><br><span class="line">    <span class="comment">//paths 必須是一個 array 包含數個 object，</span></span><br><span class="line">    <span class="comment">//每個 object 都長這樣: &#123;params: &#123;id:&#x27;xxx&#x27;&#125;&#125; &lt;--- 註: key 是 id 因為檔名是[id].js</span></span><br><span class="line">    <span class="comment">//這些 object 會作為 prop 分別傳進 getStaticProps 中</span></span><br><span class="line"></span><br><span class="line">    <span class="attr">fallback</span>: <span class="literal">false</span></span><br><span class="line">    <span class="comment">//當 fallback 為 false 時，如果用戶進到不存在的 route 時，預設會顯示Next.js</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// in &#x27;pages/[id].js&#x27;</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> <span class="title function_">getStaticProps</span> = <span class="keyword">async</span>(<span class="params">&#123;params&#125;</span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> res = <span class="keyword">await</span> <span class="title function_">fetch</span>(<span class="string">`https://some-api/<span class="subst">$&#123;params.id&#125;</span>`</span>)</span><br><span class="line">  <span class="keyword">const</span> data = <span class="keyword">await</span> res.<span class="title function_">json</span>()</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    <span class="attr">props</span>:&#123; <span class="comment">//這個 props 會傳進 page component 中</span></span><br><span class="line">      data</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>以上動作會在 build time 的時候進行一次</p>
-<h2 id="在-client-side-產生動態資料-useRouter"><a href="#在-client-side-產生動態資料-useRouter" class="headerlink" title="在 client side 產生動態資料 useRouter"></a><font color="#f4a261">在 client side 產生動態資料 useRouter</font></h2><p>另一種情境是<br>可能我們的網站有連接資料庫，而那個資料庫時常更新<br>每當資料庫多出現一個 record 時(例如新增一篇貼文)<br>前端可能也需要多一個頁面來呈現它<br>但如果因此就需要重新 build 一次的話就太麻煩了<br>這時就可以用<code>useRouter</code>來達到動態頁面<br>簡單來說，頁面都是同一個<br>只是會根據 URL 來取得動態資料</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// in &#x27;/pages/[id].js&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123;useRouter&#125; <span class="keyword">from</span> <span class="string">&#x27;next/router&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">function</span> <span class="title function_">Page</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="keyword">const</span> router = <span class="title function_">useRouter</span>()</span><br><span class="line">  <span class="keyword">const</span> &#123;id&#125; = router.<span class="property">query</span> </span><br><span class="line">  <span class="comment">// 由於檔名中有 [id]</span></span><br><span class="line">  <span class="comment">// 所以實際 URL 中，&#x27;/pages/&#x27;之後的字串就會被當作 id params</span></span><br><span class="line">  <span class="comment">// 可藉由 useRouter().query 取得其值</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">p</span>&gt;</span>&#123;id&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">  )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>以上動作會在 client side 的每次 request time 運行一次</p>
-<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a><font color="#f4a261">結語</font></h2><p><code>getStaticPaths</code> 是在 build time 根據你定義的方法動態生成頁面</p>
-<p><code>useRouter</code> 是在 request time 根據瀏覽器的 URL 動態生成參數</p>
 </font>
       
     </div>

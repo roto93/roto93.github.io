@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"roto93.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.13.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="前言 之前在面試期間稍微碰了一下 web3.js 當時只有照做的感覺，對區塊鏈的運作還很不熟 但至少對怎麼跟小狐狸互動有點概念 後來有幸進到區塊鏈公司，第一件事主管就請我先研究 ethers.js 和 web3modal 我發現 web3 和 ethers 是兩個很類似的套件 都是在處理錢包、智能合約互動之類的事情 整體來說 web3 背後有比較多人在維護，網路上的教學也比較多 ethers 則">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ethers.js 簡介">
+<meta property="og:url" content="http://roto93.github.io/2022/12/13/Ethers-js-%E7%B0%A1%E4%BB%8B/index.html">
+<meta property="og:site_name" content="Pi&#39;s Blog">
+<meta property="og:description" content="前言 之前在面試期間稍微碰了一下 web3.js 當時只有照做的感覺，對區塊鏈的運作還很不熟 但至少對怎麼跟小狐狸互動有點概念 後來有幸進到區塊鏈公司，第一件事主管就請我先研究 ethers.js 和 web3modal 我發現 web3 和 ethers 是兩個很類似的套件 都是在處理錢包、智能合約互動之類的事情 整體來說 web3 背後有比較多人在維護，網路上的教學也比較多 ethers 則">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2022-12-13T03:56:47.000Z">
+<meta property="article:modified_time" content="2022-12-13T07:07:31.028Z">
+<meta property="article:author" content="Guan-Ting Su">
+<meta property="article:tag" content="程式,自學">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://roto93.github.io/2022/12/13/Ethers-js-%E7%B0%A1%E4%BB%8B/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"http://roto93.github.io/2022/12/13/Ethers-js-%E7%B0%A1%E4%BB%8B/","path":"2022/12/13/Ethers-js-簡介/","title":"Ethers.js 簡介"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Ethers.js 簡介 | Pi's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Pi's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#font-color-f4a261-%E5%89%8D%E8%A8%80-font"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#font-color-f4a261-Ethers-js-font"><span class="nav-number">2.</span> <span class="nav-text">Ethers.js</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Install"><span class="nav-number">2.1.</span> <span class="nav-text">Install</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Terms"><span class="nav-number">2.2.</span> <span class="nav-text">Terms</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Wallet-Connection"><span class="nav-number">2.3.</span> <span class="nav-text">Wallet Connection</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Get-Accounts"><span class="nav-number">2.4.</span> <span class="nav-text">Get Accounts</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Get-Balance"><span class="nav-number">2.5.</span> <span class="nav-text">Get Balance</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Get-Network"><span class="nav-number">2.6.</span> <span class="nav-text">Get Network</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Get-Signer"><span class="nav-number">2.7.</span> <span class="nav-text">Get Signer</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#font-color-f4a261-%E5%B0%8F%E7%B5%90-font"><span class="nav-number">3.</span> <span class="nav-text">小結</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Guan-Ting Su</p>
+  <div class="site-description" itemprop="description">一些程式自學小記錄</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">47</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2022/12/13/Ethers-js-%E7%B0%A1%E4%BB%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Guan-Ting Su">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pi's Blog">
+      <meta itemprop="description" content="一些程式自學小記錄">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Ethers.js 簡介 | Pi's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Ethers.js 簡介
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2022-12-13 11:56:47 / 修改時間：15:07:31" itemprop="dateCreated datePublished" datetime="2022-12-13T11:56:47+08:00">2022-12-13</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <font size="2" color="#999">
+<h2 id="font-color-f4a261-前言-font"><a class="header-anchor" href="#font-color-f4a261-前言-font"></a><font color="#f4a261">前言</font></h2>
+<p>之前在面試期間稍微碰了一下 web3.js<br>
+當時只有照做的感覺，對區塊鏈的運作還很不熟<br>
+但至少對怎麼跟小狐狸互動有點概念</p>
+<p>後來有幸進到區塊鏈公司，第一件事主管就請我先研究 ethers.js 和 web3modal<br>
+我發現 web3 和 ethers 是兩個很類似的套件<br>
+都是在處理錢包、智能合約互動之類的事情</p>
+<p>整體來說<br>
+web3 背後有比較多人在維護，網路上的教學也比較多<br>
+ethers 則輕量很多，支援用 ENS name 來呼叫合約，state(provider) 和 key(wallet) 分開管理<br>
+另外 ethers 有一個好用的框架：wagmi，真的是方便很多，以後有機會來介紹<br>
+現在就筆記一下 Ethers.js 的常用功能吧</p>
+<p>至於 web3modal 則是一個整合了各大錢包的接口<br>
+未來你想要多支援什麼 coinbase, walletconnect 等奇奇怪怪的錢包<br>
+只要 web3modal 有支援，都可以很快的添加進來<br>
+目前有 v1, v2 兩個版本</p>
+<p>10 月底著手研究時 v2 還在 early alpha，因此先跳過<br>
+但寫這篇文章的當下(12/13)，已經進展到 beta.9 了<br>
+有稍微試用一下，很多當初要花一個禮拜研究的東西他都幫我做好了…<br>
+之後可能會再專案用的升級到v2吧哈哈<br>
+好  其他細節留到未來某個篇章再紀錄吧</p>
+<p>延伸閱讀</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://medium.com/l4-media/announcing-ethers-js-a-web3-alternative-6f134fdd06f3">Announcing ethers.js — a web3 alternative</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/adrianmcli/web3-vs-ethers">Web3.js vs Ethers.js 實際應用上的區別</a></li>
+</ol>
+<h2 id="font-color-f4a261-Ethers-js-font"><a class="header-anchor" href="#font-color-f4a261-Ethers-js-font"></a><font color="#f4a261">Ethers.js</font></h2>
+<h3 id="Install"><a class="header-anchor" href="#Install"></a>Install</h3>
+<p><code>npm install ethers</code></p>
+<h3 id="Terms"><a class="header-anchor" href="#Terms"></a>Terms</h3>
+<table>
+<thead>
+<tr>
+<th>名詞</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Provider</td>
+<td>與區塊鏈對接，負責提供「唯讀」資訊給網頁</td>
+</tr>
+<tr>
+<td>Signer</td>
+<td>權限比 Provider 更高，除了讀取還可以寫入區塊鏈</td>
+</tr>
+<tr>
+<td>Contract</td>
+<td>智能合約的實例化物件，可以用類似 ORM 的方式跟合約互動</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Wallet-Connection"><a class="header-anchor" href="#Wallet-Connection"></a>Wallet Connection</h3>
+<p>這邊示範如何連接瀏覽器的 MetaMask 擴充套件<br>
+以及如何利用 web3Modal 來連接錢包</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> ethers <span class="keyword">from</span> <span class="string">&#x27;ethers&#x27;</span></span><br><span class="line"><span class="keyword">import</span> <span class="title class_">Web3Modal</span> <span class="keyword">from</span> <span class="string">&#x27;web3modal&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Connect with MetaMask</span></span><br><span class="line"><span class="comment">// window.ethereum 是 MetaMask plug-in inject 到網頁的物件</span></span><br><span class="line"><span class="keyword">const</span> provider = <span class="keyword">new</span> ethers.<span class="property">providers</span>.<span class="title class_">Web3Provider</span>(<span class="variable language_">window</span>.<span class="property">ethereum</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// Connect with web3Modal</span></span><br><span class="line"><span class="keyword">const</span> web3Modal = <span class="keyword">new</span> <span class="title class_">Web3Modal</span>(&#123;</span><br><span class="line">	<span class="attr">cacheProvider</span>: <span class="literal">true</span>,</span><br><span class="line">	<span class="attr">providerOptions</span>: &#123;&#125; <span class="comment">// 這邊可以設定能支援什麼錢包，會在跳出 modal 的時候</span></span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">const</span> instance = <span class="keyword">await</span> web3Modal.<span class="title function_">connect</span>()</span><br><span class="line"><span class="keyword">const</span> provider = ethers.<span class="property">providers</span>.<span class="title class_">Web3Provider</span>(instance)</span><br><span class="line"></span><br><span class="line"><span class="comment">// Disconnect</span></span><br><span class="line"><span class="comment">// ethers cannot disconnect wallet programmically</span></span><br><span class="line"><span class="comment">// You can clear cached provider and reset the related states to null to pretend disconnection.</span></span><br><span class="line"><span class="comment">// see https://ethereum.stackexchange.com/q/83914</span></span><br></pre></td></tr></table></figure>
+<h3 id="Get-Accounts"><a class="header-anchor" href="#Get-Accounts"></a>Get Accounts</h3>
+<p>可用<code>listAccount()</code>取得帳號陣列<br>
+不知道為什麼是陣列，難道說可以同時連接不同帳號嗎？</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 方法 1</span></span><br><span class="line"><span class="keyword">const</span> accounts = <span class="keyword">await</span> provider.<span class="title function_">listAccounts</span>()</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(account[<span class="number">0</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment">// 方法 2</span></span><br><span class="line"><span class="keyword">const</span> accounts = <span class="keyword">await</span> provider.<span class="title function_">send</span>(<span class="string">&#x27;eth_requestAccounts&#x27;</span>,[])</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(accounts[<span class="number">0</span>])</span><br></pre></td></tr></table></figure>
+<h3 id="Get-Balance"><a class="header-anchor" href="#Get-Balance"></a>Get Balance</h3>
+<p>return &lt;<a target="_blank" rel="noopener" href="https://docs.ethers.io/v5/api/utils/bignumber/#BigNumber">BigNumber</a>&gt;</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> balance = <span class="keyword">await</span> provider.<span class="title function_">getBalance</span>(currentAccount)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> balanceInEther = ethers.<span class="property">utils</span>.<span class="title function_">formatEther</span>(balance)</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(balanceInEther)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p>回傳 BigNumber，單位是 Wei，顯示時記得換算成容易看的單位，並轉換成 string。<br>
+<code>ethers.utils.formatEther</code> :  BigNumber        ⇒    string(in Ether)<br>
+<code>ethers.utils.parseEther</code> :    string(in Ether)  ⇒    BigNumber<br>
+可參考<a target="_blank" rel="noopener" href="https://docs.ethers.io/v5/api/utils/display-logic/#unit-conversion">這裡</a></p>
+</li>
+<li>
+<p>如果用 walletconnect 必須加上 blocktag pending<br>
+<code>getBalance(currentAccount, ‘pending’)</code><br>
+否則可能不會抓到最新的數值</p>
+</li>
+</ul>
+<h3 id="Get-Network"><a class="header-anchor" href="#Get-Network"></a>Get Network</h3>
+<p>return &lt;<a target="_blank" rel="noopener" href="https://docs.ethers.io/v5/api/providers/types/#providers-Network">Network</a>&gt; : {name: string, ensAddress: string, chainId: number}<br>
+Ethereum mainnet 會顯示 homestead</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> network = <span class="keyword">await</span> provider.<span class="title function_">getNetwork</span>(currentAccount)</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(network.<span class="property">name</span>)</span><br></pre></td></tr></table></figure>
+<p>用戶隨時能夠切換網路(Mainnet or Testnet)，如果網頁沒有做相對應的反應，很容易讓用戶疑惑，甚至下錯單，造成金錢上的損失<br>
+Best Practice: 偵測到網路改變時，直接 reload 頁面，確保所有的 state 被重置</p>
+<p><a target="_blank" rel="noopener" href="https://docs.ethers.io/v5/concepts/best-practices/#best-practices--network-changes">Network Changes Guideline</a><br>
+<a target="_blank" rel="noopener" href="https://github.com/ethers-io/ethers.js/issues/866">https://github.com/ethers-io/ethers.js/issues/866</a></p>
+<h3 id="Get-Signer"><a class="header-anchor" href="#Get-Signer"></a>Get Signer</h3>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> signer = provider.<span class="title function_">getSigner</span>(<span class="attr">account</span>: string)</span><br></pre></td></tr></table></figure>
+<h2 id="font-color-f4a261-小結-font"><a class="header-anchor" href="#font-color-f4a261-小結-font"></a><font color="#f4a261">小結</font></h2>
+<p>以上是一些常用的 function<br>
+還有如何讀取 native token<br>
+下一篇會介紹如何與合約互動</p>
+</font>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/10/20/%E7%AC%AC%E4%B8%80%E6%AC%A1%E5%8F%83%E5%8A%A0%E6%8A%80%E8%A1%93%E6%9C%83%E8%AD%B0%EF%BC%9AMOPCON-%E4%B8%8B/" rel="prev" title="第一次參加技術會議：MOPCON (下)">
+                  <i class="fa fa-chevron-left"></i> 第一次參加技術會議：MOPCON (下)
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Guan-Ting Su</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

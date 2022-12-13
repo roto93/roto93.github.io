@@ -120,7 +120,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-count">47</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -150,6 +150,137 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2021/03/29/ReactNative-firebse/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Guan-Ting Su">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pi's Blog">
+      <meta itemprop="description" content="一些程式自學小記錄">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Pi's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/03/29/ReactNative-firebse/" class="post-title-link" itemprop="url">React Native + Expo + firebase</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-03-29 13:54:29" itemprop="dateCreated datePublished" datetime="2021-03-29T13:54:29+08:00">2021-03-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2022-10-13 15:53:16" itemprop="dateModified" datetime="2022-10-13T15:53:16+08:00">2022-10-13</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <font size="2" color="#aaa">
+
+<p>最近研究如何在 react native 中使用 firebase<br>在幾乎不知道 firebase 是什麼的情形下學得還蠻有阻力的<br>網路上大部分都是用 bare react native 來做，像我這種用 Expo 的就會有點東西不一樣<br>現在稍微有點結果，紀錄一下</p>
+<h2 id="設定"><a href="#設定" class="headerlink" title="設定"></a>設定</h2><ol>
+<li><p>首先 </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install firebase</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>到 <a target="_blank" rel="noopener" href="https://www.notion.so/React-Native-a082224d7c1a4ed2974b48222c27f399#0506bd16f235404ab6fc5542fadc2079" title="firebase">firebase官網</a> 註冊帳號並新增專案</p>
+</li>
+<li><p>在 firebase console 新增應用程式</p>
+<img src="/2021/03/29/ReactNative-firebse/新增應用程式.png" width="600px">
+</li>
+<li><p>他會要你選擇應用程式的類型，我們選 web (這是因為我看的教學影片選這個，所以我不清楚如果選 ios 或 android 的話接下來要怎麼填，之後試試看)</p>
+</li>
+<li><p>輸入 app 暱稱後，會得到一組序號，接著回到你的 app 中建立 <code>config.js</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// in config.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> firebaseConfig = &#123;</span><br><span class="line">    <span class="attr">apiKey</span>: <span class="string">&quot;AIzaSyAOeSc4qw2vIjTH611d9S-Wxu48ha_DHeQ&quot;</span>,</span><br><span class="line">    <span class="attr">authDomain</span>: <span class="string">&quot;tokyo-hold-309006.firebaseapp.com&quot;</span>,</span><br><span class="line">    <span class="attr">databaseURL</span>: <span class="string">&quot;https://tokyo-hold-309006-default-rtdb.firebaseio.com&quot;</span>,</span><br><span class="line">    <span class="attr">projectId</span>: <span class="string">&quot;tokyo-hold-309006&quot;</span>,</span><br><span class="line">    <span class="attr">storageBucket</span>: <span class="string">&quot;tokyo-hold-309006.appspot.com&quot;</span>,</span><br><span class="line">    <span class="attr">messagingSenderId</span>: <span class="string">&quot;994735805040&quot;</span>,</span><br><span class="line">    <span class="attr">appId</span>: <span class="string">&quot;1:994735805040:web:c5cae5d8b32e5928459ab5&quot;</span>,</span><br><span class="line">    <span class="attr">measurementId</span>: <span class="string">&quot;G-M17RL2CVNS&quot;</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>接著我們要在 App.js 中啟用 firebase</p>
+<h2 id="firebase-初始化"><a href="#firebase-初始化" class="headerlink" title="firebase 初始化"></a>firebase 初始化</h2></li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// in App.js</span></span><br><span class="line"><span class="keyword">import</span> firebase <span class="keyword">from</span> <span class="string">&#x27;firebase&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123;firebaseConfig&#125; <span class="keyword">from</span> <span class="string">&#x27;./firebaseConfig&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (firebase.<span class="property">apps</span>.<span class="property">length</span> == <span class="number">0</span>) &#123; firebase.<span class="title function_">initializeApp</span>(firebaseConfig) &#125;  </span><br><span class="line"><span class="comment">// 檢查現在有沒有其他在firebase初始化的app，不可以同時有兩個初始化</span></span><br></pre></td></tr></table></figure>
+<h3 id="至此事前設定都完成了，接下來我們簡單演示一下用-email-做-Authentication-會用到的語法"><a href="#至此事前設定都完成了，接下來我們簡單演示一下用-email-做-Authentication-會用到的語法" class="headerlink" title="至此事前設定都完成了，接下來我們簡單演示一下用 email 做 Authentication 會用到的語法"></a>至此事前設定都完成了，接下來我們簡單演示一下用 email 做 Authentication 會用到的語法</h3><h2 id="log-in-登入"><a href="#log-in-登入" class="headerlink" title="log in 登入"></a>log in 登入</h2><p>首先我們要到 firebase console 去開啟 email 認證的功能：</p>
+<img src="/2021/03/29/ReactNative-firebse/開啟email認證1.png">
+<img src="/2021/03/29/ReactNative-firebse/開啟email認證2.png">
+
+<p> 接著用 <code>firebase.auth().signInWithEmailAndPassword()</code><br> 代入用戶輸入的信箱跟密碼，就能登入了</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> auth = firebase.<span class="title function_">auth</span>()</span><br><span class="line"><span class="keyword">const</span> <span class="title function_">onLogIn</span>=(<span class="params"></span>)=&gt;&#123;</span><br><span class="line">	auth.<span class="title function_">signInWithEmailAndPassword</span>(email, pass)</span><br><span class="line">	.<span class="title function_">then</span>(<span class="function">(<span class="params">result</span>) =&gt;</span> <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;you\&#x27;ve logged in&#x27;</span>))</span><br><span class="line">	.<span class="title function_">catch</span>(<span class="function"><span class="params">err</span> =&gt;</span> <span class="title function_">alert</span>(err))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p> 完成後點擊 log in 按鈕會報錯，這是因為 DB 還沒有註冊任何 user<br> 因此我們來新增 sign in 的功能</p>
+<h2 id="Sign-in-註冊"><a href="#Sign-in-註冊" class="headerlink" title="Sign in 註冊"></a>Sign in 註冊</h2><p>用到的是 <code>firebase.auth().creactUserWithEmailAndPassword()</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">onSignIn</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">        <span class="comment">// <span class="doctag">TODO:</span> Check real email</span></span><br><span class="line">        auth.<span class="title function_">createUserWithEmailAndPassword</span>(email, pass)</span><br><span class="line">        .<span class="title function_">then</span>(<span class="function">(<span class="params">resule</span>)=&gt;</span>&#123;<span class="title function_">alert</span>(<span class="string">&#x27;sign in successfully&#x27;</span>)&#125;)</span><br><span class="line">        .<span class="title function_">catch</span>(<span class="function"><span class="params">err</span> =&gt;</span> <span class="title function_">alert</span>(err))</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>在點擊 sign in 按鈕後，如果沒報錯，在 firebase console 這邊就會看到有人註冊的資訊</p>
+<img src="/2021/03/29/ReactNative-firebse/用戶註冊.png">
+
+<h2 id="sign-out-登出"><a href="#sign-out-登出" class="headerlink" title="sign out 登出"></a>sign out 登出</h2><p><code>firebase.auth().signOut()</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">onSignOut</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">    auth.<span class="title function_">signOut</span>()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接下來我們可以判斷用戶是否有登入，在登入狀態顯示登出的按鈕，如果尚未登入，就隱藏登出按鈕<br>因此我們建立一個 user state listener</p>
+<h2 id="User-State-Listener-登入確認"><a href="#User-State-Listener-登入確認" class="headerlink" title="User State Listener 登入確認"></a>User State Listener 登入確認</h2><p><code>firebase.auth().onAuthStateChanged()</code></p>
+<p>這個函數定義了每次用戶狀態變更的時候(如登入或登出)要做什麼，如果用戶有登入，就會傳入 user object，反之如果未登入，user 就會是 null。</p>
+<p>記得包在 <code>useEffect()</code> 內，每次渲染都讓他檢查一次</p>
+<p>實際使用起來像這樣：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">checkUser</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> <span class="title function_">logInSetup</span> = (<span class="params">user</span>) =&gt; &#123;</span><br><span class="line">        <span class="title function_">setUsername</span>(user.<span class="property">email</span>)</span><br><span class="line">        <span class="title function_">setIsLoggedIn</span>(<span class="literal">true</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">const</span> <span class="title function_">logOutSetup</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">        <span class="title function_">setUsername</span>(<span class="string">&#x27;&#x27;</span>)</span><br><span class="line">        <span class="title function_">setIsLoggedIn</span>(<span class="literal">false</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    auth.<span class="title function_">onAuthStateChanged</span>(<span class="function"><span class="params">user</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (user) &#123;</span><br><span class="line">            <span class="title function_">logInSetup</span>(user)</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="title function_">logOutSetup</span>()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">useEffect</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="title function_">checkUser</span>()</span><br><span class="line">&#125;, [])</span><br></pre></td></tr></table></figure>
+
+<h2 id="delete-刪除用戶"><a href="#delete-刪除用戶" class="headerlink" title="delete 刪除用戶"></a>delete 刪除用戶</h2><p>使用 <code>firebase.auth().currentUser.delete()</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">onDelete</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">	<span class="comment">// 如果未登入 auth.currentUser 會是 null，則 null.delete() 會報錯</span></span><br><span class="line">    <span class="keyword">if</span> (auth.<span class="property">currentUser</span>)   </span><br><span class="line">        auth.<span class="property">currentUser</span>.<span class="title function_">delete</span>()</span><br><span class="line">            .<span class="title function_">then</span>(<span class="function">(<span class="params">result</span>) =&gt;</span> &#123; <span class="title function_">setIsLoggedIn</span>(<span class="literal">false</span>), <span class="title function_">alert</span>(<span class="string">&#x27;User has been deleted!&#x27;</span>) &#125;)</span><br><span class="line">            .<span class="title function_">catch</span>(<span class="function"><span class="params">err</span> =&gt;</span> &#123; <span class="title function_">setShowReAuthModal</span>(<span class="literal">true</span>), <span class="variable language_">console</span>.<span class="title function_">log</span>(err) &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>需注意，刪除用戶是很危險的舉動，因此你必須在不久前登入過才能夠順利刪除用戶，如果距離你上次登入已經有一段時間了，你會需要認證用戶 <a target="_blank" rel="noopener" href="https://firebase.google.com/docs/auth/web/manage-users#re-authenticate_a_user" title="firebase re-auth tag">(Re-Authentication)</a></p>
+<h2 id="Re-Authentication-再次登入"><a href="#Re-Authentication-再次登入" class="headerlink" title="Re-Authentication 再次登入"></a>Re-Authentication 再次登入</h2><img src="/2021/03/29/ReactNative-firebse/re-Auth.png">
+
+<p>官網沒有說明 credential 要怎麼做出來<br>查了一下網路，原來要用 <code>firebase.auth.EmailAuthProvider.credential(email, password)</code><br>注意是 <code>auth</code> 不是 <code>auth()</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">onReAuth</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> credential = firebase.<span class="property">auth</span>.<span class="property">EmailAuthProvider</span>.<span class="title function_">credential</span>(</span><br><span class="line">        auth.<span class="property">currentUser</span>.<span class="property">email</span>,</span><br><span class="line">        confirmPass</span><br><span class="line">    );</span><br><span class="line">    auth.<span class="property">currentUser</span>.<span class="title function_">reauthenticateWithCredential</span>(credential).<span class="title function_">catch</span>(<span class="function"><span class="params">err</span> =&gt;</span> <span class="title function_">alert</span>(err))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>恭喜你目前為止已經學會基本的登入了</p>
+<p>可以到 <a target="_blank" rel="noopener" href="https://github.com/roto93/react-native-firebase-works" title="my github page">這上面</a> 看看我做的範例</p>
+<p>之後我會把 facebook、google 認證方式一併整理上來。</p>
+</font>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -328,117 +459,6 @@
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&#x27;use strict&#x27;</span>;</span><br><span class="line"><span class="keyword">var</span> cheerio = <span class="built_in">require</span>(<span class="string">&#x27;cheerio&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// http://stackoverflow.com/questions/14480345/how-to-get-the-nth-occurrence-in-a-string</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">getPosition</span>(<span class="params">str, m, i</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> str.<span class="title function_">split</span>(m, i).<span class="title function_">join</span>(m).<span class="property">length</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> version = <span class="title class_">String</span>(hexo.<span class="property">version</span>).<span class="title function_">split</span>(<span class="string">&#x27;.&#x27;</span>);</span><br><span class="line">hexo.<span class="property">extend</span>.<span class="property">filter</span>.<span class="title function_">register</span>(<span class="string">&#x27;after_post_render&#x27;</span>, <span class="keyword">function</span>(<span class="params">data</span>)&#123;</span><br><span class="line">  <span class="keyword">var</span> config = hexo.<span class="property">config</span>;</span><br><span class="line">  <span class="keyword">if</span>(config.<span class="property">post_asset_folder</span>)&#123;</span><br><span class="line">    	<span class="keyword">var</span> link = data.<span class="property">permalink</span>;</span><br><span class="line">	<span class="keyword">if</span>(version.<span class="property">length</span> &gt; <span class="number">0</span> &amp;&amp; <span class="title class_">Number</span>(version[<span class="number">0</span>]) == <span class="number">3</span>)</span><br><span class="line">	   <span class="keyword">var</span> beginPos = <span class="title function_">getPosition</span>(link, <span class="string">&#x27;/&#x27;</span>, <span class="number">1</span>) + <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	   <span class="keyword">var</span> beginPos = <span class="title function_">getPosition</span>(link, <span class="string">&#x27;/&#x27;</span>, <span class="number">3</span>) + <span class="number">1</span>;</span><br><span class="line">	<span class="comment">// In hexo 3.1.1, the permalink of &quot;about&quot; page is like &quot;.../about/index.html&quot;.</span></span><br><span class="line">	<span class="keyword">var</span> endPos = link.<span class="title function_">lastIndexOf</span>(<span class="string">&#x27;/&#x27;</span>) + <span class="number">1</span>;</span><br><span class="line">    link = link.<span class="title function_">substring</span>(beginPos, endPos);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> toprocess = [<span class="string">&#x27;excerpt&#x27;</span>, <span class="string">&#x27;more&#x27;</span>, <span class="string">&#x27;content&#x27;</span>];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; toprocess.<span class="property">length</span>; i++)&#123;</span><br><span class="line">      <span class="keyword">var</span> key = toprocess[i];</span><br><span class="line"> </span><br><span class="line">      <span class="keyword">var</span> $ = cheerio.<span class="title function_">load</span>(data[key], &#123;</span><br><span class="line">        <span class="attr">ignoreWhitespace</span>: <span class="literal">false</span>,</span><br><span class="line">        <span class="attr">xmlMode</span>: <span class="literal">false</span>,</span><br><span class="line">        <span class="attr">lowerCaseTags</span>: <span class="literal">false</span>,</span><br><span class="line">        <span class="attr">decodeEntities</span>: <span class="literal">false</span></span><br><span class="line">      &#125;);</span><br><span class="line"></span><br><span class="line">      $(<span class="string">&#x27;img&#x27;</span>).<span class="title function_">each</span>(<span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">		<span class="keyword">if</span> ($(<span class="variable language_">this</span>).<span class="title function_">attr</span>(<span class="string">&#x27;src&#x27;</span>))&#123;</span><br><span class="line">			<span class="comment">// For windows style path, we replace &#x27;\&#x27; to &#x27;/&#x27;.</span></span><br><span class="line">			<span class="keyword">var</span> src = $(<span class="variable language_">this</span>).<span class="title function_">attr</span>(<span class="string">&#x27;src&#x27;</span>).<span class="title function_">replace</span>(<span class="string">&#x27;\\&#x27;</span>, <span class="string">&#x27;/&#x27;</span>);</span><br><span class="line">			<span class="keyword">if</span>(!<span class="regexp">/http[s]*.*|\/\/.*/</span>.<span class="title function_">test</span>(src) &amp;&amp;</span><br><span class="line">			   !<span class="regexp">/^\s*\//</span>.<span class="title function_">test</span>(src)) &#123;</span><br><span class="line">			  <span class="comment">// For &quot;about&quot; page, the first part of &quot;src&quot; can&#x27;t be removed.</span></span><br><span class="line">			  <span class="comment">// In addition, to support multi-level local directory.</span></span><br><span class="line">			  <span class="keyword">var</span> linkArray = link.<span class="title function_">split</span>(<span class="string">&#x27;/&#x27;</span>).<span class="title function_">filter</span>(<span class="keyword">function</span>(<span class="params">elem</span>)&#123;</span><br><span class="line">				<span class="keyword">return</span> elem != <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">			  &#125;);</span><br><span class="line">			  <span class="keyword">var</span> srcArray = src.<span class="title function_">split</span>(<span class="string">&#x27;/&#x27;</span>).<span class="title function_">filter</span>(<span class="keyword">function</span>(<span class="params">elem</span>)&#123;</span><br><span class="line">				<span class="keyword">return</span> elem != <span class="string">&#x27;&#x27;</span> &amp;&amp; elem != <span class="string">&#x27;.&#x27;</span>;</span><br><span class="line">			  &#125;);</span><br><span class="line">			  <span class="keyword">if</span>(srcArray.<span class="property">length</span> &gt; <span class="number">1</span>)</span><br><span class="line">				srcArray.<span class="title function_">shift</span>();</span><br><span class="line">			  src = srcArray.<span class="title function_">join</span>(<span class="string">&#x27;/&#x27;</span>);</span><br><span class="line">			  $(<span class="variable language_">this</span>).<span class="title function_">attr</span>(<span class="string">&#x27;src&#x27;</span>, config.<span class="property">root</span> + link + src);</span><br><span class="line">			  <span class="variable language_">console</span>.<span class="property">info</span>&amp;&amp;<span class="variable language_">console</span>.<span class="title function_">info</span>(<span class="string">&quot;update link as:--&gt;&quot;</span>+config.<span class="property">root</span> + link + src);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">			<span class="variable language_">console</span>.<span class="property">info</span>&amp;&amp;<span class="variable language_">console</span>.<span class="title function_">info</span>(<span class="string">&quot;no src attr, skipped...&quot;</span>);</span><br><span class="line">			<span class="variable language_">console</span>.<span class="property">info</span>&amp;&amp;<span class="variable language_">console</span>.<span class="title function_">info</span>($(<span class="variable language_">this</span>));</span><br><span class="line">		&#125;</span><br><span class="line">      &#125;);</span><br><span class="line">      data[key] = $.<span class="title function_">html</span>();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <h2 id="大功告成！"><a href="#大功告成！" class="headerlink" title="大功告成！"></a>大功告成！</h2></font>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2021/01/26/2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Guan-Ting Su">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pi's Blog">
-      <meta itemprop="description" content="一些程式自學小記錄">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Pi's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/01/26/2/" class="post-title-link" itemprop="url">如何用 Github Page + Hexo 快速建立屬於自己的部落格</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-
-      <time title="創建時間：2021-01-26 23:56:08" itemprop="dateCreated datePublished" datetime="2021-01-26T23:56:08+08:00">2021-01-26</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2022-10-13 15:53:16" itemprop="dateModified" datetime="2022-10-13T15:53:16+08:00">2022-10-13</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <font size="2" color="#aaa">
-
-<p>&nbsp;</p>
-<h2 id="Outline"><a href="#Outline" class="headerlink" title="Outline"></a><center>Outline</center></h2><ol>
-<li>創建 github 帳號，並取得網域名稱</li>
-<li>安裝 hexo</li>
-<li>執行 hexo 建立部落格</li>
-</ol>
-<h3 id="1-創建-github-帳號，並取得網域名稱"><a href="#1-創建-github-帳號，並取得網域名稱" class="headerlink" title="1. 創建 github 帳號，並取得網域名稱"></a><center>1. 創建 github 帳號，並取得網域名稱</center></h3><p>首先到 github <a target="_blank" rel="noopener" href="https://github.com/" title="github官網">官網</a>註冊帳號，完成後登入<br>接著點擊總上繳的 new 來新增一個 repository</p>
-<img src="/2021/01/26/2/create_repository.png" width="600" style="border:2px black solid;">
-
-<p>然後在 repository name 的地方輸入 <strong><code>你的帳號名.github.io</code></strong> 。注意這是唯一的名字，打任何其他的都不對。是說我也不知道會有什麼問題，可能跟是不是根目錄有關吧。<br>可以參考下圖 (我已經建立過了所以有錯誤訊息)</p>
-<img src="/2021/01/26/2/set_repository.png" width="600" style="border:2px black solid;">
-
-<p>完成後你就獲得一個網域了！ 我們待會再回來這做設定。</p>
-<h3 id="2-安裝-hexo"><a href="#2-安裝-hexo" class="headerlink" title="2. 安裝 hexo"></a><center>2. 安裝 hexo</center></h3><p>Hexo 的安裝很簡單，前置作業反而還比較麻煩，不過也不難，你必須要先安裝以下的軟體：</p>
-<ul>
-<li>Node.js</li>
-<li>Git<br>於是便能在 Terminal 藉由以下指令安裝 hexo：</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo-cli </span><br></pre></td></tr></table></figure>
-
-<p>其中 <code>-g</code> 代表 global，如此一來無論你是在哪裡執行這個指令，整台電腦都能使用 hexo 囉~</p>
-<p>接著我們要生成部落格的檔案惹！<br>在 terminal 中進入到你打算建立部落格資料夾的路徑，輸入以下指令：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ hexo init &lt;folder&gt;  #初始化, 會建立一個資料夾</span><br><span class="line">$ cd &lt;folder&gt;  #進到那個資料夾</span><br><span class="line">$ npm install  #開始安裝</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-
-<p>完成後，進到該 repository </p>
-<img src="/2021/01/26/2/click_setting.png" width="600" style="border:2px black solid;">
-
-</font>
       
     </div>
 

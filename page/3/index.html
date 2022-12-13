@@ -120,7 +120,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-count">47</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -150,6 +150,96 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2022/09/01/Nest-js-getStaticPaths-vs-useRouter/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Guan-Ting Su">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pi's Blog">
+      <meta itemprop="description" content="一些程式自學小記錄">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Pi's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/09/01/Nest-js-getStaticPaths-vs-useRouter/" class="post-title-link" itemprop="url">Nest.js: getStaticPaths vs useRouter</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-09-01 22:52:49" itemprop="dateCreated datePublished" datetime="2022-09-01T22:52:49+08:00">2022-09-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2022-10-13 15:53:16" itemprop="dateModified" datetime="2022-10-13T15:53:16+08:00">2022-10-13</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <font size="2" color="#aaa">
+
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><font color="#f4a261">前言</font></h2><p>在學習生成動態頁面(dynamic routes)時<br>看到了兩種方法: <code>getStaticPaths</code>和<code>useRouter</code><br>來整理一下他們之間的差異</p>
+<h2 id="在-server-side-生成動態頁面-getStaticPaths"><a href="#在-server-side-生成動態頁面-getStaticPaths" class="headerlink" title="在 server side 生成動態頁面 getStaticPaths"></a><font color="#f4a261">在 server side 生成動態頁面 getStaticPaths</font></h2><p><a target="_blank" rel="noopener" href="https://nextjs.org/docs/basic-features/data-fetching/get-static-paths">getStaticPaths</a> 和 getStaticProps 一樣<br>是只會跑在 build time 的函式<br>假如我們的頁面數量是根據某個資料決定的<br>那是不是我們只要在 build time 之前<br>手中握有那份資料，然後告訴 Next 怎麼依照資料產生頁面<br>這樣就不用手刻好幾十個頁面檔案<br>這時就要用到<code>getStaticPaths</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// in &#x27;/pages/[id].js&#x27;</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> <span class="title function_">getStaticPaths</span> = <span class="keyword">async</span>(<span class="params"></span>)=&gt;&#123;</span><br><span class="line">  <span class="keyword">const</span> res = <span class="keyword">await</span> <span class="title function_">fetch</span>(<span class="string">&#x27;https://some-api&#x27;</span>)</span><br><span class="line">  <span class="keyword">const</span> data = <span class="keyword">await</span> res.<span class="title function_">json</span>()</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> paths = data.<span class="title function_">map</span>(<span class="function"><span class="params">item</span>=&gt;</span>&#123;</span><br><span class="line">    <span class="keyword">return</span>&#123;</span><br><span class="line">      <span class="attr">params</span>:&#123;<span class="attr">id</span>:item.<span class="property">id</span>.<span class="title function_">toString</span>()&#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    paths, </span><br><span class="line">    <span class="comment">//paths 必須是一個 array 包含數個 object，</span></span><br><span class="line">    <span class="comment">//每個 object 都長這樣: &#123;params: &#123;id:&#x27;xxx&#x27;&#125;&#125; &lt;--- 註: key 是 id 因為檔名是[id].js</span></span><br><span class="line">    <span class="comment">//這些 object 會作為 prop 分別傳進 getStaticProps 中</span></span><br><span class="line"></span><br><span class="line">    <span class="attr">fallback</span>: <span class="literal">false</span></span><br><span class="line">    <span class="comment">//當 fallback 為 false 時，如果用戶進到不存在的 route 時，預設會顯示Next.js</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// in &#x27;pages/[id].js&#x27;</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> <span class="title function_">getStaticProps</span> = <span class="keyword">async</span>(<span class="params">&#123;params&#125;</span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> res = <span class="keyword">await</span> <span class="title function_">fetch</span>(<span class="string">`https://some-api/<span class="subst">$&#123;params.id&#125;</span>`</span>)</span><br><span class="line">  <span class="keyword">const</span> data = <span class="keyword">await</span> res.<span class="title function_">json</span>()</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    <span class="attr">props</span>:&#123; <span class="comment">//這個 props 會傳進 page component 中</span></span><br><span class="line">      data</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以上動作會在 build time 的時候進行一次</p>
+<h2 id="在-client-side-產生動態資料-useRouter"><a href="#在-client-side-產生動態資料-useRouter" class="headerlink" title="在 client side 產生動態資料 useRouter"></a><font color="#f4a261">在 client side 產生動態資料 useRouter</font></h2><p>另一種情境是<br>可能我們的網站有連接資料庫，而那個資料庫時常更新<br>每當資料庫多出現一個 record 時(例如新增一篇貼文)<br>前端可能也需要多一個頁面來呈現它<br>但如果因此就需要重新 build 一次的話就太麻煩了<br>這時就可以用<code>useRouter</code>來達到動態頁面<br>簡單來說，頁面都是同一個<br>只是會根據 URL 來取得動態資料</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// in &#x27;/pages/[id].js&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123;useRouter&#125; <span class="keyword">from</span> <span class="string">&#x27;next/router&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">function</span> <span class="title function_">Page</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="keyword">const</span> router = <span class="title function_">useRouter</span>()</span><br><span class="line">  <span class="keyword">const</span> &#123;id&#125; = router.<span class="property">query</span> </span><br><span class="line">  <span class="comment">// 由於檔名中有 [id]</span></span><br><span class="line">  <span class="comment">// 所以實際 URL 中，&#x27;/pages/&#x27;之後的字串就會被當作 id params</span></span><br><span class="line">  <span class="comment">// 可藉由 useRouter().query 取得其值</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">p</span>&gt;</span>&#123;id&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">  )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以上動作會在 client side 的每次 request time 運行一次</p>
+<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a><font color="#f4a261">結語</font></h2><p><code>getStaticPaths</code> 是在 build time 根據你定義的方法動態生成頁面</p>
+<p><code>useRouter</code> 是在 request time 根據瀏覽器的 URL 動態生成參數</p>
+</font>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -335,110 +425,6 @@
 <h2 id="結論"><a href="#結論" class="headerlink" title="結論"></a><font color="#f4a261">結論</font></h2><p><code>call</code>和<code>apply</code>: 執行函式並指定<code>this</code>所指對象<br><code>bind</code>: 回傳一個新函式，是原函式與<code>this</code>所指對象綁定的版本</p>
 <p>基本上除非函式中包含<code>this</code><br>否則不太會用到這三個函式</p>
 </font>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2022/08/04/JS%E8%A7%80%E5%BF%B5%E7%AF%87-%E6%B7%B1%E6%B7%BA%E6%8B%B7%E8%B2%9D/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Guan-Ting Su">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pi's Blog">
-      <meta itemprop="description" content="一些程式自學小記錄">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Pi's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/08/04/JS%E8%A7%80%E5%BF%B5%E7%AF%87-%E6%B7%B1%E6%B7%BA%E6%8B%B7%E8%B2%9D/" class="post-title-link" itemprop="url">JS 觀念篇 -- 深淺拷貝</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-
-      <time title="創建時間：2022-08-04 12:54:51" itemprop="dateCreated datePublished" datetime="2022-08-04T12:54:51+08:00">2022-08-04</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2022-10-13 15:53:16" itemprop="dateModified" datetime="2022-10-13T15:53:16+08:00">2022-10-13</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <font size="2" color="#aaa">
-
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><font color="#f4a261">前言</font></h2><p>這次要講一個我在做專案時一直被他搞死的概念<br>深拷貝與淺拷貝<br>雖然已經知道這個概念<br>相關文章也看到好幾次了<br>但每次還是會在專案中卡好久好久找不到 bug<br>最後才發現說：「啊 原來又是這個問題啊」</p>
-<h2 id="Call-by-value-reference"><a href="#Call-by-value-reference" class="headerlink" title="Call by value/reference"></a><font color="#f4a261">Call by value/reference</font></h2><p>首先要釐清的觀念是 call by value 跟 call by reference</p>
-<blockquote>
-<p><font color="gold">在 javascript 中物件是採用 call by reference</font></p>
-</blockquote>
-<p>也就是例如當你把已存在記憶體中的物件指派到<code>a</code>變數時<br><code>a</code>會指向該記憶體位置，而不是複製其值<br>讓我們看個例子</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> A = &#123;<span class="attr">num</span>: <span class="number">1</span>&#125;</span><br><span class="line"><span class="keyword">const</span> B = &#123;<span class="attr">num</span>: <span class="number">1</span>&#125;</span><br><span class="line"><span class="keyword">const</span> C = A</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(A===B) <span class="comment">// false</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(A===C) <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
-
-<p>當我互相比較這三個物件時<br>會發現<code>A</code>和<code>B</code>明明內容相同，卻回傳 false<br>只有當<code>C</code>是從<code>A</code> assign 來的時候才得到 true<br>因為其實 A 和 C 是共用同一個記憶體<br>而物件的比較是去看記憶體位置<br>所以得到 true<br>而<code>A</code>和<code>B</code>雖然內容一樣，卻因為都是新創的物件<br>他們會占用不同的記憶體位置<br>對 JS 來說就是不一樣的囉</p>
-<h2 id="淺拷貝"><a href="#淺拷貝" class="headerlink" title="淺拷貝"></a><font color="#f4a261">淺拷貝</font></h2><p>上述的 <code>const C = A</code> 就是淺拷貝的一種<br>他沒辦法做到完全的複製<br>而是在「某程度」上保有指向相同記憶體的特性</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> A = &#123;<span class="attr">num</span>: <span class="number">1</span>&#125;</span><br><span class="line"><span class="keyword">const</span> B = A</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(A,B) <span class="comment">//&#123;num: 1&#125;, &#123;num: 1&#125;</span></span><br><span class="line">A.<span class="property">num</span> = <span class="number">10</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(A,B) <span class="comment">//&#123;num: 10&#125;, &#123;num: 10&#125;</span></span><br></pre></td></tr></table></figure>
-<p>我只更動<code>A</code>，結果<code>B</code>的內容也改了<br>很多時候出現 bug 就是因為這個原因</p>
-<p>至於剛剛為什麼要強調「某程度」呢?<br>因為有些做法只能在第一層上進行深拷貝<br>當你的物件結構更複雜時就會出問題<br>來看一個被誤以為是深拷貝的技巧 spread operator</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> A = &#123;<span class="attr">num</span>: <span class="number">1</span>&#125;</span><br><span class="line"><span class="keyword">const</span> B = &#123;...A&#125;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(A,B) <span class="comment">//&#123;num: 1&#125;, &#123;num: 1&#125;</span></span><br><span class="line">A.<span class="property">num</span> = <span class="number">10</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(A,B) <span class="comment">//&#123;num: 10&#125;, &#123;num: 1&#125;</span></span><br></pre></td></tr></table></figure>
-
-<p>看似沒問題，但如果改成二階以上的物件的話…</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> A = &#123;<span class="attr">num</span>: &#123;<span class="attr">ch</span>: <span class="string">&#x27;一&#x27;</span>&#125;&#125;</span><br><span class="line"><span class="keyword">const</span> B = &#123;...A&#125;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(A.<span class="property">num</span>.<span class="property">ch</span>, B.<span class="property">num</span>.<span class="property">ch</span>) <span class="comment">// &quot;一&quot;, &quot;一&quot;</span></span><br><span class="line">A.<span class="property">num</span>.<span class="property">ch</span> = <span class="string">&#x27;四&#x27;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(A.<span class="property">num</span>.<span class="property">ch</span>, B.<span class="property">num</span>.<span class="property">ch</span>) <span class="comment">//&quot;四&quot;, &quot;四&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>另外還有一個做法是 <code>Object.assign()</code><br>但結果跟解構賦值一樣<br>僅限於一階物件</p>
-<h2 id="深拷貝"><a href="#深拷貝" class="headerlink" title="深拷貝"></a><font color="#f4a261">深拷貝</font></h2><p>我個人最喜歡的作法是用<code>JSON.stringify</code>和<code>JSON.parse</code><br>直接把物件文字化再物件化一次<br>就一定會是另一個物件了<br>達到深拷貝的效果，像這樣:</p>
-<p><code>const B = JSON.parse(JSON.stringify(A))</code></p>
-<p>或是如果嫌每次都這樣寫麻煩<br>可以在專案中定義一個 deepClone function</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">deepClone</span> = (<span class="params">obj</span>) =&gt; <span class="title class_">JSON</span>.<span class="title function_">parse</span>(<span class="title class_">JSON</span>.<span class="title function_">stringify</span>(obj))</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> A = &#123;<span class="attr">num</span>: &#123;<span class="attr">ch</span>: <span class="string">&#x27;一&#x27;</span>&#125;&#125;</span><br><span class="line"><span class="keyword">const</span> B = <span class="title function_">deepClone</span>(A)</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(A.<span class="property">num</span>.<span class="property">ch</span>, B.<span class="property">num</span>.<span class="property">ch</span>) <span class="comment">//&quot;一&quot;, &quot;一&quot;</span></span><br><span class="line">A.<span class="property">num</span>.<span class="property">ch</span> = <span class="string">&#x27;四&#x27;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(A.<span class="property">num</span>.<span class="property">ch</span>, B.<span class="property">num</span>.<span class="property">ch</span>) <span class="comment">//&quot;四&quot;, &quot;一&quot;</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="結論"><a href="#結論" class="headerlink" title="結論"></a><font color="#f4a261">結論</font></h2><blockquote>
-<p><font color="gold">淺拷貝: 看似複製，其實是指向相同位址</font><br><font color="gold">深拷貝: 另用一個記憶體存值，實質意義上的複製</font></p>
-</blockquote>
-<img width="70%" src="/2022/08/04/JS%E8%A7%80%E5%BF%B5%E7%AF%87-%E6%B7%B1%E6%B7%BA%E6%8B%B7%E8%B2%9D/shallow-deep-clone.jpg"></font>
       
     </div>
 
