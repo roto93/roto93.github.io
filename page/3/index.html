@@ -120,7 +120,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">47</span>
+          <span class="site-state-item-count">48</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -150,6 +150,120 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2022/09/03/%E5%9C%A8-expo-%E5%B0%88%E6%A1%88%E4%BD%BF%E7%94%A8google-Ads/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Guan-Ting Su">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pi's Blog">
+      <meta itemprop="description" content="一些程式自學小記錄">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Pi's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/09/03/%E5%9C%A8-expo-%E5%B0%88%E6%A1%88%E4%BD%BF%E7%94%A8google-Ads/" class="post-title-link" itemprop="url">在 expo 專案使用 google Ads</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-09-03 16:55:09" itemprop="dateCreated datePublished" datetime="2022-09-03T16:55:09+08:00">2022-09-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2022-10-13 15:53:16" itemprop="dateModified" datetime="2022-10-13T15:53:16+08:00">2022-10-13</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <font size="2" color="#aaa">
+
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><font color="#f4a261">前言</font></h2><p>當完兵後把 JapanGo 從 Expo SDK 42 升級到 46<br>(因為 42 已經不能用了)<br>跨度這麼大的升級必然會導致一些套件不能用<br>例如 <code>expo-app-loading</code> 和 <code>expo-ads-admob</code><br>前者只要改成使用 expo-splash-screen 就可以了<br>但處理後者花了我不少時間</p>
+<p>根據 <a target="_blank" rel="noopener" href="https://docs.expo.dev/versions/v45.0.0/sdk/admob/">Expo SDK 45 Doc</a><br><code>expo-ads-admob</code>在 SDK 46 之後就不能用了<br>建議改用<a target="_blank" rel="noopener" href="https://github.com/invertase/react-native-google-mobile-ads">react-native-google-mobile-ads</a></p>
+<h2 id="react-native-google-mobile-ads-基本用法"><a href="#react-native-google-mobile-ads-基本用法" class="headerlink" title="react-native-google-mobile-ads 基本用法"></a><font color="#f4a261">react-native-google-mobile-ads 基本用法</font></h2><p>首先安裝</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install react-native-google-mobile-ads</span><br></pre></td></tr></table></figure>
+
+<p>到 <a target="_blank" rel="noopener" href="https://admob.google.com/home/?utm_source=sem&utm_medium=text&utm_campaign=2022-admob-apac-apac&utm_content=rsa&gclid=CjwKCAjw9suYBhBIEiwA7iMhNKdrqxpgsuQbieggu-V-cqbNMAPcmpgiaNW3vxAaClmCULfKPOS7gBoC6pMQAvD_BwE&gclsrc=aw.ds">google admob</a> 取得 Android 和 iOS 的 app id (如果還沒有的話)</p>
+<p>接著一樣在 google admob 中取得 ad id<br>或者也可以從 <a target="_blank" rel="noopener" href="https://developers.google.com/admob/android/test-ads">這裡</a> 取得測試id</p>
+<p>下一步，編輯<code>app.json</code><br>這邊需要注意插入以下程式碼的位置，<br>react-native-google-mobile-ads 的相關設定必須在 expo 之外</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;expo&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    ...</span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;react-native-google-mobile-ads&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;android_app_id&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ca-app-pub-xxxxxxxxxxxxxxxx~xxxxxxxxxx&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;ios_app_id&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ca-app-pub-xxxxxxxxxxxxxxxx~xxxxxxxxxx&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>再來打開你要放廣告的元件<br>這邊我也 test id 為例</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">BannerAd</span>, <span class="title class_">BannerAdSize</span>, <span class="title class_">TestIds</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;react-native-google-mobile-ads&#x27;</span>;</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">&lt;<span class="title class_">BannerAd</span></span><br><span class="line">  size=&#123;<span class="title class_">BannerAdSize</span>.<span class="property">BANNER</span>&#125;</span><br><span class="line">  unitId=&#123;<span class="title class_">TestIds</span>.<span class="property">BANNER</span>&#125;</span><br><span class="line">/&gt;</span><br></pre></td></tr></table></figure>
+
+<p>最後一步，由於這個元件需要動用原生 API<br>代表我們不能夠用 Expo Go 來預覽開發了<br>而是要改用 expo dev client<br>這篇我就不深入探討這是什麼<br>可以先當作我們要客製一個可以動用原生元件的 Expo Go 來用</p>
+<p>結果這邊就出錯了</p>
+<h2 id="無法-build…"><a href="#無法-build…" class="headerlink" title="無法 build…"></a><font color="#f4a261">無法 build…</font></h2><p>執行 <code>eas build --profile development</code> 後</p>
+<img src="/2022/09/03/%E5%9C%A8-expo-%E5%B0%88%E6%A1%88%E4%BD%BF%E7%94%A8google-Ads/error.jpg">
+
+<p>重點應該在第 27 行(重新排版了一下)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">/home/expo/workingdir/build/android/app/src/debug/AndroidManifest.xml:17:85-105 Error:</span><br><span class="line">Attribute meta-data#com.google.android.gms.ads.DELAY_APP_MEASUREMENT_INIT@value value=(true) </span><br><span class="line">from AndroidMenifest.xml:17:85-105 is also present at [:react-native-google-mobile-ads] </span><br><span class="line">AndroidManifest.xml:19:13-34 value=(false).</span><br><span class="line"></span><br><span class="line">Suggestion: add &#x27;tools:replace=&quot;android:value&quot;&#x27; to &lt;meta-data&gt; element </span><br><span class="line">at AndroidManifest.xml:17:5-107 to override.</span><br></pre></td></tr></table></figure>
+
+<p>雖然不太清楚意思<br>但大概可以猜到問題出在<code>Android.Menifest.xml</code>裡的<br><code>DELAY_APP_MEASUREMENT_INIT</code>這個值<br>前者是 true 後者是 false</p>
+<p>於是我爬了一些資料:</p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/72337988/how-do-i-use-react-native-google-mobile-ads-with-expo-and-expo-go">how do I use react-native-google-mobile-ads with expo and expo go</a></p>
+<p><a target="_blank" rel="noopener" href="https://medium.com/react-native-expo/migrate-expo-ads-admob-to-react-native-google-mobile-ads-3747b3a3b75e">[Medium] migrate expo-ads-admob to react-native-google-mobile-ads</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/invertase/react-native-google-mobile-ads/issues/150">[github issue] migrate expo-ads-admob to react-native-google-mobile-ads</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/invertase/react-native-google-mobile-ads/issues/155">Add installation guide for Expo users</a></p>
+<p>關鍵是最後一篇<br><a target="_blank" rel="noopener" href="https://github.com/invertase/react-native-google-mobile-ads/issues/155#issuecomment-1142400646">這個留言</a>提到一個可能的解法是進到 android 資料夾更改 AndroidMenifest.xml<br>但那需要 eject，先盡可能避免這個做法<br>不過我<a target="_blank" rel="noopener" href="https://github.com/invertase/react-native-google-mobile-ads/issues/155#issuecomment-1161686309">往下看</a>發現作者有提供在<code>app.json</code>設定menifest的方法:</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">&quot;react-native-google-mobile-ads&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span> </span><br><span class="line">     <span class="attr">&quot;android_app_id&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ca-app-pub-3940256099942544~3347511713&quot;</span><span class="punctuation">,</span> </span><br><span class="line">     <span class="attr">&quot;ios_app_id&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ca-app-pub-3940256099942544~1458002511&quot;</span><span class="punctuation">,</span> </span><br><span class="line">     <span class="attr">&quot;delay_app_measurement_init&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span> </span><br><span class="line">     <span class="attr">&quot;user_tracking_usage_description&quot;</span><span class="punctuation">:</span> <span class="string">&quot;This identifier will be used to deliver personalized ads to you.&quot;</span> </span><br><span class="line">   <span class="punctuation">&#125;</span> </span><br></pre></td></tr></table></figure>
+
+<p>接著我在進一步去翻套件的檔案<br>在<code>european-user-consent.mdx</code>裡看到這段說明</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">### Delaying app measurement</span><br><span class="line"></span><br><span class="line">By default, the Google Mobile Ads SDK initializes app measurement and begins sending user-level event data to Google immediately when the app starts.</span><br><span class="line">If your app will be used by users within the EEA, it is important you prevent app measurement until your first ad has been requested (after consent).</span><br><span class="line"></span><br><span class="line">Within your projects `app.json` file, set the `delay_app_measurement_init` to `true` to delay app measurement:</span><br><span class="line"></span><br><span class="line">``json</span><br><span class="line">&#123;</span><br><span class="line">  &quot;react-native-google-mobile-ads&quot;: &#123;</span><br><span class="line">    &quot;android_app_id&quot;: &quot;ca-app-pub-xxxxxxxx~xxxxxxxx&quot;,</span><br><span class="line">    &quot;ios_app_id&quot;: &quot;ca-app-pub-xxxxxxxx~xxxxxxxx&quot;,</span><br><span class="line">    &quot;delay_app_measurement_init&quot;: true</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">``</span><br></pre></td></tr></table></figure>
+
+<p>這時我就想<br>既然 error message 說套件的 DELAY_APP_MEASUREMENT_INIT 和 Expo 裡的不合<br>那就設為 true 吧<br>然後就成功了!!!!!!!!! 可喜可賀</p>
+<h2 id="結論"><a href="#結論" class="headerlink" title="結論"></a><font color="#f4a261">結論</font></h2><p>其實還有很多環節不懂<br>例如這個 delay app measurement init 是什麼意思<br>或者說任何跟原生 code 有關的東西我都不知道是什麼意思…<br>總覺得還有好長一段路要走</p>
+<p>但這次的 debug 經驗還不錯<br>有從 error message 判斷出一些可能的方向<br>然後看了很多討論串<br>也實際去翻套件的程式碼<br>雖然不是完全懂了才解決問題<br>但也不至於誤打誤撞 不清楚自己做了什麼</p>
+<p>總之 APP 的廣告功能又回來啦！</p>
+</font>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -345,103 +459,6 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2022/08/05/JS%E8%A7%80%E5%BF%B5%E7%AF%87-call-apply-bind/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Guan-Ting Su">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pi's Blog">
-      <meta itemprop="description" content="一些程式自學小記錄">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Pi's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/08/05/JS%E8%A7%80%E5%BF%B5%E7%AF%87-call-apply-bind/" class="post-title-link" itemprop="url">JS觀念篇-call, apply, bind</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-
-      <time title="創建時間：2022-08-05 12:01:55" itemprop="dateCreated datePublished" datetime="2022-08-05T12:01:55+08:00">2022-08-05</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2022-10-13 15:53:16" itemprop="dateModified" datetime="2022-10-13T15:53:16+08:00">2022-10-13</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <font size="2" color="#aaa">
-
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><font color="#f4a261">前言</font></h2><p>今天要介紹的 JS 觀念是 call, apply 和 bind 三個 function<br>這些我目前為止都沒用過<br>因為在過去的專案中，幾乎沒用到 OOP (Object Oriented Programming)<br>class 也沒用過<br>自然就沒遇到適合的使用情境<br>但有時還是會在一些教學影片看到他們的身影<br>(即使那不是影片主題)<br>我就覺得應該要來補一下</p>
-<h2 id="this-簡介"><a href="#this-簡介" class="headerlink" title="this 簡介"></a><font color="#f4a261">this 簡介</font></h2><p><code>this</code>是在 javascript 中的重要語法<br>他指向的是函式被調用的位置</p>
-<blockquote>
-<p>如果是物件調用函式，<code>this</code>就是那個物件<br>在瀏覽器中直接印<code>this</code>，就是<code>window</code>物件<br>在node.js直接印<code>this</code>，就是<code>global</code>物件<br>在嚴格模式中直接印<code>this</code>，就是<code>undefined</code></p>
-</blockquote>
-<p>如果我們想為物件打造一個 function<br>就可以在函式中用上<code>this</code></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> newFriend = &#123;<span class="attr">name</span>: <span class="string">&#x27;Josie&#x27;</span>&#125;</span><br><span class="line"><span class="keyword">const</span> greeting = <span class="keyword">function</span>(<span class="params">myName</span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`Hi, <span class="subst">$&#123;<span class="variable language_">this</span>.name&#125;</span>, my name is <span class="subst">$&#123;myName&#125;</span>`</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// greeting(???)</span></span><br></pre></td></tr></table></figure>
-
-<p>這時突然發現物件沒有進入點<br>解決方法可以把 greeting 定義在物件裡面<br>或是物件之上如果有一個類別的話<br>也可以定義在prototype裡面<br>但我們也可以改用 call, apply, bind 來呼叫函式<br>接下來就來一一介紹</p>
-<h2 id="call"><a href="#call" class="headerlink" title="call"></a><font color="#f4a261">call</font></h2><p>call 的功能是執行函式，並指定函式中的<code>this</code>是誰</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// function.call(object, arg1, arg2, arg3, ...)</span></span><br><span class="line"><span class="comment">// 執行 function，傳入參數 arg1, arg2 ...，並指定函式中的 this 為 object</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> newFriend = &#123; <span class="attr">name</span>: <span class="string">&#x27;Josie&#x27;</span> &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> greeting = <span class="keyword">function</span>(<span class="params">myName, otherName</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`Hi, <span class="subst">$&#123;<span class="variable language_">this</span>.name&#125;</span>, my name is <span class="subst">$&#123;myName&#125;</span>. And this is <span class="subst">$&#123;otherName&#125;</span>.`</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">greeting.<span class="title function_">call</span>(newFriend, <span class="string">&#x27;Tony&#x27;</span>, <span class="string">&#x27;Bowen&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// Hi, Josie. My name is Tony. And this is Bowen.</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="apply"><a href="#apply" class="headerlink" title="apply"></a><font color="#f4a261">apply</font></h2><p>基本上跟 call 做一樣的事情<br>但提供另一個傳入引數 (argument) 的方式<br>改成傳入包含所有引數的陣列</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// function.apply(object, [arg1, arg2, arg3, ...])</span></span><br><span class="line"><span class="comment">// 執行 function，傳入參數 arg1, arg2 ...，並指定函式中的 this 為 object</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> newFriend = &#123; <span class="attr">name</span>: <span class="string">&#x27;Josie&#x27;</span> &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> greeting = <span class="keyword">function</span>(<span class="params">myName, otherName</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`Hi, <span class="subst">$&#123;<span class="variable language_">this</span>.name&#125;</span>, my name is <span class="subst">$&#123;myName&#125;</span>. And this is <span class="subst">$&#123;otherName&#125;</span>.`</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> arr = [<span class="string">&#x27;Tony&#x27;</span>,<span class="string">&#x27;Bowen&#x27;</span>]</span><br><span class="line"></span><br><span class="line">greeting.<span class="title function_">apply</span>(newFriend, arr)</span><br><span class="line"></span><br><span class="line"><span class="comment">// Hi, Josie. My name is Tony. And this is Bowen.</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="bind"><a href="#bind" class="headerlink" title="bind"></a><font color="#f4a261">bind</font></h2><p>將函式中的 this 綁定給某個對象，然後回傳一個新的函式供使用</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// function.bind(object) </span></span><br><span class="line"><span class="comment">// return function</span></span><br><span class="line"><span class="comment">// 將 function 和 object 綁定，回傳一個新 function</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> newFriend = &#123;<span class="attr">name</span>: <span class="string">&#x27;Josie&#x27;</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> greeting = <span class="keyword">function</span>(<span class="params">myName, otherName</span>)&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`Hi, <span class="subst">$&#123;<span class="variable language_">this</span>.name&#125;</span>, my name is <span class="subst">$&#123;myName&#125;</span>. And this is <span class="subst">$&#123;otherName&#125;</span>.`</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> greetToNewFriend = greeting.<span class="title function_">bind</span>(newFriend)</span><br><span class="line"></span><br><span class="line"><span class="title function_">greetToNewFriend</span>(<span class="string">&#x27;Tony&#x27;</span>,<span class="string">&#x27;Bowen&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// Hi, Josie, my name is Tony. And this is Bowen.</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="結論"><a href="#結論" class="headerlink" title="結論"></a><font color="#f4a261">結論</font></h2><p><code>call</code>和<code>apply</code>: 執行函式並指定<code>this</code>所指對象<br><code>bind</code>: 回傳一個新函式，是原函式與<code>this</code>所指對象綁定的版本</p>
-<p>基本上除非函式中包含<code>this</code><br>否則不太會用到這三個函式</p>
-</font>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="上一頁"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="下一頁"></i></a>
   </nav>
@@ -455,7 +472,7 @@
 
 <div class="copyright">
   &copy; 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
