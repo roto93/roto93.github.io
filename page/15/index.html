@@ -120,7 +120,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-count">49</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -150,6 +150,121 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2021/03/31/firebase-%E5%8C%BF%E5%90%8D%E7%99%BB%E5%85%A5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Guan-Ting Su">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pi's Blog">
+      <meta itemprop="description" content="一些程式自學小記錄">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Pi's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/03/31/firebase-%E5%8C%BF%E5%90%8D%E7%99%BB%E5%85%A5/" class="post-title-link" itemprop="url">firebase 匿名登入</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-03-31 13:27:50" itemprop="dateCreated datePublished" datetime="2021-03-31T13:27:50+08:00">2021-03-31</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2022-10-13 15:53:16" itemprop="dateModified" datetime="2022-10-13T15:53:16+08:00">2022-10-13</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <font size="2" color="#aaa">
+
+<h2 id="什麼時候需要匿名登入？"><a href="#什麼時候需要匿名登入？" class="headerlink" title="什麼時候需要匿名登入？"></a>什麼時候需要匿名登入？</h2><p>操作 app 時<br>其實不一定需要用戶「真的」登入<br>我們可以在使用者第一次使用 app 時讓他(或自動)匿名登入<br>如此一來就能在用戶不提供個資的情況下紀錄他的活動<br>例如 加入購物車</p>
+<p>在 firebase 匿名登入很簡單<br>首先到 firebase console 開啟匿名登入的功能</p>
+<img src="/2021/03/31/firebase-%E5%8C%BF%E5%90%8D%E7%99%BB%E5%85%A5/firebase啟用匿名登入功能.png">
+
+<p>接著再 app 中使用：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">firebase.<span class="title function_">auth</span>().<span class="title function_">signInAnonymously</span>()</span><br></pre></td></tr></table></figure>
+
+<p>與其他登入方式相同，我們可以建立 user state listener</p>
+<p>在用戶登入的時候獲取的用戶資訊</p>
+<p>如 uid 之類的</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">firebase.<span class="title function_">auth</span>().<span class="title function_">onAuthStateChanged</span>(<span class="function">(<span class="params">user</span>)=&gt;</span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (user)&#123;</span><br><span class="line">		<span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;uid: &#x27;</span>,user.<span class="property">uid</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>匿名登入有個問題，如果有個用戶一直登入登出，這會導致匿名帳號不斷被建立，像這樣：</p>
+<img src="/2021/03/31/firebase-%E5%8C%BF%E5%90%8D%E7%99%BB%E5%85%A5/重複建立匿名帳號.png">    
+
+<p>所以比較好的做法是：當用戶要登出匿名帳號時，一併把他的帳戶從後台刪除</p>
+<p>雖然 firebase 的用戶數限制很高</p>
+<p>但養成後台乾淨整齊的習慣還是很重要的</p>
+<h2 id="轉換成實名帳戶"><a href="#轉換成實名帳戶" class="headerlink" title="轉換成實名帳戶"></a>轉換成實名帳戶</h2><p>用戶在匿名登入一段時間後，也許他們覺得不錯想要註冊</p>
+<p>這時我們就要提供轉換帳戶的功能 </p>
+<p>首先製作 credential</p>
+<ul>
+<li><h4 id="Email"><a href="#Email" class="headerlink" title="Email"></a>Email</h4></li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> credential = firebase.<span class="property">auth</span>.<span class="property">EmailAuthProvider</span>.<span class="title function_">credential</span>(email, password);</span><br></pre></td></tr></table></figure>
+<ul>
+<li><h4 id="Google"><a href="#Google" class="headerlink" title="Google"></a>Google</h4></li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> credential = firebase.<span class="property">auth</span>.<span class="property">GoogleAuthProvider</span>.<span class="title function_">credential</span>(</span><br><span class="line">  googleUser.<span class="property">idToken</span>,</span><br><span class="line">  googleUser.<span class="property">accessToken</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>接著用 <code>firebase.auth().currentUser.linkWithCredential(credential)</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> auth = firebase.<span class="title function_">auth</span>()</span><br><span class="line">auth.<span class="property">currentUser</span>.<span class="title function_">linkWithCredential</span>(credential)</span><br><span class="line">  .<span class="title function_">then</span>(<span class="function">(<span class="params">usercred</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> user = usercred.<span class="property">user</span>;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;Anonymous account successfully upgraded&quot;</span>, user);</span><br><span class="line">  &#125;).<span class="title function_">catch</span>(<span class="function">(<span class="params">error</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;Error upgrading anonymous account&quot;</span>, error);</span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="references"><a href="#references" class="headerlink" title="references"></a>references</h2><ul>
+<li><h3 id="Firebase-Authenticate-Anonymously"><a href="#Firebase-Authenticate-Anonymously" class="headerlink" title="Firebase - Authenticate Anonymously"></a><a target="_blank" rel="noopener" href="https://firebase.google.com/docs/auth/web/anonymous-auth">Firebase - Authenticate Anonymously</a></h3></li>
+<li><h3 id="Firebase-Conver-an-Anonymous-Account-to-a-Permanent-Account"><a href="#Firebase-Conver-an-Anonymous-Account-to-a-Permanent-Account" class="headerlink" title="Firebase - Conver an Anonymous Account to a Permanent Account"></a><a target="_blank" rel="noopener" href="https://firebase.google.com/docs/auth/web/anonymous-auth#convert-an-anonymous-account-to-a-permanent-account">Firebase - Conver an Anonymous Account to a Permanent Account</a></h3></li>
+</ul>
+</font>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -404,105 +519,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2021/01/31/css-hanging-indent/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Guan-Ting Su">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pi's Blog">
-      <meta itemprop="description" content="一些程式自學小記錄">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Pi's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/01/31/css-hanging-indent/" class="post-title-link" itemprop="url">CSS 怎麼從第二行開始縮排</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-
-      <time title="創建時間：2021-01-31 00:31:04" itemprop="dateCreated datePublished" datetime="2021-01-31T00:31:04+08:00">2021-01-31</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2022-10-13 15:53:16" itemprop="dateModified" datetime="2022-10-13T15:53:16+08:00">2022-10-13</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <font size="2" color="#aaa">
-
-<p>從第二行開始縮排有個專有名詞，叫做 <font color="orange"><strong>hanging indent</strong></font>，這篇文章會說明如何做到這點。</p>
-<h2 id="CSS-的-text-indent-屬性"><a href="#CSS-的-text-indent-屬性" class="headerlink" title="CSS 的 text-indent 屬性"></a><center>CSS 的 <em>text-indent 屬性</em></center></h2><p>這個屬性是控制文字的縮排，語法如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">text-indent: [縮排距離] [縮排模式] </span><br><span class="line">如：</span><br><span class="line">text-indent: 30px hanging;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>縮排距離： 如<code>10px</code>、<code>2em</code>、<code>-30px</code> 等等</li>
-<li>縮排模式： <ol>
-<li><strong><code>hanging</code></strong>: 反過來，除了第一行以外都會縮進去。</li>
-<li><strong><code>each-line</code></strong>: 第一行會縮排，以及每個用<code>&lt;br&gt;</code>換行後的第一行也會縮排</li>
-</ol>
-</li>
-</ul>
-<p>不過縮排模式好像還在實驗階段，我目前還沒成功使用過，每次都沒作用XD</p>
-<h2 id="替代方案"><a href="#替代方案" class="headerlink" title="替代方案"></a><center>替代方案</center></h2><p>如我剛剛所說，打上 <code>hanging</code> 不會有任何效果，但是我們還是可以硬把它做成成’看起來’有 <code>hanging</code> 的樣子。<br>只要同時設定<code>padding-left</code>和負的<code>text-indent</code>就可以了：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">padding-left: 2em;</span><br><span class="line">text-indent: -2em;</span><br></pre></td></tr></table></figure>
-
-<p>&nbsp;</p>
-<h2 id="React-Native-的縮排"><a href="#React-Native-的縮排" class="headerlink" title="React Native 的縮排"></a>React Native 的縮排</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="title class_">Text</span>&gt;&#123;<span class="string">&#x27;\t&#x27;</span>&#125;&#123;<span class="string">&#x27;\t&#x27;</span>&#125;<span class="title class_">Something</span> you want to say&lt;/<span class="title class_">Text</span>&gt;</span><br></pre></td></tr></table></figure>
-<p>&nbsp;</p>
-<h2 id="React-Native-從第二行開始縮排"><a href="#React-Native-從第二行開始縮排" class="headerlink" title="React Native 從第二行開始縮排"></a>React Native 從第二行開始縮排</h2><p>我還沒找到方法 XD</p>
-</font>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/14/"><i class="fa fa-angle-left" aria-label="上一頁"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><span class="page-number current">15</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/16/"><i class="fa fa-angle-right" aria-label="下一頁"></i></a>
+    <a class="extend prev" rel="prev" href="/page/14/"><i class="fa fa-angle-left" aria-label="上一頁"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><span class="page-number current">15</span><a class="page-number" href="/page/16/">16</a><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/16/"><i class="fa fa-angle-right" aria-label="下一頁"></i></a>
   </nav>
 
 </div>

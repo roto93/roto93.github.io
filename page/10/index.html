@@ -120,7 +120,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-count">49</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -150,6 +150,129 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2021/07/27/%E7%94%A8Python-Flask%E6%89%93%E9%80%A0API/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Guan-Ting Su">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pi's Blog">
+      <meta itemprop="description" content="一些程式自學小記錄">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Pi's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/07/27/%E7%94%A8Python-Flask%E6%89%93%E9%80%A0API/" class="post-title-link" itemprop="url">用 Python Flask 打造 API</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-07-27 15:42:32" itemprop="dateCreated datePublished" datetime="2021-07-27T15:42:32+08:00">2021-07-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2022-10-13 15:53:16" itemprop="dateModified" datetime="2022-10-13T15:53:16+08:00">2022-10-13</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <font size="2" color="#aaa">
+
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><font color="#f4a261">前言</font></h2><p>雖然我是覺得在學好一件事情之前不要亂學其他東西另闢戰場<br>但現實就是永遠有學不完的東西<br>也永遠沒有學好一件事情的時候<br>誰知道我會突然又需要學起 python 呢</p>
+<p>事情是這樣<br>最近稍微熟悉一下 RWD 和 React 之後<br>我就開始動工 react 版本的 TAN 了<br>做著做著我便開始思考要怎麼簡化網頁的更新流程</p>
+<p>目前的做法是每次收到老師的郵件，我就要手動進到伺服器去改檔案<br>雖然熟了操作起來還蠻快的，但還是有些麻煩而且有可能會東漏西漏<br>原本更慘，在我剛接手這個網站的時候<br>除了要打開每一份 html 檔更改標籤<br>還要手動做篩選，必須自己決定每個 issue 是被歸類在什麼類別<br>是後來我改用 javascript 選擇性 render html tag<br>才讓更新網站的速度變得比較能夠接受<br>但終究我還是需要 ssh 進到伺服器然後把檔案傳上去</p>
+<p>所以現在，我打算再更簡化一些<br>開發一個 api 架在雲端<br>只要進行 POST request 就能直接更新檔案<br>然後 react 端就只要 GET 接著渲染出來就好</p>
+<h4 id="這代表我要學做-api-啦"><a href="#這代表我要學做-api-啦" class="headerlink" title="這代表我要學做 api 啦!!!"></a>這代表我要學做 api 啦!!!</h4><h2 id="該選什麼框架"><a href="#該選什麼框架" class="headerlink" title="該選什麼框架?"></a><font color="#f4a261">該選什麼框架?</font></h2><p>一開始我就遇到了二選一<br>記得之前hahow的老師建議我可以用 python 寫 api<br>所以我查了一下有一個適合的模組 Flask<br>但後來我又發現有一個 Express.js<br>可以讓我用 javascript 寫 api<br>這讓我有點猶豫 (畢竟我現在 JS 比 python 熟很多)</p>
+<p>但最後我選了 flask<br>正是因為 python 已經漸漸被我淡忘了<br>如果再不找機會練習的話，真的就要變回一張白紙了<br>那麼以下就是我建立第一個 flask API 的心路歷程</p>
+<p>我會把步驟拆成:</p>
+<ol>
+<li>前置作業</li>
+<li>撰寫 API</li>
+<li>連接 database</li>
+</ol>
+<h2 id="前置作業"><a href="#前置作業" class="headerlink" title="前置作業"></a><font color="#f4a261">前置作業</font></h2><p>建立專案資料夾並進入</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir my-first-flask-api</span><br></pre></td></tr></table></figure>
+
+<p>這次決定自建API，也終於讓我知道虛擬環境的概念<br>基本上它就像是 node 專案裡的 node_module 資料夾<br>存放一些專案的 dependency<br>只不過跟node不同的是<br>node每個專案都有獨立的環境，所以不同專案間的依賴是互不影響的<br>但 python 就比較複雜，如果直接 pip 安裝任何模組<br>他們會被裝在 <code>...python/lib/site-packages...</code> 之類的地方<br>有點像 global install 的感覺<br>但其實沒那麼簡單，因為 python 又可以同時存在好幾個版本<br>結果就是各個專案間互相牽制，造成一堆問題</p>
+<p>所以我們先來建置虛擬環境!<br>在眾多模組當中我選了 <code>virtualenv</code> 這個模組</p>
+<p>首先 pip 安裝</p>
+<p><code>pip install virtualenv</code></p>
+<p>對於什麼時候要用 pip 安裝，什麼時候要用 pip3，之後我再寫一篇短文紀錄好了<br>大部分時候先用 pip 是 ok 的<br>有問題時再試 pip3</p>
+<p>安裝好後執行以下指令，以在專案資料夾中建立一個虛擬環境資料夾</p>
+<p><code>virtualenv .venv</code></p>
+<p>他會根據你的作業系統<br>建立不同結構的.venv資料夾</p>
+<h3 id="啟用虛擬環境"><a href="#啟用虛擬環境" class="headerlink" title="啟用虛擬環境"></a>啟用虛擬環境</h3><h4 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h4><p>如果用 cmd<br><code>.\.venv\Scripts\activate.bat</code></p>
+<p>如果用 powershell (VScode是用這個)<br><code>.\.venv\Scripts\activate.ps1</code><br>或<br><code>. .\.venv\Scripts\activate</code></p>
+<h4 id="MacOS"><a href="#MacOS" class="headerlink" title="MacOS"></a>MacOS</h4><p><code>source ./.venv/bin/activate</code><br>或<br><code>. ./.venv/bin/activate</code></p>
+<p>執行完如果在命令列的最開頭看到 <code>(.venv)</code><br>就代表成功了</p>
+<p>接下來安裝本次最重要的模組 Flask</p>
+<p><code>pip install flask</code></p>
+<p>完成後可以輸入 <code>pip show flask</code><br>檢查模組是否如期被安裝在 .venv 虛擬環境中<br>如果在這之前沒有先啟用虛擬環境的話<br>flask 就會被安裝在 site-package 那裏</p>
+<p>安裝完所需的模組後執行:<br><code>pip freeze &gt; requirements.txt</code></p>
+<p><code>pip freeze</code> 有點像為目前的開發環境拍張 snapshot<br>紀錄所使用的模組有哪些<br>就好像凍結這一瞬間一樣(莫名有點浪漫?)<br>後面的 <code>&gt;</code> 代表要把左側的輸出值寫入右側的檔案<br>也就是 <code>requirements.txt</code> 中</p>
+<p>這是為了讓其他人 clone 這份專案後能夠以<br><code>pip install -r requirements.txt</code> (-r: –requirement)<br>安裝專案所需的模組</p>
+<p>這邊要注意，最好是使用複數的 requirements<br>雖然打什麼檔名都可以 <code>pip install -r</code><br>但有些時候會嚴格檢查(如Heroku)<br>所以還是要照規矩來比較好</p>
+<h2 id="撰寫API"><a href="#撰寫API" class="headerlink" title="撰寫API"></a><font color="#f4a261">撰寫API</font></h2><p>我們建立一個 python file <code>app.py</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:   <span class="comment"># 當這份程式被作為主程式執行時</span></span><br><span class="line">    app.run(debug=Ture)   <span class="comment"># 執行app，debug=True會讓app處於監聽狀態</span></span><br></pre></td></tr></table></figure>
+
+<p>接著我們建立根路徑</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/&#x27;</span></span>) </span><span class="comment"># Decorator。 在這個路徑下接收到 request (預設為GET) 的話要做以下的事</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">index</span>():</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;Hello world from Flask&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>目前整個程式非常單純<br>就是引入flask後啟動它<br>並設定當根路徑獲得GET請求時要回傳什麼資訊</p>
+<p>接下來我們回到 terminal<br>執行 <code>python app.py</code><br>便能開啟API並等待請求</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">FSADeprecationWarning: SQLALCHEMY_TRACK_MODIFICATIONS adds significant overhead and will be disabled by default in the future.  Set it to True or False to suppress this warning.</span><br><span class="line">  warnings.warn(FSADeprecationWarning(</span><br><span class="line"> * Debugger is active!</span><br><span class="line"> * Debugger PIN: 124-333-105</span><br><span class="line"> * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)</span><br></pre></td></tr></table></figure>
+
+<p>打開瀏覽器並進到 <a target="_blank" rel="noopener" href="http://127.0.0.1:5000/">http://127.0.0.1:5000/</a><br>就會看到輸出的字串了!</p>
+<h2 id="待續"><a href="#待續" class="headerlink" title="待續"></a><font color="#f4a261">待續</font></h2><p>文章先寫到這吧不想讓這篇變太長<br>串接資料庫的部分就留到下一篇囉<br>到時也會把 API 的 POST, DELETE 方法給做出來</p>
+</font>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -408,99 +531,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2021/06/09/TextInput-%E8%88%87%E9%8D%B5%E7%9B%A4%E9%96%8B%E9%97%9C%E6%99%82%E6%A9%9F%E7%9A%84%E9%85%8D%E5%90%88/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Guan-Ting Su">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pi's Blog">
-      <meta itemprop="description" content="一些程式自學小記錄">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Pi's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/06/09/TextInput-%E8%88%87%E9%8D%B5%E7%9B%A4%E9%96%8B%E9%97%9C%E6%99%82%E6%A9%9F%E7%9A%84%E9%85%8D%E5%90%88/" class="post-title-link" itemprop="url">TextInput 與鍵盤開關時機的配合</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-
-      <time title="創建時間：2021-06-09 12:33:40" itemprop="dateCreated datePublished" datetime="2021-06-09T12:33:40+08:00">2021-06-09</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2022-10-13 15:53:16" itemprop="dateModified" datetime="2022-10-13T15:53:16+08:00">2022-10-13</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <font size="2" color="#aaa">
-
-<p>在做 SideProject 時很常遇到一個狀況<br>TextInput 在 Focus 狀態時，是沒辦法立刻觸發其他按鈕的<br>你必須先點擊螢幕一次 (TextInput和鍵盤以外的地方)，將鍵盤收起<br>才能觸發別的按鈕<br>其實不只是按鈕，其他需要 recieve touch 的元件也有這個問題</p>
-<img src="/2021/06/09/TextInput-%E8%88%87%E9%8D%B5%E7%9B%A4%E9%96%8B%E9%97%9C%E6%99%82%E6%A9%9F%E7%9A%84%E9%85%8D%E5%90%88/situation.png" width="50%" style="box-shadow:3px 3px 8px darkgray">
-
-<p>至於為什麼強調是在做 sideProject 的時候呢?<br>因為這在一般情況不太算是問題<br>直到我以使用者的角度來操作app時才發現<br>當我預期點擊按鈕有用時，結果居然只是給我收起鍵盤而已?<br>真的很煩躁啊!我的耐心都到哪去了<br>這時我才了解使用者經驗的精隨<br>任何操作都要有預期的效果<br>只要有任何一次的點擊失效<br>負評的心情就來了</p>
-<p>回到問題本身，會有這個限制我想是因為輸入文字跟顯示鍵盤這兩件事是密切相關的<br>該輸入文字的時候就該顯示鍵盤<br>不打算輸入文字的時候就關閉鍵盤<br>在流程操作上比較直觀<br>但就像我說的，這不符合使用者的直覺<br>那該怎麼控制呢?</p>
-<h2 id="ScrollView-來幫個忙"><a href="#ScrollView-來幫個忙" class="headerlink" title="ScrollView 來幫個忙"></a><font color="#BC2C1A">ScrollView 來幫個忙</font></h2><hr>
-<p>ScrollView 有一個屬性是我們需要的<br>叫做 <code>keyboardShouldPersistTaps</code><br>一句話解釋:鍵盤打開的時候要不要接收觸控訊號?</p>
-<p>可以設定三種值:<br><code>&#39;never&#39;</code>: 當子元件的 TextInput focus 時，點擊文字框和鍵盤以外的地方會關閉鍵盤，當這件事發生時，子元件不會接收到 tap<br><code>&#39;always&#39;</code>: 鍵盤不會自動收起，ScrollView 不會接收到 tap (但可以滑動)，子元件可以接收到 tap<br><code>&#39;handled&#39;</code>: 如果 tap 被子元件或父元件 catch，鍵盤不會自動收起；但如果是被 ScrollView catch，鍵盤還是會收起來。</p>
-<p>所以策略是這樣的<br>我們可以將此屬性設為<code>&#39;handled&#39;</code>，先防止鍵盤自動關閉<br>這時按鈕就能互動了<br>接著再手動控制鍵盤關閉的時機就好<br>控制鍵盤的方式是用 react native 的<code>Keyboard</code>API</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> &#123;<span class="title class_">ScrollView</span>, <span class="title class_">Keyboard</span>&#125; <span class="keyword">from</span> <span class="string">&#x27;react native&#x27;</span></span><br><span class="line"></span><br><span class="line">&lt;<span class="title class_">ScrollView</span> keyboardShouldPersistTaps=<span class="string">&quot;handled&quot;</span>&gt;</span><br><span class="line">  <span class="language-xml"><span class="tag">&lt;<span class="name">TextInput</span>/&gt;</span></span></span><br><span class="line">  <span class="language-xml"><span class="tag">&lt;<span class="name">TouchableOpacity</span>/&gt;</span></span></span><br><span class="line">&lt;/<span class="title class_">ScrollView</span>&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>正當我以為沒問題的時候來了個小插曲ˋˊ</p>
-<h2 id="檢查上層了嗎"><a href="#檢查上層了嗎" class="headerlink" title="檢查上層了嗎?"></a><font color="#BC2C1A">檢查上層了嗎?</font></h2><hr>
-<p>在某一次我完成這些設定後卻發現沒效果!? 按鈕還是不能按<br>經過一番研究後終於知道了<br>設定沒效果代表在此元件之上一定還有另一層沒設定的 ScrollView<br>所以只要找到該標籤，加上<code>keyboardShouldPersistTaps</code>的屬性就可以了<br>記得要一路檢查到 root 哦</p>
-</font>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/9/"><i class="fa fa-angle-left" aria-label="上一頁"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/11/"><i class="fa fa-angle-right" aria-label="下一頁"></i></a>
+    <a class="extend prev" rel="prev" href="/page/9/"><i class="fa fa-angle-left" aria-label="上一頁"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/11/"><i class="fa fa-angle-right" aria-label="下一頁"></i></a>
   </nav>
 
 </div>
