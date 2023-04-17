@@ -120,7 +120,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-count">50</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -150,6 +150,125 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2021/04/16/javascript-arrow-function-this/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Guan-Ting Su">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pi's Blog">
+      <meta itemprop="description" content="一些程式自學小記錄">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Pi's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/04/16/javascript-arrow-function-this/" class="post-title-link" itemprop="url">Javascript 在不同函式定義方式中使用 this</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-04-16 09:27:21" itemprop="dateCreated datePublished" datetime="2021-04-16T09:27:21+08:00">2021-04-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2022-10-13 15:53:16" itemprop="dateModified" datetime="2022-10-13T15:53:16+08:00">2022-10-13</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <font size="2" color="#aaa">
+
+
+<h2 id="前言"><a href="#前言" class="headerlink" title=" 前言"></a><font color="#BC2C1A"> 前言</font></h2><p>在使用物件導向程式設計時，一定會碰到<code>this</code>(在python裡是<code>self</code>)</p>
+<p>要百分之百了解<code>this</code>的作用原理其實談不上容易，但簡單來說：</p>
+<blockquote>
+<p>在一個 class 中呼叫<code>this</code>時，<code>this</code>指的是那個 class 本身</p>
+</blockquote>
+<p>或是更 general 一點：</p>
+<blockquote>
+<p>誰呼叫到<code>this</code>，<code>this</code>就是誰</p>
+</blockquote>
+<p>但最近遇到一個情形，呼叫this的時候找不到理應存在的變數</p>
+<h2 id="情形"><a href="#情形" class="headerlink" title=" 情形"></a><font color="#BC2C1A"> 情形</font></h2><p>這是一個 IconDisplayer 物件<br>調用 display() method，回傳 &lt;<code>Image&gt;</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title class_">IconDisplayer</span> = &#123;</span><br><span class="line">    <span class="title class_">Current</span>: &#123;</span><br><span class="line">      <span class="attr">USD</span>: <span class="language-xml"><span class="tag">&lt;<span class="name">Image</span> <span class="attr">source</span>=<span class="string">&#123;require(</span>&#x27;<span class="attr">.</span>/<span class="attr">src</span>/<span class="attr">image</span>/<span class="attr">nations</span>/<span class="attr">united-states.png</span>&#x27;)&#125; /&gt;</span></span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">display</span>: <span class="function">() =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (currency === <span class="string">&#x27;USD&#x27;</span>) &#123; <span class="keyword">return</span> (<span class="variable language_">this</span>.<span class="property">Current</span>.<span class="property">USD</span>) &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>運行時他會告訴你：</p>
+<p><font color="red">TypeError: Cannot read property ‘Current’ of undefined</font></p>
+<p>意思就是說，程式找不到 Current 這個變數<br>但是很奇怪，明明就定義在物件裡Ｒ，也用了this<br>應該找得到才對呀</p>
+<hr>
+<h2 id="原因"><a href="#原因" class="headerlink" title=" 原因"></a><font color="#BC2C1A"> 原因</font></h2><p>後來查了一下發現一切都是 arrow function 的緣故</p>
+<ul>
+<li><h4 id="MDN-amp-W3Schools"><a href="#MDN-amp-W3Schools" class="headerlink" title="MDN &amp; W3Schools:"></a>MDN &amp; W3Schools:</h4><ul>
+<li>In arrow functions, this retains the value of<br>the enclosing lexical context’s this.</li>
+<li>Arrow functions do not have their own this.</li>
+<li>In global code, it will be set to the global object.</li>
+</ul>
+</li>
+</ul>
+<p>如果是呼叫以前的傳統函數，每次都會建立一個環境 (Function Execution Context)來運行，並把當時的呼叫者令為this，誰呼叫 誰就是this</p>
+<p>但定義 arrow function 時不會有這個流程<br>因此在其中使用this時，指的便會是外層所使用的 global this，在 HTML 裡就是 window</p>
+<p>例如上述的例子：我們只要把this改成IconDisplayer就可以了</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">display</span>: <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (currency === <span class="string">&#x27;USD&#x27;</span>) &#123; <span class="keyword">return</span> (<span class="variable language_">this</span>.<span class="property">Current</span>.<span class="property">USD</span>) &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>不然就要用傳統函式：</p>
+<pre><code class="javascript">    display: function()&#123;
+      if (currency === &#39;USD&#39;) &#123; return (this.Current.USD) &#125;
+    &#125;</code></pre>
+<hr>
+<h2 id="結語"><a href="#結語" class="headerlink" title=" 結語"></a><font color="#BC2C1A"> 結語</font></h2><p>曾經看到有人說應該要把 arrow function 視為獨立的新語法，而不是傳統function 的變化，因為有時運作方式是截然不同，今天更能體會到這點了！<br>最後，今天的重點：</p>
+<blockquote>
+<p>this 的值只跟「你如何呼叫、誰呼叫」有關，與程式碼位於哪裡完全無關</p>
+</blockquote>
+<p>參考：<a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10207992">iT邦幫忙</a></p>
+</font>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -388,130 +507,6 @@
 <p>讓用不同管道登入的相同帳號獨立運作<br>但這有時不太好，因為登入最初的用意就是針對每個真實用戶<br>如果一個用戶能有多個帳號，有點違背初衷</p>
 <h4 id="3-讓他創建新帳號-再合併"><a href="#3-讓他創建新帳號-再合併" class="headerlink" title="3. 讓他創建新帳號 再合併"></a>3. 讓他創建新帳號 再合併</h4><p>與上個步驟相同，但在用戶登入後請他合併帳號<br>可用 <a target="_blank" rel="noopener" href="https://firebase.google.com/docs/reference/js/firebase.User#linkwithcredential">linkWithCredential()</a> </p>
 <p>Facebook 還有提供 <a target="_blank" rel="noopener" href="https://developers.facebook.com/docs/graph-api/">圖形API</a><br>聽說功能強大<br>之後有機會學一學 再整理上來</p>
-</font>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2021/04/01/Firebase-Google%E7%99%BB%E5%85%A5/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Guan-Ting Su">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pi's Blog">
-      <meta itemprop="description" content="一些程式自學小記錄">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Pi's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/04/01/Firebase-Google%E7%99%BB%E5%85%A5/" class="post-title-link" itemprop="url">Firebase Google登入</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-
-      <time title="創建時間：2021-04-01 09:32:47" itemprop="dateCreated datePublished" datetime="2021-04-01T09:32:47+08:00">2021-04-01</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2022-10-13 15:53:16" itemprop="dateModified" datetime="2022-10-13T15:53:16+08:00">2022-10-13</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <font size="2" color="#aaa">
-
-<p>繼之前介紹 Firebase 的 Email 登入和匿名登入後</p>
-<p>這篇要示範的是 Google 登入</p>
-<p>主要可以分成下列幾個環節：</p>
-<ul>
-<li><h4 id="開啟-google-API"><a href="#開啟-google-API" class="headerlink" title="開啟 google API"></a>開啟 google API</h4></li>
-<li><h4 id="使用-Expo-的-Google-Auth-SDK"><a href="#使用-Expo-的-Google-Auth-SDK" class="headerlink" title="使用 Expo 的 Google Auth SDK"></a>使用 Expo 的 Google Auth SDK</h4></li>
-<li><h4 id="使用-Firebase-的登入流程"><a href="#使用-Firebase-的登入流程" class="headerlink" title="使用 Firebase 的登入流程"></a>使用 Firebase 的登入流程</h4></li>
-</ul>
-<p>個人覺得有點小複雜，原因正如我之前說的<br>Firebase 和 google 之間多了 Expo 的交接<br>需要一些 firebase 官網沒有提供的環節 </p>
-<p>像是 user 物件的內容就不一樣<br>我需要兩邊 doc 來回查才知道到底是怎樣</p>
-<p>這真的要記錄下來<br>不然我大概一下就忘了</p>
-<h2 id="一、開啟-google-API"><a href="#一、開啟-google-API" class="headerlink" title="一、開啟 google API    "></a><font color="#BC2C1A">一、開啟 google API    </font></h2><h4 id="參考-link"><a href="#參考-link" class="headerlink" title="參考 link"></a><a target="_blank" rel="noopener" href="https://docs.expo.io/versions/v40.0.0/sdk/google/#using-it-inside-of-the-expo-app">參考 link</a></h4><h4 id="1-首先到-google-的-credentials-page"><a href="#1-首先到-google-的-credentials-page" class="headerlink" title="1. 首先到 google 的 credentials page"></a>1. 首先到 google 的 <a target="_blank" rel="noopener" href="https://console.developers.google.com/apis/credentials">credentials page</a></h4><h4 id="2-建立專案"><a href="#2-建立專案" class="headerlink" title="2. 建立專案"></a>2. 建立專案</h4><img src="/2021/04/01/Firebase-Google%E7%99%BB%E5%85%A5/firebase google Auth_1.png" style="box-shadow:3px 3px 8px darkgray">
-&nbsp;
-
-<img src="/2021/04/01/Firebase-Google%E7%99%BB%E5%85%A5/firebase google Auth_2.png" style="box-shadow:3px 3px 8px darkgray">
-
-<p>這邊無法選擇內部，因此放心選外部<br>後續還有一些步驟但不成問題</p>
-<h4 id="3-回到憑證頁面-gt-建立憑證-gt-選-OAuth-用戶端-ID"><a href="#3-回到憑證頁面-gt-建立憑證-gt-選-OAuth-用戶端-ID" class="headerlink" title="3. 回到憑證頁面 -&gt; 建立憑證 -&gt; 選 OAuth 用戶端 ID"></a>3. 回到憑證頁面 -&gt; 建立憑證 -&gt; 選 OAuth 用戶端 ID</h4><img src="/2021/04/01/Firebase-Google%E7%99%BB%E5%85%A5/firebase google Auth_3.png" style="box-shadow:3px 3px 8px darkgray">
-
-<h4 id="4-依照手機系統選擇-Android-iOS"><a href="#4-依照手機系統選擇-Android-iOS" class="headerlink" title="4. 依照手機系統選擇 Android / iOS"></a>4. 依照手機系統選擇 Android / iOS</h4><img src="/2021/04/01/Firebase-Google%E7%99%BB%E5%85%A5/firebase google Auth_4.png" style="box-shadow:3px 3px 8px darkgray">
-
-<h4 id="5-設定套件名稱＆憑證指紋"><a href="#5-設定套件名稱＆憑證指紋" class="headerlink" title="5. 設定套件名稱＆憑證指紋"></a>5. 設定套件名稱＆憑證指紋</h4><ul>
-<li>套件名稱填 <code>host.exp.exponent</code></li>
-<li>在 terminal 中 run <code>openssl rand -base64 32 | openssl sha1 -c</code> 並將 output 填入 憑證指紋</li>
-</ul>
-<h2 id="二、使用-Expo-的-Google-Auth-SDK"><a href="#二、使用-Expo-的-Google-Auth-SDK" class="headerlink" title="二、使用 Expo 的 Google Auth SDK    "></a><font color="#BC2C1A">二、使用 Expo 的 Google Auth SDK    </font></h2><h4 id="參考-link-1"><a href="#參考-link-1" class="headerlink" title="參考 link"></a><a target="_blank" rel="noopener" href="https://docs.expo.io/versions/v40.0.0/sdk/google/#using-it-inside-of-the-expo-app">參考 link</a></h4><p><code>expo install expo-google-app-auth</code></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> <span class="title class_">Google</span> <span class="keyword">from</span> <span class="string">&#x27;expo-google-app-auth&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">signInWithGoogleAsync</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> result = <span class="keyword">await</span> <span class="title class_">Google</span>.<span class="title function_">logInAsync</span>(&#123;</span><br><span class="line">      <span class="attr">androidClientId</span>: <span class="variable constant_">YOUR_CLIENT_ID_HERE</span>, <span class="comment">//在這裡貼上你的用戶端編號, 記得加引號</span></span><br><span class="line">      <span class="comment">// iosClientId: YOUR_CLIENT_ID_HERE,</span></span><br><span class="line">      <span class="attr">scopes</span>: [<span class="string">&#x27;profile&#x27;</span>, <span class="string">&#x27;email&#x27;</span>],</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (result.<span class="property">type</span> === <span class="string">&#x27;success&#x27;</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> result.<span class="property">accessToken</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> &#123; <span class="attr">cancelled</span>: <span class="literal">true</span> &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123; <span class="attr">error</span>: <span class="literal">true</span> &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>用戶端編號可以從 Google API 的憑證頁面中找到</p>
-<h2 id="三、使用-Firebase-的登入流程"><a href="#三、使用-Firebase-的登入流程" class="headerlink" title="三、使用 Firebase 的登入流程 "></a><font color="#BC2C1A">三、使用 Firebase 的登入流程 </font></h2><h4 id="參考-link-2"><a href="#參考-link-2" class="headerlink" title="參考 link"></a><a target="_blank" rel="noopener" href="https://firebase.google.com/docs/auth/web/google-signin">參考 link</a></h4><p>firebase 提供的 popup/redirect 兩種方法<br>只能用在 web 上，在手機上會報錯：</p>
-<p><font color="red"><code>Error: This operation is not supported in the environment this application is running on. &quot;location.protocol&quot; must be http, https or chrome-extension and web storage must be enabled.</code></font></p>
-<p>所以我們在行動端只能用<a target="_blank" rel="noopener" href="https://firebase.google.com/docs/auth/web/google-signin#expandable-2">進階做法</a></p>
-<h2 id="1-到-firebase-console-開啟-Google-sign-in-的功能"><a href="#1-到-firebase-console-開啟-Google-sign-in-的功能" class="headerlink" title="1. 到 firebase console 開啟 Google sign in 的功能"></a>1. 到 firebase console 開啟 Google sign in 的功能</h2><h2 id="appId-和-appKey-可以在-Google-API-頁面找到"><a href="#appId-和-appKey-可以在-Google-API-頁面找到" class="headerlink" title="appId 和 appKey 可以在 Google API 頁面找到"></a>appId 和 appKey 可以在 Google API 頁面找到</h2><h2 id="2-定義-onSignIn"><a href="#2-定義-onSignIn" class="headerlink" title="2. 定義 onSignIn()"></a>2. 定義 <code>onSignIn()</code></h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">onSignIn</span>(<span class="params">googleUser</span>) &#123;</span><br><span class="line">        <span class="keyword">var</span> unsubscribe = firebase.<span class="title function_">auth</span>().<span class="title function_">onAuthStateChanged</span>(<span class="function">(<span class="params">firebaseUser</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="title function_">unsubscribe</span>();   </span><br><span class="line">							<span class="comment">// 似乎是listener的常用語法，藉由呼叫函式本身，讓後面的程式只運行一次就好</span></span><br><span class="line">            <span class="keyword">if</span> (!<span class="title function_">isUserEqual</span>(googleUser, firebaseUser)) &#123;</span><br><span class="line">                <span class="keyword">var</span> credential = firebase.<span class="property">auth</span>.<span class="property">GoogleAuthProvider</span>.<span class="title function_">credential</span>(</span><br><span class="line">                    googleUser.<span class="property">idToken</span>,</span><br><span class="line">                    googleUser.<span class="property">accessToken</span></span><br><span class="line">                );</span><br><span class="line"></span><br><span class="line">                firebase.<span class="title function_">auth</span>().<span class="title function_">signInWithCredential</span>(credential)</span><br><span class="line">                    .<span class="title function_">catch</span>(<span class="function">(<span class="params">error</span>) =&gt;</span> &#123; <span class="title function_">alert</span>(<span class="string">&#x27;onSignInCredential&#x27;</span>+error) &#125;);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;User already signed-in Firebase.&#x27;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>為什麼 <code>unsubscribe</code> 裡面還有 <code>unsubscribe</code>? <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/47043188/firebase-onauthstatechanged-unsubscribe-recursion">link</a></p>
-</li>
-<li><p><code>GoogleAuthProvider.credential()</code>有兩個input，<code>idToken</code>和<code>accessToken</code>，官網給的寫法是<code>googleUser.getAuthResponse().id_token</code>，但因為我們用的是 Expo <code>Google.logInAsync</code>回傳的<code>googleUser</code>，他不含任何函式，自然就沒有<code>getAuthResponse()</code>可以用。 <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/60711364/react-native-googleuser-getbasicprofile-is-not-a-function">link</a></p>
-</li>
-</ul>
-<h2 id="3-定義-isUserEqual"><a href="#3-定義-isUserEqual" class="headerlink" title="3. 定義 isUserEqual()"></a>3. 定義 isUserEqual()</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">isUserEqual</span>(<span class="params">googleUser, firebaseUser</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (firebaseUser) &#123;</span><br><span class="line">            <span class="keyword">var</span> providerData = firebaseUser.<span class="property">providerData</span>;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; providerData.<span class="property">length</span>; i++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (providerData[i].<span class="property">providerId</span> === firebase.<span class="property">auth</span>.<span class="property">GoogleAuthProvider</span>.<span class="property">PROVIDER_ID</span> &amp;&amp;</span><br><span class="line">                    providerData[i].<span class="property">uid</span> === googleUser.<span class="property">user</span>.<span class="property">id</span>) &#123;   </span><br><span class="line">                    <span class="comment">// We don&#x27;t need to reauth the Firebase connection.</span></span><br><span class="line">                    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>這邊的 <code>googleUser.user.id</code> 也是上述的原因</li>
-</ul>
-<h2 id="4-把onSignIn-放進-signInWithGoogleAsync-裡並傳入-user-物件"><a href="#4-把onSignIn-放進-signInWithGoogleAsync-裡並傳入-user-物件" class="headerlink" title="4. 把onSignIn()放進 signInWithGoogleAsync() 裡並傳入 user 物件"></a>4. 把<code>onSignIn()</code>放進 <code>signInWithGoogleAsync()</code> 裡並傳入 user 物件</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">signInWithGoogleAsync</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">const</span> result = <span class="keyword">await</span> <span class="title class_">Google</span>.<span class="title function_">logInAsync</span>(&#123;</span><br><span class="line">                <span class="attr">androidClientId</span>: <span class="string">&#x27;994735805040-7q2nlrcnma0mssgvs7fimrmdp6dvuaqk.apps.googleusercontent.com&#x27;</span>, <span class="comment">//在這裡貼上你的用戶端編號</span></span><br><span class="line">                <span class="comment">// iosClientId: YOUR_CLIENT_ID_HERE,</span></span><br><span class="line">                <span class="attr">scopes</span>: [<span class="string">&#x27;profile&#x27;</span>, <span class="string">&#x27;email&#x27;</span>],</span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (result.<span class="property">type</span> === <span class="string">&#x27;success&#x27;</span>) &#123;</span><br><span class="line">                <span class="title function_">onSignIn</span>(result)               <span class="comment">// &lt;---- HERE</span></span><br><span class="line">                <span class="keyword">return</span> result.<span class="property">accessToken</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123; <span class="keyword">return</span> &#123; <span class="attr">cancelled</span>: <span class="literal">true</span> &#125; &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (e) &#123; <span class="keyword">return</span> &#123; <span class="attr">error</span>: <span class="literal">true</span> &#125; &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<p>完成！ 可以到<a target="_blank" rel="noopener" href="https://github.com/roto93/react-native-firebase-works">這裡</a>參考我的範例</p>
 </font>
       
     </div>

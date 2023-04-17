@@ -120,7 +120,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-count">50</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -150,6 +150,120 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2023/04/17/Recoil-%E7%B0%A1%E4%BB%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Guan-Ting Su">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pi's Blog">
+      <meta itemprop="description" content="一些程式自學小記錄">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Pi's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/04/17/Recoil-%E7%B0%A1%E4%BB%8B/" class="post-title-link" itemprop="url">Recoil 簡介</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2023-04-17 11:05:27 / 修改時間：15:41:51" itemprop="dateCreated datePublished" datetime="2023-04-17T11:05:27+08:00">2023-04-17</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <font size="2" color="#999">
+<h2 id="font-color-f4a261-前言-font"><a class="header-anchor" href="#font-color-f4a261-前言-font"></a><font color="#f4a261">前言</font></h2>
+<p>說到 React 的狀態管理工具<br>
+之前只有在線上課程學到 Redux<br>
+但由於之前的專案只需要用到 global state 而已<br>
+甚至不需要 useReducer 的功能<br>
+加上 Redux 在設定上還蠻複雜的<br>
+有 store, action, reducer, slice 等概念<br>
+讓我一直覺得大材小用的感覺<br>
+每次要用到新專案<br>
+基本上都要把 doc 從頭讀一遍ＸＤ</p>
+<p>直到後來在公司接手外包前端的專案<br>
+發現他用了 Recoil 這個狀態管理工具<br>
+起初還有一點小排斥<br>
+但當我理解用法後<br>
+簡直開闢了新天地</p>
+<h2 id="font-color-f4a261-Recoil-font"><a class="header-anchor" href="#font-color-f4a261-Recoil-font"></a><font color="#f4a261">Recoil</font></h2>
+<p>facebook 開發的 React 狀態管理工具<br>
+採用 atom 的架構，跟 Redux 的 flux 架構不同</p>
+<p>相較於 Redux 輕量很多<br>
+很多時候我們只是想要單純使用 global state<br>
+而不打算用到 middleware 或是 reducer, actions 來管理狀態變化。<br>
+這時 Recoil 就非常方便。</p>
+<h2 id="font-color-f4a261-初始化-font"><a class="header-anchor" href="#font-color-f4a261-初始化-font"></a><font color="#f4a261">初始化</font></h2>
+<p>要使用 Recoil 前置作業非常少<br>
+<code>npm install recoil</code> 安裝之後<br>
+用 RecoilRoot 包住整個 app<br>
+這樣就好ㄌ</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;<span class="title class_">RecoilRoot</span>&#125; <span class="keyword">from</span> <span class="string">&#x27;recoil&#x27;</span></span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">&lt;<span class="title class_">RecoilRoot</span>&gt;</span><br><span class="line">  <span class="language-xml"><span class="tag">&lt;<span class="name">App</span>/&gt;</span></span></span><br><span class="line">&lt;/<span class="title class_">RecoilRoot</span>&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="font-color-f4a261-Atom-font"><a class="header-anchor" href="#font-color-f4a261-Atom-font"></a><font color="#f4a261">Atom</font></h2>
+<p>狀態的最小單位，初始化時需給予一個唯一的key以及初始值。<br>
+元件可利用 <code>useRecoilState</code> 或 <code>useRecoilValue</code> 來 subscribe 任一 atom<br>
+當這個 atom 發生變化時<br>
+所有 subscribe 它的元件都會更新。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> nameState = <span class="title function_">atom</span>(&#123;</span><br><span class="line">	<span class="attr">key</span>: <span class="string">&#x27;nameState&#x27;</span>,</span><br><span class="line">	<span class="attr">value</span>: <span class="string">&#x27;&#x27;</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> [name, setName] = <span class="title function_">useRecoilState</span>(nameState)</span><br></pre></td></tr></table></figure>
+<h2 id="font-color-f4a261-Selector-font"><a class="header-anchor" href="#font-color-f4a261-Selector-font"></a><font color="#f4a261">Selector</font></h2>
+<p>一個 pure function<br>
+傳入值可以是 atom 或是別的 selector。</p>
+<p>Selector 用來處理 derived data<br>
+根據 state 計算而得的值。讀值時使用 <code>useRecoilValue</code>。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> fontSizeLabelState = <span class="title function_">selector</span>(&#123;</span><br><span class="line">  <span class="attr">key</span>: <span class="string">&#x27;fontSizeLabelState&#x27;</span>,</span><br><span class="line">  <span class="attr">get</span>: <span class="function">(<span class="params">&#123; get &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> fontSize = <span class="title function_">get</span>(fontSizeState);</span><br><span class="line">    <span class="keyword">const</span> unit = <span class="string">&#x27;px&#x27;</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;fontSize&#125;</span><span class="subst">$&#123;unit&#125;</span>`</span>;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> fontSizeLabel = <span class="title function_">useRecoilValue</span>(fontSizeLabelState)</span><br></pre></td></tr></table></figure>
+<h2 id="font-color-f4a261-心得-font"><a class="header-anchor" href="#font-color-f4a261-心得-font"></a><font color="#f4a261">心得</font></h2>
+<p>Recoil 實在是很方便<br>
+包上 <code>&lt;RecoilRoot&gt;</code>，建立 atom，立刻就能用</p>
+<p>官網：<a target="_blank" rel="noopener" href="https://recoiljs.org">https://recoiljs.org</a></p>
+</font>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -390,168 +504,6 @@ Templates 和 Shared</p>
 <p><strong><a target="_blank" rel="noopener" href="https://ethereum.stackexchange.com/questions/130917/how-to-store-ethereum-json-rpc-node-api-key-in-a-react-app">How to store Ethereum JSON-RPC node API Key in a React app</a></strong></p>
 <p><strong><a target="_blank" rel="noopener" href="https://ethereum.stackexchange.com/questions/21569/how-can-one-secure-web3-json-rpc-api-endpoint">How can one secure Web3 JSON-RPC API endpoint?</a></strong></p>
 <p><strong><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/48699820/how-do-i-hide-an-api-key-in-create-react-app">How do I hide an API key in Create React App?</a></strong></p>
-</font>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2022/12/13/Ethers-js-%E7%B0%A1%E4%BB%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Guan-Ting Su">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pi's Blog">
-      <meta itemprop="description" content="一些程式自學小記錄">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Pi's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/12/13/Ethers-js-%E7%B0%A1%E4%BB%8B/" class="post-title-link" itemprop="url">Ethers.js 簡介</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-      
-
-      <time title="創建時間：2022-12-13 11:56:47 / 修改時間：15:18:31" itemprop="dateCreated datePublished" datetime="2022-12-13T11:56:47+08:00">2022-12-13</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <font size="2" color="#999">
-<h2 id="font-color-f4a261-前言-font"><a class="header-anchor" href="#font-color-f4a261-前言-font"></a><font color="#f4a261">前言</font></h2>
-<p>之前在面試期間稍微碰了一下 web3.js<br>
-當時只有照做的感覺，對區塊鏈的運作還很不熟<br>
-但至少對怎麼跟小狐狸互動有點概念</p>
-<p>後來有幸進到區塊鏈公司，第一件事主管就請我先研究 ethers.js 和 web3modal<br>
-我發現 web3 和 ethers 是兩個很類似的套件<br>
-都是在處理錢包、智能合約互動之類的事情</p>
-<p>整體來說<br>
-web3 背後有比較多人在維護，網路上的教學也比較多<br>
-ethers 則輕量很多，支援用 ENS name 來呼叫合約，state(provider) 和 key(wallet) 分開管理<br>
-另外 ethers 有一個好用的框架：wagmi，真的是方便很多，以後有機會來介紹<br>
-現在就筆記一下 Ethers.js 的常用功能吧</p>
-<p>延伸閱讀</p>
-<ol>
-<li><a target="_blank" rel="noopener" href="https://medium.com/l4-media/announcing-ethers-js-a-web3-alternative-6f134fdd06f3">Announcing ethers.js — a web3 alternative</a></li>
-<li><a target="_blank" rel="noopener" href="https://github.com/adrianmcli/web3-vs-ethers">Web3.js vs Ethers.js 實際應用上的區別</a></li>
-</ol>
-<h2 id="font-color-f4a261-Ethers-js-font"><a class="header-anchor" href="#font-color-f4a261-Ethers-js-font"></a><font color="#f4a261">Ethers.js</font></h2>
-<h3 id="Install"><a class="header-anchor" href="#Install"></a>Install</h3>
-<p><code>npm install ethers</code></p>
-<h3 id="Terms"><a class="header-anchor" href="#Terms"></a>Terms</h3>
-<table>
-<thead>
-<tr>
-<th>名詞</th>
-<th>說明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Provider</td>
-<td>與區塊鏈對接，負責提供「唯讀」資訊給網頁</td>
-</tr>
-<tr>
-<td>Signer</td>
-<td>權限比 Provider 更高，除了讀取還可以寫入區塊鏈</td>
-</tr>
-<tr>
-<td>Contract</td>
-<td>智能合約的實例化物件，可以用類似 ORM 的方式跟合約互動</td>
-</tr>
-</tbody>
-</table>
-<h3 id="Wallet-Connection"><a class="header-anchor" href="#Wallet-Connection"></a>Wallet Connection</h3>
-<p>這邊示範如何連接瀏覽器的 MetaMask 擴充套件<br>
-以及如何利用 web3Modal 來連接錢包</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> ethers <span class="keyword">from</span> <span class="string">&#x27;ethers&#x27;</span></span><br><span class="line"><span class="keyword">import</span> <span class="title class_">Web3Modal</span> <span class="keyword">from</span> <span class="string">&#x27;web3modal&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Connect with MetaMask</span></span><br><span class="line"><span class="comment">// window.ethereum 是 MetaMask plug-in inject 到網頁的物件</span></span><br><span class="line"><span class="keyword">const</span> provider = <span class="keyword">new</span> ethers.<span class="property">providers</span>.<span class="title class_">Web3Provider</span>(<span class="variable language_">window</span>.<span class="property">ethereum</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// Connect with web3Modal</span></span><br><span class="line"><span class="keyword">const</span> web3Modal = <span class="keyword">new</span> <span class="title class_">Web3Modal</span>(&#123;</span><br><span class="line">	<span class="attr">cacheProvider</span>: <span class="literal">true</span>,</span><br><span class="line">	<span class="attr">providerOptions</span>: &#123;&#125; <span class="comment">// 這邊可以設定能支援什麼錢包，會在跳出 modal 的時候</span></span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">const</span> instance = <span class="keyword">await</span> web3Modal.<span class="title function_">connect</span>()</span><br><span class="line"><span class="keyword">const</span> provider = ethers.<span class="property">providers</span>.<span class="title class_">Web3Provider</span>(instance)</span><br><span class="line"></span><br><span class="line"><span class="comment">// Disconnect</span></span><br><span class="line"><span class="comment">// ethers cannot disconnect wallet programmically</span></span><br><span class="line"><span class="comment">// You can clear cached provider and reset the related states to null to pretend disconnection.</span></span><br><span class="line"><span class="comment">// see https://ethereum.stackexchange.com/q/83914</span></span><br></pre></td></tr></table></figure>
-<h3 id="Get-Accounts"><a class="header-anchor" href="#Get-Accounts"></a>Get Accounts</h3>
-<p>可用<code>listAccount()</code>取得帳號陣列<br>
-不知道為什麼是陣列，難道說可以同時連接不同帳號嗎？</p>
-<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 方法 1</span></span><br><span class="line"><span class="keyword">const</span> accounts = <span class="keyword">await</span> provider.<span class="title function_">listAccounts</span>()</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(account[<span class="number">0</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment">// 方法 2</span></span><br><span class="line"><span class="keyword">const</span> accounts = <span class="keyword">await</span> provider.<span class="title function_">send</span>(<span class="string">&#x27;eth_requestAccounts&#x27;</span>,[])</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(accounts[<span class="number">0</span>])</span><br></pre></td></tr></table></figure>
-<h3 id="Get-Balance"><a class="header-anchor" href="#Get-Balance"></a>Get Balance</h3>
-<p>return &lt;<a target="_blank" rel="noopener" href="https://docs.ethers.io/v5/api/utils/bignumber/#BigNumber">BigNumber</a>&gt;</p>
-<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> balance = <span class="keyword">await</span> provider.<span class="title function_">getBalance</span>(currentAccount)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> balanceInEther = ethers.<span class="property">utils</span>.<span class="title function_">formatEther</span>(balance)</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(balanceInEther)</span><br></pre></td></tr></table></figure>
-<ul>
-<li>
-<p>回傳 BigNumber，單位是 Wei，顯示時記得換算成容易看的單位，並轉換成 string。<br>
-<code>ethers.utils.formatEther</code> :  BigNumber        ⇒    string(in Ether)<br>
-<code>ethers.utils.parseEther</code> :    string(in Ether)  ⇒    BigNumber<br>
-可參考<a target="_blank" rel="noopener" href="https://docs.ethers.io/v5/api/utils/display-logic/#unit-conversion">這裡</a></p>
-</li>
-<li>
-<p>如果用 walletconnect 必須加上 blocktag pending<br>
-<code>getBalance(currentAccount, ‘pending’)</code><br>
-否則可能不會抓到最新的數值</p>
-</li>
-</ul>
-<h3 id="Get-Network"><a class="header-anchor" href="#Get-Network"></a>Get Network</h3>
-<p>return &lt;<a target="_blank" rel="noopener" href="https://docs.ethers.io/v5/api/providers/types/#providers-Network">Network</a>&gt; : {name: string, ensAddress: string, chainId: number}<br>
-Ethereum mainnet 會顯示 homestead</p>
-<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> network = <span class="keyword">await</span> provider.<span class="title function_">getNetwork</span>(currentAccount)</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(network.<span class="property">name</span>)</span><br></pre></td></tr></table></figure>
-<p>用戶隨時能夠切換網路(Mainnet or Testnet)，如果網頁沒有做相對應的反應，很容易讓用戶疑惑，甚至下錯單，造成金錢上的損失<br>
-Best Practice: 偵測到網路改變時，直接 reload 頁面，確保所有的 state 被重置</p>
-<p><a target="_blank" rel="noopener" href="https://docs.ethers.io/v5/concepts/best-practices/#best-practices--network-changes">Network Changes Guideline</a><br>
-<a target="_blank" rel="noopener" href="https://github.com/ethers-io/ethers.js/issues/866">https://github.com/ethers-io/ethers.js/issues/866</a></p>
-<h3 id="Get-Signer"><a class="header-anchor" href="#Get-Signer"></a>Get Signer</h3>
-<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> signer = provider.<span class="title function_">getSigner</span>(<span class="attr">account</span>: string)</span><br></pre></td></tr></table></figure>
-<h2 id="font-color-f4a261-小結-font"><a class="header-anchor" href="#font-color-f4a261-小結-font"></a><font color="#f4a261">小結</font></h2>
-<p>以上是一些常用的 function<br>
-還有如何讀取 native token<br>
-下一篇會介紹如何與合約互動</p>
-<p>突然發現前面不小心忽略了 web3modal<br>
-web3modal 是一個整合了各大錢包的接口<br>
-未來你想要多支援什麼 coinbase, walletconnect 等奇奇怪怪的錢包<br>
-只要 web3modal 有支援，都可以很快的添加進來<br>
-目前有 v1, v2 兩個版本</p>
-<p>10 月底著手研究時，<br>
-v2 還在 early alpha，因此先跳過<br>
-但寫這篇文章的當下(12/13)，已經進展到 beta.9 了<br>
-有稍微試用一下，很多當初要花一個禮拜研究的東西他都幫我做好了…<br>
-之後可能會再專案用的升級到v2吧哈哈<br>
-好  其他細節留到未來某個篇章再紀錄吧</p>
 </font>
       
     </div>
