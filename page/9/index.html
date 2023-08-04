@@ -120,7 +120,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">50</span>
+          <span class="site-state-item-count">51</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -150,6 +150,110 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2021/08/08/%E7%94%A8Python-Flask%E6%89%93%E9%80%A0API-Postgres%E9%81%A0%E7%AB%AF%E7%AF%87/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Guan-Ting Su">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pi's Blog">
+      <meta itemprop="description" content="一些程式自學小記錄">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Pi's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/08/08/%E7%94%A8Python-Flask%E6%89%93%E9%80%A0API-Postgres%E9%81%A0%E7%AB%AF%E7%AF%87/" class="post-title-link" itemprop="url">用Python-Flask打造API-Postgres遠端篇</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-08-08 11:46:57" itemprop="dateCreated datePublished" datetime="2021-08-08T11:46:57+08:00">2021-08-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2022-10-13 15:53:16" itemprop="dateModified" datetime="2022-10-13T15:53:16+08:00">2022-10-13</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <font size="2" color="#aaa">
+
+
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><font color="#f4a261">前言</font></h2><p>繼前兩篇我們成功在本地端為我們的 flask api 串接資料庫<br>現在我們要在 Heroku 上做一樣的事情<br>恩… 應該說目標一樣<br>但要做的設定還蠻不一樣的<br>繼續往下看吧!</p>
+<h2 id="在-Heroku-串接-API-和-Postgres"><a href="#在-Heroku-串接-API-和-Postgres" class="headerlink" title="在 Heroku 串接 API 和 Postgres"></a><font color="#f4a261">在 Heroku 串接 API 和 Postgres</font></h2><p>首先我們需要在 Heroku 上啟用一個外掛<br>叫 “Heroku Postgres”<br>你可以開瀏覽器到 Dashboard<br>Resources &gt; Add-ons &gt; Heruku Postgres</p>
+<img src="/2021/08/08/%E7%94%A8Python-Flask%E6%89%93%E9%80%A0API-Postgres%E9%81%A0%E7%AB%AF%E7%AF%87/postgres-5.jpg" width="80%">
+
+<p>接下來會詢問你要用什麼方案<br>稍微看了一下發現居然有每個月 16,000 美元的方案OAO<br>好扯喔<br>記得在查資料的過程中看到有人說<br>「也許 Heroku 算不上便宜 (或許可以說它是最貴的)」<br>不過幸好我們的用量不高<br>TAN 也根本沒人要看吧! (誤<br>我們就選免費的ㄅ</p>
+<img src="/2021/08/08/%E7%94%A8Python-Flask%E6%89%93%E9%80%A0API-Postgres%E9%81%A0%E7%AB%AF%E7%AF%87/postgres-6.jpg" width="60%">
+
+<p>以上這些步驟可以用一行命令完成:</p>
+<p><code>heroku addons:create heroku-postgresql:hobby-dev --app &lt;heroku_app_name&gt;</code></p>
+<p>用 –app 這個 flag 可以指定 app 名稱<br>如果你在 heroku 上有多個 app，指定一下比較不會出錯</p>
+<p>再來你需要一組 uri 作為 SQLALCHEMY_DATABASE_URI 的設定值，執行<br><code>heroku config --app &lt;heroku_app_name&gt;</code><br>他就會給你一長串<code>postgres://.........</code>的 uri，但直接使用這組 uri 會出錯<br>我們稍微把它改一下，變成<code>postgresql://........</code>，這樣就可以了</p>
+<p>打開<code>app.py</code>，把之前設定 SQLALCHEMY_DATABASE_URI 的部分改成</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ENV = <span class="string">&#x27;prod&#x27;</span></span><br><span class="line"><span class="keyword">if</span> ENV == <span class="string">&quot;dev&quot;</span>:</span><br><span class="line">    app.debug = <span class="literal">True</span></span><br><span class="line">    app.config[<span class="string">&quot;SQLALCHEMY_DATABASE_URI&quot;</span>] = <span class="string">&#x27;postgresql://postgres:et0997@localhost/TAN_test_data&#x27;</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    app.debug = <span class="literal">False</span></span><br><span class="line">    app.config[<span class="string">&quot;SQLALCHEMY_DATABASE_URI&quot;</span>] = <span class="string">&#x27;postgresql://.........&#x27;</span></span><br><span class="line"></span><br><span class="line">app.config[<span class="string">&#x27;SQLALCHEMY_TRACK_MODIFICATIONS&#x27;</span>] = <span class="literal">False</span></span><br></pre></td></tr></table></figure>
+
+<p>這邊我令了一個 ENV 變數判斷現在是開發階段還是成品階段<br>如要回到本地測試，只要把 ENV 設為 dev 即可</p>
+<p>然後我也把 debug 的設定放到這段的 if statement 中<br>所以程式中原本的<code>app.run(debug=True)</code>也可以改回<code>app.run()</code>了</p>
+<h2 id="在-Heroku-建立-table"><a href="#在-Heroku-建立-table" class="headerlink" title="在 Heroku 建立 table"></a><font color="#f4a261">在 Heroku 建立 table</font></h2><p>先確定你有依照上一篇的教學將專案 deploy 到 heroku 上<br>執行 <code>heroku run python</code> 後輸入指令</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> app <span class="keyword">import</span> db <span class="comment"># 從 app.py 中引入 db 模組</span></span><br><span class="line">db.create_all() <span class="comment"># 在 app.config 中所指定的 database 中建立 table</span></span><br></pre></td></tr></table></figure>
+<p>如果要刪除 table 就用<code>db.drop_all()</code></p>
+<p>完成，之後就能夠用 ORM 指令操作 database 了!</p>
+<h2 id="在-heroku-上用-psql-檢視資料"><a href="#在-heroku-上用-psql-檢視資料" class="headerlink" title="在 heroku 上用 psql 檢視資料"></a><font color="#f4a261">在 heroku 上用 psql 檢視資料</font></h2><p>如果想看 heroku 上的資料，執行<br><code>heroku pg:psql</code><br>就會進到 psql 的 shell 中</p>
+<p><code>\list</code><br>這個指令能印出 post gres 中的所有資料庫<br>不過如果在 heroku postgres 上執行的話，他只會跳出一堆以亂數取名的資料庫，對我們來說其實沒什麼意義<br>但如果在本地端開 psql 的話，你看到的就會是你之前創立過的資料庫了<br>要切換所在資料庫，執行 <code>\c &lt;資料庫名稱&gt;</code></p>
+<p><code>\dt</code><br>這個指令會印出目前所在的資料庫中有哪些 table</p>
+<p>接下來你就能用 SQL 來獲取資料<br>假設資料表名稱是 table_issues<br><code>SELECT * FROM table_issues</code></p>
+<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a><font color="#f4a261">結語</font></h2><p>這是我第一次架設 api<br>回頭一看發現學了好多東西<br>Flask, Flask-SQLAlchemy, Heroku, PostgreSQL<br>完全沒料到，原本以為只要學 Flask 就好 XD</p>
+<p>不過也好啦，直接學了整個體系，包含api功能，架設到雲端，資料庫的存取<br>要不是我已經有了想達成的目標(優化TAN網站)<br>不然如果我只是單純想學做 API 的話可能只會學到 Flask 而已<br>之後的某月某日還是會需要惡補其他環節的</p>
+</font>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -353,99 +457,6 @@
 <p>耶! 看到資料了</p>
 <h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a><font color="#f4a261">結語</font></h2><p>剛剛的安裝過程都只是在自己的電腦上存取資料而已<br>但最終我們要把 API 放在網路上呀<br>到時要怎麼用 Postgres 呢?</p>
 <p>我覺得 部落格好像不太適合寫太長<br>遠端的部分就留到下一篇吧!</p>
-</font>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2021/07/28/%E4%B8%8D%E5%BB%BA%E8%AD%B0%E5%9C%A8Heroku%E4%B8%8A%E7%94%A8sqlite%E7%95%B6DB/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Guan-Ting Su">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pi's Blog">
-      <meta itemprop="description" content="一些程式自學小記錄">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Pi's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/07/28/%E4%B8%8D%E5%BB%BA%E8%AD%B0%E5%9C%A8Heroku%E4%B8%8A%E7%94%A8sqlite%E7%95%B6DB/" class="post-title-link" itemprop="url">不建議在 Heroku 上用 SQLite 當 DB?</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-
-      <time title="創建時間：2021-07-28 23:40:07" itemprop="dateCreated datePublished" datetime="2021-07-28T23:40:07+08:00">2021-07-28</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2022-10-13 15:53:16" itemprop="dateModified" datetime="2022-10-13T15:53:16+08:00">2022-10-13</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <font size="2" color="#aaa">
-
-<h2 id="前言-中言-後言"><a href="#前言-中言-後言" class="headerlink" title="前言+中言+後言"></a><font color="#f4a261">前言+中言+後言</font></h2><p>這會是個小短篇<br>在前兩篇文章中我介紹了怎麼用 python flask 架設 api </p>
-<p>於是接下來我就在研究要如何<br>串接 sqlite 資料庫後放到 Heroku 上運作</p>
-<p>研究途中想到個問題<br>就是 api 如果經過 POST 請求修改了資料庫<br>那在雲端更新的資料要怎麼抓下來到本地中?</p>
-<p>我試了 <code>git pull heroku main</code></p>
-<p>但它卻告訴我 Already up to date.</p>
-<p><a target="_blank" rel="noopener" href="https://devcenter.heroku.com/articles/sqlite3">Heroku Dev Center的一篇文章</a> 有提到這件事<br>他說 sqlite 雖然方便又適合新手，但不建議用在 production</p>
-<blockquote>
-<p>SQLite runs in memory, and backs up its data store in files on disk. While this strategy works well for development, Heroku’s Cedar stack has an ephemeral filesystem. You can write to it, and you can read from it, but the contents will be cleared periodically. If you were to use SQLite on Heroku, you would lose your entire database at least once every 24 hours.</p>
-</blockquote>
-<p>意思是 SQLite 在記憶體運作，每隔一段時間 Heroku 就會把它清除</p>
-<blockquote>
-<p>Even if Heroku’s disks were persistent running SQLite would still not be a good fit. Since SQLite does not run as a service, each dyno would run a separate running copy. Each of these copies need their own disk backed store. This would mean that each dyno powering your app would have a different set of data since the disks are not synchronized.</p>
-</blockquote>
-<p>老實說這一段我不懂，但看到一些關鍵字說會發生每個 dyno (這啥)都有不同的 data set 的情形發生</p>
-<p>所以他們推薦使用 Postgresql</p>
-<p>那我就學這個吧我想應該就一些前置作業的不同吧<br>畢竟都是要用 ORM 來操作</p>
 </font>
       
     </div>
