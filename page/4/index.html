@@ -120,7 +120,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">51</span>
+          <span class="site-state-item-count">52</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -150,6 +150,92 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2022/09/15/EAS-iOS-error-Compatible-versions-of-some-pods-could-not-be-resolved/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Guan-Ting Su">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pi's Blog">
+      <meta itemprop="description" content="一些程式自學小記錄">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Pi's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/09/15/EAS-iOS-error-Compatible-versions-of-some-pods-could-not-be-resolved/" class="post-title-link" itemprop="url">EAS iOS error: Compatible versions of some pods could not be resolved</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-09-15 12:22:39" itemprop="dateCreated datePublished" datetime="2022-09-15T12:22:39+08:00">2022-09-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2022-10-13 15:53:16" itemprop="dateModified" datetime="2022-10-13T15:53:16+08:00">2022-10-13</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <font size="2" color="#aaa">
+
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><font color="#f4a261">前言</font></h2><p>最近總算花了 999 鎂 (但卻是 3400 台幣!?)註冊了開發者帳戶<br>總算可以打包 expo dev client 到 iPhone 上了</p>
+<p>所以前幾天註冊了我自己的 iPhoneX 到 JapanGo 上<br>並下載 dev client 測試，沒什麼問題<br>那我就想，應該把 Josie 的 iPhone SE 也拿來測試一下<br>畢竟那是最小的 iPhone<br>那因為我要多註冊一個裝置，所以必須重新打包<br>這時 EAS 就報錯了</p>
+<h2 id="題外話：等好久…"><a href="#題外話：等好久…" class="headerlink" title="題外話：等好久…"></a><font color="#f4a261">題外話：等好久…</font></h2><p>不知道是不是因為凌晨是國外的 APP 打包旺季<br>EAS build 居然需要排隊 270 分鐘!!!<br>阿不就幸好我可以去睡覺 (其實也早該睡了)<br>不然也等太久了吧<br>算了反正我是 EAS 免費仔<br>不付費就是要排隊XD</p>
+<h2 id="回來正題：EAS-報錯"><a href="#回來正題：EAS-報錯" class="headerlink" title="回來正題：EAS 報錯"></a><font color="#f4a261">回來正題：EAS 報錯</font></h2><p>總之我睡了一覺起來就看到紅色的 error<br>錯誤訊息如下: </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Error: Compatible versions of some pods could not be resolved.</span><br><span class="line">You are seeing this error because either:</span><br><span class="line">  - Versions in the Podfile.lock cached by EAS do not match required values in Podspecs of some of the libraries. To fix that add the &quot;cache.key&quot; field (it can be set to any value) in the build profile in eas.json to invalidate the cache.</span><br><span class="line">  - Some of the pods used in your project depend on different versions of the same pod. See logs for more information.</span><br></pre></td></tr></table></figure>
+
+<p>看起來是 cache 出問題，訊息中也提到說要忽略 cache<br>因此方法很單純，只要再重新<code>eas build</code><br>並記得加上 <code>--clear-cache</code> 的 flag<br>把 cache 清掉就好了</p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/73318976/expo-eas-build-ios-fails-in-pod-installation-step-sdk45-46">參考資料</a></p>
+<h2 id="結論"><a href="#結論" class="headerlink" title="結論"></a><font color="#f4a261">結論</font></h2><p>如果需要重新打包 APP 的話，建議都加上 <code>--clear-cache</code> flag<br>尤其是當你有更改打包的設定時</p>
+</font>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -355,112 +441,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2022/08/30/Next-js-CSS%E9%81%B8%E6%93%87%E5%99%A8%E7%9A%84%E9%99%90%E5%88%B6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Guan-Ting Su">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pi's Blog">
-      <meta itemprop="description" content="一些程式自學小記錄">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Pi's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/08/30/Next-js-CSS%E9%81%B8%E6%93%87%E5%99%A8%E7%9A%84%E9%99%90%E5%88%B6/" class="post-title-link" itemprop="url">Next.js CSS選擇器的限制</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-
-      <time title="創建時間：2022-08-30 01:15:21" itemprop="dateCreated datePublished" datetime="2022-08-30T01:15:21+08:00">2022-08-30</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2022-10-13 15:53:16" itemprop="dateModified" datetime="2022-10-13T15:53:16+08:00">2022-10-13</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <font size="2" color="#aaa">
-
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><font color="#f4a261">前言</font></h2><p>最近求職的過程中<br>看到幾間公司有將 Next.js 列在加分項目<br>因此提升了我對 Next.js 的好奇心</p>
-<p>其實我在滿久以前就聽過 Next 了<br>只知道是 React 的加強版<br>針對 React 天生不利於 SEO 的缺點提供解決方案<br>而且不需要依賴 react-router 就能做到換頁<br>所以最近正式的來學習一下</p>
-<p>途中在 CSS 上遇到了小問題</p>
-<h2 id="在-Next-中使用-CSS-的方法"><a href="#在-Next-中使用-CSS-的方法" class="headerlink" title="在 Next 中使用 CSS 的方法"></a><font color="#f4a261">在 Next 中使用 CSS 的方法</font></h2><p>先不論 SASS, CSS-in-JS 這些用法<br>如果要用正統 CSS 的話<br>有以下兩種方法</p>
-<h4 id="1-在-app-js-中引入-global-CSS"><a href="#1-在-app-js-中引入-global-CSS" class="headerlink" title="1. 在 _app.js 中引入 global CSS"></a>1. 在 <code>_app.js</code> 中引入 global CSS</h4><p>在 Next 專案中<br>只有一個地方可以引入純 CSS<br>就是<code>_app.js</code>，如下</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// In _app.js</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;../styles/global.css&#x27;</span> <span class="comment">// &lt;--- Here!</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">function</span> <span class="title function_">MyApp</span>(<span class="params">&#123;Component, pageProps&#125;</span>)&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">Component</span> &#123;<span class="attr">...pageProps</span>&#125;&gt;</span></span></span><br><span class="line"><span class="language-xml">&#125;</span></span><br></pre></td></tr></table></figure>
-
-<p>如果在其他元件中<code>import &#39;xxx.css&#39;</code>的話<br>會出現以下 error</p>
-<blockquote>
-<p>./styles/global.css<br>Global CSS cannot be imported from files other than your Custom <App>. Due to the Global nature of stylesheets, and to avoid conflicts, Please move all first-party global CSS imports to pages/_app.js. Or convert the import to Component-Level CSS (CSS Modules).<br>Read more: <a target="_blank" rel="noopener" href="https://nextjs.org/docs/messages/css-global">https://nextjs.org/docs/messages/css-global</a></App></p>
-</blockquote>
-<h4 id="2-在各別頁面或元件中使用-CSS-module"><a href="#2-在各別頁面或元件中使用-CSS-module" class="headerlink" title="2. 在各別頁面或元件中使用 CSS module"></a>2. 在各別頁面或元件中使用 CSS module</h4><p>CSS module 也是一個見了許久卻沒使用的東西<br>他主要的功用是 能依照作用範圍切分 CSS 文件的大小</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* In page.module.css */</span></span><br><span class="line"><span class="selector-class">.container</span> &#123;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">0</span> <span class="number">1rem</span>;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">3rem</span> auto <span class="number">6rem</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// In page.js</span></span><br><span class="line"><span class="keyword">import</span> styles <span class="keyword">from</span> <span class="string">&#x27;./page.module.css&#x27;</span>  <span class="comment">// &lt;--- Here!</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">function</span> <span class="title function_">page</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">className</span>=<span class="string">&#123;styles.container&#125;</span>&gt;</span>  &#123;/* &lt;--- Here!*/&#125;</span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">h2</span>&gt;</span>This is a page.<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">  )</span></span><br><span class="line"><span class="language-xml">&#125;</span></span><br></pre></td></tr></table></figure>
-
-<p>上面的例子，<code>page.module.css</code>就是專門寫給<code>page.js</code>用的<br>這樣就可以避免跟其他元件的 class 撞名</p>
-<p>以前當我要避免撞名時<br>不是把 APP 的所有 CSS 都寫在一份檔案<br>就是極致利用 BEM 規則把每個 class 都寫得超長</p>
-<p>用了 CSS module 後<br>當你去看網頁上實際的 class 會發現他可能長這樣<br><code>&lt;div class=&quot;container__fbLkO&quot;&gt;&lt;/div&gt;</code><br>CSS module 會在 class 後面加上亂碼<br>避免跟其他元件的 class 撞名</p>
-<h2 id="一些限制"><a href="#一些限制" class="headerlink" title="一些限制"></a><font color="#f4a261">一些限制</font></h2><p>進入正題(前面講了好多別的)<br>CSS module 雖然方便<br>但仍然有一些限制<br>例如在<code>.module.css</code>中<br>只能用 class 或 id 選擇器<br>不能用 element 選擇器</p>
-<p>意思是不能在<code>.module.css</code>中這樣寫</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">p</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: red;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>詳細原因可以參考  –&gt;  <a target="_blank" rel="noopener" href="https://github.com/vercel/next.js/discussions/16050#discussioncomment-49022">這個連結</a>  &lt;– </p>
-<p>如果基於某些原因必須去選 element<br>就只能寫在 global.css 中囉</p>
-<p>除此之外，偽類偽元素以及選擇器的組合都還是能正常使用的喔</p>
-<h2 id="結論"><a href="#結論" class="headerlink" title="結論"></a><font color="#f4a261">結論</font></h2><p>我覺得不管是什麼前端技術(或程式語言技術)<br>最終都會向元件化靠攏<br>像 styled component 或今天介紹的 CSS module<br>都是盡可能的把「屬於元件的部分」跟元件本身放得越近越好<br>享受方便性的同時，也要同時注意使用上的限制才行</p>
-</font>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left" aria-label="上一頁"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right" aria-label="下一頁"></i></a>
+    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left" aria-label="上一頁"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right" aria-label="下一頁"></i></a>
   </nav>
 
 </div>
