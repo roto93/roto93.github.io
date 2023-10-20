@@ -120,7 +120,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">52</span>
+          <span class="site-state-item-count">53</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -150,6 +150,95 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2022/02/16/create-react-app-5-0-0-%E9%96%8B%E5%A7%8B%E4%B8%8D%E6%94%AF%E6%8F%B4%E5%85%A8%E5%9F%9F%E5%AE%89%E8%A3%9D%E4%BA%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Guan-Ting Su">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pi's Blog">
+      <meta itemprop="description" content="一些程式自學小記錄">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Pi's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/02/16/create-react-app-5-0-0-%E9%96%8B%E5%A7%8B%E4%B8%8D%E6%94%AF%E6%8F%B4%E5%85%A8%E5%9F%9F%E5%AE%89%E8%A3%9D%E4%BA%86/" class="post-title-link" itemprop="url">create-react-app 5.0.0 開始不支援全域安裝了</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-02-16 19:01:03" itemprop="dateCreated datePublished" datetime="2022-02-16T19:01:03+08:00">2022-02-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2022-10-13 15:53:16" itemprop="dateModified" datetime="2022-10-13T15:53:16+08:00">2022-10-13</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <font size="2" color="#aaa">
+
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><font color="#f4a261">前言</font></h2><p>整個過年期間後有點小荒廢<br>於是決定做一些 react 的小 project 練習一下<br>結果在初始化專案就卡住…</p>
+<img src="/2022/02/16/create-react-app-5-0-0-%E9%96%8B%E5%A7%8B%E4%B8%8D%E6%94%AF%E6%8F%B4%E5%85%A8%E5%9F%9F%E5%AE%89%E8%A3%9D%E4%BA%86/1.jpg">
+
+<p>第一行說需要安裝create-react-app<br>我就覺得怪怪的<br>之前明明就用過啊<br>指令也下得一樣<br>怎麼突然要下載</p>
+<p>當時也沒繼續多想就直接按下 y 繼續<br>結果還是沒執行<br>這裡有一句非常關鍵: </p>
+<blockquote>
+<p><font color="gold">We no longer support global installation of Create React App.</font></p>
+</blockquote>
+<p>根據官方文件，現在不支援用全域安裝的方式來執行了<br>原因是要讓大家盡可能使用最新版本<br>所以之後每次執行<code>npx create-react-app</code>時<br>都會當下下載最新版來用</p>
+<h2 id="還沒結束"><a href="#還沒結束" class="headerlink" title="還沒結束"></a><font color="#f4a261">還沒結束</font></h2><p>所以我照他的只是把電腦上全域安裝的 create-react-app 移除<br>但結果完全一樣<br>我已經檢查過電腦上已經沒有裝了<br>只好再次求救 google</p>
+<p>後來發現是因為 npx 的 cache 要清除<br>只要執行 <code>npx clear-npx-cache</code> 就可以了</p>
+<h2 id="結論"><a href="#結論" class="headerlink" title="結論"></a><font color="#f4a261">結論</font></h2><p>官方呼籲大家盡早把自己電腦上的全域套件移除<br>以後要建立新的 react 專案<br>不能再用全域套件來創了<br>但初始化指令不變<br>一樣是 <code>npx create-react-app &lt;your-app-name&gt;</code> ㄛ</p>
+</font>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -341,103 +430,6 @@
 <p>版本3、版本5 - 確定性UUID 通過雜湊（hashing）命名空間（namespace）識別碼和名稱生成；</p>
 <p>版本4 - UUID 使用隨機性或偽隨機性生成。</p>
 <p>基本上就是不同的產生方式，但我覺得大部分情況都用同一種就可以了~</p>
-</font>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2021/09/08/heroku-psql-%E5%88%B0%E5%BA%95%E8%A6%81%E4%B8%8D%E8%A6%81%E5%8A%A0-a-flag-%E5%95%A6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Guan-Ting Su">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pi's Blog">
-      <meta itemprop="description" content="一些程式自學小記錄">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Pi's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/09/08/heroku-psql-%E5%88%B0%E5%BA%95%E8%A6%81%E4%B8%8D%E8%A6%81%E5%8A%A0-a-flag-%E5%95%A6/" class="post-title-link" itemprop="url">heroku psql 到底要不要加 -a flag 啦</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-
-      <time title="創建時間：2021-09-08 01:21:15" itemprop="dateCreated datePublished" datetime="2021-09-08T01:21:15+08:00">2021-09-08</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2022-10-13 15:53:16" itemprop="dateModified" datetime="2022-10-13T15:53:16+08:00">2022-10-13</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <font size="2" color="#aaa">
-
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><font color="#f4a261">前言</font></h2><p>有件事一直搞不懂<br>我在看 heroku postgres 要怎麼備份時<br>看到有些範例會寫 –app 來指定 app 名稱<br>如: <code>heroku pg:backups:capture --app sushi</code></p>
-<p>看起來好像是必要的參數<br>但有時範例又沒有加</p>
-<hr>
-<h2 id="尋找答案"><a href="#尋找答案" class="headerlink" title="尋找答案"></a><font color="#f4a261">尋找答案</font></h2><h3 id="先看help"><a href="#先看help" class="headerlink" title="先看help"></a>先看help</h3><p>help flag 永遠是第一步<br>所以我輸入 <code>heroku pg:backups --help</code> 求解，得到</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">OPTIONS</span><br><span class="line">  -a, --app=app        (required) app to run command against</span><br><span class="line">  -r, --remote=remote  git remote of app to use</span><br></pre></td></tr></table></figure>
-
-<p>哦! 他說 required<br>但實際運行 <code>heroku pg:backups</code> 的時候<br>卻又沒問題</p>
-<h3 id="試試跟-app-有關的指令"><a href="#試試跟-app-有關的指令" class="headerlink" title="試試跟 app 有關的指令"></a>試試跟 app 有關的指令</h3><p>於是接下來，我運行 <code>heroku apps</code> 得到</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">=== *******@yahoo.com.tw Apps</span><br><span class="line">pi-first-api</span><br><span class="line">taiwan-astronomy-network-api</span><br></pre></td></tr></table></figure>
-
-<p>沒錯<br>目前我的帳號有這兩個app<br><code>pi-first-api</code>是我第一次使用heroku時的練習app<br><code>taiwan-astronomy-network-api</code>這是我正在用的app<br>我輸入指令沒指定app<br>heroku卻知道我要使用哪個app<br>這可能代表我之前有做過什麼設定<br>讓heroku在「目前的資料夾當中」自動連結到正確的app上</p>
-<h3 id="是否只有此路徑能自動指定app"><a href="#是否只有此路徑能自動指定app" class="headerlink" title="是否只有此路徑能自動指定app?"></a>是否只有此路徑能自動指定app?</h3><p>為了證實剛剛的假設<br>我移動到上層資料夾(不在專案內)<br>執行 <code>heroku pg:backups</code><br>居然跳出錯誤訊息!</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">»   Error: Missing required flag:</span><br><span class="line">»     -a, --app APP  app to run command against</span><br><span class="line">»   See more help with --help</span><br></pre></td></tr></table></figure>
-<p>所以現在確定了<br>只有在我的專案資料夾才能夠省略 –app</p>
-<p>這時我突然想到<br>在當初第一次使用 heroku 的時候<br>有做了一些前置作業<br>其中包含了指定 remote<br>很有可能就是這個原因</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt; git remote -v</span><br><span class="line">heroku  https://git.heroku.com/taiwan-astronomy-network-api.git (fetch)</span><br><span class="line">heroku  https://git.heroku.com/taiwan-astronomy-network-api.git (push)</span><br><span class="line">origin  https://github.com/roto93/TAN-API.git (fetch)</span><br><span class="line">origin  https://github.com/roto93/TAN-API.git (push)</span><br></pre></td></tr></table></figure>
-
-<p>後來我也試著把 remote 去掉再試一次，這樣就不行了<br>看來可以確定主因了</p>
-<h2 id="結論"><a href="#結論" class="headerlink" title="結論"></a><font color="#f4a261">結論</font></h2><p>若專案資料夾有設定 heroku 的 remote<br>那在輸入 heroku 指令時就不需要加上 –app 的 flag</p>
-<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/51815542/heroku-missing-required-flag-a">參考</a></p>
 </font>
       
     </div>

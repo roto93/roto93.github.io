@@ -20,26 +20,30 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"roto93.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.13.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="一些程式自學小記錄">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Pi&#39;s Blog">
-<meta property="og:url" content="http://roto93.github.io/index.html">
+    <meta name="description" content="前言: 如何顯示 svg 圖檔 關於怎麼在 react 專案中顯示 svg 有下列幾種方法  用 img 元素顯示 利用 SVGR 線上轉換器，將 svg 轉換成 tsx 版本 安裝 SVGR plugin，直接在專案中 import svg 就能用  1. 用 img 元素顯示 123456&#x2F;&#x2F; 直接放路徑&lt;img src&#x3D;&amp;#123;&quot;.&#x2F;ic-close.svg&quot;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="動態調整svg圖檔的URL和顏色">
+<meta property="og:url" content="http://roto93.github.io/2023/10/20/%E5%8B%95%E6%85%8B%E8%AA%BF%E6%95%B4svg%E5%9C%96%E6%AA%94%E7%9A%84URL%E5%92%8C%E9%A1%8F%E8%89%B2/index.html">
 <meta property="og:site_name" content="Pi&#39;s Blog">
-<meta property="og:description" content="一些程式自學小記錄">
+<meta property="og:description" content="前言: 如何顯示 svg 圖檔 關於怎麼在 react 專案中顯示 svg 有下列幾種方法  用 img 元素顯示 利用 SVGR 線上轉換器，將 svg 轉換成 tsx 版本 安裝 SVGR plugin，直接在專案中 import svg 就能用  1. 用 img 元素顯示 123456&#x2F;&#x2F; 直接放路徑&lt;img src&#x3D;&amp;#123;&quot;.&#x2F;ic-close.svg&quot;">
 <meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://roto93.github.io/2023/10/20/%E5%8B%95%E6%85%8B%E8%AA%BF%E6%95%B4svg%E5%9C%96%E6%AA%94%E7%9A%84URL%E5%92%8C%E9%A1%8F%E8%89%B2/1.png">
+<meta property="article:published_time" content="2023-10-20T02:54:02.000Z">
+<meta property="article:modified_time" content="2023-10-20T08:05:59.781Z">
 <meta property="article:author" content="Guan-Ting Su">
 <meta property="article:tag" content="程式,自學">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://roto93.github.io/2023/10/20/%E5%8B%95%E6%85%8B%E8%AA%BF%E6%95%B4svg%E5%9C%96%E6%AA%94%E7%9A%84URL%E5%92%8C%E9%A1%8F%E8%89%B2/1.png">
 
 
-<link rel="canonical" href="http://roto93.github.io/">
+<link rel="canonical" href="http://roto93.github.io/2023/10/20/%E5%8B%95%E6%85%8B%E8%AA%BF%E6%95%B4svg%E5%9C%96%E6%AA%94%E7%9A%84URL%E5%92%8C%E9%A1%8F%E8%89%B2/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"zh-TW","comments":"","permalink":"","path":"index.html","title":""}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"http://roto93.github.io/2023/10/20/%E5%8B%95%E6%85%8B%E8%AA%BF%E6%95%B4svg%E5%9C%96%E6%AA%94%E7%9A%84URL%E5%92%8C%E9%A1%8F%E8%89%B2/","path":"2023/10/20/動態調整svg圖檔的URL和顏色/","title":"動態調整svg圖檔的URL和顏色"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Pi's Blog</title>
+<title>動態調整svg圖檔的URL和顏色 | Pi's Blog</title>
   
 
 
@@ -67,7 +71,7 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <h1 class="site-title">Pi's Blog</h1>
+      <p class="site-title">Pi's Blog</p>
       <i class="logo-line"></i>
     </a>
   </div>
@@ -95,7 +99,7 @@
 
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目錄
@@ -108,6 +112,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#font-color-f4a261-%E5%89%8D%E8%A8%80-%E5%A6%82%E4%BD%95%E9%A1%AF%E7%A4%BA-svg-%E5%9C%96%E6%AA%94-font"><span class="nav-number">1.</span> <span class="nav-text">前言: 如何顯示 svg 圖檔</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E7%94%A8-img-%E5%85%83%E7%B4%A0%E9%A1%AF%E7%A4%BA"><span class="nav-number">1.1.</span> <span class="nav-text">1. 用 img 元素顯示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%88%A9%E7%94%A8-SVGR-%E7%B7%9A%E4%B8%8A%E8%BD%89%E6%8F%9B%E5%99%A8%EF%BC%8C%E5%B0%87-svg-%E8%BD%89%E6%8F%9B%E6%88%90-tsx-%E7%89%88%E6%9C%AC"><span class="nav-number">1.2.</span> <span class="nav-text">2. 利用 SVGR 線上轉換器，將 svg 轉換成 tsx 版本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%AE%89%E8%A3%9D-SVGR-plugin%EF%BC%8C%E7%9B%B4%E6%8E%A5%E5%9C%A8%E5%B0%88%E6%A1%88%E4%B8%AD-import-svg-%E5%B0%B1%E8%83%BD%E7%94%A8"><span class="nav-number">1.3.</span> <span class="nav-text">3. 安裝 SVGR plugin，直接在專案中 import svg 就能用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#font-color-f4a261-%E5%89%8D%E8%A8%80-%E5%A6%82%E4%BD%95%E5%8B%95%E6%85%8B%E8%AA%BF%E6%95%B4-svg-%E7%9A%84%E9%A1%8F%E8%89%B2-font"><span class="nav-number">2.</span> <span class="nav-text"> 前言: 如何動態調整 svg 的顏色</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E6%89%8B%E5%8B%95%E7%B7%A8%E8%BC%AF-svg-%E8%A3%A1%E7%9A%84-fill-%E6%88%96-stroke-%E5%B1%AC%E6%80%A7%EF%BC%8C%E6%94%B9%E7%82%BA-currentColor"><span class="nav-number">2.0.1.</span> <span class="nav-text">1. 手動編輯 svg 裡的 fill 或 stroke 屬性，改為 currentColor</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E8%AA%BF%E6%95%B4-SVGR-%E5%A5%97%E4%BB%B6%E7%9A%84%E8%A8%AD%E5%AE%9A%EF%BC%8C%E8%AE%93%E4%BB%96%E5%86%8D%E8%BD%89%E8%AD%AF%E7%9A%84%E9%81%8E%E7%A8%8B%E4%B8%AD%E8%87%AA%E5%8B%95%E6%8A%8A%E6%9F%90%E5%80%8B%E9%A1%8F%E8%89%B2-%E4%BE%8B%E5%A6%82-ffffff-%E6%8F%9B%E6%88%90-currentColor"><span class="nav-number">2.0.2.</span> <span class="nav-text">2. 調整 SVGR 套件的設定，讓他再轉譯的過程中自動把某個顏色(例如#ffffff)換成 currentColor</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#font-color-f4a261-%E5%A6%82%E4%BD%95%E7%94%A8-img-%E9%A1%AF%E7%A4%BA%E5%8D%BB%E5%8F%88%E8%83%BD%E5%8B%95%E6%85%8B%E8%AA%BF%E6%95%B4%E9%A1%8F%E8%89%B2-font"><span class="nav-number">3.</span> <span class="nav-text">如何用&lt;img&gt;顯示卻又能動態調整顏色</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#font-color-f4a261-References-font"><span class="nav-number">4.</span> <span class="nav-text">References</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -149,16 +154,17 @@
 </noscript>
 
 
-    <div class="main-inner index posts-expand">
+    <div class="main-inner post posts-expand">
 
-    
+
+  
 
 
 <div class="post-block">
   
   
 
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
     <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2023/10/20/%E5%8B%95%E6%85%8B%E8%AA%BF%E6%95%B4svg%E5%9C%96%E6%AA%94%E7%9A%84URL%E5%92%8C%E9%A1%8F%E8%89%B2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -172,13 +178,13 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Pi's Blog">
+      <meta itemprop="name" content="動態調整svg圖檔的URL和顏色 | Pi's Blog">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/10/20/%E5%8B%95%E6%85%8B%E8%AA%BF%E6%95%B4svg%E5%9C%96%E6%AA%94%E7%9A%84URL%E5%92%8C%E9%A1%8F%E8%89%B2/" class="post-title-link" itemprop="url">動態調整svg圖檔的URL和顏色</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          動態調整svg圖檔的URL和顏色
+        </h1>
 
         <div class="post-meta-container">
           <div class="post-meta">
@@ -202,7 +208,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <font size="2" color="#999">
+        <font size="2" color="#999">
 <h2 id="font-color-f4a261-前言-如何顯示-svg-圖檔-font"><a class="header-anchor" href="#font-color-f4a261-前言-如何顯示-svg-圖檔-font"></a><font color="#f4a261">前言: 如何顯示 svg 圖檔</font></h2>
 <p>關於怎麼在 react 專案中顯示 svg<br>
 有下列幾種方法</p>
@@ -252,7 +258,6 @@
 <li><a target="_blank" rel="noopener" href="https://codepen.io/sosuke/pen/Pjoqqp">https://codepen.io/sosuke/pen/Pjoqqp</a></li>
 </ul>
 </font>
-      
     </div>
 
     
@@ -260,8 +265,18 @@
     
 
     <footer class="post-footer">
-        <div class="post-eof"></div>
-      
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/08/20/%E8%A9%A6%E7%8E%A9Highcharts%E9%81%87%E5%88%B0%E7%9A%84%E9%81%87%E5%88%B0%E7%9A%84TS%E5%B0%8F%E5%95%8F%E9%A1%8C/" rel="prev" title="試玩Highcharts遇到的遇到的TS小問題">
+                  <i class="fa fa-chevron-left"></i> 試玩Highcharts遇到的遇到的TS小問題
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
     </footer>
   </article>
 </div>
@@ -269,177 +284,7 @@
 
 
 
-    
 
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2023/08/20/%E8%A9%A6%E7%8E%A9Highcharts%E9%81%87%E5%88%B0%E7%9A%84%E9%81%87%E5%88%B0%E7%9A%84TS%E5%B0%8F%E5%95%8F%E9%A1%8C/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Guan-Ting Su">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pi's Blog">
-      <meta itemprop="description" content="一些程式自學小記錄">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Pi's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/08/20/%E8%A9%A6%E7%8E%A9Highcharts%E9%81%87%E5%88%B0%E7%9A%84%E9%81%87%E5%88%B0%E7%9A%84TS%E5%B0%8F%E5%95%8F%E9%A1%8C/" class="post-title-link" itemprop="url">試玩Highcharts遇到的遇到的TS小問題</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-      
-
-      <time title="創建時間：2023-08-20 01:47:00 / 修改時間：02:34:19" itemprop="dateCreated datePublished" datetime="2023-08-20T01:47:00+08:00">2023-08-20</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <font size="2" color="#999">
-<h2 id="font-color-f4a261-前言-font"><a class="header-anchor" href="#font-color-f4a261-前言-font"></a><font color="#f4a261">前言</font></h2>
-<p>最近安裝 highcharts 來試玩，因為之後公司的網頁有可能會換圖表套件，想要找一個比現在用的 lightweight chart 再更靈活一點的，畢竟他的主力是在 financial charts，拿來做股市圖蠻不錯的，但圖表類型很少連圓餅圖都沒有。</p>
-<p>研究的過程中遇到一個 type error 覺得蠻有意思的。</p>
-<h2 id="font-color-f4a261-想要從圖表提取-x-y-以外的資料-font"><a class="header-anchor" href="#font-color-f4a261-想要從圖表提取-x-y-以外的資料-font"></a><font color="#f4a261">想要從圖表提取 x, y 以外的資料</font></h2>
-<p>我想要做的功能是：當滑鼠指到圖上的任一點，圖表外的某處就要顯示該點的 x,y 值，以及另一個附加的資料。類似下面這樣(lightweight chart)</p>
-<img src="/2023/08/20/%E8%A9%A6%E7%8E%A9Highcharts%E9%81%87%E5%88%B0%E7%9A%84%E9%81%87%E5%88%B0%E7%9A%84TS%E5%B0%8F%E5%95%8F%E9%A1%8C/1.png" width="80%">
-<p>這張圖看起來不就是把 y 值提出來而已嗎？這樣有什麼困難？但其實我背後是把 y 值設為幣價的絕對值，以此來做圖。至於 y 軸會變成百分比是因為 lightweight chart 有提供一個功能讓我可以用百分比來顯示。</p>
-<p>現在我要用 highcharts 做到一樣的事情，在設定 data property 時應<a target="_blank" rel="noopener" href="https://www.highcharts.com/forum/viewtopic.php?t=48914#p177391">用物件的方式定義 x,y 以及額外的資料</a>，而不是用陣列的方式定義，請看以下</p>
-<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> options &#123;</span><br><span class="line">  <span class="attr">data</span>: [[<span class="number">1</span>,<span class="number">20</span>,<span class="string">&#x27;extra1&#x27;</span>], [<span class="number">2</span>,<span class="number">23</span>,<span class="string">&#x27;extra2&#x27;</span>], [<span class="number">3</span>,<span class="number">19</span>,<span class="string">&#x27;extra3&#x27;</span>]], <span class="comment">//不要這樣定義</span></span><br><span class="line">  <span class="attr">data</span>: [</span><br><span class="line">    &#123;<span class="attr">x</span>: <span class="number">1</span>, <span class="attr">y</span>: <span class="number">20</span>, <span class="attr">extra</span>: <span class="string">&#x27;extra1&#x27;</span>&#125;,</span><br><span class="line">    &#123;<span class="attr">x</span>: <span class="number">2</span>, <span class="attr">y</span>: <span class="number">23</span>, <span class="attr">extra</span>: <span class="string">&#x27;extra2&#x27;</span>&#125;,</span><br><span class="line">    &#123;<span class="attr">x</span>: <span class="number">3</span>, <span class="attr">y</span>: <span class="number">19</span>, <span class="attr">extra</span>: <span class="string">&#x27;extra3&#x27;</span>&#125;</span><br><span class="line">  ] <span class="comment">//應該這樣定義</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>這樣一來就可以用<code>series.point.event.mouseover</code>觸發 hover event ,再藉由 callback function 裡的<code>this</code>去取值，但這就遇到 Typescript 的問題了</p>
-<img src="/2023/08/20/%E8%A9%A6%E7%8E%A9Highcharts%E9%81%87%E5%88%B0%E7%9A%84%E9%81%87%E5%88%B0%E7%9A%84TS%E5%B0%8F%E5%95%8F%E9%A1%8C/2.png" width="80%">
-<h2 id="font-color-f4a261-如果-this-跟想像的不一樣怎麼辦-font"><a class="header-anchor" href="#font-color-f4a261-如果-this-跟想像的不一樣怎麼辦-font"></a><font color="#f4a261">如果 this 跟想像的不一樣怎麼辦</font></h2>
-<p>我想這是因為我定義了額外的屬性，雖然 highcharts 好心的幫我加進去 this，但是新的AUM屬性就是不存在在this的type(實際上是Highcharts.Point)裡面啊，但我要怎麼讓這個 type error 消失啊？</p>
-<p>optional chaining 不行，this 也不能 assign 到別的變數(<code>no-this-alias</code> error)</p>
-<img src="/2023/08/20/%E8%A9%A6%E7%8E%A9Highcharts%E9%81%87%E5%88%B0%E7%9A%84%E9%81%87%E5%88%B0%E7%9A%84TS%E5%B0%8F%E5%95%8F%E9%A1%8C/3.png" width="80%">
-<p>研究好一段時間之後，這樣就可以了：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">AUM</span>: (<span class="variable language_">this</span> <span class="keyword">as</span> <span class="keyword">typeof</span> <span class="variable language_">this</span> &amp; &#123; <span class="attr">AUM</span>: string &#125;).<span class="property">AUM</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="font-color-f4a261-結論-font"><a class="header-anchor" href="#font-color-f4a261-結論-font"></a><font color="#f4a261">結論</font></h2>
-<p>一般來說遇到這種問題應該要去修改最根本的 type 定義，但今天遇到的是特殊狀況，我要怎麼從源頭修改 this 的 type 啊?<br>
-現在終於知道原來可以<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/18083389/ignore-typescript-errors-property-does-not-exist-on-value-of-type">在 dot notation 前面用括號</a>刮起來用<code>as</code>，又多知道一個應急的方法了</p>
-</font>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2023/08/05/Figma%E7%82%BAUI%E8%A8%AD%E8%A8%88%E5%B8%AB%E5%BC%95%E5%85%A5%E5%B7%A5%E7%A8%8B%E6%80%9D%E7%B6%AD/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Guan-Ting Su">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pi's Blog">
-      <meta itemprop="description" content="一些程式自學小記錄">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Pi's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/08/05/Figma%E7%82%BAUI%E8%A8%AD%E8%A8%88%E5%B8%AB%E5%BC%95%E5%85%A5%E5%B7%A5%E7%A8%8B%E6%80%9D%E7%B6%AD/" class="post-title-link" itemprop="url">Figma為UI設計師引入工程思維</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-      
-
-      <time title="創建時間：2023-08-05 01:18:44 / 修改時間：01:22:34" itemprop="dateCreated datePublished" datetime="2023-08-05T01:18:44+08:00">2023-08-05</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <font size="2" color="#999">
-<p>最近的一些小小心得</p>
-<p>前幾天設計師同事說他從沒想過Figma讓design跟dev走得這麼近。</p>
-<p>Figma相較於過去的UI設計工具，引入了很多工程思維，元件化、auto layout、variable這些概念可以讓排版、出畫面變得更快更一致也更好管理。</p>
-<p>但我相信這些功能對沒有太多UI經驗的設計師來說除了不好理解以外也不知用意何在。幾個月前同事問我Figma Token的問題，我剛好有稍微研究過記得大概的用法，基本上就是json的運用，但對方還是容易不解為什麼要這樣做。設定了一大堆東西卻‘看似’只能用來切換深色模式，另外token的mapping(alias)、variants也是設計領域相對陌生的東西。</p>
-<p>後來她離職了，公司剩另一位更不熟Figmaㄉ設計師。出圖永遠現場拉，連frame都常常沒包，沒元件化的結果導致UI總是不一致，畫面一改就全都得重拉。雖然有想排整齊卻很難做到，也缺乏對齊方式等RWD資訊。同時我們也欠缺一個有效管理Figma檔案的方式，我們永遠找不到最新的畫面，都是三百年前的頁面配新的UI，還常害校稿的同事改到舊的文案。</p>
-<p>在獲得允許可以實驗性的大改Figma file後，我開始研究要怎麼妥善管理元件、頁面、spec，幫忙補 UI，教怎麼用 auto layout 處理 resizing。</p>
-<p>也畫了架構圖向設計師說明元件庫、專案、畫面之間的關係，解釋為什麼這麼做能改善迭代的效率。但就像前面說的，工程思維滿類似寫程式時的 design pattern，對工程師來說相對熟悉，卻對設計師而言很陌生，問了不少次「為什麼要這麼麻煩」。但我不認為這是一個只適用於程式面的技巧，只要是需要迭代、管理、量產，就一定會受用。</p>
-<p>當這些工程思維被建立起來後，除了能提升效率，也多了一些共通語言，不會一直有種設計跟工程兩個世界的感覺。我覺得前端(至少在我這)就是同時存在在這兩個世界的角色，沒有非常隸屬於任何一邊，但我感覺有一點點責任去把這兩個世界拉近一點。</p>
-</font>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一頁"></i></a>
-  </nav>
 
 </div>
   </main>

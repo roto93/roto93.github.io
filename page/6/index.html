@@ -120,7 +120,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">52</span>
+          <span class="site-state-item-count">53</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -150,6 +150,110 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2022/08/04/JS%E8%A7%80%E5%BF%B5%E7%AF%87-%E6%B7%B1%E6%B7%BA%E6%8B%B7%E8%B2%9D/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Guan-Ting Su">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pi's Blog">
+      <meta itemprop="description" content="一些程式自學小記錄">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Pi's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/08/04/JS%E8%A7%80%E5%BF%B5%E7%AF%87-%E6%B7%B1%E6%B7%BA%E6%8B%B7%E8%B2%9D/" class="post-title-link" itemprop="url">JS 觀念篇 -- 深淺拷貝</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-08-04 12:54:51" itemprop="dateCreated datePublished" datetime="2022-08-04T12:54:51+08:00">2022-08-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2022-10-13 15:53:16" itemprop="dateModified" datetime="2022-10-13T15:53:16+08:00">2022-10-13</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <font size="2" color="#aaa">
+
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><font color="#f4a261">前言</font></h2><p>這次要講一個我在做專案時一直被他搞死的概念<br>深拷貝與淺拷貝<br>雖然已經知道這個概念<br>相關文章也看到好幾次了<br>但每次還是會在專案中卡好久好久找不到 bug<br>最後才發現說：「啊 原來又是這個問題啊」</p>
+<h2 id="Call-by-value-reference"><a href="#Call-by-value-reference" class="headerlink" title="Call by value/reference"></a><font color="#f4a261">Call by value/reference</font></h2><p>首先要釐清的觀念是 call by value 跟 call by reference</p>
+<blockquote>
+<p><font color="gold">在 javascript 中物件是採用 call by reference</font></p>
+</blockquote>
+<p>也就是例如當你把已存在記憶體中的物件指派到<code>a</code>變數時<br><code>a</code>會指向該記憶體位置，而不是複製其值<br>讓我們看個例子</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> A = &#123;<span class="attr">num</span>: <span class="number">1</span>&#125;</span><br><span class="line"><span class="keyword">const</span> B = &#123;<span class="attr">num</span>: <span class="number">1</span>&#125;</span><br><span class="line"><span class="keyword">const</span> C = A</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(A===B) <span class="comment">// false</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(A===C) <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+
+<p>當我互相比較這三個物件時<br>會發現<code>A</code>和<code>B</code>明明內容相同，卻回傳 false<br>只有當<code>C</code>是從<code>A</code> assign 來的時候才得到 true<br>因為其實 A 和 C 是共用同一個記憶體<br>而物件的比較是去看記憶體位置<br>所以得到 true<br>而<code>A</code>和<code>B</code>雖然內容一樣，卻因為都是新創的物件<br>他們會占用不同的記憶體位置<br>對 JS 來說就是不一樣的囉</p>
+<h2 id="淺拷貝"><a href="#淺拷貝" class="headerlink" title="淺拷貝"></a><font color="#f4a261">淺拷貝</font></h2><p>上述的 <code>const C = A</code> 就是淺拷貝的一種<br>他沒辦法做到完全的複製<br>而是在「某程度」上保有指向相同記憶體的特性</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> A = &#123;<span class="attr">num</span>: <span class="number">1</span>&#125;</span><br><span class="line"><span class="keyword">const</span> B = A</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(A,B) <span class="comment">//&#123;num: 1&#125;, &#123;num: 1&#125;</span></span><br><span class="line">A.<span class="property">num</span> = <span class="number">10</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(A,B) <span class="comment">//&#123;num: 10&#125;, &#123;num: 10&#125;</span></span><br></pre></td></tr></table></figure>
+<p>我只更動<code>A</code>，結果<code>B</code>的內容也改了<br>很多時候出現 bug 就是因為這個原因</p>
+<p>至於剛剛為什麼要強調「某程度」呢?<br>因為有些做法只能在第一層上進行深拷貝<br>當你的物件結構更複雜時就會出問題<br>來看一個被誤以為是深拷貝的技巧 spread operator</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> A = &#123;<span class="attr">num</span>: <span class="number">1</span>&#125;</span><br><span class="line"><span class="keyword">const</span> B = &#123;...A&#125;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(A,B) <span class="comment">//&#123;num: 1&#125;, &#123;num: 1&#125;</span></span><br><span class="line">A.<span class="property">num</span> = <span class="number">10</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(A,B) <span class="comment">//&#123;num: 10&#125;, &#123;num: 1&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>看似沒問題，但如果改成二階以上的物件的話…</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> A = &#123;<span class="attr">num</span>: &#123;<span class="attr">ch</span>: <span class="string">&#x27;一&#x27;</span>&#125;&#125;</span><br><span class="line"><span class="keyword">const</span> B = &#123;...A&#125;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(A.<span class="property">num</span>.<span class="property">ch</span>, B.<span class="property">num</span>.<span class="property">ch</span>) <span class="comment">// &quot;一&quot;, &quot;一&quot;</span></span><br><span class="line">A.<span class="property">num</span>.<span class="property">ch</span> = <span class="string">&#x27;四&#x27;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(A.<span class="property">num</span>.<span class="property">ch</span>, B.<span class="property">num</span>.<span class="property">ch</span>) <span class="comment">//&quot;四&quot;, &quot;四&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>另外還有一個做法是 <code>Object.assign()</code><br>但結果跟解構賦值一樣<br>僅限於一階物件</p>
+<h2 id="深拷貝"><a href="#深拷貝" class="headerlink" title="深拷貝"></a><font color="#f4a261">深拷貝</font></h2><p>我個人最喜歡的作法是用<code>JSON.stringify</code>和<code>JSON.parse</code><br>直接把物件文字化再物件化一次<br>就一定會是另一個物件了<br>達到深拷貝的效果，像這樣:</p>
+<p><code>const B = JSON.parse(JSON.stringify(A))</code></p>
+<p>或是如果嫌每次都這樣寫麻煩<br>可以在專案中定義一個 deepClone function</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">deepClone</span> = (<span class="params">obj</span>) =&gt; <span class="title class_">JSON</span>.<span class="title function_">parse</span>(<span class="title class_">JSON</span>.<span class="title function_">stringify</span>(obj))</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> A = &#123;<span class="attr">num</span>: &#123;<span class="attr">ch</span>: <span class="string">&#x27;一&#x27;</span>&#125;&#125;</span><br><span class="line"><span class="keyword">const</span> B = <span class="title function_">deepClone</span>(A)</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(A.<span class="property">num</span>.<span class="property">ch</span>, B.<span class="property">num</span>.<span class="property">ch</span>) <span class="comment">//&quot;一&quot;, &quot;一&quot;</span></span><br><span class="line">A.<span class="property">num</span>.<span class="property">ch</span> = <span class="string">&#x27;四&#x27;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(A.<span class="property">num</span>.<span class="property">ch</span>, B.<span class="property">num</span>.<span class="property">ch</span>) <span class="comment">//&quot;四&quot;, &quot;一&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="結論"><a href="#結論" class="headerlink" title="結論"></a><font color="#f4a261">結論</font></h2><blockquote>
+<p><font color="gold">淺拷貝: 看似複製，其實是指向相同位址</font><br><font color="gold">深拷貝: 另用一個記憶體存值，實質意義上的複製</font></p>
+</blockquote>
+<img width="70%" src="/2022/08/04/JS%E8%A7%80%E5%BF%B5%E7%AF%87-%E6%B7%B1%E6%B7%BA%E6%8B%B7%E8%B2%9D/shallow-deep-clone.jpg"></font>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -340,107 +444,6 @@
 <li>會使函式記住宣告它當下的環境</li>
 <li>能讓函式被多次呼叫卻又互不影響</li>
 </ol>
-</font>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2022/07/28/JS%E8%A7%80%E5%BF%B5%E7%AF%87-%E4%BD%9C%E7%94%A8%E5%9F%9Fscope/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Guan-Ting Su">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pi's Blog">
-      <meta itemprop="description" content="一些程式自學小記錄">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Pi's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/07/28/JS%E8%A7%80%E5%BF%B5%E7%AF%87-%E4%BD%9C%E7%94%A8%E5%9F%9Fscope/" class="post-title-link" itemprop="url">JS 觀念篇1 -- 作用域 scope</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-
-      <time title="創建時間：2022-07-28 21:48:07" itemprop="dateCreated datePublished" datetime="2022-07-28T21:48:07+08:00">2022-07-28</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2022-10-13 15:53:16" itemprop="dateModified" datetime="2022-10-13T15:53:16+08:00">2022-10-13</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <font size="2" color="#aaa">
-
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><font color="#f4a261">前言</font></h2><p>接下來幾篇會著重在一些 javascript 的重要觀念<br>未來如果忘了哪部分就可以回來看看</p>
-<h2 id="作用域-Scope"><a href="#作用域-Scope" class="headerlink" title="作用域 Scope"></a><font color="#f4a261">作用域 Scope</font></h2><p>Scope 其實就是字面上的意思<br>一個變數或函式所能作用的範圍<br>在作用域以外的地方，就無法存取該變數<br>現在就用變數的宣告來解釋 scope 吧</p>
-<p>在我開始學程式之前<br>曾經有個東西風靡一時<br>那就是<code>var</code>，函數變數<br>在我寫這篇文章之前，原本以為<code>var</code>是宣告全域變數<br>結果仔細一查才發現並不是<br>連現今常用的<code>let</code>和<code>const</code>也不僅僅只是區域變數而已<br>只要搞清楚它們的作用域範圍就會懂了</p>
-<h2 id="var-的作用域"><a href="#var-的作用域" class="headerlink" title="var 的作用域"></a><font color="#f4a261">var 的作用域</font></h2><p>var 用來宣告函數變數 function variable<br>意即其作用域是在宣告他的函數內<br>來看個簡單的例子</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">printText</span> = (<span class="params"></span>)=&gt;&#123;</span><br><span class="line">  <span class="keyword">var</span> text1 = <span class="string">&#x27;Earth&#x27;</span></span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`text1: <span class="subst">$&#123;text1&#125;</span>`</span>)</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">if</span> (<span class="literal">true</span>)&#123;</span><br><span class="line">    <span class="keyword">var</span> text2 = <span class="string">&#x27;Moon&#x27;</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`text2: <span class="subst">$&#123;text2&#125;</span>`</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">printText</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment">// &quot;text1: Earth&quot;</span></span><br><span class="line"><span class="comment">// &quot;text2: Moon&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>text1 能被順利印出很正常<br>但 text2 也印的出來就沒那麼直觀了<br>這正是因為用<code>var</code>宣告的變數，在整個宣告它的函數內都有效<br>就算是在迴圈中宣告也一樣<br><code>var</code>變數不會被限制在迴圈的 block 中<br>但如果在父層函數內的話就行不通囉~ 如下</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">printText</span> = (<span class="params"></span>)=&gt;&#123;</span><br><span class="line">  <span class="keyword">const</span> <span class="title function_">innerPrint</span> = (<span class="params"></span>)=&gt;&#123;</span><br><span class="line">    <span class="keyword">var</span> text = <span class="string">&#x27;Sun&#x27;</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(text)</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">printText</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment">// Throwing error</span></span><br></pre></td></tr></table></figure>
-
-<p>text 變數的作用域只在 innerPrint 函式內<br>超出這個 scope 就取不到了</p>
-<p>話說那我們要怎麼宣告全域變數呢<br>只要在所有函式之外進行 var 宣告就可以了<br>只是要注意，不要再說「var就是宣告全域變數」囉</p>
-<h2 id="let-和-const-的作用域"><a href="#let-和-const-的作用域" class="headerlink" title="let 和 const 的作用域"></a><font color="#f4a261">let 和 const 的作用域</font></h2><p><code>let</code>和<code>const</code>都是用來宣告「區塊變數 block variable」<br>他們的作用域相同，都是在區塊內<br>如迴圈的區塊，或<code>if</code>區塊<br>再來一個簡單的例子</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">printText</span> = (<span class="params"></span>)=&gt;&#123;</span><br><span class="line">  <span class="keyword">let</span> text1 = <span class="string">&#x27;Earth&#x27;</span></span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`text1: <span class="subst">$&#123;text1&#125;</span>`</span>)</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">if</span> (<span class="literal">true</span>)&#123;</span><br><span class="line">    <span class="keyword">let</span> text2 = <span class="string">&#x27;Moon&#x27;</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`text2: <span class="subst">$&#123;text2&#125;</span>`</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">printText</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment">// &quot;text1: Earth&quot;</span></span><br><span class="line"><span class="comment">// Throwing error</span></span><br></pre></td></tr></table></figure>
-
-<p>text2 就印不出來了<br>因為 text2 只能在 if statement 中生存<br>這就是超出作用域的例子</p>
-<h2 id="var-VS-let-const"><a href="#var-VS-let-const" class="headerlink" title="var VS let/const"></a><font color="#f4a261">var VS let/const</font></h2><p>另外補充一個<code>var</code>與<code>let</code>的不同之處是<br><code>var</code>會將宣告上提 (hoisting)<br>只是不會初始化<br>可看看下列例子</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">printText</span> = (<span class="params"></span>)=&gt;&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;inside function before var:&#x27;</span>, text)</span><br><span class="line">  <span class="keyword">var</span> text = <span class="string">&#x27;Earth&#x27;</span></span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;inside function after var:&#x27;</span>, text)</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">printText</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment">// &quot;inside function before var:&quot;, undefined</span></span><br><span class="line"><span class="comment">// &quot;inside function after var:&quot;, &quot;Earth&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>雖然在宣告 text 前就取值<br>但只顯示<code>undefined</code>，並不會報錯<br>因為 text 已經被宣告了，只是沒賦值而已</p>
-<p>反之，<code>let</code>和<code>const</code>則會有所謂的暫時執行死區（TDZ）<br>所以這樣寫會出錯</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">const printText = ()=&gt;&#123;</span><br><span class="line">  console.log(&#x27;inside function before var:&#x27;, text)</span><br><span class="line">  let text = &#x27;Earth&#x27;</span><br><span class="line">&#125;</span><br><span class="line">printText()</span><br><span class="line"></span><br><span class="line">// Throwing error</span><br></pre></td></tr></table></figure>
-
-<p>有關 hoisting 就留到之後幾篇再說吧</p>
-<h2 id="結論"><a href="#結論" class="headerlink" title="結論"></a><font color="#f4a261">結論</font></h2><h4 id="Scope-作用域，變數或函式的作用範圍，也可以想成生存範圍"><a href="#Scope-作用域，變數或函式的作用範圍，也可以想成生存範圍" class="headerlink" title="Scope: 作用域，變數或函式的作用範圍，也可以想成生存範圍"></a>Scope: 作用域，變數或函式的作用範圍，也可以想成生存範圍</h4><p><code>var</code>變數的作用域在宣告時的函式內<br><code>let</code>變數和<code>const</code>常數的作用域則僅限於宣告時的區塊內</p>
 </font>
       
     </div>

@@ -120,7 +120,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">52</span>
+          <span class="site-state-item-count">53</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -150,6 +150,132 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2021/07/28/%E7%94%A8Python-Flask%E6%89%93%E9%80%A0API-DB%E7%AF%87/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Guan-Ting Su">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pi's Blog">
+      <meta itemprop="description" content="一些程式自學小記錄">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Pi's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/07/28/%E7%94%A8Python-Flask%E6%89%93%E9%80%A0API-DB%E7%AF%87/" class="post-title-link" itemprop="url">用 Python Flask 打造 API - DB 篇</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-07-28 09:55:13" itemprop="dateCreated datePublished" datetime="2021-07-28T09:55:13+08:00">2021-07-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2022-10-13 15:53:16" itemprop="dateModified" datetime="2022-10-13T15:53:16+08:00">2022-10-13</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <font size="2" color="#aaa">
+
+
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><font color="#f4a261">前言</font></h2><p>繼前一篇用 Flask 建立簡單的 API<br>我把大部分篇幅用來介紹我為什麼要做，為什麼選flask的心路歷程<br>以及前置作業上<br>這篇則會把來不及提到的資料庫環節記錄下來</p>
+<p>先回顧一下前一篇的程式樣貌<br>僅定義了啟動 app 和根路徑的 GET 方法</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/&#x27;</span></span>) </span><span class="comment"># Decorator。 在這個路徑下接收到 request (預設為GET) 的話要做以下的事</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">index</span>():</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;Hello world from Flask&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:   <span class="comment"># 當這份程式被作為主程式執行時</span></span><br><span class="line">    app.run(debug=Ture)   <span class="comment"># 執行app，debug=True會讓app處於監聽狀態</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="建立-sqlite-database"><a href="#建立-sqlite-database" class="headerlink" title="建立 sqlite database"></a><font color="#f4a261">建立 sqlite database</font></h2><p>為了在 flask 中操作資料庫<br>我們需要使用 flask_sqlalchemy 模組<br><code>pip install flask_sqlalchemy</code><br>接著在 app.py 中<br><code>from flask_sqlalchemy import SQLAlchemy</code></p>
+<p>並且我們會使用 ORM 的技術來操作資料庫 (這裡我們選擇輕量的資料庫:sqlite)</p>
+<p>ORM 是 Object Relational Mapping(物件關聯對映)<br>一句話解釋就是</p>
+<blockquote>
+<p>用操作物件的方式操作資料庫</p>
+</blockquote>
+<p>這樣即使我們不用 SQL 語法，也可以使用 SQL 資料庫了<br>開始建立資料庫!</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 設定要連線的資料庫</span></span><br><span class="line">app.config[<span class="string">&#x27;SQLALCHEMY_DATABASE_URI&#x27;</span>] = <span class="string">&#x27;sqlite:///data.db&#x27;</span></span><br><span class="line">db = SQLAlchemy(app) <span class="comment"># 宣告 db</span></span><br></pre></td></tr></table></figure>
+
+<p><code>&#39;SQLALCHEMY_DATABASE_URI&#39;</code>這個參數是告訴app你要跟什麼資料庫連接<br>以我們的例子是用 sqlite，所以設為<code>sqlite:///data.db</code><br>注意有三個斜線 它的意思是相對路經<br>後面的<code>data.db</code>是你待會要創建的 db 的檔案名稱</p>
+<p>如同剛剛說的 ORM 是以操作物件的方式進行<br>我們需要新增一個 class 作為資料庫的 model</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Issue</span>(db.model): <span class="comment"># 宣告一個類別，這個類別繼承 db.Model</span></span><br><span class="line">    <span class="built_in">id</span> = db.Column(db.Integer, primary_key=<span class="literal">True</span>) <span class="comment"># 宣告一個id欄位，型別為db.Integer，</span></span><br><span class="line">    name = db.Column(db.String(<span class="number">80</span>), unique=<span class="literal">True</span>, nullable=<span class="literal">False</span>) <span class="comment"># 宣告一個name欄位</span></span><br><span class="line">    content = db.Column(db.String(<span class="number">20000</span>)) <span class="comment"># 宣告一個 content 欄位</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__repr__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="string">f&quot;<span class="subst">&#123;self.name&#125;</span> - <span class="subst">&#123;self.content&#125;</span>&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>接下來我們回到 terminal 輸入 <code>python</code><br>以打開 python 的 interactive prompt</p>
+<p>假如說我想在 API 中存放 TAN 網站的 email 文字檔<br>那我就把每一份文字檔都叫作 issue 好了<br>逐一輸入以下代碼</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> app <span class="keyword">import</span> db  <span class="comment"># 引入db模組</span></span><br><span class="line">db.create_all() <span class="comment"># 建立db，會生成一個 data.db 檔案</span></span><br><span class="line">issue = Issue(name=<span class="string">&#x27;issue 1&#x27;</span>, content=<span class="string">&quot;This is issue 1.&quot;</span>) <span class="comment"># 建立第一筆資料</span></span><br><span class="line">db.session.add(issue) <span class="comment"># 把資料加入資料庫</span></span><br><span class="line">db.session.commit() <span class="comment"># 確認，提交變更</span></span><br></pre></td></tr></table></figure>
+
+<p>就能在資料庫中建立第一份 issue<br>在下一章節，我們要把資料秀出來</p>
+<h2 id="新增-endpoint"><a href="#新增-endpoint" class="headerlink" title="新增 endpoint"></a><font color="#f4a261">新增 endpoint</font></h2><p>一個 API 通常不會只有根目錄有作用<br>於是 endpoint 就派上用場了<br>endpoint 指的是 API 的對外接口<br>API的每個有效路徑都是一個 endpoint<br>那我就可以建立一個 endpoint 叫做 ‘/issues’<br>只要使用者對這個 endpoint 送出請求<br>API 就會回傳相對應的資料<br>具體來說怎麼做呢</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/issues&#x27;</span></span>) </span><span class="comment"># 新增一個端點</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_issues</span>():</span><br><span class="line">    issues = Issue.query.<span class="built_in">all</span>() <span class="comment"># 回傳包含所有Issue物件的列表</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 由於issues是一個列表</span></span><br><span class="line">    <span class="comment"># 但 api 的回傳值必須是 json serializable 所以不能是列表</span></span><br><span class="line">    <span class="comment"># 必須是字串或是 dictionary</span></span><br><span class="line">    <span class="comment"># 即使是 dictionary，裡面的所有 value 也都必須是 json serializale</span></span><br><span class="line">    <span class="comment"># 簡單來說整個回傳值必須要長得跟 json 結構一模一樣，否則就必須是 string</span></span><br><span class="line">    output = []</span><br><span class="line">    <span class="keyword">for</span> issue <span class="keyword">in</span> issues: </span><br><span class="line">        issue_data = &#123;<span class="string">&quot;name&quot;</span>: issue.name, <span class="string">&quot;content&quot;</span>: issue.content&#125;</span><br><span class="line">        output.append(issue_data)</span><br><span class="line">    <span class="keyword">return</span> &#123;<span class="string">&quot;issues&quot;</span>: output&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="補充說明"><a href="#補充說明" class="headerlink" title="補充說明:"></a>補充說明:</h4><p><code>Issue.query.all()</code> 查了很久都不知道這個 query 是誰的語法<br>後來才知道他是<code>db.session.query(Issue)</code>的縮寫<br>一些相關的用法如下:</p>
+<p><strong>取得所有 todo 資料</strong><br><code>Todo.query.all()</code></p>
+<p><strong>限制 1 筆資料</strong><br><code>Todo.query.limit(1).all()</code></p>
+<p><strong>正向/逆向排序</strong><br><code>Todo.query.order_by(Todo.content).all()</code><br><code>Todo.query.order_by(Todo.content.desc()).all()</code></p>
+<p><strong>取得第一筆資料</strong><br><code>Todo.query.first()</code></p>
+<p><strong>取得 primary key=1 一筆資料</strong><br><code>Todo.query.get(1)</code></p>
+<p>如此一來<br>連接到 <a target="_blank" rel="noopener" href="http://127.0.0.1:5000/issues">http://127.0.0.1:5000/issues</a> 時就會看到 {“issues”:[{“name”:”issue 1”, “content”:”This is issue 1.”}]}</p>
+<h2 id="GET-parameter"><a href="#GET-parameter" class="headerlink" title="GET+parameter"></a><font color="#f4a261">GET+parameter</font></h2><p>如果我們需要帶參數要怎麼寫呢?<br>那就要在路徑中用 <code>&lt;</code> <code>&gt;</code> 夾住參數<br>這樣就能在function中傳入參數了<br>如下:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/issues/&lt;id&gt;&#x27;</span></span>) </span><span class="comment"># 把接在 /issues/ 後面的字令作 id</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_issue</span>(<span class="params"><span class="built_in">id</span></span>): <span class="comment"># 傳入 id</span></span><br><span class="line">    <span class="comment"># get_or_404() 跟 get() 類似，差別在於如果 id 不存在不會回傳 None 而是 404 error</span></span><br><span class="line">    issue = Issue.query.get_or_404(<span class="built_in">id</span>) </span><br><span class="line">    <span class="keyword">return</span> &#123;<span class="string">&quot;name&quot;</span>:issue.name,<span class="string">&quot;content&quot;</span>:issue.content&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這樣就可以獲取第一筆資料</p>
+<p>補充說明:<br><code>Issue.query.get_or_404(id)</code> 這邊之所以可以用 id 來獲取檔案<br>是因為前面在定義 id 的 Column 的時候，有特別設定 primary_key=True，意思是設為主鍵<br>SQLite 主鍵是用於定義唯一行記錄的一個值。一個表只能有一個主鍵。<br>其實它的功用就像 id 一樣，確保每筆資料都是唯一的不重複。</p>
+<h2 id="撰寫-POST-方法"><a href="#撰寫-POST-方法" class="headerlink" title="撰寫 POST 方法"></a><font color="#f4a261">撰寫 POST 方法</font></h2><p>想要新增 POST 方法，作法跟 GET 很像<br>只不過我們要指定 app.route 的 methods 參數</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/issues&#x27;</span>, methods=[<span class="string">&quot;POST&quot;</span>]</span>) </span><span class="comment"># 設方法為 POST</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">add_issue</span>():</span><br><span class="line">    <span class="comment"># 根據 request 的 body 的內容建立新的 Issue 物件</span></span><br><span class="line">    issue = Issue(name=request.json[<span class="string">&quot;name&quot;</span>], content=request.json[<span class="string">&quot;content&quot;</span>]) </span><br><span class="line">    db.session.add(issue) <span class="comment"># 加入 db </span></span><br><span class="line">    db.session.commit() <span class="comment"># 確認提交</span></span><br><span class="line">    <span class="keyword">return</span> &#123;<span class="string">&quot;id&quot;</span>: drink.<span class="built_in">id</span>&#125; <span class="comment"># 回傳 id</span></span><br></pre></td></tr></table></figure>
+
+<p>POST 有沒有成功比較難單用瀏覽器測試<br>所以我們可以用 postman 如下 (記得要選擇 POST 再按 send)</p>
+<img src="/2021/07/28/%E7%94%A8Python-Flask%E6%89%93%E9%80%A0API-DB%E7%AF%87/post-man-1.png" width="700px">
+
+<h2 id="撰寫-DELETE-方法"><a href="#撰寫-DELETE-方法" class="headerlink" title="撰寫 DELETE 方法"></a><font color="#f4a261">撰寫 DELETE 方法</font></h2><p>最後是刪除<br>做法跟POST類似，都需要給予參數</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/issues/&lt;id&gt;&#x27;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">delete_issue</span>(<span class="params"><span class="built_in">id</span></span>):</span><br><span class="line">    drink = Drink.query.get_or_404(<span class="built_in">id</span>) </span><br><span class="line">    db.session.delete(drink)</span><br><span class="line">    db.session.commit()</span><br><span class="line">    <span class="keyword">return</span> &#123;<span class="string">&quot;message&quot;</span>:<span class="string">f&quot;Id <span class="subst">&#123;<span class="built_in">id</span>&#125;</span> deleted!&quot;</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="感想"><a href="#感想" class="headerlink" title="感想"></a><font color="#f4a261">感想</font></h2><p>終於講完啦!!! 寫了好久天哪<br>寫這兩篇之前我還以為我會的差不多了<br>但一解釋起來才發現細節其實完全不會<br>一邊惡補一邊寫哈哈<br>這就是我想寫部落格的目的 讚</p>
+<p>不過現在我只做了非常非常單純也不實用的 api<br>還需要很多加強，實際應用在網頁上也不知道會發生什麼事情<br>就看我未來幾天的造化囉</p>
+<p>下一步就是要練習把 api 部屬到網路上了<br>我應該會用 Heroku 這個平台吧<br>之後再整理上來囉~</p>
+</font>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -398,122 +524,6 @@
 <h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a><font color="#f4a261">結語</font></h2><p>上傳我的第一個 npm 套件實在是很興奮<br>可是也隱約有股壓力，因為不知道大家會不會覺得東西很爛<br>而且因為我發布的時候連 README 都很不完整，<br>也就是說前期下載的人可能完全不知道怎麼用<br>所以發布後到寫文的現在經過的這兩天<br>我便盡力把 README 補充到至少知道用法的地步<br>最後<br>希望世界上有人會喜歡我的套件<br>哈哈哈哈哈</p>
 </font>
 
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2021/06/30/%E5%9C%A8Expo%E5%B0%88%E6%A1%88%E4%BD%BF%E7%94%A8reanimated-v2-0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Guan-Ting Su">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pi's Blog">
-      <meta itemprop="description" content="一些程式自學小記錄">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Pi's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/06/30/%E5%9C%A8Expo%E5%B0%88%E6%A1%88%E4%BD%BF%E7%94%A8reanimated-v2-0/" class="post-title-link" itemprop="url">在 Expo 專案使用 reanimated v2 基礎篇</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-
-      <time title="創建時間：2021-06-30 13:48:38" itemprop="dateCreated datePublished" datetime="2021-06-30T13:48:38+08:00">2021-06-30</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2022-10-13 15:53:16" itemprop="dateModified" datetime="2022-10-13T15:53:16+08:00">2022-10-13</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <font size="2" color="#aaa">
-
-<h2 id="什麼是-reaimated"><a href="#什麼是-reaimated" class="headerlink" title="什麼是 reaimated ?"></a><font color="#BC2C1A">什麼是 reaimated ?</font></h2><p>reanimated 完整名稱是 react-native-reanimated<br>是一個專門用來做 react native 動畫的套件<br>在我寫這篇文的現在，最新穩定版本是 v2.2.0</p>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><font color="#BC2C1A">前言</font></h2><p>在過去 v1 時期，要學習還蠻不容易的<br>想當初我就是先接觸 v1，那時候我對 rn 和 js 的基礎都還不熟<br>看網路上的教學時一下看到用 Animated.Value，一下有人用 useRef.current<br>語法有點不一樣我就不行了，更不用說當時大多數人都還在用 class component<br>所以學得蠻挫折的，我到現在還不知道要怎麼用 v1 實作動畫</p>
-<p>2020 年中推出的 v2 給了我一絲希望<br>他提供幾個方便的 hook，簡單幾行就可以實現動畫<br>太開心了<br>多虧了它我才能在菜鳥時期學會做一些不太複雜的動畫<br>(不過基礎還是應該要先會啦XD)</p>
-<p>v2 版本也被很多 youtuber 推薦<br>其最大的優點在於能將動畫統一放到 UI thread 上執行<br>甚至提供一些 method 讓我們能操作 JS/UI thread<br>於是動畫就能變得非常流暢<br>我真的覺得一個 app 好不好用，順暢度真的佔了很大一部份</p>
-<h2 id="安裝"><a href="#安裝" class="headerlink" title="安裝"></a><font color="#BC2C1A">安裝</font></h2><p>今天會想整理這篇是因為當初在安裝時耗了很多工夫<br>除了一直來來回回安裝<br>也很怕不小心把專案毀了回不去</p>
-<p>這是因為我沒注意到不同 expo-cli 版本可以使用的 reanimated 版本是不一樣的<br>安裝前必須先確認好才行<br>不過現在已經沒有這個問題了</p>
-<ol>
-<li>npm 安裝</li>
-</ol>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install react-native-reanimated</span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li>打開<code>babel.config.js</code></li>
-</ol>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = <span class="keyword">function</span> (<span class="params">api</span>) &#123;</span><br><span class="line">  api.<span class="title function_">cache</span>(<span class="literal">true</span>);</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    <span class="attr">presets</span>: [<span class="string">&#x27;babel-preset-expo&#x27;</span>],</span><br><span class="line">    <span class="attr">plugins</span>: [<span class="string">&#x27;react-native-reanimated/plugin&#x27;</span>], <span class="comment">// &lt;-- 加上這行</span></span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<ol start="3">
-<li>重新啟動專案並清除 cache</li>
-</ol>
-<p>再次啟動時不要執行<code>npm start</code>，而是</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">expo start -c</span><br></pre></td></tr></table></figure>
-
-<p>這步非常重要，當初不知道這個步驟的我浪費非常多時間<br>偏偏 doc 裡面也沒講 QQ</p>
-<p>至此，只要安裝版本正確、有加 plugin、有清除 cache<br>就可以順跑ㄌ…我是說使用 reanimated 了</p>
-<h2 id="初探-worklet"><a href="#初探-worklet" class="headerlink" title="初探 worklet"></a><font color="#BC2C1A">初探 worklet</font></h2><p>worklet 是 v2 新發布的功能，介紹功能之前先讓大家看看它的用法</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">doSomething</span> = (<span class="params">input</span>)=&gt;&#123;</span><br><span class="line">    <span class="comment">// do something</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">doSomethingWorklet</span> = (<span class="params">input</span>)=&gt;&#123;</span><br><span class="line">    <span class="string">&#x27;worklet&#x27;</span></span><br><span class="line">    <span class="comment">// do something</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>跟一般的 function 幾乎沒差異<br>就只是在閉包裡頭第一行多寫一句<code>&#39;worklet&#39;</code>而已<br>當一個 fuction 被定義成 worklet，它就「能」被交由 UI thread 執行<br>至於什麼是 UI thread 嘛…</p>
-<p>就定義而言，它是從原本的 javascript thread 中分離出來的一部份<br>你可以把 UI thread 看成是 JS 因忙不過來而請來的助理<br>顧名思義，UI thread 主要是用來處理畫面渲染的工作的</p>
-<p>而 reanimated 引入 worklet 這個新用法正是為了讓動畫從 app 的運算中獨立出來<br>不要讓動畫被其他事情影響卡住，能夠順順跑</p>
-<p>另外有發現我前面強調「能」由 UI thread 執行嗎?<br>這是因為如果真的要在 UI thread 執行，必須用<code>runOnUI</code>這個函式才行<br>如下:</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="title class_">Button</span> onPress=&#123;<span class="function">()=&gt;</span>&#123;</span><br><span class="line">    <span class="title function_">runOnUI</span>(doSomethingWorklet)(input) <span class="comment">// doSomethingWorklet 將會在 UI thread 執行</span></span><br><span class="line">&#125;&#125;&gt;</span><br></pre></td></tr></table></figure>
-
-<p>那如果情況反過來，我想在 worklet 中執行 JS thread 怎麼辦?<br>方法很類似，只要用<code>runOnJS</code>就行了</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">doSomethingWorklet</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">    <span class="string">&#x27;worklet&#x27;</span></span><br><span class="line">    <span class="title function_">runOnJS</span>(doSomething)(input) <span class="comment">// doSomething 將會在 JS thread 執行</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>值得一提的是這個<code>runOnJS</code>會蠻常碰到的<br>例如我在做匯率 APP 的時候有些按鈕同時兼顧動畫跟 setState<br>state 的變動就必須用<code>runOnJS</code>來執行了</p>
-<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a><font color="#BC2C1A">結語</font></h2><p>今天的超入門介紹就到這邊<br>雖然還沒講到能實作動畫的階段<br>但我覺得快速確實地安裝好套件<br>並搞清楚<code>worklet</code>、<code>runOnUI</code>、<code>runOnJS</code>的用法原理還是很重要的</p>
-<p>下一篇介紹 reanimated 的文就會來說說<code>useSharedValue</code>和<code>useAnimatedStyle</code>怎麼使用!</p>
-</font>
       
     </div>
 
