@@ -120,7 +120,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">53</span>
+          <span class="site-state-item-count">54</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -150,6 +150,147 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2021/07/19/%E7%99%BC%E5%B8%83-react-native-%E5%A5%97%E4%BB%B6%E5%88%B0-NPM/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Guan-Ting Su">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pi's Blog">
+      <meta itemprop="description" content="一些程式自學小記錄">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Pi's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/07/19/%E7%99%BC%E5%B8%83-react-native-%E5%A5%97%E4%BB%B6%E5%88%B0-NPM/" class="post-title-link" itemprop="url">發布 react native 套件到 NPM</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-07-19 01:13:47" itemprop="dateCreated datePublished" datetime="2021-07-19T01:13:47+08:00">2021-07-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2022-10-13 15:53:16" itemprop="dateModified" datetime="2022-10-13T15:53:16+08:00">2022-10-13</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <font size="2" color="#aaa">
+
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><font color="#f4a261">前言</font></h2><p>最近把日期選擇器開發到一個段落了<br>差不多要發布了吧…</p>
+<p>等等! 我的開發紀錄才寫了兩篇欸<br>後面還有很多內容沒寫<br>而且其實唯一寫的那兩篇規劃的東西大部分都改了…</p>
+<p>好啦我之後補!!!<br>現在誰也不能阻止我發布套件!!!</p>
+<h2 id="NPM-是什麼"><a href="#NPM-是什麼" class="headerlink" title="NPM 是什麼?"></a><font color="#f4a261">NPM 是什麼?</font></h2><p>NPM, Node Package Manager<br>是 NodeJS 專屬的 套件管理工具</p>
+<p>就像 Python 有 pip，Ruby 有 gem 一樣<br>裡面放著來自世界各地工程師提供的套件<br>讓你可以不用從頭開始打造，就能使用許多功能</p>
+<p><code>npm</code> command line tool 會在你安裝 NodeJS 時一起被安裝</p>
+<p>今天這篇便是要來介紹如何在 npm 上發布自己的套件<br>那我當然就以 react native 為例囉!</p>
+<h2 id="發布步驟"><a href="#發布步驟" class="headerlink" title="發布步驟"></a><font color="#f4a261">發布步驟</font></h2><h4 id="1-建立專案資料夾"><a href="#1-建立專案資料夾" class="headerlink" title="1. 建立專案資料夾"></a>1. 建立專案資料夾</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir react-native-neat-date-picker</span><br><span class="line">cd react-native-neat-date-picker</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-連結-github"><a href="#2-連結-github" class="headerlink" title="2. 連結 github"></a>2. 連結 github</h4><p>到 github 上建立一個新的 repository 叫 react-native-neat-date-picker<br>並將它連結到你的專案資料夾</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;# test&quot; &gt;&gt; README.md</span><br><span class="line">git init</span><br><span class="line">git add README.md</span><br><span class="line">git commit -m &quot;first commit&quot;</span><br><span class="line">git branch -M main</span><br><span class="line">git remote add origin https://github.com/roto93/react-native-neat-date-picker.git</span><br><span class="line">git push -u origin main</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-建立專案"><a href="#3-建立專案" class="headerlink" title="3. 建立專案"></a>3. 建立專案</h4><p>執行 <code>npm init</code><br>接下來他會問你一系列問題<br>以下是我的輸入值</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">package name: (react-native-date-picker) react-native-neat-date-picker</span><br><span class="line">version: (1.0.0)</span><br><span class="line">description: An easy-to-use date picker for React Native</span><br><span class="line">entry point: (index.js)</span><br><span class="line">test command:</span><br><span class="line">git repository: (https://github.com/roto93/react-native-date-picker.git)</span><br><span class="line">keywords: react-native, date, datePicker, date-picker, date picker, react native</span><br><span class="line">author: roto93</span><br><span class="line">license: (ISC) MIT</span><br></pre></td></tr></table></figure>
+
+<font size="2">
+
+<ul>
+<li><strong>package name:</strong> 套件的名稱。</li>
+<li><strong>version:</strong> 版本，通常從 1.0.0 開始。<br>之後每次你 publish 套件到 npm 時都必須更新版本，如果沒更新 npm 不會讓你發布。</li>
+<li><strong>description:</strong> 套件描述。可以在這裡描述套件的主要功能。</li>
+<li><strong>entry point:</strong> 套件的程式進入點。<br>一般來說不會更動，維持index.js就好。<br>雖然自訂進入點也是可以，但會不利於其他人 contribute</li>
+<li><strong>test command:</strong> 執行測試的指令，我目前沒用到所以沒深入研究。</li>
+<li><strong>git repository:</strong> 原始碼來源。<br>之所以會在 npm init 之前就先建立 github repo 就是為了讓這裡能自動設定。<br>我個人是認為 github 要打從一開始就設定好比較不會有問題</li>
+<li><strong>keywords:</strong> 關鍵字。<br>意思是其他人可以藉由查詢什麼關鍵字來找到你的套件，越多越相關越好。</li>
+<li><strong>author:</strong> 作者。<br>通常就放自己的 github 帳號，或名字</li>
+<li><strong>license:</strong> 認證。<br>open source 的認證百百種，通常最簡單的就選 ISC 或 MIT。<br>他們的意思都差不多是：「嘿 自己拿去用啦 你可以自由修改 但不要哪天反過來說是我抄你的ㄛ」</li></ul></font>
+
+
+
+<h4 id="4-建立套件進入點"><a href="#4-建立套件進入點" class="headerlink" title="4. 建立套件進入點"></a>4. 建立套件進入點</h4><p>剛剛有提到 index.js 是套件的進入點，意思是你必須讓你的套件要提供的功能從 index.js 中 export 出去。<br>你可以選擇直接把套件主程式寫在 index.js 裡<br>或者是你也可以寫在其他檔案中，import 進 index.js 裡，再 export<br>我的作法是後者，因為一開始開發時我就直接把主元件寫在 components 資料夾裡了，<br>如果現在又改變結構的話還要處理一些 import 的路徑問題<br>但我懶</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// index.js</span></span><br><span class="line"><span class="keyword">import</span> <span class="title class_">DatePicker</span> <span class="keyword">from</span> <span class="string">&#x27;./src/components/NeatDatePicker&#x27;</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title class_">DatePicker</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="5-設定-Babel"><a href="#5-設定-Babel" class="headerlink" title="5. 設定 Babel"></a>5. 設定 Babel</h4><p>Babel 簡單來說是一個語法轉換器。<br>以網頁為例，就是讓瀏覽器可以使用 JS 的新語法</p>
+<p>很幸運地，有現成的 preset 可以使用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install metro-react-native-babel-preset --save-dev</span><br></pre></td></tr></table></figure>
+
+<p>接著新增一個 <code>.babelrc</code> 檔案<br>裡面放:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;presets&quot;: [&quot;module:metro-react-native-babel-preset&quot;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這部分就 ok 了</p>
+<h4 id="6-建立-gitignore-和-npmignore"><a href="#6-建立-gitignore-和-npmignore" class="headerlink" title="6. 建立 .gitignore 和 .npmignore"></a>6. 建立 .gitignore 和 .npmignore</h4><p>這兩份檔案會影響到當你上傳套件或 push 到 github 時，要忽略那些檔案<br>這邊提供簡單的 template<br>可以再視情況做增減</p>
+<p><code>.gitignore</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># Logs</span><br><span class="line">*.log</span><br><span class="line">npm-debug.log</span><br><span class="line"></span><br><span class="line"># Runtime data</span><br><span class="line">tmp</span><br><span class="line">build</span><br><span class="line">dist</span><br><span class="line"></span><br><span class="line"># Dependency directory</span><br><span class="line">node_modules</span><br></pre></td></tr></table></figure>
+
+<p><code>.npmignore</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># Logs</span><br><span class="line">*.log</span><br><span class="line">npm-debug.log</span><br><span class="line"></span><br><span class="line"># Dependency directory</span><br><span class="line">node_modules</span><br><span class="line"></span><br><span class="line"># Runtime data</span><br><span class="line">tmp</span><br><span class="line"></span><br><span class="line"># Examples (If applicable to your project)</span><br><span class="line">examples</span><br></pre></td></tr></table></figure>
+
+<h4 id="7-本地測試"><a href="#7-本地測試" class="headerlink" title="7. 本地測試"></a>7. 本地測試</h4><p>在發布之前，比較好的做法是先進行本地安裝測試看看<br>如果先發布，後來卻發現有嚴重問題的話就會修改得很匆忙<br>因為很可能已經有人下載來用了<br>然後他們就會覺得這套件怎麼這麼爛XD<br>與其如此不如在發布前先確保沒有什麼大問題</p>
+<p>雖然這麼說<br>但我其實這步驟沒有成功<br>但我還是把流程放上來辣</p>
+<p>首先在你即將發布套件的專案中執行<br><code>npm link</code><br>這行命令會告訴 npm<br>這個資料夾的專案是一個可安裝的套件喔</p>
+<p>接著你進到本地的任何一個 app 專案中<br>執行 <code>npm link react-native-neat-date-picker</code><br>便會進行本地安裝</p>
+<p>如果以上步驟遇到問題<br>也可以選擇以路徑安裝<br>如: <code>npm install &#123;PATH_TO_PACKAGE&#125;</code></p>
+<p>這個做法的先天缺陷是一旦你對套件本身有做任何修改<br>你必須重新安裝一次，才能更新</p>
+<p>不過很可惜上述兩個方法我都沒成功，<br>link 沒報錯，install 也沒 error<br>但 import 時就告訴我找不到 module<br>試了網路上很多方法都不行，所以我乾脆先跳過<br>直接發布試試看<br>結果可以 run ! 到底是怎樣 !!!</p>
+<h4 id="8-發布"><a href="#8-發布" class="headerlink" title="8. 發布"></a>8. 發布</h4><p>終於進到發布的環節了<br>首先我們登入 npm (你要先去<a target="_blank" rel="noopener" href="https://www.npmjs.com/">註冊</a>)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm login</span><br></pre></td></tr></table></figure>
+
+<p>接著</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm publish</span><br></pre></td></tr></table></figure>
+
+<p>完成! 現在任何人都可以上去下載你提供的套件了<br>國家…不<br>我是說全世界都會感謝你的:)))</p>
+<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a><font color="#f4a261">結語</font></h2><p>上傳我的第一個 npm 套件實在是很興奮<br>可是也隱約有股壓力，因為不知道大家會不會覺得東西很爛<br>而且因為我發布的時候連 README 都很不完整，<br>也就是說前期下載的人可能完全不知道怎麼用<br>所以發布後到寫文的現在經過的這兩天<br>我便盡力把 README 補充到至少知道用法的地步<br>最後<br>希望世界上有人會喜歡我的套件<br>哈哈哈哈哈</p>
+</font>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -341,111 +482,6 @@
 <h2 id="檢查上層了嗎"><a href="#檢查上層了嗎" class="headerlink" title="檢查上層了嗎?"></a><font color="#BC2C1A">檢查上層了嗎?</font></h2><hr>
 <p>在某一次我完成這些設定後卻發現沒效果!? 按鈕還是不能按<br>經過一番研究後終於知道了<br>設定沒效果代表在此元件之上一定還有另一層沒設定的 ScrollView<br>所以只要找到該標籤，加上<code>keyboardShouldPersistTaps</code>的屬性就可以了<br>記得要一路檢查到 root 哦</p>
 </font>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2021/05/23/%E6%8E%A7%E5%88%B6-Expo-app-%E7%9A%84%E8%AE%80%E5%8F%96%E7%95%AB%E9%9D%A2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Guan-Ting Su">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pi's Blog">
-      <meta itemprop="description" content="一些程式自學小記錄">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Pi's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/05/23/%E6%8E%A7%E5%88%B6-Expo-app-%E7%9A%84%E8%AE%80%E5%8F%96%E7%95%AB%E9%9D%A2/" class="post-title-link" itemprop="url">控制 Expo app 的讀取畫面</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-
-      <time title="創建時間：2021-05-23 09:54:13" itemprop="dateCreated datePublished" datetime="2021-05-23T09:54:13+08:00">2021-05-23</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2022-10-13 15:53:16" itemprop="dateModified" datetime="2022-10-13T15:53:16+08:00">2022-10-13</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <font size="2" color="#aaa">
-
-
-<font color="gold">
-
-<h4 id="2022-08-22-更新-從-Expo-SDK-45-之後-expo-app-loading-已經-deprecated，只能使用-expo-splash-screen"><a href="#2022-08-22-更新-從-Expo-SDK-45-之後-expo-app-loading-已經-deprecated，只能使用-expo-splash-screen" class="headerlink" title="(2022.08.22 更新) 從 Expo SDK 45 之後 expo-app-loading 已經 deprecated，只能使用 expo-splash-screen"></a>(2022.08.22 更新) 從 Expo SDK 45 之後 expo-app-loading 已經 deprecated，只能使用 expo-splash-screen</h4></font>
-
-<h2 id="介紹"><a href="#介紹" class="headerlink" title="介紹"></a><font color="#BC2C1A">介紹</font></h2><hr>
-<p>Expo 提供了兩個 API<br>讓你能夠修改 app 的讀取畫面<br>分別是 <a target="_blank" rel="noopener" href="https://docs.expo.io/versions/latest/sdk/app-loading/">AppLoading</a> 跟 <a target="_blank" rel="noopener" href="https://docs.expo.io/versions/v41.0.0/sdk/splash-screen/">SplashScreen</a></p>
-<p>AppLoading 是一個元件，當整個app渲染的只有AppLoading而沒有別的元件時<br>它就會讓 splash screen 持續顯示<br>所以我們就可以在 app 剛打開正在進行 API call 時先渲染 AppLoading<br>等資料都得到了再恢復顯示主畫面</p>
-<p>另一個 SplashScreen 就不是元件了<br>但他提供兩個函數 </p>
-<ol>
-<li><code>SplashScreen.preventAutoHideAsyce()</code>:防止 splash screen 在程式讀取完後關閉</li>
-<li><code>SplashScreen.hideAsyce()</code>: 觸發時，關閉 spalsh screen </li>
-</ol>
-<p>簡單來說他讓我們能自由控制 splash screen 消失的時機<br>除了可以達到跟單獨使用 AppLoading 一樣的效果外<br>更厲害的是我們也能藉此讓App初始化完成後<br>由顯示靜態 splash screen 切換成動畫(看你要放 gif 或寫 animation 都可以)</p>
-<h2 id="使用方式"><a href="#使用方式" class="headerlink" title="使用方式"></a><font color="#BC2C1A">使用方式</font></h2><hr>
-<p>首先下載並引入</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">expo install expo-app-loading</span><br><span class="line">expo install expo-splash-screen</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">AppLoading</span> <span class="keyword">from</span> <span class="string">&#x27;expo-app-loading&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> <span class="title class_">SplashScreen</span> <span class="keyword">from</span> <span class="string">&#x27;expo-splash-screen&#x27;</span>;</span><br></pre></td></tr></table></figure>
-
-<p>再來，若你只想單獨使用 AppLoading 可以這樣做:</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> [isLoading, setIsLoading] = <span class="title function_">useState</span>(<span class="literal">true</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">fetchData</span> = <span class="keyword">async</span> (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">    <span class="keyword">try</span>&#123;</span><br><span class="line">        <span class="keyword">await</span> <span class="title function_">fetch</span>(<span class="string">&#x27;...&#x27;</span>)</span><br><span class="line">    &#125; <span class="keyword">catch</span>(e)&#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(e)</span><br><span class="line">    &#125;<span class="keyword">finally</span>&#123;</span><br><span class="line">        <span class="title function_">setIsLoading</span>(<span class="literal">false</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">useEffect</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">    <span class="title function_">fetchData</span>()</span><br><span class="line">&#125;,[])</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (isLoading) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">AppLoading</span>/&gt;</span></span></span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">App</span>/&gt;</span></span></span><br></pre></td></tr></table></figure>
-
-<p>其實這可以應付大部分的狀況<br>例如在進入app前先讀取字型等等的<br>然而使用 SplashScreen 的話靈活度更高</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">const</span> [isLoading, setIsLoading] = <span class="title function_">useState</span>(<span class="literal">true</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">fetchData</span> = <span class="keyword">async</span> (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">    <span class="keyword">try</span>&#123;</span><br><span class="line">    <span class="keyword">await</span> <span class="title class_">SplashScreen</span>.<span class="title function_">preventAutoHideAsync</span>() <span class="comment">//等等!先別關!</span></span><br><span class="line">        <span class="keyword">await</span> <span class="title function_">fetch</span>(<span class="string">&#x27;...&#x27;</span>) <span class="comment">// 做一些事</span></span><br><span class="line">    &#125; <span class="keyword">catch</span>(e)&#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(e)</span><br><span class="line">    &#125;<span class="keyword">finally</span>&#123;</span><br><span class="line">        <span class="title class_">SplashScreen</span>.<span class="title function_">preventAutoHideAsync</span>() <span class="comment">//好可以關了</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">useEffect</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">    <span class="title function_">fetchData</span>()</span><br><span class="line">&#125;,[])</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (isLoading) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">null</span> <span class="comment">//不渲染東西 但因為 splash screen 還蓋在畫面上，所以不會沒畫面</span></span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">App</span>/&gt;</span></span></span><br></pre></td></tr></table></figure>
-
-<font color="gold">
-
-<h4 id="2022-08-22-更新-從-Expo-SDK-45-之後-expo-app-loading-已經-deprecated，只能使用-expo-splash-screen-1"><a href="#2022-08-22-更新-從-Expo-SDK-45-之後-expo-app-loading-已經-deprecated，只能使用-expo-splash-screen-1" class="headerlink" title="(2022.08.22 更新) 從 Expo SDK 45 之後 expo-app-loading 已經 deprecated，只能使用 expo-splash-screen"></a>(2022.08.22 更新) 從 Expo SDK 45 之後 expo-app-loading 已經 deprecated，只能使用 expo-splash-screen</h4></font></font>
       
     </div>
 

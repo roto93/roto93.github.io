@@ -120,7 +120,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">53</span>
+          <span class="site-state-item-count">54</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -150,6 +150,121 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2023/11/24/%E5%9C%A8iPhone%E4%B8%8A%E5%AE%89%E8%A3%9Dexpo-dev-client/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Guan-Ting Su">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pi's Blog">
+      <meta itemprop="description" content="一些程式自學小記錄">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Pi's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/11/24/%E5%9C%A8iPhone%E4%B8%8A%E5%AE%89%E8%A3%9Dexpo-dev-client/" class="post-title-link" itemprop="url">在 iPhone 上安裝 expo dev client</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2023-11-24 17:14:30 / 修改時間：17:39:21" itemprop="dateCreated datePublished" datetime="2023-11-24T17:14:30+08:00">2023-11-24</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <font size="2" color="#999">
+<h2 id="font-color-f4a261-前言-font"><a class="header-anchor" href="#font-color-f4a261-前言-font"></a><font color="#f4a261">前言</font></h2>
+<p>最近要在 expo 專案加上相機功能，由於會調用到 native api，必須重新安裝 dev client<br>
+又因為相機功能不能在 emulator 測試，所以必須想辦法裝在 iphone 上<br>
+簡單紀錄一下做法</p>
+<h2 id="font-color-f4a261-步驟-font"><a class="header-anchor" href="#font-color-f4a261-步驟-font"></a><font color="#f4a261">步驟</font></h2>
+<ol>
+<li>
+<p><strong>下載 xcode 並更新到最新版本</strong></p>
+</li>
+<li>
+<p><strong>開啟 iPhone 的開發者模式(需要重啟手機)</strong><br>
+設定 &gt; 隱私權與安全性 &gt; (滑到最下面)開發者模式</p>
+</li>
+<li>
+<p><strong>把 iPhone 用 USB 連接上電腦</strong><br>
+除了插線，也要記得解鎖手機按允許連接</p>
+</li>
+<li>
+<p><strong>照著 <a target="_blank" rel="noopener" href="https://github.com/expo/fyi/blob/main/setup-xcode-signing.md">這些步驟</a> 設定簽證，過程中會要求登入 apple 帳號</strong></p>
+</li>
+<li>
+<p><strong>打包 app 並安裝到手機上</strong><br>
+<code>npx expo run:ios -d</code><br>
+-d 代表要選擇裝置。然後 expo 會做出一個 ios 資料夾，安裝所需的東西</p>
+</li>
+<li>
+<p><strong>選擇實體裝置(透過 USB 連上的 iPhone)，便會開始 build 並安裝到手機上</strong></p>
+</li>
+<li>
+<p><strong>前兩步驟如果遇到問題，可以改用 Xcode 開啟專案直接 build</strong><br>
+build 之前如果還沒有 ios 資料夾，可以用 <code>npx expo prebuild -p ios</code> 生成一個</p>
+</li>
+<li>
+<p><strong>安裝過程中會需要輸入兩次密碼</strong></p>
+</li>
+<li>
+<p><strong>完成</strong></p>
+</li>
+</ol>
+<h2 id="font-color-f4a261-小發現-font"><a class="header-anchor" href="#font-color-f4a261-小發現-font"></a><font color="#f4a261">小發現</font></h2>
+<p>意外得知其實 emulation 跟 simulation 不一樣<br>
+中文雖然都叫模擬<br>
+但 emulation 的意思是在一個系統下運行另一個系統，達到模擬<br>
+simulation 則是建立理論模型後去預測結果，這也是模擬</p>
+<p>所以像前述的 iPhone 模擬器就是在電腦系統下去運行 iOS 系統，是 <strong>emulator</strong></p>
+</font>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -341,84 +456,6 @@
 <h2 id="font-color-f4a261-結論-font"><a class="header-anchor" href="#font-color-f4a261-結論-font"></a><font color="#f4a261">結論</font></h2>
 <p>一般來說遇到這種問題應該要去修改最根本的 type 定義，但今天遇到的是特殊狀況，我要怎麼從源頭修改 this 的 type 啊?<br>
 現在終於知道原來可以<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/18083389/ignore-typescript-errors-property-does-not-exist-on-value-of-type">在 dot notation 前面用括號</a>刮起來用<code>as</code>，又多知道一個應急的方法了</p>
-</font>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2023/08/05/Figma%E7%82%BAUI%E8%A8%AD%E8%A8%88%E5%B8%AB%E5%BC%95%E5%85%A5%E5%B7%A5%E7%A8%8B%E6%80%9D%E7%B6%AD/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Guan-Ting Su">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pi's Blog">
-      <meta itemprop="description" content="一些程式自學小記錄">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Pi's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/08/05/Figma%E7%82%BAUI%E8%A8%AD%E8%A8%88%E5%B8%AB%E5%BC%95%E5%85%A5%E5%B7%A5%E7%A8%8B%E6%80%9D%E7%B6%AD/" class="post-title-link" itemprop="url">Figma為UI設計師引入工程思維</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-      
-
-      <time title="創建時間：2023-08-05 01:18:44 / 修改時間：01:22:34" itemprop="dateCreated datePublished" datetime="2023-08-05T01:18:44+08:00">2023-08-05</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <font size="2" color="#999">
-<p>最近的一些小小心得</p>
-<p>前幾天設計師同事說他從沒想過Figma讓design跟dev走得這麼近。</p>
-<p>Figma相較於過去的UI設計工具，引入了很多工程思維，元件化、auto layout、variable這些概念可以讓排版、出畫面變得更快更一致也更好管理。</p>
-<p>但我相信這些功能對沒有太多UI經驗的設計師來說除了不好理解以外也不知用意何在。幾個月前同事問我Figma Token的問題，我剛好有稍微研究過記得大概的用法，基本上就是json的運用，但對方還是容易不解為什麼要這樣做。設定了一大堆東西卻‘看似’只能用來切換深色模式，另外token的mapping(alias)、variants也是設計領域相對陌生的東西。</p>
-<p>後來她離職了，公司剩另一位更不熟Figmaㄉ設計師。出圖永遠現場拉，連frame都常常沒包，沒元件化的結果導致UI總是不一致，畫面一改就全都得重拉。雖然有想排整齊卻很難做到，也缺乏對齊方式等RWD資訊。同時我們也欠缺一個有效管理Figma檔案的方式，我們永遠找不到最新的畫面，都是三百年前的頁面配新的UI，還常害校稿的同事改到舊的文案。</p>
-<p>在獲得允許可以實驗性的大改Figma file後，我開始研究要怎麼妥善管理元件、頁面、spec，幫忙補 UI，教怎麼用 auto layout 處理 resizing。</p>
-<p>也畫了架構圖向設計師說明元件庫、專案、畫面之間的關係，解釋為什麼這麼做能改善迭代的效率。但就像前面說的，工程思維滿類似寫程式時的 design pattern，對工程師來說相對熟悉，卻對設計師而言很陌生，問了不少次「為什麼要這麼麻煩」。但我不認為這是一個只適用於程式面的技巧，只要是需要迭代、管理、量產，就一定會受用。</p>
-<p>當這些工程思維被建立起來後，除了能提升效率，也多了一些共通語言，不會一直有種設計跟工程兩個世界的感覺。我覺得前端(至少在我這)就是同時存在在這兩個世界的角色，沒有非常隸屬於任何一邊，但我感覺有一點點責任去把這兩個世界拉近一點。</p>
 </font>
       
     </div>

@@ -20,28 +20,28 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"roto93.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.13.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="想在 Opera 瀏覽器上使用 react 延伸套件，卻發現找不到？ 沒關係 我們都知道 google 的擴充套件很豐富，所以 opera 提供了一個套件叫做 install Chrome extension(該不會就是因為有這個 opera 的套件才會那麼不足XD) 首先到 opera 的套件庫 搜尋 install Chrome extension 或是直接到這個網頁 接著就可以來到 Ch">
+    <meta name="description" content="前言 最近要在 expo 專案加上相機功能，由於會調用到 native api，必須重新安裝 dev client 又因為相機功能不能在 emulator 測試，所以必須想辦法裝在 iphone 上 簡單紀錄一下做法 步驟   下載 xcode 並更新到最新版本   開啟 iPhone 的開發者模式(需要重啟手機) 設定 &gt; 隱私權與安全性 &gt; (滑到最下面)開發者模式   把 iP">
 <meta property="og:type" content="article">
-<meta property="og:title" content="React dev tool in Opera">
-<meta property="og:url" content="http://roto93.github.io/2021/04/20/React-dev-tool-in-Opera/index.html">
+<meta property="og:title" content="在 iPhone 上安裝 expo dev client">
+<meta property="og:url" content="http://roto93.github.io/2023/11/24/%E5%9C%A8iPhone%E4%B8%8A%E5%AE%89%E8%A3%9Dexpo-dev-client/index.html">
 <meta property="og:site_name" content="Pi&#39;s Blog">
-<meta property="og:description" content="想在 Opera 瀏覽器上使用 react 延伸套件，卻發現找不到？ 沒關係 我們都知道 google 的擴充套件很豐富，所以 opera 提供了一個套件叫做 install Chrome extension(該不會就是因為有這個 opera 的套件才會那麼不足XD) 首先到 opera 的套件庫 搜尋 install Chrome extension 或是直接到這個網頁 接著就可以來到 Ch">
+<meta property="og:description" content="前言 最近要在 expo 專案加上相機功能，由於會調用到 native api，必須重新安裝 dev client 又因為相機功能不能在 emulator 測試，所以必須想辦法裝在 iphone 上 簡單紀錄一下做法 步驟   下載 xcode 並更新到最新版本   開啟 iPhone 的開發者模式(需要重啟手機) 設定 &gt; 隱私權與安全性 &gt; (滑到最下面)開發者模式   把 iP">
 <meta property="og:locale" content="zh_TW">
-<meta property="article:published_time" content="2021-04-20T02:24:59.000Z">
-<meta property="article:modified_time" content="2022-10-13T07:53:16.162Z">
+<meta property="article:published_time" content="2023-11-24T09:14:30.000Z">
+<meta property="article:modified_time" content="2023-11-24T09:39:21.656Z">
 <meta property="article:author" content="Guan-Ting Su">
 <meta property="article:tag" content="程式,自學">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="http://roto93.github.io/2021/04/20/React-dev-tool-in-Opera/">
+<link rel="canonical" href="http://roto93.github.io/2023/11/24/%E5%9C%A8iPhone%E4%B8%8A%E5%AE%89%E8%A3%9Dexpo-dev-client/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"http://roto93.github.io/2021/04/20/React-dev-tool-in-Opera/","path":"2021/04/20/React-dev-tool-in-Opera/","title":"React dev tool in Opera"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"http://roto93.github.io/2023/11/24/%E5%9C%A8iPhone%E4%B8%8A%E5%AE%89%E8%A3%9Dexpo-dev-client/","path":"2023/11/24/在iPhone上安裝expo-dev-client/","title":"在 iPhone 上安裝 expo dev client"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>React dev tool in Opera | Pi's Blog</title>
+<title>在 iPhone 上安裝 expo dev client | Pi's Blog</title>
   
 
 
@@ -97,7 +97,7 @@
 
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目錄
@@ -110,6 +110,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#font-color-f4a261-%E5%89%8D%E8%A8%80-font"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#font-color-f4a261-%E6%AD%A5%E9%A9%9F-font"><span class="nav-number">2.</span> <span class="nav-text">步驟</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#font-color-f4a261-%E5%B0%8F%E7%99%BC%E7%8F%BE-font"><span class="nav-number">3.</span> <span class="nav-text">小發現</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -162,7 +163,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
-    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2021/04/20/React-dev-tool-in-Opera/">
+    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2023/11/24/%E5%9C%A8iPhone%E4%B8%8A%E5%AE%89%E8%A3%9Dexpo-dev-client/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -175,12 +176,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="React dev tool in Opera | Pi's Blog">
+      <meta itemprop="name" content="在 iPhone 上安裝 expo dev client | Pi's Blog">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          React dev tool in Opera
+          在 iPhone 上安裝 expo dev client
         </h1>
 
         <div class="post-meta-container">
@@ -190,15 +191,9 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">發表於</span>
+      
 
-      <time title="創建時間：2021-04-20 10:24:59" itemprop="dateCreated datePublished" datetime="2021-04-20T10:24:59+08:00">2021-04-20</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2022-10-13 15:53:16" itemprop="dateModified" datetime="2022-10-13T15:53:16+08:00">2022-10-13</time>
+      <time title="創建時間：2023-11-24 17:14:30 / 修改時間：17:39:21" itemprop="dateCreated datePublished" datetime="2023-11-24T17:14:30+08:00">2023-11-24</time>
     </span>
 
   
@@ -211,15 +206,52 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <font size="2" color="#aaa">
-
-<p>想在 Opera 瀏覽器上使用 react 延伸套件，卻發現找不到？</p>
-<p>沒關係</p>
-<p>我們都知道 google 的擴充套件很豐富，所以 opera 提供了一個套件叫做 <strong>install Chrome extension</strong><br>(該不會就是因為有這個 opera 的套件才會那麼不足XD)</p>
-<p>首先到 <a target="_blank" rel="noopener" href="https://addons.opera.com/zh-tw/extensions/?hl=zh-TW">opera 的套件庫</a> 搜尋 <font style="font-style: italic;">install Chrome extension</font></p>
-<p>或是直接到<a target="_blank" rel="noopener" href="https://addons.opera.com/zh-tw/extensions/details/install-chrome-extensions/">這個網頁</a></p>
-<p>接著就可以來到 <a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/category/extensions">Chrome 線上應用程式商店</a>下載你要的套件啦</p>
-<p>由於裝的不是 opera 官方提供的套件，下載後可能會需要自己手動啟用他喔</p>
+        <font size="2" color="#999">
+<h2 id="font-color-f4a261-前言-font"><a class="header-anchor" href="#font-color-f4a261-前言-font"></a><font color="#f4a261">前言</font></h2>
+<p>最近要在 expo 專案加上相機功能，由於會調用到 native api，必須重新安裝 dev client<br>
+又因為相機功能不能在 emulator 測試，所以必須想辦法裝在 iphone 上<br>
+簡單紀錄一下做法</p>
+<h2 id="font-color-f4a261-步驟-font"><a class="header-anchor" href="#font-color-f4a261-步驟-font"></a><font color="#f4a261">步驟</font></h2>
+<ol>
+<li>
+<p><strong>下載 xcode 並更新到最新版本</strong></p>
+</li>
+<li>
+<p><strong>開啟 iPhone 的開發者模式(需要重啟手機)</strong><br>
+設定 &gt; 隱私權與安全性 &gt; (滑到最下面)開發者模式</p>
+</li>
+<li>
+<p><strong>把 iPhone 用 USB 連接上電腦</strong><br>
+除了插線，也要記得解鎖手機按允許連接</p>
+</li>
+<li>
+<p><strong>照著 <a target="_blank" rel="noopener" href="https://github.com/expo/fyi/blob/main/setup-xcode-signing.md">這些步驟</a> 設定簽證，過程中會要求登入 apple 帳號</strong></p>
+</li>
+<li>
+<p><strong>打包 app 並安裝到手機上</strong><br>
+<code>npx expo run:ios -d</code><br>
+-d 代表要選擇裝置。然後 expo 會做出一個 ios 資料夾，安裝所需的東西</p>
+</li>
+<li>
+<p><strong>選擇實體裝置(透過 USB 連上的 iPhone)，便會開始 build 並安裝到手機上</strong></p>
+</li>
+<li>
+<p><strong>前兩步驟如果遇到問題，可以改用 Xcode 開啟專案直接 build</strong><br>
+build 之前如果還沒有 ios 資料夾，可以用 <code>npx expo prebuild -p ios</code> 生成一個</p>
+</li>
+<li>
+<p><strong>安裝過程中會需要輸入兩次密碼</strong></p>
+</li>
+<li>
+<p><strong>完成</strong></p>
+</li>
+</ol>
+<h2 id="font-color-f4a261-小發現-font"><a class="header-anchor" href="#font-color-f4a261-小發現-font"></a><font color="#f4a261">小發現</font></h2>
+<p>意外得知其實 emulation 跟 simulation 不一樣<br>
+中文雖然都叫模擬<br>
+但 emulation 的意思是在一個系統下運行另一個系統，達到模擬<br>
+simulation 則是建立理論模型後去預測結果，這也是模擬</p>
+<p>所以像前述的 iPhone 模擬器就是在電腦系統下去運行 iOS 系統，是 <strong>emulator</strong></p>
 </font>
     </div>
 
@@ -233,14 +265,11 @@
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2021/04/16/javascript-arrow-function-this/" rel="prev" title="Javascript 在不同函式定義方式中使用 this">
-                  <i class="fa fa-chevron-left"></i> Javascript 在不同函式定義方式中使用 this
+                <a href="/2023/10/20/%E5%8B%95%E6%85%8B%E8%AA%BF%E6%95%B4svg%E5%9C%96%E6%AA%94%E7%9A%84URL%E5%92%8C%E9%A1%8F%E8%89%B2/" rel="prev" title="動態調整svg圖檔的URL和顏色">
+                  <i class="fa fa-chevron-left"></i> 動態調整svg圖檔的URL和顏色
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2021/04/23/%E5%9C%A8firebase%E9%83%A8%E7%BD%B2%E4%BD%A0%E7%9A%84react%E5%B0%88%E6%A1%88/" rel="next" title="在 firebase 部署你的 react 專案">
-                  在 firebase 部署你的 react 專案 <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
     </footer>

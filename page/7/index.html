@@ -120,7 +120,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">53</span>
+          <span class="site-state-item-count">54</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -150,6 +150,107 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2022/08/01/JS%E8%A7%80%E5%BF%B5%E7%AF%87-%E9%96%89%E5%8C%85closure/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Guan-Ting Su">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pi's Blog">
+      <meta itemprop="description" content="一些程式自學小記錄">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Pi's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/08/01/JS%E8%A7%80%E5%BF%B5%E7%AF%87-%E9%96%89%E5%8C%85closure/" class="post-title-link" itemprop="url">JS 觀念篇 -- 閉包 closure</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2022-08-01 15:11:48" itemprop="dateCreated datePublished" datetime="2022-08-01T15:11:48+08:00">2022-08-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2022-10-13 15:53:16" itemprop="dateModified" datetime="2022-10-13T15:53:16+08:00">2022-10-13</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <font size="2" color="#aaa">
+
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><font color="#f4a261">前言</font></h2><p>上一篇介紹了 scope<br>這篇就來介紹一個平常都在用卻又不怎麼熟悉的概念 closure</p>
+<h2 id="閉包-Closure"><a href="#閉包-Closure" class="headerlink" title="閉包 Closure"></a><font color="#f4a261">閉包 Closure</font></h2><p>Closure 光看單字就有種關了什麼起來的感覺<br>沒錯，閉包一言以蔽之就是</p>
+<blockquote>
+<p>閉包會記住函式建立時的環境</p>
+</blockquote>
+<p>也可以當作把環境鎖起來，關在閉包當中<br>如此一來當同時建立很多函式時，便能讓他們互不干涉<br>我們先從下面的例子來觀察閉包的基本行為</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> name = <span class="string">&#x27;Tony&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">greeting</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(name)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">greeting</span>()</span><br></pre></td></tr></table></figure>
+
+<p>我們並沒有將<code>name</code>這個變數傳入greeting中<br>為什麼還是印的出來呢?<br>正是因為當執行 greeting 函式時<br>它會記住建立 greeting 函式時當下的環境(<code>name</code>就在其中)<br>所以不會找不到<br>這個例子非常簡單，甚至平常都不會注意到這就是閉包<br>來看個特殊疫點的例子，巢狀函式</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">counter</span> = (<span class="params">num</span>)=&gt;&#123;</span><br><span class="line">	<span class="keyword">const</span> <span class="title function_">show</span> = (<span class="params"></span>)=&gt;&#123;</span><br><span class="line">  	<span class="variable language_">console</span>.<span class="title function_">log</span>(num++)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> show</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> add = <span class="title function_">counter</span>(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="title function_">add</span>() <span class="comment">// 1</span></span><br><span class="line"><span class="title function_">add</span>() <span class="comment">// 2</span></span><br><span class="line"><span class="title function_">add</span>() <span class="comment">// 3</span></span><br></pre></td></tr></table></figure>
+
+<p>首先定義一個 counter 函式，會回傳一個內部函式 show<br>接著建立一個新函式 add 傳入 1 作為初始值<br>每次運行 add 時<br>參數 num 就好像偷偷被存起來一樣<br>每次都記得，不會被重置<br>原因就是每當函式被建立時，就會產生一個閉包<br>之後連續運行三次 add，用的都是相同的閉包<br>因此變數也得以保留</p>
+<h2 id="非同步函式的例子"><a href="#非同步函式的例子" class="headerlink" title="非同步函式的例子"></a><font color="#f4a261">非同步函式的例子</font></h2><p>在下面的例子中<br>我做了兩個 timer<br>並連 call 兩次 start 使他們開始運轉<br>能看到這兩個 timer 各自成一家，自己數自己的</p>
+<img src="/2022/08/01/JS%E8%A7%80%E5%BF%B5%E7%AF%87-%E9%96%89%E5%8C%85closure/closure.gif">
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> timer1 = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;.timer1&#x27;</span>)</span><br><span class="line"><span class="keyword">const</span> timer2 = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;.timer2&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// let counter = 0 //如果在這定義 counter，會變成被所有 start 共用的變數</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">start</span> = (<span class="params">timer, time</span>) =&gt; &#123;</span><br><span class="line">  <span class="comment">// 每次運行 start，這裡的環境就會被存成一個閉包</span></span><br><span class="line">  <span class="keyword">let</span> counter = <span class="number">0</span></span><br><span class="line">  <span class="keyword">const</span> <span class="title function_">tick</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">    counter++</span><br><span class="line">    timer.<span class="property">innerText</span> = counter.<span class="title function_">toString</span>()</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">setInterval</span>(tick, time)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> startButton=<span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;.start&#x27;</span>)</span><br><span class="line">startButton.<span class="property">onclick</span> = <span class="function">()=&gt;</span>&#123;</span><br><span class="line">  <span class="title function_">start</span>(timer1, <span class="number">1000</span>)</span><br><span class="line">  <span class="title function_">start</span>(timer2, <span class="number">500</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>每當 start 被呼叫時<br>記憶體中的某處就會空出一個位子給 counter 變數<br>當我又呼叫一次 start，又會有一個 counter 的位子<br>這些 counter 互不干涉<br>這就是閉包的效果</p>
+<p>此範例的完整 code 請見 <a target="_blank" rel="noopener" href="https://codepen.io/roto93/pen/YzaYbVg">我的 codepen</a></p>
+<h2 id="結論"><a href="#結論" class="headerlink" title="結論"></a><font color="#f4a261">結論</font></h2><h4 id="閉包-Closure-1"><a href="#閉包-Closure-1" class="headerlink" title="閉包 Closure:"></a>閉包 Closure:</h4><ol>
+<li>是函式與建立函式當下的環境的集合 </li>
+<li>會使函式記住宣告它當下的環境</li>
+<li>能讓函式被多次呼叫卻又互不影響</li>
+</ol>
+</font>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -336,115 +437,6 @@
 <h2 id="成品"><a href="#成品" class="headerlink" title="成品"></a><font color="#f4a261">成品</font></h2><img width="70%" src="/2022/07/27/%E5%81%9A%E4%B8%80%E5%80%8B%E8%87%AA%E5%B7%B1%E7%9A%84-IG-%E9%80%A3%E7%B5%90%E9%A0%81/done.jpg">
 
 <p>完成的網頁在 <a target="_blank" rel="noopener" href="https://insta-profile-page-4f7d8.web.app/">這裡</a><br>雖然說不上多厲害<br>但用自己做出來的東西<br>果然還是比較開心</p>
-</font>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2022/02/25/%E7%84%A1%E9%9A%9C%E7%A4%99%E8%A8%AD%E5%AE%9A%E8%AE%93%E6%88%91%E7%9A%84app%E7%A0%B4%E7%89%88%E6%80%8E%E9%BA%BC%E8%BE%A6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Guan-Ting Su">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pi's Blog">
-      <meta itemprop="description" content="一些程式自學小記錄">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Pi's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/02/25/%E7%84%A1%E9%9A%9C%E7%A4%99%E8%A8%AD%E5%AE%9A%E8%AE%93%E6%88%91%E7%9A%84app%E7%A0%B4%E7%89%88%E6%80%8E%E9%BA%BC%E8%BE%A6/" class="post-title-link" itemprop="url">無障礙設定讓我的app破版怎麼辦</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-
-      <time title="創建時間：2022-02-25 17:06:47" itemprop="dateCreated datePublished" datetime="2022-02-25T17:06:47+08:00">2022-02-25</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2022-10-13 15:53:16" itemprop="dateModified" datetime="2022-10-13T15:53:16+08:00">2022-10-13</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <font size="2" color="#aaa">
-
-<h2 id="前言"><a href="#前言" class="headerlink" title=" 前言 "></a><font color="#f4a261"> 前言 </font></h2><p>前幾天跟高中同學去日月潭玩<br>沒錯是同學會!<br>沒想到高一到現在已經九年半了<br>居然還能一起出門過夜<br>實在是非常難得的友誼</p>
-<p>其中有些同學有在關注我的限動<br>所以對我的app滿好奇的<br>我就趁機請他們上 google play 下載來測試看看<br>也因此發現了一個嚴重的破版問題<br>如圖</p>
-<div style="display:flex; justify-content:space-between">
-<img src="/2022/02/25/%E7%84%A1%E9%9A%9C%E7%A4%99%E8%A8%AD%E5%AE%9A%E8%AE%93%E6%88%91%E7%9A%84app%E7%A0%B4%E7%89%88%E6%80%8E%E9%BA%BC%E8%BE%A6/破1.jpg" width="40%">
-<img src="/2022/02/25/%E7%84%A1%E9%9A%9C%E7%A4%99%E8%A8%AD%E5%AE%9A%E8%AE%93%E6%88%91%E7%9A%84app%E7%A0%B4%E7%89%88%E6%80%8E%E9%BA%BC%E8%BE%A6/破2.jpg" width="40%">
-</div>
-
-<p>可以看到是因為字體太大而導致的破版</p>
-<h2 id="原因-無障礙設定"><a href="#原因-無障礙設定" class="headerlink" title="原因: 無障礙設定"></a><font color="#f4a261">原因: 無障礙設定</font></h2><p>自從開始用別人的手機測試後<br>才知道原來還需要考慮無障礙設定</p>
-<p>無障礙設定是為了照顧到一些身體機能不足的用戶<br>在手機上不外乎就是改變字體、對比、或是朗讀模式等等<br>而這次的case<br>就是因為我同學的手機把系統字體調大了才會這樣</p>
-<img src="/2022/02/25/%E7%84%A1%E9%9A%9C%E7%A4%99%E8%A8%AD%E5%AE%9A%E8%AE%93%E6%88%91%E7%9A%84app%E7%A0%B4%E7%89%88%E6%80%8E%E9%BA%BC%E8%BE%A6/3.jpg" style="width: 40%;min-width: 250px;">
-
-<p>雖然是個貼心的設定<br>但對app開發者來說是一大麻煩<br>因為字體改變意味著版型要跟著調整<br>也幾乎沒有辦法確保有一個各種字體都好看的排版方式<br>最終的解法可能有兩種</p>
-<ol>
-<li>極為簡單的排版，字再大都還算可接受</li>
-<li>禁止部分或全部的字體縮放</li>
-</ol>
-<h2 id="禁止app字體縮放"><a href="#禁止app字體縮放" class="headerlink" title="禁止app字體縮放"></a><font color="#f4a261">禁止app字體縮放</font></h2><p>我們決定採用第二種方法<br>雖然這意味著可能會減少眼睛不好的用戶(如長輩)<br>但我們原先鎖定的客群就是比較偏向年輕用戶<br>所以並沒有偏離初衷</p>
-<p>react native 的 Text 和 TextInput 元件都有提供一個屬性叫做 allowFontScaling<br>只要設為false就能阻止字體被改</p>
-<img src="/2022/02/25/%E7%84%A1%E9%9A%9C%E7%A4%99%E8%A8%AD%E5%AE%9A%E8%AE%93%E6%88%91%E7%9A%84app%E7%A0%B4%E7%89%88%E6%80%8E%E9%BA%BC%E8%BE%A6/4.jpg" width="80%">
-
-<p>不過如果還要修改app裡的所有元件<br>真的有點麻煩<br>其實只要在APP的最上層(如App.js)<br>直接設定元件的defaultProps<br>就可以一次更改所有元件囉<br>如下:</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">Text</span>.<span class="property">defaultProps</span> = &#123;</span><br><span class="line">  <span class="attr">allowFontScaling</span>: <span class="literal">false</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="title class_">TextInput</span>.<span class="property">defaultProps</span> = &#123;</span><br><span class="line">  <span class="attr">allowFontScaling</span>: <span class="literal">false</span>,</span><br><span class="line">  <span class="attr">underlineColorAndroid</span>: <span class="string">&quot;transparent&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>補充一點<br>當我把TextInput設為allowFontScaling時<br>不知道為什麼突然冒出底線<br>所以必須多加一個<code>underlineColorAndroid: &quot;transparent&quot;</code>的設定</p>
-<p>調整完後，正常的版面</p>
-<div style="display:flex; justify-content:space-between">
-<img src="/2022/02/25/%E7%84%A1%E9%9A%9C%E7%A4%99%E8%A8%AD%E5%AE%9A%E8%AE%93%E6%88%91%E7%9A%84app%E7%A0%B4%E7%89%88%E6%80%8E%E9%BA%BC%E8%BE%A6/1.jpg" width="40%">
-<img src="/2022/02/25/%E7%84%A1%E9%9A%9C%E7%A4%99%E8%A8%AD%E5%AE%9A%E8%AE%93%E6%88%91%E7%9A%84app%E7%A0%B4%E7%89%88%E6%80%8E%E9%BA%BC%E8%BE%A6/2.jpg" width="40%">
-</div>
-
-<h2 id="結論"><a href="#結論" class="headerlink" title="結論"></a><font color="#f4a261">結論</font></h2><p>無障礙設定給人方便<br>也帶來一點不方便<br>往後在思考排版的時候<br>也要記得考慮到無障礙設定才行</p>
 </font>
       
     </div>
