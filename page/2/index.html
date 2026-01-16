@@ -120,7 +120,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">54</span>
+          <span class="site-state-item-count">55</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -150,6 +150,96 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2023/08/20/%E8%A9%A6%E7%8E%A9Highcharts%E9%81%87%E5%88%B0%E7%9A%84%E9%81%87%E5%88%B0%E7%9A%84TS%E5%B0%8F%E5%95%8F%E9%A1%8C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Guan-Ting Su">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pi's Blog">
+      <meta itemprop="description" content="一些程式自學小記錄">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Pi's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/08/20/%E8%A9%A6%E7%8E%A9Highcharts%E9%81%87%E5%88%B0%E7%9A%84%E9%81%87%E5%88%B0%E7%9A%84TS%E5%B0%8F%E5%95%8F%E9%A1%8C/" class="post-title-link" itemprop="url">試玩Highcharts遇到的遇到的TS小問題</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2023-08-20 01:47:00 / 修改時間：02:34:19" itemprop="dateCreated datePublished" datetime="2023-08-20T01:47:00+08:00">2023-08-20</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <font size="2" color="#999">
+<h2 id="font-color-f4a261-前言-font"><a class="header-anchor" href="#font-color-f4a261-前言-font"></a><font color="#f4a261">前言</font></h2>
+<p>最近安裝 highcharts 來試玩，因為之後公司的網頁有可能會換圖表套件，想要找一個比現在用的 lightweight chart 再更靈活一點的，畢竟他的主力是在 financial charts，拿來做股市圖蠻不錯的，但圖表類型很少連圓餅圖都沒有。</p>
+<p>研究的過程中遇到一個 type error 覺得蠻有意思的。</p>
+<h2 id="font-color-f4a261-想要從圖表提取-x-y-以外的資料-font"><a class="header-anchor" href="#font-color-f4a261-想要從圖表提取-x-y-以外的資料-font"></a><font color="#f4a261">想要從圖表提取 x, y 以外的資料</font></h2>
+<p>我想要做的功能是：當滑鼠指到圖上的任一點，圖表外的某處就要顯示該點的 x,y 值，以及另一個附加的資料。類似下面這樣(lightweight chart)</p>
+<img src="/2023/08/20/%E8%A9%A6%E7%8E%A9Highcharts%E9%81%87%E5%88%B0%E7%9A%84%E9%81%87%E5%88%B0%E7%9A%84TS%E5%B0%8F%E5%95%8F%E9%A1%8C/1.png" width="80%">
+<p>這張圖看起來不就是把 y 值提出來而已嗎？這樣有什麼困難？但其實我背後是把 y 值設為幣價的絕對值，以此來做圖。至於 y 軸會變成百分比是因為 lightweight chart 有提供一個功能讓我可以用百分比來顯示。</p>
+<p>現在我要用 highcharts 做到一樣的事情，在設定 data property 時應<a target="_blank" rel="noopener" href="https://www.highcharts.com/forum/viewtopic.php?t=48914#p177391">用物件的方式定義 x,y 以及額外的資料</a>，而不是用陣列的方式定義，請看以下</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> options &#123;</span><br><span class="line">  <span class="attr">data</span>: [[<span class="number">1</span>,<span class="number">20</span>,<span class="string">&#x27;extra1&#x27;</span>], [<span class="number">2</span>,<span class="number">23</span>,<span class="string">&#x27;extra2&#x27;</span>], [<span class="number">3</span>,<span class="number">19</span>,<span class="string">&#x27;extra3&#x27;</span>]], <span class="comment">//不要這樣定義</span></span><br><span class="line">  <span class="attr">data</span>: [</span><br><span class="line">    &#123;<span class="attr">x</span>: <span class="number">1</span>, <span class="attr">y</span>: <span class="number">20</span>, <span class="attr">extra</span>: <span class="string">&#x27;extra1&#x27;</span>&#125;,</span><br><span class="line">    &#123;<span class="attr">x</span>: <span class="number">2</span>, <span class="attr">y</span>: <span class="number">23</span>, <span class="attr">extra</span>: <span class="string">&#x27;extra2&#x27;</span>&#125;,</span><br><span class="line">    &#123;<span class="attr">x</span>: <span class="number">3</span>, <span class="attr">y</span>: <span class="number">19</span>, <span class="attr">extra</span>: <span class="string">&#x27;extra3&#x27;</span>&#125;</span><br><span class="line">  ] <span class="comment">//應該這樣定義</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>這樣一來就可以用<code>series.point.event.mouseover</code>觸發 hover event ,再藉由 callback function 裡的<code>this</code>去取值，但這就遇到 Typescript 的問題了</p>
+<img src="/2023/08/20/%E8%A9%A6%E7%8E%A9Highcharts%E9%81%87%E5%88%B0%E7%9A%84%E9%81%87%E5%88%B0%E7%9A%84TS%E5%B0%8F%E5%95%8F%E9%A1%8C/2.png" width="80%">
+<h2 id="font-color-f4a261-如果-this-跟想像的不一樣怎麼辦-font"><a class="header-anchor" href="#font-color-f4a261-如果-this-跟想像的不一樣怎麼辦-font"></a><font color="#f4a261">如果 this 跟想像的不一樣怎麼辦</font></h2>
+<p>我想這是因為我定義了額外的屬性，雖然 highcharts 好心的幫我加進去 this，但是新的AUM屬性就是不存在在this的type(實際上是Highcharts.Point)裡面啊，但我要怎麼讓這個 type error 消失啊？</p>
+<p>optional chaining 不行，this 也不能 assign 到別的變數(<code>no-this-alias</code> error)</p>
+<img src="/2023/08/20/%E8%A9%A6%E7%8E%A9Highcharts%E9%81%87%E5%88%B0%E7%9A%84%E9%81%87%E5%88%B0%E7%9A%84TS%E5%B0%8F%E5%95%8F%E9%A1%8C/3.png" width="80%">
+<p>研究好一段時間之後，這樣就可以了：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">AUM</span>: (<span class="variable language_">this</span> <span class="keyword">as</span> <span class="keyword">typeof</span> <span class="variable language_">this</span> &amp; &#123; <span class="attr">AUM</span>: string &#125;).<span class="property">AUM</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="font-color-f4a261-結論-font"><a class="header-anchor" href="#font-color-f4a261-結論-font"></a><font color="#f4a261">結論</font></h2>
+<p>一般來說遇到這種問題應該要去修改最根本的 type 定義，但今天遇到的是特殊狀況，我要怎麼從源頭修改 this 的 type 啊?<br>
+現在終於知道原來可以<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/18083389/ignore-typescript-errors-property-does-not-exist-on-value-of-type">在 dot notation 前面用括號</a>刮起來用<code>as</code>，又多知道一個應急的方法了</p>
+</font>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -343,144 +433,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2023/03/25/GitLab-Groups-%E4%BB%8B%E7%B4%B9%E8%88%87%E6%87%89%E7%94%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Guan-Ting Su">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pi's Blog">
-      <meta itemprop="description" content="一些程式自學小記錄">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Pi's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/03/25/GitLab-Groups-%E4%BB%8B%E7%B4%B9%E8%88%87%E6%87%89%E7%94%A8/" class="post-title-link" itemprop="url">GitLab Groups 介紹與應用</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-      
-
-      <time title="創建時間：2023-03-25 14:43:17 / 修改時間：15:45:41" itemprop="dateCreated datePublished" datetime="2023-03-25T14:43:17+08:00">2023-03-25</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <font size="2" color="#999">
-<h2 id="font-color-f4a261-前言-font"><a class="header-anchor" href="#font-color-f4a261-前言-font"></a><font color="#f4a261">前言</font></h2>
-<p>老闆總是覺得前端很簡單，總以為套套版三天就可以上線了<br>
-但我能理解，因為國中時我也常把任何事情想得很簡單<br>
-沒做過的事都不會知道有什麼難處<br>
-所以我並不會對國中生要求太多</p>
-<p>但如果能把事情快速做完有何不可？<br>
-無奈這間公司的每個網站都是前輩們趕鴨子上架<br>
-缺乏一個有系統的管理方式<br>
-因此我想來試試看</p>
-<h2 id="font-color-f4a261-用-Group-來管理專案-font"><a class="header-anchor" href="#font-color-f4a261-用-Group-來管理專案-font"></a><font color="#f4a261">用 Group 來管理專案</font></h2>
-<p>我想做的主要有三件事情</p>
-<ol>
-<li>整合公司 GitLab 內的所有前端專案</li>
-<li>將每個專案中會共用的元件、函式提出來，變成 library</li>
-<li>建立 template</li>
-</ol>
-<p>Group 是 GitLab 中的一個功能<br>
-你可以把相關的專案放在同一個 group 當中<br>
-此時專案的 namespace 就會從<br>
-<img src="/2023/03/25/GitLab-Groups-%E4%BB%8B%E7%B4%B9%E8%88%87%E6%87%89%E7%94%A8/without-group.png" width="320"><br>
-變成<br>
-<img src="/2023/03/25/GitLab-Groups-%E4%BB%8B%E7%B4%B9%E8%88%87%E6%87%89%E7%94%A8/with-group.png" width="480"><br>
-除了一目了然，一下就知道這是前端專案，或是前端模板<br>
-最大的優點就是權限控制了</p>
-<p>我們試想一個情境<br>
-公司內有老闆、PM、RD、Dev Leader、QA<br>
-就算每個人都能看到每個專案<br>
-每個人應賦予的權限也不一樣<br>
-RD 要能編輯，QA 要能開 issue，老闆動口不動手<br>
-只要有用 Group 將各個專案進行分類<br>
-就不需要對每個專案都設定一次<br>
-而是以 Group 為單位來給予權限</p>
-<ul>
-<li>Owner: 權限最大，掌管專案的生死</li>
-<li>Maintainer: 通常為資深工程師，負責處理 branch 的異動</li>
-<li>Developer: 開發人員，專心寫 code</li>
-<li>Reporter: 測試並回報問題，所以要能開 issue</li>
-<li>Guest: 只能看，老闆就在這了啦</li>
-</ul>
-<h2 id="font-color-f4a261-用-Group-來管理專案-font-v2"><a class="header-anchor" href="#font-color-f4a261-用-Group-來管理專案-font-v2"></a><font color="#f4a261">用 Group 來管理專案</font></h2>
-<p>目前公司只有我一個前端，所以權限這件事目前還不需要煩惱<br>
-我只要先整理好 Group 的架構就好</p>
-<p>首先建立一個名為 Frontend 的 Group<br>
-只要是前端的專案都放進來<br>
-接著 Frontend Group 底下再建立兩個 sub-group<br>
-Templates 和 Shared</p>
-<p>Templates 裡面會放一些做好初始設定網站作為模板<br>
-包括常用的套件也都會安裝進去<br>
-未來要開發新網站就只要從這些模板開始就好<br>
-因此我先做了兩個模板<br>
-如果需要 SEO，就用 Nextjs 的模板<br>
-如果不需要 SEO，或是一次性的網站，就用 Vite 的模板</p>
-<p>Shared 裡面放的就是跨專案共用的檔案啦<br>
-我分別建立了 component, stylus, utils 三個專案<br>
-並以 submodule 的形式加進 template 當中<br>
-這樣的好處是，可以維持網站間的一致性<br>
-例如每個網站都有一樣的 footer<br>
-那我就只要修改 Shared/components 這個 submobule<br>
-再打開每個專案更新 submodule，重新跑一次 CICD<br>
-就不用怕忘了改(或改錯)某個網站的 footer 了</p>
-<p>大至上的架構是這樣，中括號代表 group，其他的就是 repo：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[Frontend]</span><br><span class="line">  [Templates]</span><br><span class="line">    Nextjs-web3-template</span><br><span class="line">    Vite-web3-template</span><br><span class="line">  [Shared]</span><br><span class="line">    component</span><br><span class="line">    stylus</span><br><span class="line">    utils</span><br><span class="line">  Website 1</span><br><span class="line">  Website 2</span><br><span class="line">  Website 3</span><br></pre></td></tr></table></figure>
-<h2 id="font-color-f4a261-結論-font"><a class="header-anchor" href="#font-color-f4a261-結論-font"></a><font color="#f4a261">結論</font></h2>
-<p>利用 Group，我們便能將各個 repo 分類<br>
-光看 namespace 就知道專案的類型<br>
-也能用更方便的方式管理專案權限</p>
-</font>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一頁"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一頁"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一頁"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一頁"></i></a>
   </nav>
 
 </div>
@@ -492,7 +446,7 @@ Templates 和 Shared</p>
 
 <div class="copyright">
   &copy; 
-  <span itemprop="copyrightYear">2023</span>
+  <span itemprop="copyrightYear">2026</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

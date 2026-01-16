@@ -120,7 +120,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">54</span>
+          <span class="site-state-item-count">55</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -150,6 +150,105 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2021/09/07/Heroku-Postgres-Cheat-Sheet/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Guan-Ting Su">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pi's Blog">
+      <meta itemprop="description" content="一些程式自學小記錄">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Pi's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/09/07/Heroku-Postgres-Cheat-Sheet/" class="post-title-link" itemprop="url">Heroku Postgres Cheat Sheet</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-09-07 11:08:51" itemprop="dateCreated datePublished" datetime="2021-09-07T11:08:51+08:00">2021-09-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2022-10-13 15:53:16" itemprop="dateModified" datetime="2022-10-13T15:53:16+08:00">2022-10-13</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <font size="2" color="#aaa">
+
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><font color="#f4a261">前言</font></h2><p>這裡記錄一些 Heroku Postgres 常用的指令</p>
+<p>由於我不算主攻資料庫，這些指令頂多在建立API時才會用到<br>真的很容易忘記<br>為自己做點紀錄，不用每次都去翻 doc<br>這篇文章會持續更新</p>
+<hr>
+<h2 id="SQL-語法"><a href="#SQL-語法" class="headerlink" title="SQL 語法"></a>SQL 語法</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 新建資料庫</span></span><br><span class="line"><span class="keyword">CREATE</span> DATABASE name;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 更改資料庫名稱</span></span><br><span class="line"><span class="keyword">ALTER</span> DATABASE <span class="operator">&lt;</span>name<span class="operator">&gt;</span> RENAME <span class="keyword">TO</span> <span class="operator">&lt;</span>newname<span class="operator">&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 刪除整個資料表</span></span><br><span class="line"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> table_name; </span><br><span class="line"></span><br><span class="line"><span class="comment">-- 刪除資料表中的內容，但保留資料表</span></span><br><span class="line"><span class="keyword">TRUNCATE</span> <span class="keyword">TABLE</span> table_name;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 刪除整個資料庫</span></span><br><span class="line"><span class="keyword">DROP</span> DATABASE database_name;</span><br><span class="line"></span><br><span class="line"><span class="comment">--顯示某 table 的所有欄位</span></span><br><span class="line"><span class="keyword">SELECT</span> column_name </span><br><span class="line"> <span class="keyword">FROM</span> information_schema.columns </span><br><span class="line"> <span class="keyword">WHERE</span> table_name <span class="operator">=</span> <span class="string">&#x27;table_issues&#x27;</span> </span><br><span class="line"> <span class="keyword">AND</span> table_schema <span class="operator">=</span> <span class="string">&#x27;public&#x27;</span>;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="遠端-heroku-postgres-操作"><a href="#遠端-heroku-postgres-操作" class="headerlink" title="遠端 heroku postgres 操作"></a>遠端 heroku postgres 操作</h2><ul>
+<li><p>查看現有備份檔<br><code>heroku pg:backups</code></p>
+</li>
+<li><p>立刻建立備份<br>(指定app) <code>heroku pg:backups:capture --app taiwan-astronomy-network-api</code><br>(指定database) <code>heroku pg:backups:capture table_issues</code></p>
+</li>
+<li><p>排程備份<br><code>heroku pg:backups:schedule --at &quot;06:00 Asia/Taipei&quot;</code><br>flag –at 是必需參數，格式為: “<font color="orange">hour</font>:00 <font color="orange">full TZ format</font>“<br>Windows 必須使用雙引號<br>Full TZ format 查詢: <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones">https://en.wikipedia.org/wiki/List_of_tz_database_time_zones</a></p>
+</li>
+<li><p>查看排程<br><code>heroku pg:backups:schedules</code></p>
+</li>
+<li><p>取消排程<br><code>heroku pg:backups:unschedule DATABASE_URL</code><br>DATABASE_URL: 如果一個 APP 有多個 DATABASE，則需指定 DATABASE 的 URL</p>
+</li>
+<li><p>下載備份<br><code>heroku pg:backups:download BACKUP_ID -o OUTPUT_NAME</code><br>BACKUP_ID: 要下載的備份檔id，可先用 heroku pg:backups 查詢<br>OUTPUT_NAME: 輸出的路徑與檔名，預設為 <code>latest.dump</code>，但如果沒有設定的話不會覆寫同名檔案，而是變成<code>latest.demp.1</code></p>
+</li>
+</ul>
+<h2 id="本地-postgres-操作"><a href="#本地-postgres-操作" class="headerlink" title="本地 postgres 操作"></a>本地 postgres 操作</h2><ul>
+<li>用 latest.dump 復原本地資料庫<br><code>pg_restore --verbose --clean --no-acl --no-owner -h localhost -U postgres -d tan_data latest.dump</code></li>
+</ul>
+</font>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -357,126 +456,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2021/07/30/%E7%94%A8Python-Flask%E6%89%93%E9%80%A0API-Postgres%E7%AF%87/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Guan-Ting Su">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pi's Blog">
-      <meta itemprop="description" content="一些程式自學小記錄">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Pi's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/07/30/%E7%94%A8Python-Flask%E6%89%93%E9%80%A0API-Postgres%E7%AF%87/" class="post-title-link" itemprop="url">用 Python-Flask 打造 API - Postgres 本地篇</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-
-      <time title="創建時間：2021-07-30 09:47:43" itemprop="dateCreated datePublished" datetime="2021-07-30T09:47:43+08:00">2021-07-30</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2022-10-13 15:53:16" itemprop="dateModified" datetime="2022-10-13T15:53:16+08:00">2022-10-13</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <font size="2" color="#aaa">
-
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><font color="#f4a261">前言</font></h2><p>今天這篇我要來記錄如何在 Flask API 中串接並使用 Postgres<br>我在<a href="https://roto93.github.io/2021/07/28/%E4%B8%8D%E5%BB%BA%E8%AD%B0%E5%9C%A8Heroku%E4%B8%8A%E7%94%A8sqlite%E7%95%B6DB/">上一篇</a>中提到在 Heroku 上用 SQLite 作為資料庫的缺點，以及 Heroku 推薦使用 Postgres<br>因此我去研究了如何做到這一點<br>過程遇到很多 error 真的很崩潰，也沒有把遇到的每個問題都記錄下來有點可惜<br>現在就憑印象，能寫多少就多少吧</p>
-<p>這邊我會把 postgres 操作分成 local 跟 remote<br>先從 local 開始吧</p>
-<h2 id="安裝-Postgres"><a href="#安裝-Postgres" class="headerlink" title="安裝 Postgres"></a><font color="#f4a261">安裝 Postgres</font></h2><p><a target="_blank" rel="noopener" href="https://www.postgresql.org/">PostgreSQL</a> 是一款蠻有名的關係資料庫<br>有時候縮寫成 Postgres<br>那我們到<a target="_blank" rel="noopener" href="https://www.postgresql.org/download/">這裡</a>下載不同作業系統對應的安裝軟體<br>那我用的是 Windows，所以這裡就用 windows 來舉例<br>安裝時注意一件事<br>我們要另外自己手動安裝 pgAdmin<br>所以記得把這個 pgAdmin4 的選項取消，不要選<br><img src="/2021/07/30/%E7%94%A8Python-Flask%E6%89%93%E9%80%A0API-Postgres%E7%AF%87/postgres-1.jpg" width="50%"><br>接下來他會請你指定安裝路徑，super 使用者的密碼，預設 port，時區(選default就好)</p>
-<p>再來要到<a target="_blank" rel="noopener" href="https://www.pgadmin.org/download/">這裡</a>安裝 pgAdmin<br>安裝過程很單純，一直下一步到安裝就好，不會有什麼問題<br>完成後打開它</p>
-<img src="/2021/07/30/%E7%94%A8Python-Flask%E6%89%93%E9%80%A0API-Postgres%E7%AF%87/postgres-2.jpg" width="50%">
-
-<p>到這邊安裝就差不多了</p>
-<h2 id="在本地串接-API-和-Postgres"><a href="#在本地串接-API-和-Postgres" class="headerlink" title="在本地串接 API 和 Postgres"></a><font color="#f4a261">在本地串接 API 和 Postgres</font></h2><p>點擊此處建立資料庫，取名<br>(以後面的例子而言我是取 issuedata，不是圖裡的 NewDatabase)</p>
-<img src="/2021/07/30/%E7%94%A8Python-Flask%E6%89%93%E9%80%A0API-Postgres%E7%AF%87/postgres-3.jpg" width="50%">
-<img src="/2021/07/30/%E7%94%A8Python-Flask%E6%89%93%E9%80%A0API-Postgres%E7%AF%87/postgres-4.jpg" width="50%">
-
-<p>接下來回到程式端<br>前幾篇文章的程式碼都是 for 教學用的<br>但我現在做了正式版，是將來要應用在 TAN 網站的版本<br>為了不造成混淆我先把連接資料庫前的正式版程式碼貼上來~</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask, Request</span><br><span class="line"><span class="keyword">from</span> flask_sqlalchemy <span class="keyword">import</span> SQLAlchemy</span><br><span class="line"><span class="keyword">from</span> flask_cors <span class="keyword">import</span> CORS</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line">CORS(app)</span><br><span class="line"></span><br><span class="line">db = SQLAlchemy(app)</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Issue</span>(db.Model):</span><br><span class="line">    __tablename__ = <span class="string">&quot;issue_table&quot;</span></span><br><span class="line">    <span class="built_in">id</span> = db.Column(db.Integer, primary_key=<span class="literal">True</span>)</span><br><span class="line">    year = db.Column(db.Integer, nullable=<span class="literal">False</span>)</span><br><span class="line">    month = db.Column(db.Integer, nullable=<span class="literal">False</span>)</span><br><span class="line">    date = db.Column(db.Integer, nullable=<span class="literal">False</span>)</span><br><span class="line">    title = db.Column(db.String(<span class="number">100</span>), nullable=<span class="literal">False</span>)</span><br><span class="line">    content = db.Column(db.String(<span class="number">2000</span>))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__repr__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="string">f&quot;<span class="subst">&#123;self.year&#125;</span>/<span class="subst">&#123;self.month&#125;</span>/<span class="subst">&#123;self.date&#125;</span> - <span class="subst">&#123;self.title&#125;</span>&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/&#x27;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">index</span>():</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;Wellcome to TAN API!&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/archive&#x27;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_archive</span>():</span><br><span class="line">    issues = Issue.query.<span class="built_in">all</span>()</span><br><span class="line">    output = []</span><br><span class="line">    <span class="keyword">for</span> issue <span class="keyword">in</span> issues:</span><br><span class="line">        issue_data = &#123;</span><br><span class="line">            <span class="string">&quot;id&quot;</span>: issue.<span class="built_in">id</span>,</span><br><span class="line">            <span class="string">&quot;year&quot;</span>: issue.year,</span><br><span class="line">            <span class="string">&quot;month&quot;</span>: issue.month,</span><br><span class="line">            <span class="string">&quot;date&quot;</span>: issue.date,</span><br><span class="line">            <span class="string">&quot;title&quot;</span>: issue.title,</span><br><span class="line">            <span class="string">&quot;content&quot;</span>: issue.content,</span><br><span class="line">        &#125;</span><br><span class="line">        output.append(issue_data)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> &#123;<span class="string">&quot;drinks&quot;</span>: output&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    app.run()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>要連接本地 postgres 資料庫，我需要加上:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">app.config[<span class="string">&quot;SQLALCHEMY_DATABASE_URI&quot;</span>] = <span class="string">&#x27;postgresql://postgres:et0997@localhost/issuedata&#x27;</span></span><br><span class="line">app.config[<span class="string">&#x27;SQLALCHEMY_TRACK_MODIFICATIONS&#x27;</span>] = <span class="literal">False</span></span><br></pre></td></tr></table></figure>
-
-<p>我們先來看第一行</p>
-<p><code>app.config[&quot;SQLALCHEMY_DATABASE_URI&quot;] = &#39;postgresql://postgres:et0997@localhost/issuedata&#39;</code></p>
-<p>這段 uri 的格式是 <code>postgresql://&lt;username&gt;:&lt;user_password&gt;@&lt;port&gt;/&lt;database_name&gt;</code></p>
-<ul>
-<li>username: PostgreSQL 的使用者。由於我沒有另外新建使用者，所以就用 super user 也就是<code>postgres</code>就可以了</li>
-<li>user_password: user 密碼。你在安裝 postgres 的時候不是有設定過一次密碼嗎? 就是那個(user 選 postgres 的話啦)</li>
-<li>port: 連接端口。由於我們是在本地測試，所以填<code>localhost</code>就好</li>
-<li>database_name: 你剛剛用 pgAdmin 建立的那個資料庫名稱</li>
-</ul>
-<p>總之這行是在告訴 Flask_SQLAlchemy 應該連接什麼資料庫，要怎麼找到它</p>
-<p>最底部的 <code>app.config[&#39;SQLALCHEMY_TRACK_MODIFICATIONS&#39;] = False</code><br>是為了避免跳出以下 warning</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">warnings.warn(&#x27;SQLALCHEMY_TRACK_MODIFICATIONS adds significant overhead </span><br><span class="line">and will be disabled by default in the future.  Set it to True to suppress this warning.&#x27;)</span><br></pre></td></tr></table></figure>
-<p>就我的理解<br>這是 Flask_SQLAlchemy 造成的小問題<br>它的意思是<br>由於 Flask_SQLAlchemy 是 SQLAlchemy 的一個包裝(類似升級版)<br>本質上還是 SQLAlchemy 在運作<br>而 Flask_SQLAlchemy 有自己的一套 event notification system<br>(不知道怎麼翻比較好，直接用原文)<br>所以它必須隨時監聽 SQLAlchemy 的任何修改(如’SQLALCHEMY_TRACK_MODIFICATIONS’字面上的意思)<br>這可能會造成性能瓶頸<br>設為 False 避免這個問題</p>
-<p>至此就設定好本地連接了</p>
-<h4 id="建立-local-DB-的-table-和-資料"><a href="#建立-local-DB-的-table-和-資料" class="headerlink" title="建立 local DB 的 table 和 資料"></a>建立 local DB 的 table 和 資料</h4><p>接著打開 python shell</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> app <span class="keyword">import</span> db, Issue <span class="comment"># 從 app.py 引入 db 和 Issue 模組</span></span><br><span class="line">db.create_all() <span class="comment"># 在 database 中建立 Table，名稱為 Issue (如果沒用 __tablename__ 更改預設名稱的話)</span></span><br><span class="line"><span class="comment"># 宣告新的單筆資料 issue</span></span><br><span class="line">issue = Issue(year=<span class="number">2077</span>,month=<span class="number">1</span>,date=<span class="number">27</span>,title=<span class="string">&quot;Issue Title&quot;</span>, content=<span class="string">&quot;This is something important.&quot;</span>) </span><br><span class="line">db.session.add(issue) <span class="comment"># 把 issue 加進 session</span></span><br><span class="line">db.session.commit() <span class="comment"># 提交 session</span></span><br></pre></td></tr></table></figure>
-
-<p>完成後打開 pgAdmin<br>從以下路徑找到名為 issuedata 的 table</p>
-<img src="/2021/07/30/%E7%94%A8Python-Flask%E6%89%93%E9%80%A0API-Postgres%E7%AF%87/postgres-7.jpg" width="80%">
-<img src="/2021/07/30/%E7%94%A8Python-Flask%E6%89%93%E9%80%A0API-Postgres%E7%AF%87/postgres-8.jpg" width="80%">
-
-<p>耶! 看到資料了</p>
-<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a><font color="#f4a261">結語</font></h2><p>剛剛的安裝過程都只是在自己的電腦上存取資料而已<br>但最終我們要把 API 放在網路上呀<br>到時要怎麼用 Postgres 呢?</p>
-<p>我覺得 部落格好像不太適合寫太長<br>遠端的部分就留到下一篇吧!</p>
-</font>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/9/"><i class="fa fa-angle-left" aria-label="上一頁"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/11/"><i class="fa fa-angle-right" aria-label="下一頁"></i></a>
+    <a class="extend prev" rel="prev" href="/page/9/"><i class="fa fa-angle-left" aria-label="上一頁"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" href="/page/11/"><i class="fa fa-angle-right" aria-label="下一頁"></i></a>
   </nav>
 
 </div>
@@ -488,7 +469,7 @@
 
 <div class="copyright">
   &copy; 
-  <span itemprop="copyrightYear">2023</span>
+  <span itemprop="copyrightYear">2026</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

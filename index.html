@@ -120,7 +120,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">54</span>
+          <span class="site-state-item-count">55</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -150,6 +150,139 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2026/01/16/AI-Assistant-for-Development/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Guan-Ting Su">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pi's Blog">
+      <meta itemprop="description" content="一些程式自學小記錄">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Pi's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2026/01/16/AI-Assistant-for-Development/" class="post-title-link" itemprop="url">AI Assistant for Development</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2026-01-16 17:11:09 / 修改時間：17:28:32" itemprop="dateCreated datePublished" datetime="2026-01-16T17:11:09+08:00">2026-01-16</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <font size="2" color="#999">
+<h2 id="font-color-f4a261-前言-font"><a class="header-anchor" href="#font-color-f4a261-前言-font"></a><font color="#f4a261">前言</font></h2>
+<p>最近在開發上用了不少 AI 工具<br>
+單純問問題我會用 ChatGPT, Gemini, Claude<br>
+IDE 相關的工具用過 Cursor, Antigravity, Cline, Continue<br>
+其他的還有 Lovable, Claude Code<br>
+有一些小心得</p>
+<p>身為開發人員我覺得自己在使用 AI 上比其他人晚很多<br>
+因為某種「Vibe coding 很不踏實」的堅持<br>
+讓我長久以來都只用 ChatGPT 問問題而已<br>
+直到最近因為跟朋友開始了一項 AI 相關的 Side Project<br>
+才讓我決定要好好的來用看看</p>
+<p>在討論前期的閒聊階段，其中一個人問我算是純前端嗎<br>
+我說算是吧，他就問「AI 越來越盛行你覺得還需要純前端嗎？」<br>
+「你不覺得越來越多事情是 Product Owner 就可以處理的嗎？」<br>
+忘了我當時回他什麼，但我發現每當被問類似問題，<br>
+我都會用「遲早會被取代吧」來打發過去<br>
+因為我沒有答案，不知道怎麼反駁</p>
+<p>實際用過才知道<br>
+現階段的 AI 不管是理解力還是生產力確實都很強<br>
+但終究無法取代技術人員，我的看法是：</p>
+<ol>
+<li>
+<p>只要 AI 無法一步到位，始終會需要技術人員介入<br>
+有認真用過 AI 的人就會知道，常會有講了半天還是改不好的情況<br>
+這是因為如果只用結果來描述問題，AI 只能某種程度地隔空抓藥<br>
+但如果是由一個懂技術的人來描述問題，限縮範圍<br>
+AI 修改的品質就會大幅提高<br>
+技術人員也有能力驗證修改結果，選擇 AI 提供的解決方案<br>
+甚至 (其實是大多數情況) 自己改好</p>
+</li>
+<li>
+<p>AI 產出的品質取決於 context engineering<br>
+要能有效地操控 AI，需要清楚知道該餵給它什麼資料、工具<br>
+你是什麼身份，它要以什麼身份幫你<br>
+輸出的格式、內容應有什麼不該有什麼<br>
+給太少資訊不夠，給太多它會失焦還會燒錢<br>
+所以現在很多概念像 subagent、Skills、MCP、RPI (Research-Plan-Implement)<br>
+本質上都是為了以最少的 context window 佔用量來完成目標<br>
+如果不懂技術架構或這些新概念<br>
+AI 在迭代產品的時候每次都是從頭開始看起<br>
+最後就會因為上下文太長而失控變笨</p>
+</li>
+<li>
+<p>人們沒意識到要精準描繪事物有多難<br>
+日常生活中很多人動不動就說別人聽不懂人話<br>
+但意思的傳達本來就非常困難<br>
+文字不精確，有歧義，就算加上表情、情境，<br>
+也很難保證對方有 get 到意思<br>
+真正會用 AI 的人，其實懂得透過對話逐步收斂到目標<br>
+這其實也算是一種技術能力<br>
+那些認為寫幾句話（或是退幾步來講：靠規格文件）<br>
+就能用 AI 做出理想產品的人<br>
+多半只是因為他根本不知道自己想要的東西具體的樣子<br>
+做出一個強大的 prototype 就以為做完了<br>
+只要產品夠大，你終究需要其他角色來幫你逐漸靠近心中所想<br>
+當然你也能用 AI 充當這些角色，那就回到前兩點</p>
+</li>
+</ol>
+<p>所以我認為 AI 時代最終的樣態是<br>
+勞力密集的職業消失，技術密集競爭更激烈，甚至會跨職能競爭<br>
+因為想法、判斷力跟跨領域能力更重要了，還要學會跟 AI 共處<br>
+新手跟老手之間的斷層會越發顯著<br>
+而當一個領域內繁複、入門的工作都開始交給 AI 後，那它就更有機會朝更高的境界發展</p>
+</font>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -384,98 +517,8 @@ simulation 則是建立理論模型後去預測結果，這也是模擬</p>
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2023/08/20/%E8%A9%A6%E7%8E%A9Highcharts%E9%81%87%E5%88%B0%E7%9A%84%E9%81%87%E5%88%B0%E7%9A%84TS%E5%B0%8F%E5%95%8F%E9%A1%8C/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Guan-Ting Su">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pi's Blog">
-      <meta itemprop="description" content="一些程式自學小記錄">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Pi's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/08/20/%E8%A9%A6%E7%8E%A9Highcharts%E9%81%87%E5%88%B0%E7%9A%84%E9%81%87%E5%88%B0%E7%9A%84TS%E5%B0%8F%E5%95%8F%E9%A1%8C/" class="post-title-link" itemprop="url">試玩Highcharts遇到的遇到的TS小問題</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-      
-
-      <time title="創建時間：2023-08-20 01:47:00 / 修改時間：02:34:19" itemprop="dateCreated datePublished" datetime="2023-08-20T01:47:00+08:00">2023-08-20</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <font size="2" color="#999">
-<h2 id="font-color-f4a261-前言-font"><a class="header-anchor" href="#font-color-f4a261-前言-font"></a><font color="#f4a261">前言</font></h2>
-<p>最近安裝 highcharts 來試玩，因為之後公司的網頁有可能會換圖表套件，想要找一個比現在用的 lightweight chart 再更靈活一點的，畢竟他的主力是在 financial charts，拿來做股市圖蠻不錯的，但圖表類型很少連圓餅圖都沒有。</p>
-<p>研究的過程中遇到一個 type error 覺得蠻有意思的。</p>
-<h2 id="font-color-f4a261-想要從圖表提取-x-y-以外的資料-font"><a class="header-anchor" href="#font-color-f4a261-想要從圖表提取-x-y-以外的資料-font"></a><font color="#f4a261">想要從圖表提取 x, y 以外的資料</font></h2>
-<p>我想要做的功能是：當滑鼠指到圖上的任一點，圖表外的某處就要顯示該點的 x,y 值，以及另一個附加的資料。類似下面這樣(lightweight chart)</p>
-<img src="/2023/08/20/%E8%A9%A6%E7%8E%A9Highcharts%E9%81%87%E5%88%B0%E7%9A%84%E9%81%87%E5%88%B0%E7%9A%84TS%E5%B0%8F%E5%95%8F%E9%A1%8C/1.png" width="80%">
-<p>這張圖看起來不就是把 y 值提出來而已嗎？這樣有什麼困難？但其實我背後是把 y 值設為幣價的絕對值，以此來做圖。至於 y 軸會變成百分比是因為 lightweight chart 有提供一個功能讓我可以用百分比來顯示。</p>
-<p>現在我要用 highcharts 做到一樣的事情，在設定 data property 時應<a target="_blank" rel="noopener" href="https://www.highcharts.com/forum/viewtopic.php?t=48914#p177391">用物件的方式定義 x,y 以及額外的資料</a>，而不是用陣列的方式定義，請看以下</p>
-<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> options &#123;</span><br><span class="line">  <span class="attr">data</span>: [[<span class="number">1</span>,<span class="number">20</span>,<span class="string">&#x27;extra1&#x27;</span>], [<span class="number">2</span>,<span class="number">23</span>,<span class="string">&#x27;extra2&#x27;</span>], [<span class="number">3</span>,<span class="number">19</span>,<span class="string">&#x27;extra3&#x27;</span>]], <span class="comment">//不要這樣定義</span></span><br><span class="line">  <span class="attr">data</span>: [</span><br><span class="line">    &#123;<span class="attr">x</span>: <span class="number">1</span>, <span class="attr">y</span>: <span class="number">20</span>, <span class="attr">extra</span>: <span class="string">&#x27;extra1&#x27;</span>&#125;,</span><br><span class="line">    &#123;<span class="attr">x</span>: <span class="number">2</span>, <span class="attr">y</span>: <span class="number">23</span>, <span class="attr">extra</span>: <span class="string">&#x27;extra2&#x27;</span>&#125;,</span><br><span class="line">    &#123;<span class="attr">x</span>: <span class="number">3</span>, <span class="attr">y</span>: <span class="number">19</span>, <span class="attr">extra</span>: <span class="string">&#x27;extra3&#x27;</span>&#125;</span><br><span class="line">  ] <span class="comment">//應該這樣定義</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>這樣一來就可以用<code>series.point.event.mouseover</code>觸發 hover event ,再藉由 callback function 裡的<code>this</code>去取值，但這就遇到 Typescript 的問題了</p>
-<img src="/2023/08/20/%E8%A9%A6%E7%8E%A9Highcharts%E9%81%87%E5%88%B0%E7%9A%84%E9%81%87%E5%88%B0%E7%9A%84TS%E5%B0%8F%E5%95%8F%E9%A1%8C/2.png" width="80%">
-<h2 id="font-color-f4a261-如果-this-跟想像的不一樣怎麼辦-font"><a class="header-anchor" href="#font-color-f4a261-如果-this-跟想像的不一樣怎麼辦-font"></a><font color="#f4a261">如果 this 跟想像的不一樣怎麼辦</font></h2>
-<p>我想這是因為我定義了額外的屬性，雖然 highcharts 好心的幫我加進去 this，但是新的AUM屬性就是不存在在this的type(實際上是Highcharts.Point)裡面啊，但我要怎麼讓這個 type error 消失啊？</p>
-<p>optional chaining 不行，this 也不能 assign 到別的變數(<code>no-this-alias</code> error)</p>
-<img src="/2023/08/20/%E8%A9%A6%E7%8E%A9Highcharts%E9%81%87%E5%88%B0%E7%9A%84%E9%81%87%E5%88%B0%E7%9A%84TS%E5%B0%8F%E5%95%8F%E9%A1%8C/3.png" width="80%">
-<p>研究好一段時間之後，這樣就可以了：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">AUM</span>: (<span class="variable language_">this</span> <span class="keyword">as</span> <span class="keyword">typeof</span> <span class="variable language_">this</span> &amp; &#123; <span class="attr">AUM</span>: string &#125;).<span class="property">AUM</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="font-color-f4a261-結論-font"><a class="header-anchor" href="#font-color-f4a261-結論-font"></a><font color="#f4a261">結論</font></h2>
-<p>一般來說遇到這種問題應該要去修改最根本的 type 定義，但今天遇到的是特殊狀況，我要怎麼從源頭修改 this 的 type 啊?<br>
-現在終於知道原來可以<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/18083389/ignore-typescript-errors-property-does-not-exist-on-value-of-type">在 dot notation 前面用括號</a>刮起來用<code>as</code>，又多知道一個應急的方法了</p>
-</font>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一頁"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一頁"></i></a>
   </nav>
 
 </div>
@@ -487,7 +530,7 @@ simulation 則是建立理論模型後去預測結果，這也是模擬</p>
 
 <div class="copyright">
   &copy; 
-  <span itemprop="copyrightYear">2023</span>
+  <span itemprop="copyrightYear">2026</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

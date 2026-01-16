@@ -120,7 +120,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">54</span>
+          <span class="site-state-item-count">55</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -150,6 +150,97 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2021/06/09/TextInput-%E8%88%87%E9%8D%B5%E7%9B%A4%E9%96%8B%E9%97%9C%E6%99%82%E6%A9%9F%E7%9A%84%E9%85%8D%E5%90%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Guan-Ting Su">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pi's Blog">
+      <meta itemprop="description" content="一些程式自學小記錄">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Pi's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/06/09/TextInput-%E8%88%87%E9%8D%B5%E7%9B%A4%E9%96%8B%E9%97%9C%E6%99%82%E6%A9%9F%E7%9A%84%E9%85%8D%E5%90%88/" class="post-title-link" itemprop="url">TextInput 與鍵盤開關時機的配合</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-06-09 12:33:40" itemprop="dateCreated datePublished" datetime="2021-06-09T12:33:40+08:00">2021-06-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2022-10-13 15:53:16" itemprop="dateModified" datetime="2022-10-13T15:53:16+08:00">2022-10-13</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <font size="2" color="#aaa">
+
+<p>在做 SideProject 時很常遇到一個狀況<br>TextInput 在 Focus 狀態時，是沒辦法立刻觸發其他按鈕的<br>你必須先點擊螢幕一次 (TextInput和鍵盤以外的地方)，將鍵盤收起<br>才能觸發別的按鈕<br>其實不只是按鈕，其他需要 recieve touch 的元件也有這個問題</p>
+<img src="/2021/06/09/TextInput-%E8%88%87%E9%8D%B5%E7%9B%A4%E9%96%8B%E9%97%9C%E6%99%82%E6%A9%9F%E7%9A%84%E9%85%8D%E5%90%88/situation.png" width="50%" style="box-shadow:3px 3px 8px darkgray">
+
+<p>至於為什麼強調是在做 sideProject 的時候呢?<br>因為這在一般情況不太算是問題<br>直到我以使用者的角度來操作app時才發現<br>當我預期點擊按鈕有用時，結果居然只是給我收起鍵盤而已?<br>真的很煩躁啊!我的耐心都到哪去了<br>這時我才了解使用者經驗的精隨<br>任何操作都要有預期的效果<br>只要有任何一次的點擊失效<br>負評的心情就來了</p>
+<p>回到問題本身，會有這個限制我想是因為輸入文字跟顯示鍵盤這兩件事是密切相關的<br>該輸入文字的時候就該顯示鍵盤<br>不打算輸入文字的時候就關閉鍵盤<br>在流程操作上比較直觀<br>但就像我說的，這不符合使用者的直覺<br>那該怎麼控制呢?</p>
+<h2 id="ScrollView-來幫個忙"><a href="#ScrollView-來幫個忙" class="headerlink" title="ScrollView 來幫個忙"></a><font color="#BC2C1A">ScrollView 來幫個忙</font></h2><hr>
+<p>ScrollView 有一個屬性是我們需要的<br>叫做 <code>keyboardShouldPersistTaps</code><br>一句話解釋:鍵盤打開的時候要不要接收觸控訊號?</p>
+<p>可以設定三種值:<br><code>&#39;never&#39;</code>: 當子元件的 TextInput focus 時，點擊文字框和鍵盤以外的地方會關閉鍵盤，當這件事發生時，子元件不會接收到 tap<br><code>&#39;always&#39;</code>: 鍵盤不會自動收起，ScrollView 不會接收到 tap (但可以滑動)，子元件可以接收到 tap<br><code>&#39;handled&#39;</code>: 如果 tap 被子元件或父元件 catch，鍵盤不會自動收起；但如果是被 ScrollView catch，鍵盤還是會收起來。</p>
+<p>所以策略是這樣的<br>我們可以將此屬性設為<code>&#39;handled&#39;</code>，先防止鍵盤自動關閉<br>這時按鈕就能互動了<br>接著再手動控制鍵盤關閉的時機就好<br>控制鍵盤的方式是用 react native 的<code>Keyboard</code>API</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> &#123;<span class="title class_">ScrollView</span>, <span class="title class_">Keyboard</span>&#125; <span class="keyword">from</span> <span class="string">&#x27;react native&#x27;</span></span><br><span class="line"></span><br><span class="line">&lt;<span class="title class_">ScrollView</span> keyboardShouldPersistTaps=<span class="string">&quot;handled&quot;</span>&gt;</span><br><span class="line">  <span class="language-xml"><span class="tag">&lt;<span class="name">TextInput</span>/&gt;</span></span></span><br><span class="line">  <span class="language-xml"><span class="tag">&lt;<span class="name">TouchableOpacity</span>/&gt;</span></span></span><br><span class="line">&lt;/<span class="title class_">ScrollView</span>&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>正當我以為沒問題的時候來了個小插曲ˋˊ</p>
+<h2 id="檢查上層了嗎"><a href="#檢查上層了嗎" class="headerlink" title="檢查上層了嗎?"></a><font color="#BC2C1A">檢查上層了嗎?</font></h2><hr>
+<p>在某一次我完成這些設定後卻發現沒效果!? 按鈕還是不能按<br>經過一番研究後終於知道了<br>設定沒效果代表在此元件之上一定還有另一層沒設定的 ScrollView<br>所以只要找到該標籤，加上<code>keyboardShouldPersistTaps</code>的屬性就可以了<br>記得要一路檢查到 root 哦</p>
+</font>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -374,124 +465,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://roto93.github.io/2021/05/07/%E8%87%AA%E8%A3%BD%E6%97%A5%E6%9C%9F%E9%81%B8%E6%93%87%E5%99%A8-2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Guan-Ting Su">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pi's Blog">
-      <meta itemprop="description" content="一些程式自學小記錄">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Pi's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/05/07/%E8%87%AA%E8%A3%BD%E6%97%A5%E6%9C%9F%E9%81%B8%E6%93%87%E5%99%A8-2/" class="post-title-link" itemprop="url">自製日期選擇器-2 (custom hook)</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-
-      <time title="創建時間：2021-05-07 11:15:05" itemprop="dateCreated datePublished" datetime="2021-05-07T11:15:05+08:00">2021-05-07</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2022-10-13 15:53:16" itemprop="dateModified" datetime="2022-10-13T15:53:16+08:00">2022-10-13</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <font size="2" color="#aaa">
-
-<p>延續 <a href="https://roto93.github.io/2021/05/01/%E8%87%AA%E8%A3%BD%E6%97%A5%E6%9C%9F%E9%81%B8%E6%93%87%E5%99%A8-1/">上一集</a><br>確定元件的輸入輸出介面後<br>(回顧四個基本屬性: <code>isVisible</code>, <code>displayDate</code>, <code>mode</code>, <code>onConfirm</code>)<br>現在要開始實作功能啦</p>
-<p>我們可以把實作步驟切分成幾個部分：</p>
-<ol>
-<li><b>排版:</b> 如何動態顯示每個月的日期數以及星期</li>
-<li><b>單日日期操作:</b> 每次點選都會更新 <code>data.date</code></li>
-<li><b>多日日期操作:</b> 有時點選是設定開始日<code>date.startDate</code>，有時是結束日<code>endDate</code>，需設計操控流程</li>
-<li><b>效能問題:</b> 目前為止每次當元件內有一堆按鈕的時候都會有不可忽略的卡頓(因為每次點擊都會讓每個按鈕重新渲染)，希望我能研究出如何減少這個卡頓時間</li>
-</ol>
-<p>今天這章節就來看看如何做日期的動態顯示吧!</p>
-<h2 id="動態顯示日期"><a href="#動態顯示日期" class="headerlink" title="動態顯示日期"></a><font color="#BC2C1A">動態顯示日期</font></h2><p>首先我們來想一想<br>一般的日曆app都怎麼排版?<br>每個月第一天的星期都不一樣<br>並且前後分別會補上個月最後幾天和下個月前幾天<br>直到補滿整行，像這樣(網路找的圖):<br><img src="/2021/05/07/%E8%87%AA%E8%A3%BD%E6%97%A5%E6%9C%9F%E9%81%B8%E6%93%87%E5%99%A8-2/日曆範例.jpg" style="box-shadow: 2px 1px 6px gray" width="25%"></p>
-<p>要達到這個目標，必須先有三個資訊:</p>
-<ol>
-<li>本月有幾天? <code>days</code></li>
-<li>本月第一天是星期幾? <code>firstDay</code></li>
-<li>上個月有幾天? <code>prevMonthDays</code></li>
-</ol>
-<p>所以我打算做一個<code>useDaysOfMonth</code>custom hook 來提供這些訊息</p>
-<ul>
-<li><b> Custom Hook </b> 是一組包裝起來的邏輯，有自己的 life cycle，你可以在其中使用<code>useState</code>、<code>useEffect</code>之類的 React hook。如果你還記得，hook 不是有很多使用上的限制嗎? 例如只能存在於元件內的第一層而不能被包在元件內的函數內，這項限制讓你沒辦法把重複用的邏輯包起來。而 custom hook 就是為此而生。</li>
-</ul>
-<h3 id="Custom-Hook-useDaysOfMonth"><a href="#Custom-Hook-useDaysOfMonth" class="headerlink" title=" Custom Hook: useDaysOfMonth "></a><font color="#BC2C1A"> Custom Hook: <code>useDaysOfMonth</code> </font></h3><p>custom hook 有個條件，就是一定要是<code>use</code>開頭，如此一來 React 運行時才能判斷元件內的 hook 是不是都在最上層，所以別忘了這步。<br>除此要求之外，一個 custom hook 看起來就像是不做渲染的 React 元件，或是可以放 hook 的一般函數。</p>
-<p>那就開始吧，首先我們建立一個檔案叫 <code>useDaysOfMonth.jsx</code></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// in useDaysOfMonth.jsx</span></span><br><span class="line"><span class="keyword">import</span> &#123; useState &#125; <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">useDaysOfMonth</span> =(<span class="params">inputTime</span>)=&gt;&#123; <span class="comment">//輸入一個時間，這會是來自元件的 displayDate 屬性</span></span><br><span class="line">  <span class="keyword">const</span> [days, setDays] = <span class="title function_">useState</span>(<span class="number">0</span>);</span><br><span class="line">  <span class="keyword">const</span> [firstDay, setFirstDay] = <span class="title function_">useState</span>(<span class="number">0</span>)</span><br><span class="line">  <span class="keyword">const</span> [prevMonthDays, setPrevMonthDays] = <span class="title function_">useState</span>(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 這裡要做點事</span></span><br><span class="line">  </span><br><span class="line">  <span class="keyword">return</span> &#123;days, firstDay, prevMonthDays&#125; <span class="comment">//輸出三個我們要的資訊，皆為 number type</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> useDaysOfMonth</span><br></pre></td></tr></table></figure>
-
-<p>接下來我們需要拆解輸入進來的日期物件，得到年份，月份</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> year = inputTime.<span class="title function_">getFullYear</span>()</span><br><span class="line"><span class="keyword">const</span> month = inputTime.<span class="title function_">getMonth</span>()</span><br></pre></td></tr></table></figure>
-
-<p>然後我們就要依照年月來獲得 days, firstDay, prevMonthDays 三個資訊<br>*注意不要用日期物件的<code>setDate</code>來做這些事，因為<code>Date()</code>的 method 都會 mutate(會改變物件自身的值，而不會另外建立一個物件)</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">setDays</span>( <span class="keyword">new</span> <span class="title class_">Date</span>(year,month+<span class="number">1</span>,<span class="number">0</span>).<span class="title function_">getDate</span>() )</span><br><span class="line"><span class="comment">// 在 Date constructor 中，如果日期填0，則會視為上個月的最後一天</span></span><br><span class="line"><span class="comment">// new Date(2021,2,1) =&gt; 三月一號</span></span><br><span class="line"><span class="comment">// new Date(2021,2,0) =&gt; 二月二十八號</span></span><br><span class="line"><span class="comment">// new Date(2021,2,-1) =&gt; 二月二十七號</span></span><br><span class="line"><span class="comment">// 所以若要獲得本月最後一天的日期，只要把月份+1，然後日期設為0即可</span></span><br><span class="line"></span><br><span class="line"><span class="title function_">setFirstDay</span>(<span class="keyword">new</span> <span class="title class_">Date</span>(year,month,<span class="number">1</span>).<span class="title function_">getDay</span>())</span><br><span class="line"><span class="comment">// 很直觀，取本月第一天的星期</span></span><br><span class="line"></span><br><span class="line"><span class="title function_">setPrevMonthDays</span>(<span class="keyword">new</span> <span class="title class_">Date</span>(year, month, <span class="number">0</span>).<span class="title function_">getDate</span>())</span><br><span class="line"><span class="comment">// 同 setDays() 不過月份不用+1</span></span><br></pre></td></tr></table></figure>
-
-<p>過程很簡單，都是基本的<code>Date</code>物件取值<br>再來我們希望在任何使用這個 hook 的元件中，每當 input 值改變時，輸出值也要跟著更新<br>這不就是<code>useEffect</code>的功能嗎!<br>所以我們將以上運算放進<code>useEffect</code>中，並將<code>inputTime</code>設為 dependency</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">useEffect</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">  <span class="keyword">let</span> year = inputTime.<span class="title function_">getFullYear</span>()</span><br><span class="line">  <span class="keyword">let</span> month = inputTime.<span class="title function_">getMonth</span>()</span><br><span class="line">  <span class="title function_">setDays</span>(<span class="keyword">new</span> <span class="title class_">Date</span>(year, month + <span class="number">1</span>, <span class="number">0</span>).<span class="title function_">getDate</span>())</span><br><span class="line">  <span class="title function_">setFirstDay</span>(<span class="keyword">new</span> <span class="title class_">Date</span>(year, month, <span class="number">1</span>).<span class="title function_">getDay</span>())</span><br><span class="line">  <span class="title function_">setPrevMonthDays</span>(<span class="keyword">new</span> <span class="title class_">Date</span>(year, month, <span class="number">0</span>).<span class="title function_">getDate</span>())</span><br><span class="line">&#125;,[inputTime])</span><br></pre></td></tr></table></figure>
-
-<h4 id="完成-完整的code如下"><a href="#完成-完整的code如下" class="headerlink" title="完成! 完整的code如下:"></a>完成! 完整的code如下:</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; useState, useEffect &#125; <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">useDaysOfMonth</span> = (<span class="params">inputTime</span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> [days, setDays] = <span class="title function_">useState</span>(<span class="number">0</span>);</span><br><span class="line">  <span class="keyword">const</span> [firstDay, setFirstDay] = <span class="title function_">useState</span>(<span class="number">0</span>)</span><br><span class="line">  <span class="keyword">const</span> [prevMonthDays, setPrevMonthDays] = <span class="title function_">useState</span>(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">  <span class="title function_">useEffect</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> year = inputTime.<span class="title function_">getFullYear</span>()</span><br><span class="line">    <span class="keyword">let</span> month = inputTime.<span class="title function_">getMonth</span>()</span><br><span class="line">    <span class="title function_">setDays</span>(<span class="keyword">new</span> <span class="title class_">Date</span>(year, month + <span class="number">1</span>, <span class="number">0</span>).<span class="title function_">getDate</span>())</span><br><span class="line">    <span class="title function_">setFirstDay</span>(<span class="keyword">new</span> <span class="title class_">Date</span>(year, month, <span class="number">1</span>).<span class="title function_">getDay</span>())</span><br><span class="line">    <span class="title function_">setPrevMonthDays</span>(<span class="keyword">new</span> <span class="title class_">Date</span>(year, month, <span class="number">0</span>).<span class="title function_">getDate</span>())</span><br><span class="line">  &#125;, [inputTime])</span><br><span class="line">  <span class="keyword">return</span> &#123; days, firstDay, prevMonthDays &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> useDaysOfMonth</span><br></pre></td></tr></table></figure>
-
-<p>一個小細節，我把輸出的參數用大括號(object literal)包起來，這樣在存取參數時就不需考慮順序<br>什麼意思呢? 看以下的使用方式就知道了</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123;firstDay, prevMonthDays, days&#125; = <span class="title function_">useDaysOfMonth</span>(<span class="keyword">new</span> <span class="title class_">Date</span>())</span><br></pre></td></tr></table></figure>
-
-<p>可以看到我取得三個參數的順序不同，但仍然會work<br>缺點是這樣就一定要把參數名稱打對了，想要更改參數名就要打<code>&#123;firstDay: xxx&#125;</code><br>反之，如果你回傳的是用中括號(array literal)包起來<code>[firstDay, prevMonthDays, days]</code><br>取得參數時的順序就很重要了，不過就可以直接改名</p>
-</font>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/12/"><i class="fa fa-angle-left" aria-label="上一頁"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/">14</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/14/"><i class="fa fa-angle-right" aria-label="下一頁"></i></a>
+    <a class="extend prev" rel="prev" href="/page/12/"><i class="fa fa-angle-left" aria-label="上一頁"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/">14</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" href="/page/14/"><i class="fa fa-angle-right" aria-label="下一頁"></i></a>
   </nav>
 
 </div>
@@ -503,7 +478,7 @@
 
 <div class="copyright">
   &copy; 
-  <span itemprop="copyrightYear">2023</span>
+  <span itemprop="copyrightYear">2026</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
